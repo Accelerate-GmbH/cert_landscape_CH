@@ -2,8 +2,8 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T23:32:36Z",
-  "finished": "2026-11-18T23:34:56Z",
+  "started": "2026-11-18T23:35:57Z",
+  "finished": "2026-11-18T23:36:39Z",
   "entities": {
    "canton": 1,
    "municipality": 11
@@ -20,15 +20,15 @@
   "settings_sha256": "d80a1cefd7a64b1b",
   "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
-  "ccadb_fetched": "2026-11-18T23:32:36Z",
+  "ccadb_fetched": "2026-11-18T23:35:57Z",
   "python": "3.15.2",
   "http": {
-   "requests": 1110,
-   "cache_hits": 1177,
+   "requests": 32,
+   "cache_hits": 2250,
    "errors": 0
   }
  },
- "generated": "2026-11-18T23:32:36Z",
+ "generated": "2026-11-18T23:35:57Z",
  "entities": [
   {
    "key": "canton:9",
@@ -190,7 +190,7 @@
     }
    ],
    "trustmark": {
-    "overall": 54,
+    "overall": 55,
     "categories": {
      "ownership": 62,
      "sovereignty": 74,
@@ -279,11 +279,11 @@
      }
     },
     "resources": 180,
-    "knockouts": 5,
+    "knockouts": 1,
     "distribution": {
      "green": 0,
-     "yellow": 151,
-     "red": 29,
+     "yellow": 155,
+     "red": 25,
      "none": 0
     },
     "eligible": false
@@ -448,7 +448,7 @@
     }
    ],
    "trustmark": {
-    "overall": 35,
+    "overall": 49,
     "categories": {
      "ownership": 43,
      "sovereignty": 50,
@@ -537,7 +537,7 @@
      }
     },
     "resources": 6,
-    "knockouts": 1,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 5,
@@ -699,7 +699,7 @@
     }
    ],
    "trustmark": {
-    "overall": 23,
+    "overall": 44,
     "categories": {
      "ownership": 48,
      "sovereignty": 50,
@@ -788,7 +788,7 @@
      }
     },
     "resources": 5,
-    "knockouts": 1,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 1,
@@ -966,7 +966,7 @@
     }
    ],
    "trustmark": {
-    "overall": 36,
+    "overall": 42,
     "categories": {
      "ownership": 49,
      "sovereignty": 62,
@@ -1055,7 +1055,7 @@
      }
     },
     "resources": 26,
-    "knockouts": 4,
+    "knockouts": 2,
     "distribution": {
      "green": 0,
      "yellow": 12,
@@ -1226,7 +1226,7 @@
     }
    ],
    "trustmark": {
-    "overall": 21,
+    "overall": 40,
     "categories": {
      "ownership": 42,
      "sovereignty": 50,
@@ -1315,7 +1315,7 @@
      }
     },
     "resources": 7,
-    "knockouts": 2,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 0,
@@ -1477,7 +1477,7 @@
     }
    ],
    "trustmark": {
-    "overall": 23,
+    "overall": 47,
     "categories": {
      "ownership": 50,
      "sovereignty": 50,
@@ -1566,7 +1566,7 @@
      }
     },
     "resources": 4,
-    "knockouts": 1,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 2,
@@ -1979,7 +1979,7 @@
     }
    ],
    "trustmark": {
-    "overall": 29,
+    "overall": 45,
     "categories": {
      "ownership": 44,
      "sovereignty": 50,
@@ -2068,7 +2068,7 @@
      }
     },
     "resources": 5,
-    "knockouts": 1,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 1,
@@ -2231,7 +2231,7 @@
     }
    ],
    "trustmark": {
-    "overall": 32,
+    "overall": 40,
     "categories": {
      "ownership": 39,
      "sovereignty": 47,
@@ -2320,7 +2320,7 @@
      }
     },
     "resources": 12,
-    "knockouts": 1,
+    "knockouts": 0,
     "distribution": {
      "green": 0,
      "yellow": 2,
@@ -3007,7 +3007,7 @@
     }
    ],
    "trustmark": {
-    "overall": 30,
+    "overall": 37,
     "categories": {
      "ownership": 46,
      "sovereignty": 39,
@@ -3096,7 +3096,7 @@
      }
     },
     "resources": 21,
-    "knockouts": 3,
+    "knockouts": 1,
     "distribution": {
      "green": 0,
      "yellow": 7,
@@ -3230,9 +3230,9 @@
  },
  "ct_lag_days": 38.3,
  "http_stats": {
-  "requests": 1110,
-  "cache_hits": 1177,
+  "requests": 32,
+  "cache_hits": 2250,
   "errors": 0
  },
- "ccadb_fetched": "2026-11-18T23:32:36Z"
+ "ccadb_fetched": "2026-11-18T23:35:57Z"
 }
