@@ -2,34 +2,33 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T23:16:22Z",
-  "finished": "2026-11-18T23:25:55Z",
+  "started": "2026-11-18T23:32:36Z",
+  "finished": "2026-11-18T23:34:56Z",
   "entities": {
    "canton": 1,
    "municipality": 11
   },
   "canton_filter": "ZG",
   "ct_sources_used": {
-   "crtsh": 9,
-   "none": 3
+   "crtsh": 12
   },
-  "ct_errors": 3,
+  "ct_errors": 0,
   "ct_lag_days": 38.3,
   "cert_detail": "auto",
   "probe": true,
   "probe_note": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
-  "settings_sha256": "e2b5ac8310cf922a",
+  "settings_sha256": "d80a1cefd7a64b1b",
   "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
-  "ccadb_fetched": "2026-11-18T23:16:31Z",
-  "python": "3.12.16",
+  "ccadb_fetched": "2026-11-18T23:32:36Z",
+  "python": "3.15.2",
   "http": {
-   "requests": 758,
-   "cache_hits": 72,
-   "errors": 5
+   "requests": 1110,
+   "cache_hits": 1177,
+   "errors": 0
   }
  },
- "generated": "2026-11-18T23:16:22Z",
+ "generated": "2026-11-18T23:32:36Z",
  "entities": [
   {
    "key": "canton:9",
@@ -148,6 +147,10 @@
     "DE": 3,
     "AT": 1
    },
+   "root_countries": {
+    "SwissSign AG (CH)": 135,
+    "Internet Security Research Group (US)": 46
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -185,7 +188,143 @@
      "status": "pass",
      "detail": "0 of 139 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 54,
+    "categories": {
+     "ownership": 62,
+     "sovereignty": 74,
+     "security": 60,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "yellow",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "yellow"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 177,
+      "assessed": 180
+     },
+     "own.revocation": {
+      "pass": 137,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 137
+     },
+     "own.dnssec": {
+      "pass": 170,
+      "partial": 0,
+      "fail": 10,
+      "assessed": 180
+     },
+     "own.caa": {
+      "pass": 180,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 180
+     },
+     "own.ct": {
+      "pass": 137,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 139
+     },
+     "sov.ca": {
+      "pass": 132,
+      "partial": 0,
+      "fail": 48,
+      "assessed": 180
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 180,
+      "fail": 0,
+      "assessed": 180
+     },
+     "sov.hosting": {
+      "pass": 150,
+      "partial": 4,
+      "fail": 24,
+      "assessed": 178
+     },
+     "sov.tld": {
+      "pass": 180,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 180
+     },
+     "sec.tls13": {
+      "pass": 134,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 139
+     },
+     "sec.pqc": {
+      "pass": 31,
+      "partial": 9,
+      "fail": 99,
+      "assessed": 139
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 180,
+      "assessed": 180
+     }
+    },
+    "resources": 180,
+    "knockouts": 5,
+    "distribution": {
+     "green": 0,
+     "yellow": 151,
+     "red": 29,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "zg.ch": {
+     "dnssec_signed": true,
+     "ns": [
+      "a.zg-ns.ch",
+      "a.zg-ns.net",
+      "b.zg-ns.ch",
+      "b.zg-ns.net"
+     ],
+     "providers": [
+      {
+       "ns": "a.zg-ns.ch",
+       "as_name": "ipcom GmbH",
+       "country": "AT",
+       "zone": "eea"
+      },
+      {
+       "ns": "a.zg-ns.net",
+       "as_name": "ipcom GmbH",
+       "country": "AT",
+       "zone": "eea"
+      },
+      {
+       "ns": "b.zg-ns.ch",
+       "as_name": "Knipp Medien und Kommunikation GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "b.zg-ns.net",
+       "as_name": "Knipp Medien und Kommunikation GmbH",
+       "country": "DE",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1701",
@@ -266,6 +405,10 @@
    "network_countries": {
     "CH": 7
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 5,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -303,7 +446,136 @@
      "status": "pass",
      "detail": "0 of 7 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 35,
+    "categories": {
+     "ownership": 43,
+     "sovereignty": 50,
+     "security": 85,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "green",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 6
+     },
+     "own.revocation": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "own.ct": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 6,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sov.hosting": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sov.tld": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sec.tls13": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sec.pqc": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 1,
+      "assessed": 6
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     }
+    },
+    "resources": 6,
+    "knockouts": 1,
+    "distribution": {
+     "green": 0,
+     "yellow": 5,
+     "red": 1,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "baar.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1702",
@@ -384,6 +656,10 @@
    "network_countries": {
     "CH": 6
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 4,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -421,7 +697,136 @@
      "status": "pass",
      "detail": "0 of 6 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 23,
+    "categories": {
+     "ownership": 48,
+     "sovereignty": 50,
+     "security": 57,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "own.revocation": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.ct": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.hosting": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.tld": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sec.tls13": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sec.pqc": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     }
+    },
+    "resources": 5,
+    "knockouts": 1,
+    "distribution": {
+     "green": 0,
+     "yellow": 1,
+     "red": 4,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "cham.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1703",
@@ -516,6 +921,12 @@
    "network_countries": {
     "CH": 27
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 18,
+    "GoDaddy (US)": 4,
+    "Sectigo (US)": 3,
+    "GlobalSign nv-sa (JP)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -553,7 +964,129 @@
      "status": "pass",
      "detail": "0 of 23 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 36,
+    "categories": {
+     "ownership": 49,
+     "sovereignty": 62,
+     "security": 82,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "green",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 26,
+      "assessed": 26
+     },
+     "own.revocation": {
+      "pass": 21,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 21
+     },
+     "own.dnssec": {
+      "pass": 25,
+      "partial": 0,
+      "fail": 1,
+      "assessed": 26
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 26,
+      "assessed": 26
+     },
+     "own.ct": {
+      "pass": 21,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 21
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 26,
+      "assessed": 26
+     },
+     "sov.dns": {
+      "pass": 26,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 26
+     },
+     "sov.hosting": {
+      "pass": 26,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 26
+     },
+     "sov.tld": {
+      "pass": 26,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 26
+     },
+     "sec.tls13": {
+      "pass": 20,
+      "partial": 0,
+      "fail": 1,
+      "assessed": 21
+     },
+     "sec.pqc": {
+      "pass": 14,
+      "partial": 1,
+      "fail": 6,
+      "assessed": 21
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 26,
+      "assessed": 26
+     }
+    },
+    "resources": 26,
+    "knockouts": 4,
+    "distribution": {
+     "green": 0,
+     "yellow": 12,
+     "red": 14,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "huenenberg.ch": {
+     "dnssec_signed": true,
+     "ns": [
+      "ns29.tophost.ch",
+      "ns30.tophost.ch"
+     ],
+     "providers": [
+      {
+       "ns": "ns29.tophost.ch",
+       "as_name": "NovaTrend Services GmbH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "ns30.tophost.ch",
+       "as_name": "NovaTrend Services GmbH",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1704",
@@ -648,6 +1181,12 @@
    "network_countries": {
     "CH": 8
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 5,
+    "SwissSign AG (CH)": 1,
+    "DigiCert (US)": 1,
+    "Sectigo (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -685,7 +1224,136 @@
      "status": "pass",
      "detail": "0 of 7 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 21,
+    "categories": {
+     "ownership": 42,
+     "sovereignty": 50,
+     "security": 50,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 7
+     },
+     "own.revocation": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.ct": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 7,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.tld": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sec.tls13": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sec.pqc": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     }
+    },
+    "resources": 7,
+    "knockouts": 2,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 7,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "menzingen.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1705",
@@ -766,6 +1434,10 @@
    "network_countries": {
     "CH": 5
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 3,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -803,7 +1475,136 @@
      "status": "pass",
      "detail": "0 of 5 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 23,
+    "categories": {
+     "ownership": 50,
+     "sovereignty": 50,
+     "security": 67,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "yellow",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 4
+     },
+     "own.revocation": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "own.ct": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 4,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.hosting": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.tld": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sec.tls13": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sec.pqc": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 4
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     }
+    },
+    "resources": 4,
+    "knockouts": 1,
+    "distribution": {
+     "green": 0,
+     "yellow": 2,
+     "red": 2,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "neuheim.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1706",
@@ -830,43 +1631,64 @@
    "discovery": [
     {
      "domain": "oberaegeri.ch",
-     "source": "none",
-     "records": 0,
-     "newest_not_before": null,
-     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.oberaegeri.ch&output=json&exclude=expired&deduplicate=Y"
+     "source": "crtsh",
+     "records": 7,
+     "newest_not_before": "2026-09-28T21:05:19Z",
+     "error": null
     }
    ],
-   "hosts_found": 0,
-   "hosts_in_use": 0,
+   "hosts_found": 8,
+   "hosts_in_use": 8,
    "hosts_not_in_dns": 0,
    "hosts_excluded": 0,
-   "critical_in_use": 0,
-   "sovereignty_score": null,
-   "critical_sovereignty_score": null,
-   "assurance_score": null,
-   "critical_assurance_score": null,
+   "critical_in_use": 1,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 0,
+   "critical_assurance_score": 0,
    "zone_shares": {
     "ch": 0.0,
     "eea": 0.0,
-    "third": 0.0,
+    "third": 1.0,
     "unknown": 0.0
    },
    "validation_counts": {
-    "DV": 0,
+    "DV": 8,
     "OV": 0,
     "IV": 0,
     "EV": 0,
     "unknown": 0
    },
-   "by_ca": [],
-   "top_ca_share": 0.0,
-   "automated_share": 0.0,
+   "by_ca": [
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 4
+    },
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 4
+    }
+   ],
+   "top_ca_share": 0.5,
+   "automated_share": 0.5,
    "expiring_soon": 0,
    "weak_crypto": 0,
-   "crypto_coverage": 0.0,
-   "multi_ca_hosts": 0,
+   "crypto_coverage": 0.875,
+   "multi_ca_hosts": 1,
    "platforms": {},
-   "network_countries": {},
+   "network_countries": {
+    "CH": 8
+   },
+   "root_countries": {
+    "DigiCert (US)": 4,
+    "Internet Security Research Group (US)": 4
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -883,28 +1705,157 @@
     {
      "id": "critical_identity_validated",
      "label": "Critical services use OV/EV certificates",
-     "status": "n/a",
-     "detail": "0/0 critical hostnames"
+     "status": "fail",
+     "detail": "0/1 critical hostnames"
     },
     {
      "id": "no_foreign_concentration",
      "label": "No single foreign CA above the concentration threshold",
-     "status": "n/a",
-     "detail": "-"
+     "status": "pass",
+     "detail": "DigiCert 50%"
     },
     {
      "id": "no_expiring",
      "label": "No certificate expiring without renewal",
-     "status": "n/a",
-     "detail": "not assessed: CT source lags 38 days"
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
     },
     {
      "id": "no_weak_crypto",
      "label": "No weak keys or SHA-1 signatures",
-     "status": "n/a",
-     "detail": "0 of 0 checked"
+     "status": "pass",
+     "detail": "0 of 7 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 40,
+    "categories": {
+     "ownership": 26,
+     "sovereignty": 62,
+     "security": 64,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.revocation": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.ct": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "sov.dns": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.tld": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sec.tls13": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sec.pqc": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 5
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     }
+    },
+    "resources": 7,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 2,
+     "red": 5,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "oberaegeri.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "dns1.i-web.ch",
+      "dns2.i-web.ch",
+      "dns3.i-web.ch"
+     ],
+     "providers": [
+      {
+       "ns": "dns1.i-web.ch",
+       "as_name": "Swisscom (Schweiz) AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns2.i-web.ch",
+       "as_name": "Akenes SA",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns3.i-web.ch",
+       "as_name": "Swisscom (Schweiz) AG",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1707",
@@ -931,43 +1882,64 @@
    "discovery": [
     {
      "domain": "rischrotkreuz.ch",
-     "source": "none",
-     "records": 0,
-     "newest_not_before": null,
-     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.rischrotkreuz.ch&output=json&exclude=expired&deduplicate=Y"
+     "source": "crtsh",
+     "records": 5,
+     "newest_not_before": "2026-09-19T21:04:36Z",
+     "error": null
     }
    ],
-   "hosts_found": 0,
-   "hosts_in_use": 0,
+   "hosts_found": 5,
+   "hosts_in_use": 5,
    "hosts_not_in_dns": 0,
    "hosts_excluded": 0,
-   "critical_in_use": 0,
-   "sovereignty_score": null,
-   "critical_sovereignty_score": null,
-   "assurance_score": null,
-   "critical_assurance_score": null,
+   "critical_in_use": 2,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 20,
+   "critical_assurance_score": 50,
    "zone_shares": {
     "ch": 0.0,
     "eea": 0.0,
-    "third": 0.0,
+    "third": 1.0,
     "unknown": 0.0
    },
    "validation_counts": {
-    "DV": 0,
-    "OV": 0,
+    "DV": 4,
+    "OV": 1,
     "IV": 0,
     "EV": 0,
     "unknown": 0
    },
-   "by_ca": [],
-   "top_ca_share": 0.0,
-   "automated_share": 0.0,
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 4
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    }
+   ],
+   "top_ca_share": 0.8,
+   "automated_share": 0.8,
    "expiring_soon": 0,
    "weak_crypto": 0,
-   "crypto_coverage": 0.0,
+   "crypto_coverage": 1.0,
    "multi_ca_hosts": 0,
    "platforms": {},
-   "network_countries": {},
+   "network_countries": {
+    "CH": 5
+   },
+   "root_countries": {
+    "Internet Security Research Group (US)": 4,
+    "DigiCert (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -984,28 +1956,157 @@
     {
      "id": "critical_identity_validated",
      "label": "Critical services use OV/EV certificates",
-     "status": "n/a",
-     "detail": "0/0 critical hostnames"
+     "status": "fail",
+     "detail": "1/2 critical hostnames"
     },
     {
      "id": "no_foreign_concentration",
      "label": "No single foreign CA above the concentration threshold",
-     "status": "n/a",
-     "detail": "-"
+     "status": "pass",
+     "detail": "Let's Encrypt 80%"
     },
     {
      "id": "no_expiring",
      "label": "No certificate expiring without renewal",
-     "status": "n/a",
-     "detail": "not assessed: CT source lags 38 days"
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
     },
     {
      "id": "no_weak_crypto",
      "label": "No weak keys or SHA-1 signatures",
-     "status": "n/a",
-     "detail": "0 of 0 checked"
+     "status": "pass",
+     "detail": "0 of 5 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 29,
+    "categories": {
+     "ownership": 44,
+     "sovereignty": 50,
+     "security": 67,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "own.revocation": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.ct": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.hosting": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.tld": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sec.tls13": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sec.pqc": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     }
+    },
+    "resources": 5,
+    "knockouts": 1,
+    "distribution": {
+     "green": 0,
+     "yellow": 1,
+     "red": 4,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "rischrotkreuz.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1708",
@@ -1087,6 +2188,10 @@
     "CH": 8,
     "DE": 5
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 11,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1124,7 +2229,136 @@
      "status": "pass",
      "detail": "0 of 13 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 32,
+    "categories": {
+     "ownership": 39,
+     "sovereignty": 47,
+     "security": 58,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "red",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 11,
+      "assessed": 12
+     },
+     "own.revocation": {
+      "pass": 12,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 12
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "own.ct": {
+      "pass": 12,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 12,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sov.tld": {
+      "pass": 12,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sec.tls13": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 12
+     },
+     "sec.pqc": {
+      "pass": 2,
+      "partial": 6,
+      "fail": 4,
+      "assessed": 12
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     }
+    },
+    "resources": 12,
+    "knockouts": 1,
+    "distribution": {
+     "green": 0,
+     "yellow": 2,
+     "red": 10,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "steinhausen.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1709",
@@ -1205,6 +2439,10 @@
    "network_countries": {
     "CH": 2
    },
+   "root_countries": {
+    "DigiCert (US)": 1,
+    "Internet Security Research Group (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1242,7 +2480,136 @@
      "status": "pass",
      "detail": "0 of 2 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 41,
+    "categories": {
+     "ownership": 33,
+     "sovereignty": 62,
+     "security": 50,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     },
+     "own.revocation": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     },
+     "own.ct": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     },
+     "sov.dns": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "sov.hosting": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "sov.tld": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "sec.tls13": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 2
+     },
+     "sec.pqc": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 2
+     }
+    },
+    "resources": 2,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 2,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "unteraegeri.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "dns1.i-web.ch",
+      "dns2.i-web.ch",
+      "dns3.i-web.ch"
+     ],
+     "providers": [
+      {
+       "ns": "dns1.i-web.ch",
+       "as_name": "Swisscom (Schweiz) AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns2.i-web.ch",
+       "as_name": "Akenes SA",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns3.i-web.ch",
+       "as_name": "Swisscom (Schweiz) AG",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1710",
@@ -1269,43 +2636,56 @@
    "discovery": [
     {
      "domain": "walchwil.ch",
-     "source": "none",
-     "records": 0,
-     "newest_not_before": null,
-     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.walchwil.ch&output=json&exclude=expired&deduplicate=Y"
+     "source": "crtsh",
+     "records": 5,
+     "newest_not_before": "2026-09-25T01:32:54Z",
+     "error": null
     }
    ],
-   "hosts_found": 0,
-   "hosts_in_use": 0,
-   "hosts_not_in_dns": 0,
+   "hosts_found": 4,
+   "hosts_in_use": 3,
+   "hosts_not_in_dns": 1,
    "hosts_excluded": 0,
-   "critical_in_use": 0,
-   "sovereignty_score": null,
-   "critical_sovereignty_score": null,
-   "assurance_score": null,
-   "critical_assurance_score": null,
+   "critical_in_use": 1,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 0,
+   "critical_assurance_score": 0,
    "zone_shares": {
     "ch": 0.0,
     "eea": 0.0,
-    "third": 0.0,
+    "third": 1.0,
     "unknown": 0.0
    },
    "validation_counts": {
-    "DV": 0,
+    "DV": 3,
     "OV": 0,
     "IV": 0,
     "EV": 0,
     "unknown": 0
    },
-   "by_ca": [],
-   "top_ca_share": 0.0,
-   "automated_share": 0.0,
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 3
+    }
+   ],
+   "top_ca_share": 1.0,
+   "automated_share": 1.0,
    "expiring_soon": 0,
    "weak_crypto": 0,
-   "crypto_coverage": 0.0,
+   "crypto_coverage": 1.0,
    "multi_ca_hosts": 0,
    "platforms": {},
-   "network_countries": {},
+   "network_countries": {
+    "CH": 3
+   },
+   "root_countries": {
+    "Internet Security Research Group (US)": 3
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1322,28 +2702,157 @@
     {
      "id": "critical_identity_validated",
      "label": "Critical services use OV/EV certificates",
-     "status": "n/a",
-     "detail": "0/0 critical hostnames"
+     "status": "fail",
+     "detail": "0/1 critical hostnames"
     },
     {
      "id": "no_foreign_concentration",
      "label": "No single foreign CA above the concentration threshold",
-     "status": "n/a",
-     "detail": "-"
+     "status": "pass",
+     "detail": "Let's Encrypt 100%"
     },
     {
      "id": "no_expiring",
      "label": "No certificate expiring without renewal",
-     "status": "n/a",
-     "detail": "not assessed: CT source lags 38 days"
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
     },
     {
      "id": "no_weak_crypto",
      "label": "No weak keys or SHA-1 signatures",
-     "status": "n/a",
-     "detail": "0 of 0 checked"
+     "status": "pass",
+     "detail": "0 of 3 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 45,
+    "categories": {
+     "ownership": 33,
+     "sovereignty": 50,
+     "security": 80,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "green",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 3
+     },
+     "own.revocation": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 3
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 3
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 3
+     },
+     "own.ct": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 3
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 3
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 3,
+      "fail": 0,
+      "assessed": 3
+     },
+     "sov.hosting": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 3
+     },
+     "sov.tld": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 3
+     },
+     "sec.tls13": {
+      "pass": 3,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 3
+     },
+     "sec.pqc": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 2,
+      "assessed": 3
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 3
+     }
+    },
+    "resources": 3,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 1,
+     "red": 2,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "walchwil.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ns1.backslash.ch",
+      "ns2.backslash.ch",
+      "ns3.backslash.ch"
+     ],
+     "providers": [
+      {
+       "ns": "ns1.backslash.ch",
+       "as_name": "BSE Software GmbH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "ns2.backslash.ch",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      },
+      {
+       "ns": "ns3.backslash.ch",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1711",
@@ -1452,6 +2961,13 @@
     "US": 8,
     "AT": 2
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 14,
+    "DigiCert (US)": 5,
+    "Amazon Trust Services (US)": 1,
+    "Google Trust Services LLC (US)": 1,
+    "Microsoft Corporation (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1489,7 +3005,136 @@
      "status": "pass",
      "detail": "0 of 22 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 30,
+    "categories": {
+     "ownership": 46,
+     "sovereignty": 39,
+     "security": 65,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "red",
+     "security": "yellow",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 16,
+      "assessed": 21
+     },
+     "own.revocation": {
+      "pass": 20,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 20
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 21,
+      "assessed": 21
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 21,
+      "assessed": 21
+     },
+     "own.ct": {
+      "pass": 20,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 20
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 21,
+      "assessed": 21
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 21,
+      "fail": 0,
+      "assessed": 21
+     },
+     "sov.hosting": {
+      "pass": 12,
+      "partial": 2,
+      "fail": 7,
+      "assessed": 21
+     },
+     "sov.tld": {
+      "pass": 21,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 21
+     },
+     "sec.tls13": {
+      "pass": 19,
+      "partial": 0,
+      "fail": 1,
+      "assessed": 20
+     },
+     "sec.pqc": {
+      "pass": 10,
+      "partial": 2,
+      "fail": 8,
+      "assessed": 20
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 21,
+      "assessed": 21
+     }
+    },
+    "resources": 21,
+    "knockouts": 3,
+    "distribution": {
+     "green": 0,
+     "yellow": 7,
+     "red": 14,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "stadtzug.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "METANET AG",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "Hetzner Online GmbH",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LeaseWeb Netherlands B.V.",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   }
  ],
  "discovery": [
@@ -1530,17 +3175,17 @@
   },
   {
    "domain": "oberaegeri.ch",
-   "source": "none",
-   "records": 0,
-   "newest_not_before": null,
-   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.oberaegeri.ch&output=json&exclude=expired&deduplicate=Y"
+   "source": "crtsh",
+   "records": 7,
+   "newest_not_before": "2026-09-28T21:05:19Z",
+   "error": null
   },
   {
    "domain": "rischrotkreuz.ch",
-   "source": "none",
-   "records": 0,
-   "newest_not_before": null,
-   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.rischrotkreuz.ch&output=json&exclude=expired&deduplicate=Y"
+   "source": "crtsh",
+   "records": 5,
+   "newest_not_before": "2026-09-19T21:04:36Z",
+   "error": null
   },
   {
    "domain": "stadtzug.ch",
@@ -1565,10 +3210,10 @@
   },
   {
    "domain": "walchwil.ch",
-   "source": "none",
-   "records": 0,
-   "newest_not_before": null,
-   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.walchwil.ch&output=json&exclude=expired&deduplicate=Y"
+   "source": "crtsh",
+   "records": 5,
+   "newest_not_before": "2026-09-25T01:32:54Z",
+   "error": null
   },
   {
    "domain": "zg.ch",
@@ -1579,11 +3224,15 @@
   }
  ],
  "probe": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
+ "probe_caps": {
+  "pq_method": "python",
+  "ipv6": false
+ },
  "ct_lag_days": 38.3,
  "http_stats": {
-  "requests": 758,
-  "cache_hits": 72,
-  "errors": 5
+  "requests": 1110,
+  "cache_hits": 1177,
+  "errors": 0
  },
- "ccadb_fetched": "2026-11-18T23:16:31Z"
+ "ccadb_fetched": "2026-11-18T23:32:36Z"
 }
