@@ -1,0 +1,1589 @@
+{
+ "meta": {
+  "tool": "tlsmap",
+  "version": "0.1.0",
+  "started": "2026-11-18T23:16:22Z",
+  "finished": "2026-11-18T23:25:55Z",
+  "entities": {
+   "canton": 1,
+   "municipality": 11
+  },
+  "canton_filter": "ZG",
+  "ct_sources_used": {
+   "crtsh": 9,
+   "none": 3
+  },
+  "ct_errors": 3,
+  "ct_lag_days": 38.3,
+  "cert_detail": "auto",
+  "probe": true,
+  "probe_note": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
+  "settings_sha256": "e2b5ac8310cf922a",
+  "registry_sha256": "c74d9b5cdda54882",
+  "municipality_list_sha256": "8b819be63e0966e4",
+  "ccadb_fetched": "2026-11-18T23:16:31Z",
+  "python": "3.12.16",
+  "http": {
+   "requests": 758,
+   "cache_hits": 72,
+   "errors": 5
+  }
+ },
+ "generated": "2026-11-18T23:16:22Z",
+ "entities": [
+  {
+   "key": "canton:9",
+   "kind": "canton",
+   "id": "9",
+   "name": "Kanton Zug",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "zg.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "zg.ch": {
+     "found_at": "zg.ch",
+     "records": [
+      "0 issue \"swisssign.com\"",
+      "0 issuewild \"digicert.com\"",
+      "0 issuewild \"swisssign.com\"",
+      "0 issue \"letsencrypt.org\"",
+      "0 issue \"digicert.com\"",
+      "0 iodef \"mailto:aio.soc@zg.ch\""
+     ],
+     "issue": [
+      "swisssign.com",
+      "letsencrypt.org",
+      "digicert.com"
+     ],
+     "issuewild": [
+      "digicert.com",
+      "swisssign.com"
+     ],
+     "iodef": [
+      "mailto:aio.soc@zg.ch"
+     ],
+     "issue_ca_ids": [
+      "swisssign",
+      "letsencrypt",
+      "digicert"
+     ],
+     "issue_zones": [
+      "ch",
+      "third",
+      "third"
+     ]
+    }
+   },
+   "discovery": [
+    {
+     "domain": "zg.ch",
+     "source": "crtsh",
+     "records": 336,
+     "newest_not_before": "2026-10-11T11:48:39Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 421,
+   "hosts_in_use": 183,
+   "hosts_not_in_dns": 238,
+   "hosts_excluded": 0,
+   "critical_in_use": 8,
+   "sovereignty_score": 74,
+   "critical_sovereignty_score": 75,
+   "assurance_score": 2,
+   "critical_assurance_score": 0,
+   "zone_shares": {
+    "ch": 0.7377,
+    "eea": 0.0,
+    "third": 0.2514,
+    "unknown": 0.0109
+   },
+   "validation_counts": {
+    "DV": 180,
+    "OV": 3,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "swisssign",
+     "name": "SwissSign",
+     "control_country": "CH",
+     "zone": "ch",
+     "hosts": 135
+    },
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 46
+    },
+    {
+     "ca_id": "unknown",
+     "name": "Unknown CA",
+     "control_country": "??",
+     "zone": "unknown",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.7377,
+   "automated_share": 0.2623,
+   "expiring_soon": 2,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.7596,
+   "multi_ca_hosts": 2,
+   "platforms": {
+    "Fastly": 3,
+    "Microsoft Azure": 2,
+    "Cloudflare": 2
+   },
+   "network_countries": {
+    "CH": 146,
+    "US": 26,
+    "DE": 3,
+    "AT": 1
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "pass",
+     "detail": "swisssign.com, letsencrypt.org, digicert.com"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "fail",
+     "detail": "swisssign, letsencrypt, digicert"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "fail",
+     "detail": "0/8 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "SwissSign 74%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "fail",
+     "detail": "2 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 139 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1701",
+   "kind": "municipality",
+   "id": "1701",
+   "name": "Baar",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "baar.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "baar.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "baar.ch",
+     "source": "crtsh",
+     "records": 7,
+     "newest_not_before": "2026-09-13T21:02:27Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 7,
+   "hosts_in_use": 7,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 2,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 29,
+   "critical_assurance_score": 50,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 5,
+    "OV": 2,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 5
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.7143,
+   "automated_share": 0.7143,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 1,
+   "platforms": {},
+   "network_countries": {
+    "CH": 7
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "fail",
+     "detail": "1/2 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 71%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 7 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1702",
+   "kind": "municipality",
+   "id": "1702",
+   "name": "Cham",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "cham.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "cham.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "cham.ch",
+     "source": "crtsh",
+     "records": 7,
+     "newest_not_before": "2026-10-07T10:05:43Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 6,
+   "hosts_in_use": 6,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 1,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 17,
+   "critical_assurance_score": 100,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 5,
+    "OV": 1,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 4
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.6667,
+   "automated_share": 0.6667,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 6
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "pass",
+     "detail": "1/1 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 67%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 6 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1703",
+   "kind": "municipality",
+   "id": "1703",
+   "name": "Hünenberg",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "huenenberg.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "huenenberg.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "huenenberg.ch",
+     "source": "crtsh",
+     "records": 13,
+     "newest_not_before": "2026-10-08T04:25:26Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 33,
+   "hosts_in_use": 27,
+   "hosts_not_in_dns": 6,
+   "hosts_excluded": 0,
+   "critical_in_use": 4,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 0,
+   "critical_assurance_score": 0,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 27,
+    "OV": 0,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 18
+    },
+    {
+     "ca_id": "godaddy",
+     "name": "GoDaddy",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 4
+    },
+    {
+     "ca_id": "sectigo",
+     "name": "Sectigo",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 3
+    },
+    {
+     "ca_id": "globalsign",
+     "name": "GlobalSign",
+     "control_country": "JP",
+     "zone": "third",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.6667,
+   "automated_share": 0.6667,
+   "expiring_soon": 4,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.8519,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 27
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "fail",
+     "detail": "0/4 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 67%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "fail",
+     "detail": "4 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 23 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1704",
+   "kind": "municipality",
+   "id": "1704",
+   "name": "Menzingen",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "menzingen.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "menzingen.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "menzingen.ch",
+     "source": "crtsh",
+     "records": 8,
+     "newest_not_before": "2026-10-06T11:33:38Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 10,
+   "hosts_in_use": 8,
+   "hosts_not_in_dns": 2,
+   "hosts_excluded": 0,
+   "critical_in_use": 1,
+   "sovereignty_score": 12,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 12,
+   "critical_assurance_score": 100,
+   "zone_shares": {
+    "ch": 0.125,
+    "eea": 0.0,
+    "third": 0.875,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 7,
+    "OV": 1,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 5
+    },
+    {
+     "ca_id": "swisssign",
+     "name": "SwissSign",
+     "control_country": "CH",
+     "zone": "ch",
+     "hosts": 1
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    },
+    {
+     "ca_id": "sectigo",
+     "name": "Sectigo",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    }
+   ],
+   "top_ca_share": 0.625,
+   "automated_share": 0.625,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.875,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 8
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "pass",
+     "detail": "1/1 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 62%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 7 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1705",
+   "kind": "municipality",
+   "id": "1705",
+   "name": "Neuheim",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "neuheim.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "neuheim.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "neuheim.ch",
+     "source": "crtsh",
+     "records": 6,
+     "newest_not_before": "2026-10-07T21:07:50Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 5,
+   "hosts_in_use": 5,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 1,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 40,
+   "critical_assurance_score": 100,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 3,
+    "OV": 2,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 3
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.6,
+   "automated_share": 0.6,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 5
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "pass",
+     "detail": "1/1 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 60%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 5 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1706",
+   "kind": "municipality",
+   "id": "1706",
+   "name": "Oberägeri",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "oberaegeri.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "oberaegeri.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "oberaegeri.ch",
+     "source": "none",
+     "records": 0,
+     "newest_not_before": null,
+     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.oberaegeri.ch&output=json&exclude=expired&deduplicate=Y"
+    }
+   ],
+   "hosts_found": 0,
+   "hosts_in_use": 0,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 0,
+   "sovereignty_score": null,
+   "critical_sovereignty_score": null,
+   "assurance_score": null,
+   "critical_assurance_score": null,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 0.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 0,
+    "OV": 0,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [],
+   "top_ca_share": 0.0,
+   "automated_share": 0.0,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {},
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "n/a",
+     "detail": "0/0 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "n/a",
+     "detail": "not assessed: CT source lags 38 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "n/a",
+     "detail": "0 of 0 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1707",
+   "kind": "municipality",
+   "id": "1707",
+   "name": "Risch",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "rischrotkreuz.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "rischrotkreuz.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "rischrotkreuz.ch",
+     "source": "none",
+     "records": 0,
+     "newest_not_before": null,
+     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.rischrotkreuz.ch&output=json&exclude=expired&deduplicate=Y"
+    }
+   ],
+   "hosts_found": 0,
+   "hosts_in_use": 0,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 0,
+   "sovereignty_score": null,
+   "critical_sovereignty_score": null,
+   "assurance_score": null,
+   "critical_assurance_score": null,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 0.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 0,
+    "OV": 0,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [],
+   "top_ca_share": 0.0,
+   "automated_share": 0.0,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {},
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "n/a",
+     "detail": "0/0 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "n/a",
+     "detail": "not assessed: CT source lags 38 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "n/a",
+     "detail": "0 of 0 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1708",
+   "kind": "municipality",
+   "id": "1708",
+   "name": "Steinhausen",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "steinhausen.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "steinhausen.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "steinhausen.ch",
+     "source": "crtsh",
+     "records": 12,
+     "newest_not_before": "2026-10-11T16:41:37Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 13,
+   "hosts_in_use": 13,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 3,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 15,
+   "critical_assurance_score": 33,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 11,
+    "OV": 2,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 11
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 2
+    }
+   ],
+   "top_ca_share": 0.8462,
+   "automated_share": 0.8462,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 8,
+    "DE": 5
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "fail",
+     "detail": "1/3 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "fail",
+     "detail": "Let's Encrypt 85%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 13 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1709",
+   "kind": "municipality",
+   "id": "1709",
+   "name": "Unterägeri",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "unteraegeri.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "unteraegeri.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "unteraegeri.ch",
+     "source": "crtsh",
+     "records": 2,
+     "newest_not_before": "2026-09-20T13:45:37Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 5,
+   "hosts_in_use": 2,
+   "hosts_not_in_dns": 3,
+   "hosts_excluded": 0,
+   "critical_in_use": 0,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": null,
+   "assurance_score": 0,
+   "critical_assurance_score": null,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 2,
+    "OV": 0,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    },
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    }
+   ],
+   "top_ca_share": 0.5,
+   "automated_share": 0.5,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {
+    "CH": 2
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "n/a",
+     "detail": "0/0 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "DigiCert 50%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "pass",
+     "detail": "0 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 2 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1710",
+   "kind": "municipality",
+   "id": "1710",
+   "name": "Walchwil",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "walchwil.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "walchwil.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "walchwil.ch",
+     "source": "none",
+     "records": 0,
+     "newest_not_before": null,
+     "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.walchwil.ch&output=json&exclude=expired&deduplicate=Y"
+    }
+   ],
+   "hosts_found": 0,
+   "hosts_in_use": 0,
+   "hosts_not_in_dns": 0,
+   "hosts_excluded": 0,
+   "critical_in_use": 0,
+   "sovereignty_score": null,
+   "critical_sovereignty_score": null,
+   "assurance_score": null,
+   "critical_assurance_score": null,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 0.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 0,
+    "OV": 0,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [],
+   "top_ca_share": 0.0,
+   "automated_share": 0.0,
+   "expiring_soon": 0,
+   "weak_crypto": 0,
+   "crypto_coverage": 0.0,
+   "multi_ca_hosts": 0,
+   "platforms": {},
+   "network_countries": {},
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "n/a",
+     "detail": "0/0 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "n/a",
+     "detail": "not assessed: CT source lags 38 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "n/a",
+     "detail": "0 of 0 checked"
+    }
+   ]
+  },
+  {
+   "key": "municipality:1711",
+   "kind": "municipality",
+   "id": "1711",
+   "name": "Zug",
+   "canton": "Kanton Zug",
+   "code": "ZG",
+   "domains": [
+    "stadtzug.ch"
+   ],
+   "shared_domain": false,
+   "caa": {
+    "stadtzug.ch": {
+     "found_at": null,
+     "records": [],
+     "issue": [],
+     "issuewild": [],
+     "iodef": [],
+     "issue_ca_ids": [],
+     "issue_zones": []
+    }
+   },
+   "discovery": [
+    {
+     "domain": "stadtzug.ch",
+     "source": "crtsh",
+     "records": 20,
+     "newest_not_before": "2026-10-03T11:50:39Z",
+     "error": null
+    }
+   ],
+   "hosts_found": 23,
+   "hosts_in_use": 22,
+   "hosts_not_in_dns": 1,
+   "hosts_excluded": 0,
+   "critical_in_use": 3,
+   "sovereignty_score": 0,
+   "critical_sovereignty_score": 0,
+   "assurance_score": 23,
+   "critical_assurance_score": 100,
+   "zone_shares": {
+    "ch": 0.0,
+    "eea": 0.0,
+    "third": 1.0,
+    "unknown": 0.0
+   },
+   "validation_counts": {
+    "DV": 17,
+    "OV": 5,
+    "IV": 0,
+    "EV": 0,
+    "unknown": 0
+   },
+   "by_ca": [
+    {
+     "ca_id": "letsencrypt",
+     "name": "Let's Encrypt",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 14
+    },
+    {
+     "ca_id": "digicert",
+     "name": "DigiCert",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 5
+    },
+    {
+     "ca_id": "amazon",
+     "name": "Amazon",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    },
+    {
+     "ca_id": "google",
+     "name": "Google Trust Services",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    },
+    {
+     "ca_id": "microsoft",
+     "name": "Microsoft",
+     "control_country": "US",
+     "zone": "third",
+     "hosts": 1
+    }
+   ],
+   "top_ca_share": 0.6364,
+   "automated_share": 0.7273,
+   "expiring_soon": 1,
+   "weak_crypto": 0,
+   "crypto_coverage": 1.0,
+   "multi_ca_hosts": 1,
+   "platforms": {
+    "Amazon Web Services": 2,
+    "Hostpoint (CH)": 1,
+    "Microsoft Azure": 1,
+    "Fastly": 1
+   },
+   "network_countries": {
+    "CH": 12,
+    "US": 8,
+    "AT": 2
+   },
+   "checks": [
+    {
+     "id": "caa_present",
+     "label": "CAA record limits which CAs may issue",
+     "status": "fail",
+     "detail": "no CAA record"
+    },
+    {
+     "id": "caa_swiss_only",
+     "label": "CAA allows only Swiss CAs",
+     "status": "n/a",
+     "detail": "-"
+    },
+    {
+     "id": "critical_identity_validated",
+     "label": "Critical services use OV/EV certificates",
+     "status": "pass",
+     "detail": "3/3 critical hostnames"
+    },
+    {
+     "id": "no_foreign_concentration",
+     "label": "No single foreign CA above the concentration threshold",
+     "status": "pass",
+     "detail": "Let's Encrypt 64%"
+    },
+    {
+     "id": "no_expiring",
+     "label": "No certificate expiring without renewal",
+     "status": "fail",
+     "detail": "1 hostnames within 14 days"
+    },
+    {
+     "id": "no_weak_crypto",
+     "label": "No weak keys or SHA-1 signatures",
+     "status": "pass",
+     "detail": "0 of 22 checked"
+    }
+   ]
+  }
+ ],
+ "discovery": [
+  {
+   "domain": "baar.ch",
+   "source": "crtsh",
+   "records": 7,
+   "newest_not_before": "2026-09-13T21:02:27Z",
+   "error": null
+  },
+  {
+   "domain": "cham.ch",
+   "source": "crtsh",
+   "records": 7,
+   "newest_not_before": "2026-10-07T10:05:43Z",
+   "error": null
+  },
+  {
+   "domain": "huenenberg.ch",
+   "source": "crtsh",
+   "records": 13,
+   "newest_not_before": "2026-10-08T04:25:26Z",
+   "error": null
+  },
+  {
+   "domain": "menzingen.ch",
+   "source": "crtsh",
+   "records": 8,
+   "newest_not_before": "2026-10-06T11:33:38Z",
+   "error": null
+  },
+  {
+   "domain": "neuheim.ch",
+   "source": "crtsh",
+   "records": 6,
+   "newest_not_before": "2026-10-07T21:07:50Z",
+   "error": null
+  },
+  {
+   "domain": "oberaegeri.ch",
+   "source": "none",
+   "records": 0,
+   "newest_not_before": null,
+   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.oberaegeri.ch&output=json&exclude=expired&deduplicate=Y"
+  },
+  {
+   "domain": "rischrotkreuz.ch",
+   "source": "none",
+   "records": 0,
+   "newest_not_before": null,
+   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.rischrotkreuz.ch&output=json&exclude=expired&deduplicate=Y"
+  },
+  {
+   "domain": "stadtzug.ch",
+   "source": "crtsh",
+   "records": 20,
+   "newest_not_before": "2026-10-03T11:50:39Z",
+   "error": null
+  },
+  {
+   "domain": "steinhausen.ch",
+   "source": "crtsh",
+   "records": 12,
+   "newest_not_before": "2026-10-11T16:41:37Z",
+   "error": null
+  },
+  {
+   "domain": "unteraegeri.ch",
+   "source": "crtsh",
+   "records": 2,
+   "newest_not_before": "2026-09-20T13:45:37Z",
+   "error": null
+  },
+  {
+   "domain": "walchwil.ch",
+   "source": "none",
+   "records": 0,
+   "newest_not_before": null,
+   "error": "crtsh: 404 Not Found for https://crt.sh/?q=%25.walchwil.ch&output=json&exclude=expired&deduplicate=Y"
+  },
+  {
+   "domain": "zg.ch",
+   "source": "crtsh",
+   "records": 336,
+   "newest_not_before": "2026-10-11T11:48:39Z",
+   "error": null
+  }
+ ],
+ "probe": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
+ "ct_lag_days": 38.3,
+ "http_stats": {
+  "requests": 758,
+  "cache_hits": 72,
+  "errors": 5
+ },
+ "ccadb_fetched": "2026-11-18T23:16:31Z"
+}
