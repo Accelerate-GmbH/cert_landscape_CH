@@ -41,17 +41,17 @@ Per canton and municipality:
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -e .
-export CERTSPOTTER_API_KEY=...          # free key at sslmate.com/certspotter, recommended
 tlsmap run --canton ZG                  # one canton and its municipalities
-tlsmap run                              # all cantons and municipalities
-tlsmap run --probe                      # also connect to each hostname (live TLS)
+tlsmap run --probe                      # all cantons and municipalities, with live TLS check
 tlsmap diff output/2026-10-01/results.json output/2026-11-01/results.json --changed-only
 ```
 
-Without an API key the pipeline uses crt.sh. That works but is slow (about 25
-seconds per domain) and in November 2026 lagged the logs by about five weeks;
-the lag is recorded in `run.json` and the expiry check is skipped when it is
-over seven days.
+Hostnames are discovered via crt.sh, which is free but slow (about 25 seconds
+per domain) and in November 2026 lagged the logs by about five weeks. The
+live probe (`--probe`) then reads the certificate each hostname serves today,
+so the scores are current even when crt.sh is behind; only hostnames created
+in the last weeks can be missing. The lag is recorded in `run.json`. With a
+paid Cert Spotter API key (`CERTSPOTTER_API_KEY`) discovery is current too.
 
 `--probe` must run from a network without a TLS-inspecting proxy. The
 pipeline tests canary hosts first and refuses to probe if certificates are
@@ -71,6 +71,19 @@ Each run writes `output/<date>/` and copies it to `output/latest/`:
 | `run.json` | sources, CT lag, config hashes, versions |
 
 A sample run for canton Zug is in `samples/zug/`.
+
+## Map
+
+`web/` is a static map (Leaflet, no tracking, no tile server) in German,
+French, Italian and English: sovereignty and identity validation per canton
+and municipality, critical services, CAA, good-practice checks and the CA mix
+per entity. The `publish map` workflow deploys it to GitHub Pages with the
+latest `output/latest/map.json`. Local preview:
+
+```bash
+cp output/latest/map.json web/data/map.json
+cd web && python -m http.server 8000      # then open http://localhost:8000
+```
 
 ## Corrections
 

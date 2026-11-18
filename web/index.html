@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zertifikatslandschaft Schweiz</title>
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="viz-root">
+  <header>
+    <div class="titles">
+      <h1 data-i18n="title"></h1>
+      <p class="subtitle" data-i18n="subtitle"></p>
+    </div>
+    <nav class="lang" aria-label="Sprache / langue / lingua / language">
+      <button data-lang="de">DE</button><button data-lang="fr">FR</button><button data-lang="it">IT</button><button data-lang="en">EN</button>
+    </nav>
+  </header>
+
+  <div class="controls" role="toolbar">
+    <div class="seg" role="group" aria-label="level">
+      <button data-level="canton" data-i18n="level_canton"></button>
+      <button data-level="municipality" data-i18n="level_municipality"></button>
+    </div>
+    <label class="metric">
+      <span data-i18n="metric"></span>
+      <select id="metric">
+        <option value="s" data-i18n="m_s"></option>
+        <option value="cs" data-i18n="m_cs"></option>
+        <option value="a" data-i18n="m_a"></option>
+        <option value="ca" data-i18n="m_ca"></option>
+        <option value="caa" data-i18n="m_caa"></option>
+        <option value="gp" data-i18n="m_gp"></option>
+      </select>
+    </label>
+    <input id="search" type="search" list="names" autocomplete="off" data-i18n-ph="search">
+    <datalist id="names"></datalist>
+  </div>
+
+  <main>
+    <section class="mapwrap">
+      <div id="map" aria-label="map"></div>
+      <div class="legend" id="legend"></div>
+      <div class="tooltip" id="tooltip" role="status" hidden></div>
+    </section>
+    <aside id="panel" aria-live="polite"></aside>
+  </main>
+
+  <footer>
+    <span id="datanote"></span>
+    <a id="methodlink" href="https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/METHOD.md" data-i18n="method"></a>
+    <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH" data-i18n="source"></a>
+  </footer>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

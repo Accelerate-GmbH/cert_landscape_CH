@@ -164,3 +164,20 @@ def test_entities_load_zug():
     assert kinds == {"canton", "municipality"}
     assert any(e.name == "Kanton Zug" and e.domains == ["zg.ch"] for e in ents)
     assert len([e for e in ents if e.kind == "municipality"]) == 11
+
+
+def test_map_json_shape():
+    from tlsmap.export import map_json
+    e = {"key": "canton:9", "kind": "canton", "id": "9", "name": "Kanton Zug", "code": "ZG",
+         "domains": ["zg.ch"], "shared_domain": False,
+         "caa": {"zg.ch": {"records": ['0 issue "swisssign.com"'], "issue": ["swisssign.com"], "issue_zones": ["ch"]}},
+         "hosts_found": 3, "hosts_in_use": 2, "critical_in_use": 1, "sovereignty_score": 100,
+         "critical_sovereignty_score": 100, "assurance_score": 50, "critical_assurance_score": 100,
+         "zone_shares": {"ch": 1.0, "eea": 0, "third": 0, "unknown": 0},
+         "validation_counts": {"DV": 1, "OV": 1, "IV": 0, "EV": 0, "unknown": 0},
+         "by_ca": [{"name": "SwissSign", "control_country": "CH", "zone": "ch", "hosts": 2}],
+         "checks": [{"id": "caa_present", "status": "pass"}, {"id": "no_weak_crypto", "status": "n/a"}],
+         "automated_share": 0.0, "platforms": {}, "network_countries": {"CH": 2}}
+    m = map_json({"generated": "2026-11-19T00:00:00Z", "entities": [e]}, {})
+    z = m["entities"]["canton"]["9"]
+    assert z["caa"] == "swiss" and z["gp"] == 100 and z["cas"][0] == ["SwissSign", "CH", "ch", 2]

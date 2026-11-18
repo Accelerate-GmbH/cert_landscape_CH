@@ -1,0 +1,48 @@
+name: publish map
+
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", "output/latest/map.json"]
+  workflow_run:
+    workflows: ["monthly snapshot"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Assemble site
+        run: |
+          mkdir -p site/data
+          cp web/*.html web/*.css web/*.js site/
+          cp -r web/vendor site/
+          curl -fsSL -o site/data/ch-combined.json https://unpkg.com/swiss-maps@4.7.0/2026/ch-combined.json
+          if [ -f output/latest/map.json ]; then
+            cp output/latest/map.json site/data/map.json
+          else
+            cp web/data/map.json site/data/map.json
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

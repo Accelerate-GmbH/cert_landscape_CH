@@ -80,6 +80,38 @@ def compat_entry(e: dict) -> dict:
     }
 
 
+def map_json(result: dict, meta: dict) -> dict:
+    """Compact per-entity data for the web map (web/)."""
+    ents: dict[str, dict] = {"canton": {}, "municipality": {}, "federal": {}}
+    for e in result["entities"]:
+        main = e["caa"].get(e["domains"][0]) if e["domains"] else None
+        caa_state = None
+        if main is not None:
+            if not main.get("records"):
+                caa_state = "none"
+            elif main.get("issue_zones") and all(z == "ch" for z in main["issue_zones"]):
+                caa_state = "swiss"
+            else:
+                caa_state = "other"
+        checks = {c["id"]: c["status"] for c in e["checks"]}
+        applicable = [s for s in checks.values() if s != "n/a"]
+        ents[e["kind"]][e["id"]] = {
+            "n": e["name"], "c": e.get("code", ""), "d": e["domains"], "sd": e.get("shared_domain", False),
+            "hf": e["hosts_found"], "h": e["hosts_in_use"], "hc": e["critical_in_use"],
+            "s": e["sovereignty_score"], "cs": e["critical_sovereignty_score"],
+            "a": e["assurance_score"], "ca": e["critical_assurance_score"],
+            "z": e["zone_shares"], "v": e["validation_counts"],
+            "cas": [[c["name"], c["control_country"], c["zone"], c["hosts"]] for c in e["by_ca"]],
+            "caa": caa_state, "caai": (main or {}).get("issue", []),
+            "chk": checks,
+            "gp": round(100 * sum(1 for s in applicable if s == "pass") / len(applicable)) if applicable else None,
+            "auto": e["automated_share"], "plat": e["platforms"], "net": e["network_countries"],
+        }
+    return {"generated": result["generated"], "ct_lag_days": result.get("ct_lag_days"),
+            "ccadb_fetched": result.get("ccadb_fetched"),
+            "ct_sources": meta.get("ct_sources_used", {}), "entities": ents}
+
+
 def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -> dict[str, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = {}
@@ -116,6 +148,10 @@ def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -
     p = out_dir / "data.min.json"
     p.write_text(json.dumps(compat, ensure_ascii=False, separators=(",", ":")))
     paths["map"] = p
+
+    p = out_dir / "map.json"
+    p.write_text(json.dumps(map_json(result, run_meta), ensure_ascii=False, separators=(",", ":")))
+    paths["webmap"] = p
 
     p = out_dir / "run.json"
     p.write_text(json.dumps(run_meta, ensure_ascii=False, indent=1))

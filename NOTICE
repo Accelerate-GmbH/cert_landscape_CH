@@ -33,6 +33,12 @@ Map frontends
   https://github.com/mxmap/mxmap-ch (MIT, Copyright (c) 2026 David Huser), which
   is also the basis of sslmap.nbrt.ch. No frontend code is included here.
 
+Web map (web/)
+  Leaflet 1.9.4 (BSD-2-Clause, Copyright (c) 2010-2023 Vladimir Agafonkin,
+  (c) 2010-2011 CloudMade), stylesheet copied to web/vendor/leaflet.css;
+  script loaded from unpkg.com. topojson-client 3.1.0 (ISC), loaded from unpkg.com.
+  Boundaries: swiss-maps 4.7.0 (interactivethings), based on swisstopo data.
+
 Data sources used at run time
   Common CA Database (CCADB), https://www.ccadb.org, CA owner per issuing CA.
   Certificate Transparency via Cert Spotter (SSLMate) and crt.sh (Sectigo).
