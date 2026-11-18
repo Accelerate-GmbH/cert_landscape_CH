@@ -11,8 +11,8 @@
   const DATA_URL = params.get("data") || "data/map.json";
 
   const state = {
-    lang: pickLang(), level: "canton", metric: "s", selected: null,
-    data: null, topo: null, layer: null, lakes: null, sort: { key: "s", dir: -1 },
+    lang: pickLang(), level: "canton", metric: "tm", selected: null,
+    data: null, topo: null, layer: null, lakes: null, sort: { key: "tm", dir: -1 },
   };
 
   function pickLang() {
@@ -37,14 +37,28 @@
     return css("--seq-" + (i + 1));
   }
   const CAA_COLORS = { swiss: "--cat-1", other: "--cat-2", none: "--nodata" };
+  const TM_CAT = { tm_own: "ownership", tm_sov: "sovereignty", tm_sec: "security", tm_prv: "privacy" };
+  const LIGHT_COLORS = { green: "--good", yellow: "--warning", red: "--critical" };
+  const isTM = (m) => m === "tm" || m in TM_CAT;
+  function lightOf(v) {
+    if (v === null || v === undefined) return "none";
+    return v >= 80 ? "green" : v >= 50 ? "yellow" : "red";
+  }
   function colorFor(e) {
     if (!e) return css("--nodata");
     if (state.metric === "caa") return e.caa ? css(CAA_COLORS[e.caa]) : css("--nodata");
+    if (isTM(state.metric)) {
+      const l = lightOf(value(e));
+      return l === "none" ? css("--nodata") : css(LIGHT_COLORS[l]);
+    }
     return seqColor(value(e));
   }
-  function value(e) {
+  function value(e, metric) {
+    const m = metric || state.metric;
     if (!e) return null;
-    return e[state.metric] === undefined ? null : e[state.metric];
+    if (m === "tm") return e.tm && e.tm.o !== undefined ? e.tm.o : null;
+    if (m in TM_CAT) return e.tm && e.tm.c ? (e.tm.c[TM_CAT[m]] === undefined ? null : e.tm.c[TM_CAT[m]]) : null;
+    return e[m] === undefined ? null : e[m];
   }
   function valueText(e) {
     if (!e) return t("no_data");
@@ -119,7 +133,11 @@
   function legend() {
     const el = document.getElementById("legend");
     let rows = "";
-    if (state.metric === "caa") {
+    if (isTM(state.metric)) {
+      rows = [["green", "80–100"], ["yellow", "50–79"], ["red", "0–49"]].map(([k, r]) =>
+        '<div class="row"><span class="sw" style="background:' + css(LIGHT_COLORS[k]) + '"></span>' + esc(t("light_" + k)) + " " + r + "</div>").join("");
+      rows += '<div class="row"><span class="sw" style="background:' + css("--nodata") + '"></span>' + esc(t("not_assessed")) + "</div>";
+    } else if (state.metric === "caa") {
       rows = ["swiss", "other", "none"].map((k) =>
         '<div class="row"><span class="sw" style="background:' + css(CAA_COLORS[k]) + '"></span>' + esc(t("caa_" + k)) + "</div>").join("");
     } else {
@@ -155,6 +173,8 @@
       "<h2>" + esc(e.n) + "</h2>" +
       '<p class="sub">' + esc((e.d || []).join(", ")) + "</p>" +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
+      tmSection(e) + stackSection(e) +
+      "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
       '<div class="kpis">' + kpi(e.s, t("m_s")) + kpi(e.a, t("m_a")) + kpi(e.cs, t("m_cs")) + kpi(e.ca, t("m_ca")) + "</div>" +
       '<p class="sub" style="margin-top:8px">' + esc(t("hosts_in_use")) + ": <b>" + e.h + "</b> (" + esc(t("critical")) + " " + e.hc + ") · " +
       e.hf + " " + esc(t("hosts_found")) + "</p>" +
@@ -170,6 +190,40 @@
       "<h3>" + esc(t("network")) + '</h3><p class="sub">' + dict(e.net) + "</p>";
   }
 
+  function chip(l, text) {
+    const col = l === "none" ? css("--nodata") : css(LIGHT_COLORS[l]);
+    return '<span class="chip"><i style="background:' + col + '"></i>' + esc(text || t(l === "none" ? "not_assessed" : "light_" + l)) + "</span>";
+  }
+  function tmSection(e) {
+    const tm = e.tm || {};
+    if (tm.o === undefined || tm.o === null) return "";
+    const cats = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
+    const rows = cats.map(([c, m]) => {
+      const v = tm.c ? tm.c[c] : null;
+      return '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(v) + "</span>" + chip(lightOf(v)) + "</div>";
+    }).join("");
+    const checks = Object.entries(tm.k || {}).map(([id, c]) =>
+      "<tr><td>" + esc(t(id)) + '</td><td class="num">' + Math.round(100 * (c.pass + 0.5 * c.partial) / c.assessed) + ' %</td><td class="num">' + c.assessed + "</td></tr>").join("");
+    return "<h3>" + esc(t("trustmark")) + '</h3><div class="tmhead"><span class="v">' + fmt(tm.o) + "</span>" + chip(lightOf(tm.o)) +
+      (tm.el ? chip("green", t("eligible")) : "") + '</div><p class="sub">' + (tm.n || 0) + " " + esc(t("resources")) +
+      (tm.ko ? " · " + tm.ko + " " + esc(t("knockouts")) : "") + "</p>" + rows +
+      '<table style="margin-top:8px"><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("pass_col")) +
+      '</th><th class="num">n</th></tr></thead><tbody>' + checks + "</tbody></table>";
+  }
+  function stackSection(e) {
+    const st = e.stack;
+    if (!st) return "";
+    const list = (arr, fmtItem) => (arr && arr.length ? arr.map(fmtItem).join("<br>") : "–");
+    return "<h3>" + esc(t("stack")) + '</h3><table class="stack"><tbody>' +
+      "<tr><td>" + esc(t("st_tld")) + "</td><td>." + esc((st.tld || []).join(", .")) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_dns")) + "</td><td>" + list(st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + "</td></tr>" +
+      "<tr><td>" + esc(t("st_dnssec")) + "</td><td>" + esc(t(st.dnssec ? "yes" : "no")) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_host")) + "</td><td>" + list(st.host, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_ca")) + "</td><td>" + list(st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + "): " + x[2]) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_root")) + "</td><td>" + list(st.root, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
+      "</tbody></table>";
+  }
+
   function overview() {
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
@@ -180,20 +234,20 @@
     if (hosts) Object.keys(zsum).forEach((k) => { zsum[k] = zsum[k] / hosts; });
     const key = state.sort.key, dir = state.sort.dir;
     cantons.sort((a, b) => {
-      const va = key === "n" ? a[1].n : (a[1][key] === null ? -1 : a[1][key]);
-      const vb = key === "n" ? b[1].n : (b[1][key] === null ? -1 : b[1][key]);
+      const va = key === "n" ? a[1].n : (value(a[1], key) === null ? -1 : value(a[1], key));
+      const vb = key === "n" ? b[1].n : (value(b[1], key) === null ? -1 : value(b[1], key));
       return (va > vb ? 1 : va < vb ? -1 : 0) * dir;
     });
     const th = (k, label, num) => '<th data-sort="' + k + '"' + (num ? ' class="num"' : "") + ">" + esc(label) +
       (state.sort.key === k ? (state.sort.dir < 0 ? " ↓" : " ↑") : "") + "</th>";
     const rows = cantons.map(([id, e]) => '<tr class="click" data-sel="canton:' + id + '"><td>' + esc(e.c || e.n) +
-      '</td><td class="num">' + fmt(e.s) + '</td><td class="num">' + fmt(e.a) + '</td><td class="num">' + fmt(e.ca) +
+      '</td><td class="num">' + fmt(value(e, "tm")) + '</td><td class="num">' + fmt(e.s) + '</td><td class="num">' + fmt(e.a) +
       '</td><td class="num">' + fmt(e.h) + "</td></tr>").join("");
     panel.innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("overview_text")) + "</p>" +
       "<h3>" + esc(t("national")) + ' · ' + esc(t(state.level === "canton" ? "level_canton" : "level_municipality")) + "</h3>" +
       '<p class="sub">' + esc(t("total_hosts")) + ": <b>" + hosts + "</b></p>" + zoneBar(zsum) +
-      (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("s", t("s_short"), 1) +
-        th("a", t("a_short"), 1) + th("ca", t("ca_short"), 1) + th("h", t("h_short"), 1) + "</tr></thead><tbody>" + rows + "</tbody></table>" : "");
+      (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("tm", "TM", 1) + th("s", t("s_short"), 1) +
+        th("a", t("a_short"), 1) + th("h", t("h_short"), 1) + "</tr></thead><tbody>" + rows + "</tbody></table>" : "");
   }
 
   function select(level, id) {

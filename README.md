@@ -1,6 +1,10 @@
 # cert_landscape_CH
 
-Which certificate authorities do Swiss public administrations depend on?
+Which certificate authorities do Swiss public administrations depend on, and
+how well are their online services protected?
+
+**Map: https://accelerate-gmbh.github.io/cert_landscape_CH/** (German, French,
+Italian, English)
 
 `tlsmap` is an open pipeline that answers this for all 26 cantons and about
 2,100 municipalities (optionally the federal administration). It reads
@@ -8,6 +12,22 @@ Certificate Transparency logs, works out which certificate each hostname uses
 today, checks the hostname in DNS, and attributes every certificate to the
 company that controls the issuing CA. All rules and weights are in
 `config/` and documented in [METHOD.md](METHOD.md).
+
+## TrustMark CH checks
+
+The pipeline runs the checks of the TrustMark CH concept for every hostname
+in use, against every address (A and AAAA) with SNI:
+
+| Category | Checks |
+|---|---|
+| Ownership visibility and protection | OV/EV certificate on all endpoints, live revocation (OCSP/CRL), DNSSEC, CAA, CT (embedded SCTs) |
+| Technology sovereignty | domicile of the CA (by its root), DNS provider, hosting network; Swiss TLD |
+| Connection security | TLS 1.3, post-quantum key exchange (X25519MLKEM768) enabled and preferred |
+| Connection privacy | Encrypted Client Hello configured in DNS |
+
+How the results become scores, traffic lights and a rating per canton and
+municipality is proposed in [docs/RATING.md](docs/RATING.md) (draft v0.1, for
+discussion). Every check execution is logged in `checks.jsonl`.
 
 ## What it measures
 
@@ -65,7 +85,9 @@ Each run writes `output/<date>/` and copies it to `output/latest/`:
 |---|---|
 | `entities.csv` | one row per canton / municipality with scores and checks |
 | `hostnames.csv` | one row per hostname: certificate, CA, owner, DNS, platform |
-| `results.json` | everything above plus CAA records and per-check details |
+| `results.json` | everything above plus CAA records, zones, TrustMark ratings |
+| `endpoints.csv` | one row per address probed: TLS version, group, PQ, certificate, SCTs, revocation |
+| `checks.jsonl` | log of every check execution: time, resource, check, result, method, evidence |
 | `export.xlsx` | the same as a workbook, including the CA registry and run metadata |
 | `data.min.json` | same shape as the existing map frontends (mxmap / sslmap), counted per hostname |
 | `run.json` | sources, CT lag, config hashes, versions |
@@ -95,6 +117,35 @@ cd web && python -m http.server 8000      # then open http://localhost:8000
 - What counts as critical, scoring weights, thresholds: `config/settings.toml`.
 
 Issues and pull requests are welcome.
+
+## Credits
+
+This project builds on the work and data of others:
+
+- **MXmap** by David Huser and the MXmap project
+  ([mxmap-ch](https://github.com/mxmap/mxmap-ch),
+  [secassure2026](https://github.com/mxmap/secassure2026), MIT): the list of
+  Swiss municipalities with their website and e-mail domains, and the idea of
+  mapping municipal infrastructure dependencies. The map's data format follows
+  mxmap-ch.
+- **sslmap.nbrt.ch**, the first map of Swiss public-sector TLS certificates,
+  which prompted this pipeline.
+- **Common CA Database** ([CCADB](https://www.ccadb.org)), run by the browser
+  root programs: who owns each certificate authority.
+- **Certificate Transparency** logs, queried through
+  [crt.sh](https://crt.sh) (Sectigo) and
+  [Cert Spotter](https://sslmate.com/ct_search_api/) (SSLMate).
+- **DNS-over-HTTPS** from [Google Public DNS](https://developers.google.com/speed/public-dns)
+  and [Cloudflare](https://developers.cloudflare.com/1.1.1.1/).
+- **IP-to-ASN mapping** from [Team Cymru](https://www.team-cymru.com/ip-asn-mapping).
+- **Boundaries** from [swiss-maps](https://github.com/interactivethings/swiss-maps)
+  (Interactive Things), based on swisstopo data.
+- **Software**: [Leaflet](https://leafletjs.com) (BSD-2-Clause),
+  [topojson-client](https://github.com/topojson/topojson-client) (ISC),
+  [cryptography](https://cryptography.io) (Apache-2.0/BSD),
+  [openpyxl](https://openpyxl.readthedocs.io) (MIT), Python and OpenSSL.
+
+Details and licence texts: [NOTICE](NOTICE).
 
 ## Licence
 

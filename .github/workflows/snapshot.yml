@@ -22,16 +22,21 @@ jobs:
     timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+      # Python from uv bundles OpenSSL 3.5; Python 3.15 exposes TLS group
+      # selection, which the post-quantum key exchange check needs.
+      - uses: astral-sh/setup-uv@v6
+      - run: |
+          uv python install 3.15
+          uv venv --python 3.15 .venv
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
       - name: Cache CT, certificate and DNS lookups (lets a cut-off run resume)
         uses: actions/cache@v4
         with:
           path: .cache
           key: tlsmap-${{ github.run_id }}
           restore-keys: tlsmap-
-      - run: pip install -e .[dev]
+      - run: uv pip install -e .[dev]
       - run: pytest -q
       - name: Run pipeline
         env:

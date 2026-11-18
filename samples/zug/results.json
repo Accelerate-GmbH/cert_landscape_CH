@@ -2,8 +2,8 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T23:08:26Z",
-  "finished": "2026-11-18T23:08:27Z",
+  "started": "2026-11-18T23:28:44Z",
+  "finished": "2026-11-18T23:29:02Z",
   "entities": {
    "canton": 1,
    "municipality": 11
@@ -17,18 +17,18 @@
   "cert_detail": "auto",
   "probe": false,
   "probe_note": null,
-  "settings_sha256": "e2b5ac8310cf922a",
+  "settings_sha256": "d80a1cefd7a64b1b",
   "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
-  "ccadb_fetched": "2026-11-18T23:08:26Z",
+  "ccadb_fetched": "2026-11-18T23:28:44Z",
   "python": "3.13.18",
   "http": {
-   "requests": 0,
-   "cache_hits": 807,
+   "requests": 918,
+   "cache_hits": 1153,
    "errors": 0
   }
  },
- "generated": "2026-11-18T23:08:26Z",
+ "generated": "2026-11-18T23:28:44Z",
  "entities": [
   {
    "key": "canton:9",
@@ -140,6 +140,10 @@
     "DE": 3,
     "AT": 1
    },
+   "root_countries": {
+    "SwissSign AG (CH)": 137,
+    "Internet Security Research Group (US)": 40
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -177,7 +181,119 @@
      "status": "n/a",
      "detail": "0 of 0 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 50,
+    "categories": {
+     "ownership": 49,
+     "sovereignty": 76,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "yellow"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 173,
+      "assessed": 174
+     },
+     "own.dnssec": {
+      "pass": 166,
+      "partial": 0,
+      "fail": 8,
+      "assessed": 174
+     },
+     "own.caa": {
+      "pass": 174,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 174
+     },
+     "sov.ca": {
+      "pass": 134,
+      "partial": 0,
+      "fail": 40,
+      "assessed": 174
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 174,
+      "fail": 0,
+      "assessed": 174
+     },
+     "sov.hosting": {
+      "pass": 145,
+      "partial": 4,
+      "fail": 23,
+      "assessed": 172
+     },
+     "sov.tld": {
+      "pass": 174,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 174
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 174,
+      "assessed": 174
+     }
+    },
+    "resources": 174,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 127,
+     "red": 47,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "zg.ch": {
+     "dnssec_signed": true,
+     "ns": [
+      "a.zg-ns.ch",
+      "a.zg-ns.net",
+      "b.zg-ns.ch",
+      "b.zg-ns.net"
+     ],
+     "providers": [
+      {
+       "ns": "a.zg-ns.ch",
+       "as_name": "RCODEZERO-ANYCAST-SEC1-TLD - ipcom GmbH, AT",
+       "country": "AT",
+       "zone": "eea"
+      },
+      {
+       "ns": "a.zg-ns.net",
+       "as_name": "RCODEZERO-ANYCAST-SEC1-TLD - ipcom GmbH, AT",
+       "country": "AT",
+       "zone": "eea"
+      },
+      {
+       "ns": "b.zg-ns.ch",
+       "as_name": "KNIPP-IRONDNS1-AS - Knipp Medien und Kommunikation GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "b.zg-ns.net",
+       "as_name": "KNIPP-AS - Knipp Medien und Kommunikation GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1701",
@@ -258,6 +374,10 @@
    "network_countries": {
     "CH": 9
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 7,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -295,7 +415,112 @@
      "status": "pass",
      "detail": "0 of 2 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 25,
+    "categories": {
+     "ownership": 12,
+     "sovereignty": 50,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 8
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 8,
+      "assessed": 8
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 8,
+      "assessed": 8
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 8,
+      "assessed": 8
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 8,
+      "fail": 0,
+      "assessed": 8
+     },
+     "sov.hosting": {
+      "pass": 8,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 8
+     },
+     "sov.tld": {
+      "pass": 8,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 8
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 8,
+      "assessed": 8
+     }
+    },
+    "resources": 8,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 8,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "baar.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1702",
@@ -376,6 +601,10 @@
    "network_countries": {
     "CH": 6
    },
+   "root_countries": {
+    "DigiCert (US)": 3,
+    "Internet Security Research Group (US)": 3
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -413,7 +642,112 @@
      "status": "pass",
      "detail": "0 of 3 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 29,
+    "categories": {
+     "ownership": 21,
+     "sovereignty": 50,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.hosting": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.tld": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     }
+    },
+    "resources": 5,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 5,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "cham.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1703",
@@ -501,6 +835,11 @@
    "network_countries": {
     "CH": 12
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 5,
+    "GoDaddy (US)": 4,
+    "Sectigo (US)": 3
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -538,7 +877,105 @@
      "status": "pass",
      "detail": "0 of 4 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 36,
+    "categories": {
+     "ownership": 28,
+     "sovereignty": 62,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 11,
+      "assessed": 11
+     },
+     "own.dnssec": {
+      "pass": 10,
+      "partial": 0,
+      "fail": 1,
+      "assessed": 11
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 11,
+      "assessed": 11
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 11,
+      "assessed": 11
+     },
+     "sov.dns": {
+      "pass": 11,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 11
+     },
+     "sov.hosting": {
+      "pass": 11,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 11
+     },
+     "sov.tld": {
+      "pass": 11,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 11
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 11,
+      "assessed": 11
+     }
+    },
+    "resources": 11,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 11,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "huenenberg.ch": {
+     "dnssec_signed": true,
+     "ns": [
+      "ns29.tophost.ch",
+      "ns30.tophost.ch"
+     ],
+     "providers": [
+      {
+       "ns": "ns29.tophost.ch",
+       "as_name": "NOVATREND-AS - NovaTrend Services GmbH, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "ns30.tophost.ch",
+       "as_name": "NOVATREND-AS - NovaTrend Services GmbH, CH",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1704",
@@ -626,6 +1063,11 @@
    "network_countries": {
     "CH": 8
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 5,
+    "SwissSign AG (CH)": 2,
+    "DigiCert (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -663,7 +1105,112 @@
      "status": "pass",
      "detail": "0 of 1 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 22,
+    "categories": {
+     "ownership": 0,
+     "sovereignty": 54,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "sov.ca": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 7
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 7,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.tld": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     }
+    },
+    "resources": 7,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 7,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "menzingen.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1705",
@@ -744,6 +1291,10 @@
    "network_countries": {
     "CH": 5
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 3,
+    "DigiCert (US)": 2
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -781,7 +1332,112 @@
      "status": "pass",
      "detail": "0 of 2 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 30,
+    "categories": {
+     "ownership": 25,
+     "sovereignty": 50,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 3,
+      "assessed": 4
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 4,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.hosting": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.tld": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     }
+    },
+    "resources": 4,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 4,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "neuheim.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1706",
@@ -862,6 +1518,10 @@
    "network_countries": {
     "CH": 8
    },
+   "root_countries": {
+    "DigiCert (US)": 4,
+    "Internet Security Research Group (US)": 4
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -899,7 +1559,112 @@
      "status": "pass",
      "detail": "0 of 3 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 25,
+    "categories": {
+     "ownership": 0,
+     "sovereignty": 62,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     },
+     "sov.dns": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "sov.tld": {
+      "pass": 7,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 7
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 7,
+      "assessed": 7
+     }
+    },
+    "resources": 7,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 7,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "oberaegeri.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "dns1.i-web.ch",
+      "dns2.i-web.ch",
+      "dns3.i-web.ch"
+     ],
+     "providers": [
+      {
+       "ns": "dns1.i-web.ch",
+       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns2.i-web.ch",
+       "as_name": "exoscale - Akenes SA, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns3.i-web.ch",
+       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1707",
@@ -980,6 +1745,10 @@
    "network_countries": {
     "CH": 5
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 4,
+    "DigiCert (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1017,7 +1786,112 @@
      "status": "pass",
      "detail": "0 of 1 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 27,
+    "categories": {
+     "ownership": 17,
+     "sovereignty": 50,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 1,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 5
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.hosting": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "sov.tld": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 5
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 5,
+      "assessed": 5
+     }
+    },
+    "resources": 5,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 5,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "rischrotkreuz.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1708",
@@ -1099,6 +1973,10 @@
     "CH": 8,
     "DE": 5
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 10,
+    "DigiCert (US)": 3
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1136,7 +2014,112 @@
      "status": "pass",
      "detail": "0 of 3 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 23,
+    "categories": {
+     "ownership": 11,
+     "sovereignty": 47,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "red",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 2,
+      "partial": 0,
+      "fail": 10,
+      "assessed": 12
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 12,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sov.hosting": {
+      "pass": 7,
+      "partial": 5,
+      "fail": 0,
+      "assessed": 12
+     },
+     "sov.tld": {
+      "pass": 12,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 12
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 12,
+      "assessed": 12
+     }
+    },
+    "resources": 12,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 12,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "steinhausen.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1709",
@@ -1217,6 +2200,10 @@
    "network_countries": {
     "CH": 6
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 5,
+    "DigiCert (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1254,7 +2241,112 @@
      "status": "pass",
      "detail": "0 of 1 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 25,
+    "categories": {
+     "ownership": 0,
+     "sovereignty": 62,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     },
+     "sov.dns": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sov.hosting": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "sov.tld": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 6
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 6,
+      "assessed": 6
+     }
+    },
+    "resources": 6,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 6,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "unteraegeri.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "dns1.i-web.ch",
+      "dns2.i-web.ch",
+      "dns3.i-web.ch"
+     ],
+     "providers": [
+      {
+       "ns": "dns1.i-web.ch",
+       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns2.i-web.ch",
+       "as_name": "exoscale - Akenes SA, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "dns3.i-web.ch",
+       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1710",
@@ -1328,6 +2420,9 @@
    "network_countries": {
     "CH": 4
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 4
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1365,7 +2460,112 @@
      "status": "n/a",
      "detail": "0 of 0 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 20,
+    "categories": {
+     "ownership": 0,
+     "sovereignty": 50,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "yellow",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 4,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.hosting": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "sov.tld": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 4
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 4,
+      "assessed": 4
+     }
+    },
+    "resources": 4,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 4,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "walchwil.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ns1.backslash.ch",
+      "ns2.backslash.ch",
+      "ns3.backslash.ch"
+     ],
+     "providers": [
+      {
+       "ns": "ns1.backslash.ch",
+       "as_name": "SOLNET - BSE Software GmbH, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "ns2.backslash.ch",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      },
+      {
+       "ns": "ns3.backslash.ch",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   },
   {
    "key": "municipality:1711",
@@ -1467,6 +2667,12 @@
     "US": 8,
     "AT": 2
    },
+   "root_countries": {
+    "Internet Security Research Group (US)": 17,
+    "DigiCert (US)": 6,
+    "Amazon Trust Services (US)": 1,
+    "Google Trust Services LLC (US)": 1
+   },
    "checks": [
     {
      "id": "caa_present",
@@ -1504,7 +2710,112 @@
      "status": "pass",
      "detail": "0 of 6 checked"
     }
-   ]
+   ],
+   "trustmark": {
+    "overall": 23,
+    "categories": {
+     "ownership": 18,
+     "sovereignty": 40,
+     "security": null,
+     "privacy": 0
+    },
+    "lights": {
+     "ownership": "red",
+     "sovereignty": "red",
+     "security": "none",
+     "privacy": "red",
+     "overall": "red"
+    },
+    "checks": {
+     "own.identity": {
+      "pass": 5,
+      "partial": 0,
+      "fail": 19,
+      "assessed": 24
+     },
+     "own.dnssec": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 24,
+      "assessed": 24
+     },
+     "own.caa": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 24,
+      "assessed": 24
+     },
+     "sov.ca": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 24,
+      "assessed": 24
+     },
+     "sov.dns": {
+      "pass": 0,
+      "partial": 24,
+      "fail": 0,
+      "assessed": 24
+     },
+     "sov.hosting": {
+      "pass": 15,
+      "partial": 2,
+      "fail": 7,
+      "assessed": 24
+     },
+     "sov.tld": {
+      "pass": 24,
+      "partial": 0,
+      "fail": 0,
+      "assessed": 24
+     },
+     "prv.ech": {
+      "pass": 0,
+      "partial": 0,
+      "fail": 24,
+      "assessed": 24
+     }
+    },
+    "resources": 24,
+    "knockouts": 0,
+    "distribution": {
+     "green": 0,
+     "yellow": 0,
+     "red": 24,
+     "none": 0
+    },
+    "eligible": false
+   },
+   "zone": {
+    "stadtzug.ch": {
+     "dnssec_signed": false,
+     "ns": [
+      "ch.ch-inter.net",
+      "de.ch-inter.net",
+      "nl.ch-inter.net"
+     ],
+     "providers": [
+      {
+       "ns": "ch.ch-inter.net",
+       "as_name": "ASN-METANET - METANET AG, CH",
+       "country": "CH",
+       "zone": "ch"
+      },
+      {
+       "ns": "de.ch-inter.net",
+       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "country": "DE",
+       "zone": "eea"
+      },
+      {
+       "ns": "nl.ch-inter.net",
+       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "country": "NL",
+       "zone": "eea"
+      }
+     ]
+    }
+   }
   }
  ],
  "discovery": [
@@ -1594,11 +2905,12 @@
   }
  ],
  "probe": null,
+ "probe_caps": {},
  "ct_lag_days": 38.3,
  "http_stats": {
-  "requests": 0,
-  "cache_hits": 807,
+  "requests": 918,
+  "cache_hits": 1153,
   "errors": 0
  },
- "ccadb_fetched": "2026-11-18T23:08:26Z"
+ "ccadb_fetched": "2026-11-18T23:28:44Z"
 }

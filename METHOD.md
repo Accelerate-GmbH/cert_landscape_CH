@@ -1,5 +1,8 @@
 # Method
 
+This file describes data collection and the certificate-landscape scores.
+The TrustMark CH rating built on top of it is in [docs/RATING.md](docs/RATING.md).
+
 Every rule below is implemented in `src/tlsmap/` and every number is set in
 `config/settings.toml` or `config/ca_registry.toml`. Results can be
 recomputed from the published `hostnames.csv`.

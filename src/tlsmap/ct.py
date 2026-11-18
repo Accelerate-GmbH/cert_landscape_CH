@@ -71,7 +71,15 @@ class CTClient:
     def crtsh(self, domain: str) -> list[CertRecord]:
         q = urllib.parse.quote(f"%.{domain}")
         url = f"https://crt.sh/?q={q}&output=json&exclude=expired&deduplicate=Y"
-        rows = self.http.get_json(url, namespace="ct", ttl_hours=self.ttl)
+        rows = None
+        for attempt in range(3):
+            try:
+                rows = self.http.get_json(url, namespace="ct", ttl_hours=self.ttl)
+                break
+            except HttpError as e:   # crt.sh answers 404 or 5xx when overloaded
+                if e.status != 404 or attempt == 2:
+                    raise
+                __import__("time").sleep(10 * (attempt + 1))
         out = []
         for r in rows or []:
             out.append(CertRecord(

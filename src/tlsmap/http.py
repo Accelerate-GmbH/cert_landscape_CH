@@ -119,5 +119,23 @@ class Http:
         assert last_err is not None
         raise last_err
 
+    def post(self, url: str, data: bytes, headers: dict[str, str] | None = None, timeout: float | None = None) -> bytes:
+        """Uncached POST (used for OCSP)."""
+        host = urllib.parse.urlsplit(url).hostname or ""
+        hdrs = {"User-Agent": self.user_agent}
+        hdrs.update(headers or {})
+        self._wait_turn(host)
+        req = urllib.request.Request(url, data=data, headers=hdrs, method="POST")
+        try:
+            self.stats["requests"] += 1
+            with urllib.request.urlopen(req, timeout=timeout or min(self.timeout, 15), context=self._ctx) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as e:
+            self.stats["errors"] += 1
+            raise HttpError(url, e.code, e.reason) from None
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            self.stats["errors"] += 1
+            raise HttpError(url, None, str(e)) from None
+
     def get_json(self, url: str, **kw):
         return json.loads(self.get(url, **kw).decode("utf-8"))

@@ -119,6 +119,18 @@ class Registry:
                 return replace(ca, attribution="registry")
         return UNKNOWN
 
+    def root_info(self, issuer_cn: str) -> dict:
+        """Root CA above the issuing CA (CCADB), with owner, control country and zone."""
+        r = self.ccadb.root_for(issuer_cn) if (self.ccadb and issuer_cn) else None
+        if not r:
+            return {"root_name": "", "root_owner": "", "root_country": "??", "root_zone": "unknown"}
+        ca = self._by_owner.get(r["owner"].lower())
+        country = r["country"]
+        if ca and ca.controller != ca.operator:      # sourced parent elsewhere
+            country = ca.control_country
+        return {"root_name": r["root"], "root_owner": r["owner"], "root_country": country,
+                "root_zone": self.zone_for(country)}
+
     @staticmethod
     def validation_from_name(ca: CA, issuer_cn: str) -> str | None:
         """Decide DV/OV/EV without the certificate, or None if it can't."""

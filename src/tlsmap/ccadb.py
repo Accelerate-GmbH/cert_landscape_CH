@@ -47,13 +47,20 @@ def iso_country(name: str) -> str:
 
 
 class CCADB:
-    def __init__(self, by_name: dict[str, list[dict]], fetched: str = ""):
-        self.by_name = by_name
+    """Index of CCADB certificate records, linked by SHA-256 fingerprint."""
+
+    def __init__(self, records: dict[str, dict], names: dict[str, list[str]], fetched: str = ""):
+        self.records = records    # fp -> {name, owner, sub, country, type, parent, revoked, tls}
+        self.names = names        # lower-case certificate name -> [fp, ...]
         self.fetched = fetched
 
     @classmethod
+    def from_index(cls, idx: dict) -> "CCADB":
+        return cls(idx["records"], idx["names"], idx.get("fetched", ""))
+
+    @classmethod
     def load(cls, http: Http | None, cache_file: Path, ttl_hours: float = 168) -> "CCADB | None":
-        """Download (or reuse) the CCADB export and index intermediates by name."""
+        """Download (or reuse) the CCADB export and index it."""
         if http is not None:
             try:
                 raw = http.get(CCADB_URL, namespace="ccadb", ttl_hours=ttl_hours,
@@ -61,38 +68,76 @@ class CCADB:
                 idx = cls._index(raw.decode("utf-8-sig"))
                 cache_file.parent.mkdir(parents=True, exist_ok=True)
                 cache_file.write_text(json.dumps(idx, ensure_ascii=False))
-                return cls(idx["by_name"], idx["fetched"])
+                return cls.from_index(idx)
             except (HttpError, ValueError, KeyError):
                 pass
         if cache_file.exists():
-            idx = json.loads(cache_file.read_text())
-            return cls(idx["by_name"], idx.get("fetched", ""))
+            return cls.from_index(json.loads(cache_file.read_text()))
         return None
 
     @staticmethod
     def _index(text: str) -> dict:
-        by_name: dict[str, Counter] = defaultdict(Counter)
+        records: dict[str, dict] = {}
+        names: dict[str, list[str]] = defaultdict(list)
         for r in csv.DictReader(io.StringIO(text)):
-            if r.get("TLS Capable") != "True":
+            fp = (r.get("SHA-256 Fingerprint") or "").strip().upper()
+            name = (r.get("Certificate Name") or "").strip()
+            if not fp or not name:
                 continue
-            key = (r.get("Certificate Name") or "").strip().lower()
-            if not key:
-                continue
-            by_name[key][(r["CA Owner"].strip(), (r.get("Subordinate CA Owner") or "").strip(),
-                          r.get("Country", "").strip())] += 1
+            rtype = "root" if (r.get("Certificate Record Type") or "").startswith("Root") else "intermediate"
+            records[fp] = {
+                "name": name, "owner": r["CA Owner"].strip(),
+                "sub": (r.get("Subordinate CA Owner") or "").strip(),
+                "country": (r.get("Country") or "").strip(), "type": rtype,
+                "parent": (r.get("Parent SHA-256 Fingerprint") or "").strip().upper(),
+                "revoked": (r.get("Revocation Status") or "").strip() not in ("", "Not Revoked"),
+                "tls": r.get("TLS Capable") == "True",
+            }
+            names[name.lower()].append(fp)
         from datetime import datetime, timezone
-        return {
-            "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "by_name": {k: [{"owner": o, "subordinate_owner": s, "country": c, "n": n}
-                            for (o, s, c), n in v.most_common()] for k, v in by_name.items()},
-        }
+        return {"fetched": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "records": records, "names": dict(names)}
+
+    def _candidates(self, name: str) -> list[dict]:
+        fps = self.names.get((name or "").strip().lower(), [])
+        recs = [dict(self.records[f], fp=f) for f in fps if f in self.records]
+        # prefer live, TLS-capable intermediates
+        recs.sort(key=lambda r: (r["revoked"], not r["tls"], r["type"] == "root"))
+        return recs
 
     def lookup(self, issuer_cn: str) -> dict | None:
-        """CA owner for the issuing CA named `issuer_cn` (most frequent record wins)."""
-        hits = self.by_name.get((issuer_cn or "").strip().lower())
-        if not hits:
+        """CA owner for the issuing CA named `issuer_cn`."""
+        recs = self._candidates(issuer_cn)
+        if not recs:
             return None
-        h = hits[0]
-        return {"owner": h["owner"], "subordinate_owner": h["subordinate_owner"],
-                "country": iso_country(h["country"]), "country_name": h["country"],
-                "ambiguous": len({x["owner"] for x in hits}) > 1}
+        owners = Counter(r["owner"] for r in recs if not r["revoked"]) or Counter(r["owner"] for r in recs)
+        owner = owners.most_common(1)[0][0]
+        h = next(r for r in recs if r["owner"] == owner)
+        return {"owner": owner, "subordinate_owner": h["sub"], "country": iso_country(h["country"]),
+                "country_name": h["country"], "ambiguous": len(owners) > 1}
+
+    def _walk(self, fp: str) -> dict | None:
+        seen = set()
+        while fp and fp in self.records and fp not in seen:
+            seen.add(fp)
+            rec = self.records[fp]
+            if rec["type"] == "root" or not rec["parent"]:
+                return {"root": rec["name"], "owner": rec["owner"], "country": iso_country(rec["country"]), "fp": fp}
+            fp = rec["parent"]
+        return None
+
+    def root_for(self, issuer_cn: str) -> dict | None:
+        """Root certificate above the issuing CA, following CCADB parent fingerprints."""
+        roots = Counter()
+        found = {}
+        for rec in self._candidates(issuer_cn):
+            if rec["revoked"]:
+                continue
+            r = self._walk(rec["fp"])
+            if r:
+                roots[r["fp"]] += 1
+                found[r["fp"]] = r
+        if not roots:
+            return None
+        r = found[roots.most_common(1)[0][0]]
+        return {"root": r["root"], "owner": r["owner"], "country": r["country"]}

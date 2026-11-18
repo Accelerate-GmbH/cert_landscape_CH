@@ -7,7 +7,10 @@ import urllib.parse
 
 from .http import Http, HttpError
 
-TYPE_A, TYPE_CNAME, TYPE_AAAA, TYPE_TXT, TYPE_CAA = 1, 5, 28, 16, 257
+import base64
+import struct
+
+TYPE_A, TYPE_NS, TYPE_CNAME, TYPE_AAAA, TYPE_TXT, TYPE_DS, TYPE_HTTPS, TYPE_CAA = 1, 2, 5, 28, 16, 43, 65, 257
 NAME_TO_TYPE = {"A": TYPE_A, "CNAME": TYPE_CNAME, "AAAA": TYPE_AAAA, "TXT": TYPE_TXT, "CAA": TYPE_CAA}
 
 
@@ -25,24 +28,32 @@ class DoH:
             try:
                 j = self.http.get_json(url, headers={"Accept": "application/dns-json"},
                                        namespace="dns", ttl_hours=self.ttl)
-                return {"status": j.get("Status"),
+                return {"status": j.get("Status"), "ad": bool(j.get("AD")),
                         "answers": [{"type": a.get("type"), "data": a.get("data", ""), "name": a.get("name", "")}
                                     for a in j.get("Answer", []) or []]}
             except (HttpError, ValueError) as e:
                 last = e
-        return {"status": None, "answers": [], "error": str(last)}
+        return {"status": None, "ad": False, "answers": [], "error": str(last)}
 
     # -- hostnames -----------------------------------------------------------
     def host(self, name: str) -> dict:
-        q = self.query(name, "A")
-        status = q["status"]
-        cnames = [a["data"].rstrip(".").lower() for a in q["answers"] if a["type"] == TYPE_CNAME]
-        ips = [a["data"] for a in q["answers"] if a["type"] == TYPE_A]
-        if status == 0 and not ips:
+        """Addresses (A and AAAA), CNAME chain and DNSSEC validation of a hostname.
+
+        `dnssec` is True when the resolver validated the answer (AD flag), i.e.
+        the whole chain from the root down to this name is signed and valid.
+        """
+        q4 = self.query(name, "A")
+        status = q4["status"]
+        cnames = [a["data"].rstrip(".").lower() for a in q4["answers"] if a["type"] == TYPE_CNAME]
+        ips4 = [a["data"] for a in q4["answers"] if a["type"] == TYPE_A]
+        ips6: list[str] = []
+        ad = q4.get("ad", False) if status == 0 else False
+        if status == 0:
             q6 = self.query(name, "AAAA")
-            cnames += [a["data"].rstrip(".").lower() for a in q6["answers"]
-                       if a["type"] == TYPE_CNAME and a["data"].rstrip(".").lower() not in cnames]
-            ips += [a["data"] for a in q6["answers"] if a["type"] == TYPE_AAAA]
+            ips6 = [a["data"] for a in q6["answers"] if a["type"] == TYPE_AAAA]
+            if ips6:
+                ad = ad and q6.get("ad", False) if ips4 else q6.get("ad", False)
+        ips = ips4 + ips6
         if status is None:
             state = "error"
         elif status == 3:
@@ -53,13 +64,40 @@ class DoH:
             state = "resolves"
         else:
             state = "no_address"
-        return {"state": state, "cnames": cnames, "ips": ips}
+        return {"state": state, "cnames": cnames, "ips": ips, "ips4": ips4, "ips6": ips6, "dnssec": bool(ad and ips)}
 
-    # -- CAA -----------------------------------------------------------------
-    def caa(self, domain: str) -> dict:
-        """CAA records that apply to `domain` (climbing to the parent if needed)."""
+    # -- ECH -------------------------------------------------------------------
+    def ech(self, name: str) -> dict:
+        """HTTPS resource record and whether it carries a valid ECH configuration."""
+        q = self.query(name, "HTTPS")
+        recs = [a["data"] for a in q["answers"] if a["type"] == TYPE_HTTPS]
+        if not recs:
+            return {"https_rr": False, "ech": "none"}
+        for r in recs:
+            cfg = ech_from_rdata(r)
+            if cfg is not None:
+                return {"https_rr": True, "ech": "valid" if valid_ech_config(cfg) else "invalid"}
+        return {"https_rr": True, "ech": "none"}
+
+    # -- zone ------------------------------------------------------------------
+    def zone(self, domain: str) -> dict:
+        """DNSSEC signing of the zone and its authoritative name servers."""
+        ds = self.query(domain, "DS")
+        signed = any(a["type"] == TYPE_DS for a in ds["answers"]) and ds.get("ad", False)
+        ns = self.query(domain, "NS")
+        servers = sorted({a["data"].rstrip(".").lower() for a in ns["answers"] if a["type"] == TYPE_NS})
+        return {"dnssec_signed": signed, "ns": servers}
+
+        # -- CAA -----------------------------------------------------------------
+    def caa(self, domain: str, stop_at: str | None = None) -> dict:
+        """CAA records that apply to `domain`, climbing towards the parent (RFC 8659).
+
+        With `stop_at`, the climb ends at that domain (e.g. the entity's domain)."""
         labels = domain.split(".")
-        for i in range(len(labels) - 1):  # never query the TLD itself
+        last = len(labels) - 1
+        if stop_at and (domain == stop_at or domain.endswith("." + stop_at)):
+            last = len(labels) - len(stop_at.split(".")) + 1
+        for i in range(last):  # never query the TLD itself
             d = ".".join(labels[i:])
             q = self.query(d, "CAA")
             recs = [a["data"] for a in q["answers"] if a["type"] == TYPE_CAA]
@@ -91,7 +129,7 @@ class DoH:
             t2 = [a["data"].strip('"') for a in q2["answers"] if a["type"] == TYPE_TXT]
             if t2:
                 p2 = [p.strip() for p in t2[0].split("|")]
-                out["as_name"] = p2[4] if len(p2) > 4 else ""
+                out["as_name"] = clean_as_name(p2[4]) if len(p2) > 4 else ""
         return out
 
 
@@ -137,3 +175,55 @@ CAA_DOMAINS = {
     "actalis.it": "actalis", "d-trust.net": "dtrust", "telesec.de": "telekom",
     "entrust.net": "entrust", "affirmtrust.com": "entrust",
 }
+
+
+def ech_from_rdata(rdata: str) -> bytes | None:
+    """ECHConfigList from an HTTPS record, presentation or RFC 3597 hex form."""
+    m = __import__("re").search(r'ech="?([A-Za-z0-9+/=]+)"?', rdata)
+    if m:
+        try:
+            return base64.b64decode(m.group(1))
+        except ValueError:
+            return b""
+    if rdata.startswith("\\#"):
+        try:
+            raw = bytes.fromhex("".join(rdata.split()[2:]))
+            pos = 2                                     # SvcPriority
+            while pos < len(raw) and raw[pos] != 0:     # TargetName labels
+                pos += 1 + raw[pos]
+            pos += 1
+            while pos + 4 <= len(raw):
+                key, ln = struct.unpack("!HH", raw[pos:pos + 4])
+                if key == 5:
+                    return raw[pos + 4:pos + 4 + ln]
+                pos += 4 + ln
+        except ValueError:
+            return b""
+    return None
+
+
+def valid_ech_config(data: bytes) -> bool:
+    """Structural check of an ECHConfigList (draft-ietf-tls-esni, version 0xfe0d)."""
+    if len(data) < 4:
+        return False
+    total = struct.unpack("!H", data[:2])[0]
+    if total != len(data) - 2:
+        return False
+    pos, found = 2, False
+    while pos + 4 <= len(data):
+        version, ln = struct.unpack("!HH", data[pos:pos + 4])
+        if pos + 4 + ln > len(data):
+            return False
+        if version == 0xFE0D and ln > 0:
+            found = True
+        pos += 4 + ln
+    return found and pos == len(data)
+
+
+def clean_as_name(raw: str) -> str:
+    """'KNIPP-AS - Knipp Medien und Kommunikation GmbH, DE' -> 'Knipp Medien und Kommunikation GmbH'."""
+    name = raw.strip()
+    if " - " in name:
+        name = name.split(" - ", 1)[1]
+    name = __import__("re").sub(r",\s*[A-Z]{2}$", "", name)
+    return name.strip() or raw.strip()

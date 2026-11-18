@@ -54,6 +54,7 @@ def score_entity(hosts: list[dict], caa: dict | None, settings: dict, now: datet
             or (h.get("signature_hash") or "").lower() in ("sha1", "md5")]
     platform = Counter(h["platform"] for h in used if h.get("platform"))
     net = Counter(h["net_country"] for h in used if h.get("net_country"))
+    roots = Counter(f"{h.get('root_owner')} ({h.get('root_country')})" for h in used if h.get("root_owner"))
     multi_ca = [h for h in used if h.get("other_issuers")]
 
     checks = []
@@ -107,5 +108,6 @@ def score_entity(hosts: list[dict], caa: dict | None, settings: dict, now: datet
         "multi_ca_hosts": len(multi_ca),
         "platforms": dict(platform.most_common()),
         "network_countries": dict(net.most_common()),
+        "root_countries": dict(roots.most_common()),
         "checks": checks,
     }
