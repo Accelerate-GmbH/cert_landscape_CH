@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import probe as probe_mod
+from .ccadb import CCADB
 from .certs import describe, load_cert
 from .config import Entity, Settings
 from .ct import CTClient, current_certs, _parse_iso
@@ -34,6 +35,11 @@ class Pipeline:
         self.ct = CTClient(self.http, settings["sources"]["order"], ttl.get("ct", 72),
                            settings["sources"].get("certspotter_requires_key", True))
         self.dns = DoH(self.http, settings["dns"]["doh"], ttl.get("dns", 24))
+        # CCADB: who owns each issuing CA (falls back to the last cached copy)
+        if registry.ccadb is None:
+            registry.ccadb = CCADB.load(self.http, Path(cache_dir) / "ccadb_index.json", ttl.get("ccadb", 168))
+            if registry.ccadb is None:
+                log.warning("CCADB unavailable; attributing CAs by issuer organisation only")
         self.cert_detail = cert_detail          # none | auto | all
         self.do_probe = do_probe
         self.critical = compile_critical(settings["critical"]["label_patterns"])
@@ -58,7 +64,7 @@ class Pipeline:
     # -- stage 2: classify current certificate per hostname ---------------------
     def _classify(self, hc) -> dict:
         rec = hc.record
-        ca = self.reg.match(rec.issuer_org)
+        ca = self.reg.match(rec.issuer_org, rec.issuer_cn)
         validation = self.reg.validation_from_name(ca, rec.issuer_cn)
         basis = "registry" if validation else None
         detail: dict = {}
@@ -77,7 +83,7 @@ class Pipeline:
         return {
             "ca_id": ca.id, "ca_name": ca.name, "issuer_org": rec.issuer_org, "issuer_cn": rec.issuer_cn,
             "operator_country": ca.operator_country, "control_country": ca.control_country, "zone": ca.zone,
-            "registry_verified": ca.verified,
+            "ca_owner": ca.operator, "attribution": ca.attribution,
             "validation": validation or "unknown", "validation_basis": basis or "unknown",
             "not_before": rec.not_before, "not_after": rec.not_after,
             "validity_days": round((na - nb).total_seconds() / 86400, 1),
@@ -187,7 +193,8 @@ class Pipeline:
         return {"generated": self.now.strftime("%Y-%m-%dT%H:%M:%SZ"), "entities": entities_out,
                 "hostnames": rows, "discovery": self.discovery_log, "probe": probe_note,
                 "ct_lag_days": self.ct_lag_days,
-                "http_stats": self.http.stats}
+                "http_stats": self.http.stats,
+                "ccadb_fetched": self.reg.ccadb.fetched if self.reg.ccadb else None}
 
     def _apply_probe(self, r: dict, p: dict) -> None:
         r["probe_ok"] = bool(p.get("ok"))
@@ -197,11 +204,12 @@ class Pipeline:
         cert = p.get("cert")
         if not cert:
             return
-        ca = self.reg.match(cert["issuer_org"])
+        ca = self.reg.match(cert["issuer_org"], cert["issuer_cn"])
         r["served_issuer_org"] = cert["issuer_org"]
         r["served_matches_ct"] = bool(r.get("cert_sha256") and cert["sha256"] == r["cert_sha256"])
         # What is served is what users rely on: it overrides the CT view.
-        r.update({"ca_id": ca.id, "ca_name": ca.name, "operator_country": ca.operator_country,
+        r.update({"ca_id": ca.id, "ca_name": ca.name, "ca_owner": ca.operator, "attribution": ca.attribution,
+                  "operator_country": ca.operator_country,
                   "control_country": ca.control_country, "zone": ca.zone,
                   "validation": cert["validation"], "validation_basis": "served",
                   "key_type": cert["key_type"], "key_bits": cert["key_bits"],

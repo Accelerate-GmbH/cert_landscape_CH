@@ -56,7 +56,7 @@ def check_network(canaries: list[str], registry: Registry, timeout: float = 8) -
             continue
         org = r["cert"]["issuer_org"]
         seen.append(f"{host}: {org}")
-        if registry.match(org) is UNKNOWN:
+        if registry.match(org, r["cert"]["issuer_cn"]) is UNKNOWN:
             return False, (f"TLS interception suspected: {host} is served with a certificate from "
                            f"'{org}', which is not a public CA in the registry. Run the probe from "
                            f"a network without a TLS-inspecting proxy.")

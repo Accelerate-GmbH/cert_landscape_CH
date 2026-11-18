@@ -1,0 +1,93 @@
+{
+ "fetched": "2026-11-18T23:02:41Z",
+ "by_name": {
+  "swisssign rsa tls dv ica 2022 - 1": [
+   {
+    "owner": "SwissSign AG",
+    "subordinate_owner": "",
+    "country": "Switzerland",
+    "n": 1
+   }
+  ],
+  "swisssign rsa tls ov ica 2022 - 1": [
+   {
+    "owner": "SwissSign AG",
+    "subordinate_owner": "",
+    "country": "Switzerland",
+    "n": 1
+   }
+  ],
+  "yr1": [
+   {
+    "owner": "Internet Security Research Group",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 1
+   }
+  ],
+  "ye1": [
+   {
+    "owner": "Internet Security Research Group",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 1
+   }
+  ],
+  "zerossl rsa domain secure site ca": [
+   {
+    "owner": "Sectigo",
+    "subordinate_owner": "",
+    "country": "United Kingdom",
+    "n": 1
+   }
+  ],
+  "digicert global g2 tls rsa sha256 2020 ca1": [
+   {
+    "owner": "DigiCert",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 2
+   }
+  ],
+  "wr1": [
+   {
+    "owner": "Google Trust Services LLC",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 1
+   }
+  ],
+  "trust provider b.v. tls rsa ca g1": [
+   {
+    "owner": "DigiCert",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 1
+   }
+  ],
+  "digicert g2 tls eu rsa4096 sha384 2022 ca1": [
+   {
+    "owner": "DigiCert",
+    "subordinate_owner": "",
+    "country": "United States of America",
+    "n": 1
+   }
+  ],
+  "globalsign gcc r3 dv tls ca 2020": [
+   {
+    "owner": "GlobalSign nv-sa",
+    "subordinate_owner": "",
+    "country": "Belgium",
+    "n": 1
+   }
+  ],
+  "trustico ecc dv ssl ca 2": [
+   {
+    "owner": "Sectigo",
+    "subordinate_owner": "",
+    "country": "United Kingdom",
+    "n": 1
+   }
+  ]
+ }
+}

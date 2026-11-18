@@ -34,6 +34,7 @@ Map frontends
   is also the basis of sslmap.nbrt.ch. No frontend code is included here.
 
 Data sources used at run time
+  Common CA Database (CCADB), https://www.ccadb.org, CA owner per issuing CA.
   Certificate Transparency via Cert Spotter (SSLMate) and crt.sh (Sectigo).
   DNS via Google Public DNS and Cloudflare DNS-over-HTTPS.
   IP-to-ASN mapping via Team Cymru.

@@ -17,7 +17,7 @@ timeout_seconds = 90
 retries = 4
 # Minimum seconds between requests to the same host.
 min_interval = { "crt.sh" = 1.5, "api.certspotter.com" = 0.2, "dns.google" = 0.0, "cloudflare-dns.com" = 0.0 }
-cache_ttl_hours = { ct = 72, cert = 8760, dns = 24 }
+cache_ttl_hours = { ct = 72, cert = 8760, dns = 24, ccadb = 168 }
 
 [concurrency]
 ct = 3

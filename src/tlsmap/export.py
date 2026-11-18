@@ -10,8 +10,8 @@ from .registry import Registry
 
 HOST_COLUMNS = [
     "entity", "entity_name", "hostname", "wildcard", "critical", "in_use", "excluded", "dns_state",
-    "ca_id", "ca_name", "issuer_org", "issuer_cn", "operator_country", "control_country", "zone",
-    "registry_verified", "validation", "validation_basis", "not_before", "not_after", "validity_days",
+    "ca_id", "ca_name", "ca_owner", "attribution", "issuer_org", "issuer_cn", "operator_country",
+    "control_country", "zone", "validation", "validation_basis", "not_before", "not_after", "validity_days",
     "days_left", "key_type", "key_bits", "signature_hash", "subject_org", "platform", "cnames", "ip",
     "asn", "as_name", "net_country", "other_issuers", "valid_cert_count", "source", "cert_id",
     "cert_sha256", "probe_ok", "probe_verified", "probe_tls_version", "served_issuer_org",
@@ -160,7 +160,7 @@ def _xlsx(result, ent_rows, registry: Registry, meta, path: Path) -> Path:
     sheet(wb.create_sheet("Hostnames"), HOST_COLUMNS, result["hostnames"])
     sheet(wb.create_sheet("CA registry"),
           ["id", "name", "operator", "operator_country", "controller", "control_country", "zone",
-           "validation", "verified", "sources", "notes"],
+           "validation", "sources", "notes"],
           [{**ca.__dict__, "sources": "; ".join(ca.sources)} for ca in registry.cas])
     ws = wb.create_sheet("Run")
     for k, v in meta.items():

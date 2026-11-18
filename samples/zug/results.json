@@ -2,8 +2,8 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T22:32:42Z",
-  "finished": "2026-11-18T22:32:42Z",
+  "started": "2026-11-18T23:02:57Z",
+  "finished": "2026-11-18T23:03:08Z",
   "entities": {
    "canton": 1,
    "municipality": 11
@@ -13,21 +13,22 @@
    "crtsh": 12
   },
   "ct_errors": 0,
-  "ct_lag_days": 38.2,
+  "ct_lag_days": 38.3,
   "cert_detail": "auto",
   "probe": false,
   "probe_note": null,
-  "settings_sha256": "8de05342fbef2c25",
-  "registry_sha256": "f32a9ba1a4dbb7e6",
+  "settings_sha256": "e2b5ac8310cf922a",
+  "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
+  "ccadb_fetched": "2026-11-18T23:03:07Z",
   "python": "3.13.18",
   "http": {
-   "requests": 0,
+   "requests": 1,
    "cache_hits": 806,
    "errors": 0
   }
  },
- "generated": "2026-11-18T22:32:42Z",
+ "generated": "2026-11-18T23:02:57Z",
  "entities": [
   {
    "key": "canton:9",
@@ -249,7 +250,7 @@
    ],
    "top_ca_share": 0.7778,
    "automated_share": 0.7778,
-   "expiring_soon": 3,
+   "expiring_soon": 4,
    "weak_crypto": 0,
    "crypto_coverage": 0.2222,
    "multi_ca_hosts": 1,
@@ -367,7 +368,7 @@
    ],
    "top_ca_share": 0.5,
    "automated_share": 0.5,
-   "expiring_soon": 0,
+   "expiring_soon": 1,
    "weak_crypto": 0,
    "crypto_coverage": 0.5,
    "multi_ca_hosts": 0,
@@ -477,7 +478,7 @@
     },
     {
      "ca_id": "godaddy",
-     "name": "GoDaddy / Starfield",
+     "name": "GoDaddy",
      "control_country": "US",
      "zone": "third",
      "hosts": 4
@@ -735,7 +736,7 @@
    ],
    "top_ca_share": 0.6,
    "automated_share": 0.6,
-   "expiring_soon": 0,
+   "expiring_soon": 1,
    "weak_crypto": 0,
    "crypto_coverage": 0.4,
    "multi_ca_hosts": 0,
@@ -971,7 +972,7 @@
    ],
    "top_ca_share": 0.8,
    "automated_share": 0.8,
-   "expiring_soon": 0,
+   "expiring_soon": 1,
    "weak_crypto": 0,
    "crypto_coverage": 0.2,
    "multi_ca_hosts": 0,
@@ -1089,7 +1090,7 @@
    ],
    "top_ca_share": 0.7692,
    "automated_share": 0.7692,
-   "expiring_soon": 3,
+   "expiring_soon": 4,
    "weak_crypto": 0,
    "crypto_coverage": 0.2308,
    "multi_ca_hosts": 0,
@@ -1451,7 +1452,7 @@
    ],
    "top_ca_share": 0.68,
    "automated_share": 0.72,
-   "expiring_soon": 9,
+   "expiring_soon": 13,
    "weak_crypto": 0,
    "crypto_coverage": 0.24,
    "multi_ca_hosts": 1,
@@ -1593,10 +1594,11 @@
   }
  ],
  "probe": null,
- "ct_lag_days": 38.2,
+ "ct_lag_days": 38.3,
  "http_stats": {
-  "requests": 0,
+  "requests": 1,
   "cache_hits": 806,
   "errors": 0
- }
+ },
+ "ccadb_fetched": "2026-11-18T23:03:07Z"
 }

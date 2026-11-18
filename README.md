@@ -31,7 +31,7 @@ Per canton and municipality:
 | Unit | every certificate ever logged in the window | one hostname, its current certificate |
 | Renewals | each 90-day renewal counts again | counted once |
 | Hostnames that no longer exist | counted | reported separately, not scored |
-| CA country | country printed in the certificate | country of the company that controls the CA, with sources |
+| CA country | country printed in the certificate | CA owner from the CCADB (the browsers' CA database), plus sourced parent companies |
 | DV / OV / EV | inferred | read from the certificate policy OIDs |
 | Domains per municipality | one | website and e-mail domains, shared domains removed |
 | Freshness | not stated | source and lag of the CT data recorded per run |
@@ -70,11 +70,12 @@ Each run writes `output/<date>/` and copies it to `output/latest/`:
 | `data.min.json` | same shape as the existing map frontends (mxmap / sslmap), counted per hostname |
 | `run.json` | sources, CT lag, config hashes, versions |
 
-A sample run for canton Zug is in `samples/zug-2026-11-18/`.
+A sample run for canton Zug is in `samples/zug/`.
 
 ## Corrections
 
-- Wrong or missing CA owner: edit `config/ca_registry.toml` (add a source).
+- CA owners come from the CCADB. A parent company in another country goes in
+  `config/ca_registry.toml`, with a source.
 - Missing domains for an entity (schools, portals): `data/overrides.json`.
 - Hostname operated by someone else under the entity's name: `exclude_hosts`
   in `data/overrides.json`, with a reason.

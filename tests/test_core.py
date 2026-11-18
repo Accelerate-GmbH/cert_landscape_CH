@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 
+from tlsmap.ccadb import CCADB
 from tlsmap.certs import describe, load_cert
 from tlsmap.config import load_entities, load_settings
 from tlsmap.ct import CertRecord, current_certs, in_scope
@@ -16,7 +17,8 @@ from tlsmap.scoring import compile_critical, is_critical, score_entity
 
 FIX = Path(__file__).parent / "fixtures"
 NOW = datetime(2026, 11, 18, 12, 0, tzinfo=timezone.utc)
-REG = Registry()
+CCA = CCADB.load(None, FIX / "ccadb_index_sample.json")
+REG = Registry(ccadb=CCA)
 SETTINGS = load_settings().raw
 
 
@@ -53,21 +55,34 @@ def test_ev_policy_and_fallbacks():
 
 
 # -- registry --------------------------------------------------------------------
-def test_registry_ownership_not_brand():
-    assert REG.match("SwissSign AG").zone == "ch"
-    assert REG.match("WISeKey").zone == "ch"
-    assert REG.match("DigiCert Ireland Limited").zone == "third"   # control in US
-    assert REG.match("ZeroSSL GmbH").zone == "third"              # HID Global
-    assert REG.match("GlobalSign nv-sa").operator_country == "BE"
+def test_ccadb_attribution_ignores_brand():
+    # brand in the certificate -> CA owner per CCADB
+    z = REG.match("ZeroSSL GmbH", "ZeroSSL RSA Domain Secure Site CA")
+    assert z.id == "sectigo" and z.attribution == "ccadb" and z.zone == "third"
+    t = REG.match("Trust Provider B.V.", "Trust Provider B.V. TLS RSA CA G1")
+    assert t.id == "digicert"
+    ie = REG.match("DigiCert Ireland Limited", "DigiCert G2 TLS EU RSA4096 SHA384 2022 CA1")
+    assert ie.id == "digicert" and ie.control_country == "US"
+    tr = REG.match("The Trustico Group Ltd", "Trustico ECC DV SSL CA 2")
+    assert tr.id == "sectigo"
+
+
+def test_parents_and_countries():
+    sw = REG.match("SwissSign AG", "SwissSign RSA TLS DV ICA 2022 - 1")
+    assert sw.zone == "ch" and sw.operator_country == "CH" and sw.attribution == "ccadb"
+    sec = REG.match("Sectigo Limited", "")          # no CCADB hit -> registry fallback
+    assert sec.operator_country == "GB" and sec.control_country == "US" and sec.attribution == "registry"
+    gs = REG.match("GlobalSign nv-sa", "GlobalSign GCC R3 DV TLS CA 2020")
+    assert gs.operator_country == "BE" and gs.control_country == "JP"
     assert REG.match("Buypass AS-983163327").zone == "eea"
-    assert REG.match("Nobody Ltd").id == "unknown"
+    assert REG.match("Nobody Ltd", "Nobody CA").id == "unknown"
 
 
 def test_validation_from_issuer_name():
-    sw = REG.match("SwissSign AG")
+    sw = REG.match("SwissSign AG", "SwissSign RSA TLS DV ICA 2022 - 1")
     assert Registry.validation_from_name(sw, "SwissSign RSA TLS DV ICA 2022 - 1") == "DV"
     assert Registry.validation_from_name(sw, "SwissSign RSA TLS OV ICA 2022 - 1") == "OV"
-    assert Registry.validation_from_name(REG.match("Let's Encrypt"), "R11") == "DV"
+    assert Registry.validation_from_name(REG.match("Let's Encrypt", "YR1"), "YR1") == "DV"
     assert Registry.validation_from_name(REG.match("DigiCert Inc"), "DigiCert Global G2 TLS RSA SHA256 2020 CA1") is None
 
 

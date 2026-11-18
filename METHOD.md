@@ -53,20 +53,37 @@ certificate actually served replaces the CT view for scoring
 
 ## 5. Who controls the CA
 
-The issuer's organisation name is matched against `config/ca_registry.toml`,
-which records for each CA:
+Attribution has two layers.
 
-- `operator` and `operator_country`: the legal entity named in the certificate;
-- `controller` and `control_country`: the company that ultimately controls it;
-- `sources` and `verified`.
+**CA owner, from the CCADB.** The issuing CA named in each certificate is
+looked up in the Common CA Database (CCADB), which the browser root programs
+(Mozilla, Chrome, Microsoft, Apple) use to record which organisation is
+accountable for every trusted CA certificate. This gives the CA owner and
+its country regardless of the brand printed in the certificate. In the Swiss
+data this matters: ZeroSSL, Trustico, GoGetSSL, Gandi and Network Solutions
+intermediates belong to Sectigo; QuoVadis, Thawte, GeoTrust, DigiCert Ireland
+and Trust Provider B.V. intermediates belong to DigiCert. The CCADB export is
+downloaded once a week; its date is recorded in `run.json`
+(`ccadb_fetched`). `attribution = ccadb` marks hostnames attributed this way.
 
-The sovereignty zone comes from `control_country` (switch to
-`operator_country` with `zone_basis`): `ch`, `eea` (EU, Iceland, Liechtenstein,
-Norway), `third`, or `unknown`. Examples where the two differ: DigiCert
-Ireland (operator IE, control US), ZeroSSL (AT, owned by HID Global since
-2024), Sectigo (certificates name a UK entity; headquarters and owner in the
-US), GlobalSign (BE, parent in Japan). Issuers not in the registry are listed
-after each run.
+**Parent company, from `config/ca_registry.toml`.** Where a CA owner is
+controlled by a company in another country, the registry records the
+controller with sources:
+
+| CA owner (CCADB) | CCADB country | Controller | Control country | Source |
+|---|---|---|---|---|
+| SwissSign AG | CH | Swiss Post | CH | Swiss Post press release, 4.10.2021 |
+| Sectigo | GB | Sectigo HQ Scottsdale, owned by GI Partners | US | Sectigo, GI Partners |
+| GlobalSign nv-sa | BE | GMO GlobalSign Holdings K.K. | JP | BSI audit attestation ETS 081 |
+
+All other CA owners are taken as controlled from their CCADB country. If the
+CCADB has no record for an issuing CA, the issuer's O= field is matched
+against the registry (`attribution = registry`); if that fails too, the CA
+is `unknown` and listed after the run.
+
+The sovereignty zone follows the control country (switch to the CCADB
+country with `zone_basis = "operator_country"`): `ch`, `eea` (EU, Iceland,
+Liechtenstein, Norway), `third`, or `unknown`. The UK and Japan are `third`.
 
 ## 6. Validation level
 
@@ -126,5 +143,5 @@ existing frontends treat 0 as "no data".
 - Certificates for internal names that do not resolve publicly are out of the
   scores but listed in `hostnames.csv`; they still show which CA an
   administration buys from.
-- Registry entries marked `verified = false` should be checked against the
-  CCADB before results are published.
+- Parent companies are recorded only where sourced. A CA owner controlled
+  by an undisclosed parent elsewhere would be attributed to its CCADB country.

@@ -43,6 +43,7 @@ def cmd_run(a) -> int:
         "cert_detail": a.cert_detail, "probe": a.probe, "probe_note": result.get("probe"),
         "settings_sha256": file_sha256(settings.path), "registry_sha256": file_sha256(registry.path),
         "municipality_list_sha256": file_sha256(DATA_DIR / "municipalities_ch.json"),
+        "ccadb_fetched": result.get("ccadb_fetched"),
         "python": platform.python_version(), "http": result["http_stats"],
     }
     paths = write_all(result, out_dir, registry, meta)
@@ -76,12 +77,13 @@ def cmd_diff(a) -> int:
 
 def cmd_unknown(a) -> int:
     import csv
-    reg = Registry()
+    from .ccadb import CCADB
+    reg = Registry(ccadb=CCADB.load(None, ROOT / ".cache" / "ccadb_index.json"))
     host_csv = Path(a.results).with_name("hostnames.csv")
     c = Counter()
     with host_csv.open(encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
-            if reg.match(r["issuer_org"]).id == "unknown":
+            if reg.match(r["issuer_org"], r["issuer_cn"]).id == "unknown":
                 c[(r["issuer_org"], r["issuer_cn"])] += 1
     for (org, cn), n in c.most_common():
         print(f"{n:6d}  O={org}  CN={cn}")
