@@ -1,0 +1,28 @@
+[project]
+name = "tlsmap"
+version = "0.1.0"
+description = "Open pipeline measuring which certificate authorities Swiss public administrations depend on, from Certificate Transparency, DNS and optional live TLS probes."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+  "cryptography>=42",
+  "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+tlsmap = "tlsmap.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

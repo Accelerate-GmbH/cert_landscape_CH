@@ -1,0 +1,131 @@
+# tlsmap settings. Every number that influences a score lives here, so the
+# method can be reviewed and changed without touching code.
+
+[sources]
+# "certspotter" is current but needs an API key for more than a handful of
+# queries (env CERTSPOTTER_API_KEY). "crtsh" needs no key but lags behind the
+# logs (about five weeks in November 2026) and is slow for large domains.
+# The pipeline tries them in this order and records which one answered.
+order = ["certspotter", "crtsh"]
+# Use certspotter only when an API key is set; without one its limit
+# (about 10 queries) is too low for a real run.
+certspotter_requires_key = true
+
+[http]
+user_agent = "tlsmap/0.1 (+https://github.com/Accelerate-GmbH/cert_landscape_CH)"
+timeout_seconds = 90
+retries = 4
+# Minimum seconds between requests to the same host.
+min_interval = { "crt.sh" = 1.5, "api.certspotter.com" = 0.2, "dns.google" = 0.0, "cloudflare-dns.com" = 0.0 }
+cache_ttl_hours = { ct = 72, cert = 8760, dns = 24 }
+
+[concurrency]
+ct = 3
+dns = 24
+probe = 16
+
+[dns]
+# DNS-over-HTTPS resolvers, tried in order. DoH works behind HTTP proxies and
+# gives the same answers everywhere the pipeline runs.
+doh = ["https://dns.google/resolve", "https://cloudflare-dns.com/dns-query"]
+
+[scoring]
+# Unit of measurement: one hostname with a currently valid certificate that
+# still resolves in DNS (wildcard names count once each, see METHOD.md).
+count_wildcards = true
+require_dns = true
+
+# Sovereignty: weight per control jurisdiction zone of the CA.
+[scoring.zone_weights]
+ch = 1.0
+eea = 0.5
+third = 0.0
+unknown = 0.0
+
+# Assurance: weight per validation level.
+[scoring.validation_weights]
+EV = 1.0
+OV = 1.0
+IV = 1.0
+DV = 0.0
+unknown = 0.0
+
+[scoring.thresholds]
+# Validity at or below this many days is counted as automated (ACME-style).
+automated_max_validity_days = 100
+expiring_soon_days = 14
+# The expiry check is skipped when the newest CT entry is older than this.
+max_ct_lag_days = 7
+min_rsa_bits = 2048
+# A CA holding more than this share of an entity's hostnames is flagged.
+concentration_flag_share = 0.8
+
+[critical]
+# A hostname is "critical" when one of its labels matches one of these
+# patterns (Python regex, matched against each DNS label). Critical means:
+# people log in, submit data or receive official information there. Edit
+# freely; the list is part of the published method.
+label_patterns = [
+  "^(login|logon|signin|sso|idp|auth|oauth|iam|id|identity|keycloak|adfs|sts)$",
+  "^(portal|eportal|e-?services?|eservice|e-?gov|egov|egovernment|online-?schalter|schalter|guichet|sportello)$",
+  "^(mail|webmail|owa|exchange|autodiscover|smtp|imap|outlook)$",
+  "^(vpn|remote|citrix|rdweb|rds|gateway|sslvpn|access)$",
+  "^(api|secure|pay|payment|shop|e-?bill|ebill|steuern?|tax|impots|fisco|e-?umzug|eumzug|ework|intranet|extranet)$",
+  "^(evoting|e-?voting|vote|abstimmungen|wahlen)$",
+]
+
+[platforms]
+# CNAME targets that mean the hostname runs on a third-party platform.
+# suffix = platform name
+"azurewebsites.net" = "Microsoft Azure"
+"azureedge.net" = "Microsoft Azure"
+"azurefd.net" = "Microsoft Azure"
+"trafficmanager.net" = "Microsoft Azure"
+"cloudapp.azure.com" = "Microsoft Azure"
+"windows.net" = "Microsoft Azure"
+"outlook.com" = "Microsoft 365"
+"office.com" = "Microsoft 365"
+"sharepoint.com" = "Microsoft 365"
+"cloudfront.net" = "Amazon Web Services"
+"amazonaws.com" = "Amazon Web Services"
+"awsglobalaccelerator.com" = "Amazon Web Services"
+"elb.amazonaws.com" = "Amazon Web Services"
+"googlehosted.com" = "Google"
+"ghs.googlehosted.com" = "Google"
+"appspot.com" = "Google"
+"web.app" = "Google Firebase"
+"firebaseapp.com" = "Google Firebase"
+"cdn.cloudflare.net" = "Cloudflare"
+"pages.dev" = "Cloudflare"
+"github.io" = "GitHub Pages"
+"netlify.app" = "Netlify"
+"vercel-dns.com" = "Vercel"
+"wixdns.net" = "Wix"
+"squarespace.com" = "Squarespace"
+"wpengine.com" = "WP Engine"
+"hubspot.net" = "HubSpot"
+"zendesk.com" = "Zendesk"
+"shopify.com" = "Shopify"
+"myshopify.com" = "Shopify"
+"edgekey.net" = "Akamai"
+"akamaiedge.net" = "Akamai"
+"edgesuite.net" = "Akamai"
+"fastly.net" = "Fastly"
+"incapdns.net" = "Imperva"
+"jimdo.com" = "Jimdo"
+"webflow.io" = "Webflow"
+"metanet.ch" = "METANET (CH)"
+"hostpoint.ch" = "Hostpoint (CH)"
+"cyon.ch" = "cyon (CH)"
+"infomaniak.ch" = "Infomaniak (CH)"
+"infomaniak.com" = "Infomaniak (CH)"
+"exoscale.com" = "Exoscale (CH)"
+"swisscom.com" = "Swisscom (CH)"
+"swisscom.ch" = "Swisscom (CH)"
+
+[probe]
+# Canary hosts used to detect TLS interception before probing. If the
+# certificate served for a canary is not issued by a CA in the registry, the
+# network is intercepting TLS and probe results would be wrong.
+canaries = ["letsencrypt.org", "www.swisssign.com", "www.digicert.com"]
+timeout_seconds = 8

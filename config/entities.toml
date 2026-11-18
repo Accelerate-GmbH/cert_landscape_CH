@@ -1,0 +1,169 @@
+# Entities measured besides municipalities (which come from
+# data/municipalities_ch.json). `id` for cantons is the BFS canton number,
+# which is also the feature id in the swiss-maps topology.
+# `domains` lists every registrable domain the entity uses; add more (schools,
+# portals, e-government services) in data/overrides.json.
+
+[[canton]]
+id = "1"
+code = "ZH"
+name = "Kanton Zürich"
+domains = ["zh.ch"]
+
+[[canton]]
+id = "2"
+code = "BE"
+name = "Kanton Bern"
+domains = ["be.ch"]
+
+[[canton]]
+id = "3"
+code = "LU"
+name = "Kanton Luzern"
+domains = ["lu.ch"]
+
+[[canton]]
+id = "4"
+code = "UR"
+name = "Kanton Uri"
+domains = ["ur.ch"]
+
+[[canton]]
+id = "5"
+code = "SZ"
+name = "Kanton Schwyz"
+domains = ["sz.ch"]
+
+[[canton]]
+id = "6"
+code = "OW"
+name = "Kanton Obwalden"
+domains = ["ow.ch"]
+
+[[canton]]
+id = "7"
+code = "NW"
+name = "Kanton Nidwalden"
+domains = ["nw.ch"]
+
+[[canton]]
+id = "8"
+code = "GL"
+name = "Kanton Glarus"
+domains = ["gl.ch"]
+
+[[canton]]
+id = "9"
+code = "ZG"
+name = "Kanton Zug"
+domains = ["zg.ch"]
+
+[[canton]]
+id = "10"
+code = "FR"
+name = "Kanton Freiburg"
+domains = ["fr.ch"]
+
+[[canton]]
+id = "11"
+code = "SO"
+name = "Kanton Solothurn"
+domains = ["so.ch"]
+
+[[canton]]
+id = "12"
+code = "BS"
+name = "Kanton Basel-Stadt"
+domains = ["bs.ch"]
+
+[[canton]]
+id = "13"
+code = "BL"
+name = "Kanton Basel-Landschaft"
+domains = ["baselland.ch"]
+
+[[canton]]
+id = "14"
+code = "SH"
+name = "Kanton Schaffhausen"
+domains = ["sh.ch"]
+
+[[canton]]
+id = "15"
+code = "AR"
+name = "Kanton Appenzell Ausserrhoden"
+domains = ["ar.ch"]
+
+[[canton]]
+id = "16"
+code = "AI"
+name = "Kanton Appenzell Innerrhoden"
+domains = ["ai.ch"]
+
+[[canton]]
+id = "17"
+code = "SG"
+name = "Kanton St. Gallen"
+domains = ["sg.ch"]
+
+[[canton]]
+id = "18"
+code = "GR"
+name = "Kanton Graubünden"
+domains = ["gr.ch"]
+
+[[canton]]
+id = "19"
+code = "AG"
+name = "Kanton Aargau"
+domains = ["ag.ch"]
+
+[[canton]]
+id = "20"
+code = "TG"
+name = "Kanton Thurgau"
+domains = ["tg.ch"]
+
+[[canton]]
+id = "21"
+code = "TI"
+name = "Kanton Tessin"
+domains = ["ti.ch"]
+
+[[canton]]
+id = "22"
+code = "VD"
+name = "Kanton Waadt"
+domains = ["vd.ch"]
+
+[[canton]]
+id = "23"
+code = "VS"
+name = "Kanton Wallis"
+domains = ["vs.ch"]
+
+[[canton]]
+id = "24"
+code = "NE"
+name = "Kanton Neuenburg"
+domains = ["ne.ch"]
+
+[[canton]]
+id = "25"
+code = "GE"
+name = "Kanton Genf"
+domains = ["ge.ch"]
+
+[[canton]]
+id = "26"
+code = "JU"
+name = "Kanton Jura"
+domains = ["jura.ch"]
+
+# Federal level is off by default (admin.ch alone has tens of thousands of
+# names). Enable with: tlsmap run --entities federal
+[[federal]]
+id = "CH"
+code = "CH"
+name = "Bund"
+domains = ["admin.ch", "ch.ch"]

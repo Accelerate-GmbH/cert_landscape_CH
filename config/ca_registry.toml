@@ -1,0 +1,347 @@
+# CA registry: who operates and who controls each certificate authority seen
+# in Swiss public-sector certificates.
+#
+# Matching: an issuer matches an entry when the issuer's O= equals one of
+# `match_org` (case-insensitive), or matches one of `match_org_regex`.
+#
+# operator_country: where the legal entity named in the certificate sits.
+# control_country:  where the entity that ultimately controls the CA sits.
+# Which of the two drives the sovereignty zone is set in settings.toml
+# ([registry] zone_basis); the default is control_country.
+#
+# validation: "dv" when the CA only issues domain-validated TLS certificates,
+# so DV/OV/EV can be decided without downloading the certificate. Otherwise
+# `cn_rules` (regex on the issuing CA's CN -> level) are tried, and if none
+# match the certificate itself is parsed (policy OIDs).
+#
+# verified: true only where `sources` back the ownership statement. Entries
+# with verified = false are best current knowledge and should be checked
+# against the CCADB (https://www.ccadb.org/resources) before publication.
+
+[registry]
+zone_basis = "control_country"
+eea_countries = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO"]
+
+[[ca]]
+id = "swisssign"
+name = "SwissSign"
+match_org = ["SwissSign AG", "SwissSign"]
+operator = "SwissSign AG"
+operator_country = "CH"
+controller = "Swiss Post (Die Schweizerische Post AG)"
+control_country = "CH"
+validation = "mixed"
+cn_rules = [["\\bEV\\b", "EV"], ["\\bOV\\b", "OV"], ["\\bDV\\b", "DV"]]
+verified = true
+sources = ["https://www.swisssign.com/en/media", "https://www.swisspost.ch/en/about-us/media/press-releases/2021/swiss-post-acquires-swisssign-group-ltd"]
+notes = "Wholly owned subsidiary of Swiss Post since 1 October 2021."
+
+[[ca]]
+id = "wisekey"
+name = "WISeKey"
+match_org = ["WISeKey", "WISeKey SA", "OISTE Foundation", "WISeKey International Holding AG"]
+operator = "WISeKey SA"
+operator_country = "CH"
+controller = "WISeKey International Holding AG"
+control_country = "CH"
+validation = "mixed"
+cn_rules = [["\\bEV\\b", "EV"], ["\\bOV\\b", "OV"], ["\\bDV\\b", "DV"]]
+verified = false
+sources = []
+notes = "Geneva-based. In April 2026 analysis this reclassification moved Geneva from 84.8% to 5.1% foreign."
+
+[[ca]]
+id = "quovadis"
+name = "QuoVadis (DigiCert)"
+match_org = ["QuoVadis Limited", "QuoVadis Trustlink Schweiz AG", "QuoVadis Trustlink B.V."]
+operator = "QuoVadis"
+operator_country = "BM"
+controller = "DigiCert, Inc."
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b", "EV"]]
+verified = false
+sources = []
+notes = "Part of DigiCert since 2019; a Swiss subsidiary exists, control sits with DigiCert."
+
+[[ca]]
+id = "letsencrypt"
+name = "Let's Encrypt"
+match_org = ["Let's Encrypt", "Internet Security Research Group", "ISRG"]
+operator = "Internet Security Research Group"
+operator_country = "US"
+controller = "Internet Security Research Group"
+control_country = "US"
+validation = "dv"
+verified = true
+sources = ["https://letsencrypt.org/about/"]
+notes = "Non-profit, DV only, 90-day (moving to shorter) validity via ACME."
+
+[[ca]]
+id = "digicert"
+name = "DigiCert"
+match_org = ["DigiCert Inc", "DigiCert, Inc.", "DigiCert Ireland Limited", "DigiCert Ltd", "Thawte, Inc.", "GeoTrust Inc.", "Symantec Corporation"]
+operator = "DigiCert, Inc."
+operator_country = "US"
+controller = "DigiCert, Inc."
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"], ["Encryption Everywhere|\\bDV\\b|RapidSSL|Thawte TLS|GeoTrust TLS DV", "DV"], ["\\bOV\\b", "OV"]]
+verified = false
+sources = []
+notes = "DigiCert Ireland Limited is a DigiCert subsidiary; the sslmap data rated it as EU."
+
+[[ca]]
+id = "microsoft"
+name = "Microsoft"
+match_org = ["Microsoft Corporation"]
+operator = "Microsoft Corporation"
+operator_country = "US"
+controller = "Microsoft Corporation"
+control_country = "US"
+validation = "mixed"
+verified = false
+sources = []
+notes = "Azure TLS issuing CAs."
+
+[[ca]]
+id = "google"
+name = "Google Trust Services"
+match_org = ["Google Trust Services", "Google Trust Services LLC"]
+operator = "Google Trust Services LLC"
+operator_country = "US"
+controller = "Alphabet Inc."
+control_country = "US"
+validation = "dv"
+verified = false
+sources = []
+notes = "Used by Google Cloud, Cloudflare and others for automated DV."
+
+[[ca]]
+id = "amazon"
+name = "Amazon"
+match_org = ["Amazon"]
+operator = "Amazon Trust Services"
+operator_country = "US"
+controller = "Amazon.com, Inc."
+control_country = "US"
+validation = "dv"
+verified = false
+sources = []
+notes = "AWS Certificate Manager public certificates are DV."
+
+[[ca]]
+id = "sectigo"
+name = "Sectigo"
+match_org = ["Sectigo Limited", "COMODO CA Limited", "USERTrust", "The USERTRUST Network"]
+operator = "Sectigo Limited"
+operator_country = "GB"
+controller = "Sectigo (Scottsdale, AZ), owned by GI Partners"
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"], ["Organization Validation|\\bOV\\b", "OV"], ["Domain Validation|\\bDV\\b", "DV"]]
+verified = true
+sources = ["https://www.sectigo.com/blog/a-new-chapter-for-sectigo-with-gi-partners", "https://mergr.com/transaction/gi-partners-acquires-sectigo"]
+notes = "Certificates name the UK entity; the company is headquartered in Arizona and owned by a US private equity firm since 2020."
+
+[[ca]]
+id = "zerossl"
+name = "ZeroSSL"
+match_org = ["ZeroSSL GmbH", "ZeroSSL"]
+operator = "ZeroSSL GmbH"
+operator_country = "AT"
+controller = "HID Global (acquired January 2024)"
+control_country = "US"
+validation = "dv"
+verified = true
+sources = ["https://www.securitysales.com/business/mergers/hid-pki-offerings-acquisition-zerossl/", "https://www.cbinsights.com/company/zerossl"]
+notes = "Vienna-based entity; intermediates chain to Sectigo's USERTrust root. HID Global is part of ASSA ABLOY (SE)."
+
+[[ca]]
+id = "sectigo-branded"
+name = "Sectigo-operated reseller brands"
+match_org = ["The Trustico Group Ltd", "Gandi", "Gandi SAS", "GoGetSSL", "Trust Provider B.V.", "Network Solutions L.L.C.", "TrustAsia Technologies, Inc."]
+operator = "Brand named in the intermediate; issuance operated by an upstream CA"
+operator_country = "XX"
+controller = "Upstream CA (believed Sectigo for most brands)"
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"], ["Organization Validation|\\bOV\\b", "OV"], ["Domain Validation|\\bDV\\b|Standard SSL", "DV"]]
+verified = false
+sources = []
+notes = "Reseller-branded intermediates. Check each intermediate's parent in the CCADB before publication."
+
+[[ca]]
+id = "godaddy"
+name = "GoDaddy / Starfield"
+match_org = ["GoDaddy.com, Inc.", "GoDaddy.com", "GoDaddy Inc.", "Starfield Technologies, Inc.", "Starfield Technologies"]
+operator = "GoDaddy.com, LLC"
+operator_country = "US"
+controller = "GoDaddy Inc."
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"]]
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "globalsign"
+name = "GlobalSign"
+match_org = ["GlobalSign nv-sa", "GlobalSign NV/SA", "GlobalSign"]
+operator = "GlobalSign NV/SA"
+operator_country = "BE"
+controller = "GMO GlobalSign Holdings K.K."
+control_country = "JP"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"], ["\\bOV\\b|Organization Validation", "OV"], ["\\bDV\\b|Domain Validation|AlphaSSL", "DV"]]
+verified = true
+sources = ["https://www.bsigroup.com/en-SG/products-and-services/assessment-and-certification/validation-and-verification/client-directory-certificate/ETS%20081"]
+notes = "EU-established qualified trust service provider (Leuven); parent company in Japan."
+
+[[ca]]
+id = "sslcom"
+name = "SSL.com"
+match_org = ["SSL Corporation", "SSL.com"]
+operator = "SSL Corporation"
+operator_country = "US"
+controller = "SSL Corporation"
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b", "EV"]]
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "certainly"
+name = "Certainly (Fastly)"
+match_org = ["Certainly"]
+operator = "Certainly LLC"
+operator_country = "US"
+controller = "Fastly, Inc."
+control_country = "US"
+validation = "dv"
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "cloudflare"
+name = "Cloudflare"
+match_org = ["Cloudflare, Inc."]
+operator = "Cloudflare, Inc."
+operator_country = "US"
+controller = "Cloudflare, Inc."
+control_country = "US"
+validation = "dv"
+verified = false
+sources = []
+notes = "Legacy Cloudflare-branded intermediates."
+
+[[ca]]
+id = "certum"
+name = "Certum (Asseco)"
+match_org = ["Asseco Data Systems S.A.", "Unizeto Technologies S.A."]
+operator = "Asseco Data Systems S.A."
+operator_country = "PL"
+controller = "Asseco Poland S.A."
+control_country = "PL"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"], ["\\bOV\\b|Organization Validation", "OV"], ["\\bDV\\b|Domain Validation", "DV"]]
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "harica"
+name = "HARICA"
+match_org = ["Hellenic Academic and Research Institutions CA", "Hellenic Academic and Research Institutions Cert. Authority"]
+operator = "HARICA"
+operator_country = "GR"
+controller = "HARICA"
+control_country = "GR"
+validation = "mixed"
+cn_rules = [["\\bEV\\b", "EV"], ["\\bOV\\b", "OV"], ["\\bDV\\b", "DV"]]
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "buypass"
+name = "Buypass"
+match_org_regex = ["^Buypass AS"]
+operator = "Buypass AS"
+operator_country = "NO"
+controller = "Buypass AS"
+control_country = "NO"
+validation = "mixed"
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "actalis"
+name = "Actalis"
+match_org = ["Actalis S.p.A.", "Actalis S.p.A./03358520967"]
+operator = "Actalis S.p.A."
+operator_country = "IT"
+controller = "Aruba S.p.A."
+control_country = "IT"
+validation = "mixed"
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "dtrust"
+name = "D-Trust"
+match_org = ["D-Trust GmbH"]
+operator = "D-Trust GmbH"
+operator_country = "DE"
+controller = "Bundesdruckerei GmbH"
+control_country = "DE"
+validation = "mixed"
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "telekom"
+name = "Telekom Security"
+match_org = ["Deutsche Telekom Security GmbH", "T-Systems International GmbH"]
+operator = "Deutsche Telekom Security GmbH"
+operator_country = "DE"
+controller = "Deutsche Telekom AG"
+control_country = "DE"
+validation = "mixed"
+verified = false
+sources = []
+notes = ""
+
+[[ca]]
+id = "entrust"
+name = "Entrust"
+match_org = ["Entrust, Inc.", "Entrust Limited"]
+operator = "Entrust, Inc."
+operator_country = "US"
+controller = "Entrust Corporation"
+control_country = "US"
+validation = "mixed"
+cn_rules = [["\\bEV\\b|Extended Validation", "EV"]]
+verified = false
+sources = []
+notes = "Public TLS business transferred to Sectigo in 2025; older certificates may remain valid."
+
+[[ca]]
+id = "apple"
+name = "Apple"
+match_org = ["Apple Inc."]
+operator = "Apple Inc."
+operator_country = "US"
+controller = "Apple Inc."
+control_country = "US"
+validation = "mixed"
+verified = false
+sources = []
+notes = ""

@@ -1,0 +1,169 @@
+"""Write results: full JSON, CSVs, Excel workbook, map-compatible JSON."""
+
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+
+from .registry import Registry
+
+HOST_COLUMNS = [
+    "entity", "entity_name", "hostname", "wildcard", "critical", "in_use", "excluded", "dns_state",
+    "ca_id", "ca_name", "issuer_org", "issuer_cn", "operator_country", "control_country", "zone",
+    "registry_verified", "validation", "validation_basis", "not_before", "not_after", "validity_days",
+    "days_left", "key_type", "key_bits", "signature_hash", "subject_org", "platform", "cnames", "ip",
+    "asn", "as_name", "net_country", "other_issuers", "valid_cert_count", "source", "cert_id",
+    "cert_sha256", "probe_ok", "probe_verified", "probe_tls_version", "served_issuer_org",
+    "served_matches_ct", "probe_error",
+]
+
+ENTITY_COLUMNS = [
+    "key", "kind", "id", "name", "code", "domains", "shared_domain", "hosts_found", "hosts_in_use", "hosts_not_in_dns",
+    "critical_in_use", "sovereignty_score", "critical_sovereignty_score", "assurance_score",
+    "critical_assurance_score", "share_ch", "share_eea", "share_third", "share_unknown",
+    "DV", "OV", "IV", "EV", "unknown_validation", "top_ca", "top_ca_share", "automated_share",
+    "expiring_soon", "weak_crypto", "crypto_coverage", "multi_ca_hosts", "caa", "checks_passed",
+    "checks_failed", "ct_source", "ct_newest_entry",
+]
+
+ZONE_COMPAT = {"ch": 1, "eea": 2, "third": 3, "unknown": 3}
+
+
+def _flat(v):
+    if isinstance(v, (list, tuple)):
+        return "; ".join(str(x) for x in v)
+    if isinstance(v, dict):
+        return json.dumps(v, ensure_ascii=False)
+    return "" if v is None else v
+
+
+def entity_row(e: dict) -> dict:
+    caa_txt = "; ".join(f"{d}: {', '.join(c.get('issue') or []) or 'none'}" for d, c in e.get("caa", {}).items())
+    disc = e.get("discovery", [])
+    return {
+        "key": e["key"], "kind": e["kind"], "id": e["id"], "name": e["name"], "code": e.get("code", ""),
+        "domains": "; ".join(e["domains"]), "shared_domain": e.get("shared_domain", False), "hosts_found": e["hosts_found"], "hosts_in_use": e["hosts_in_use"],
+        "hosts_not_in_dns": e["hosts_not_in_dns"], "critical_in_use": e["critical_in_use"],
+        "sovereignty_score": e["sovereignty_score"], "critical_sovereignty_score": e["critical_sovereignty_score"],
+        "assurance_score": e["assurance_score"], "critical_assurance_score": e["critical_assurance_score"],
+        **{f"share_{z}": e["zone_shares"][z] for z in ("ch", "eea", "third", "unknown")},
+        **{k: e["validation_counts"][k] for k in ("DV", "OV", "IV", "EV")},
+        "unknown_validation": e["validation_counts"]["unknown"],
+        "top_ca": e["by_ca"][0]["name"] if e["by_ca"] else "", "top_ca_share": e["top_ca_share"],
+        "automated_share": e["automated_share"], "expiring_soon": e["expiring_soon"],
+        "weak_crypto": e["weak_crypto"], "crypto_coverage": e["crypto_coverage"],
+        "multi_ca_hosts": e["multi_ca_hosts"], "caa": caa_txt,
+        "checks_passed": sum(1 for c in e["checks"] if c["status"] == "pass"),
+        "checks_failed": sum(1 for c in e["checks"] if c["status"] == "fail"),
+        "ct_source": "; ".join(sorted({d["source"] for d in disc})),
+        "ct_newest_entry": max((d["newest_not_before"] or "" for d in disc), default=""),
+    }
+
+
+def compat_entry(e: dict) -> dict:
+    """Same shape as sslmap's data.min.json, counted per hostname in use."""
+    n = e["hosts_in_use"]
+    vc = e["validation_counts"]
+    def nz(x):  # the existing frontends treat 0 as "no data"
+        return max(1, x) if (n and x is not None) else 0
+    return {
+        "name": e["name"], **({"code": e["code"]} if e["kind"] == "canton" else {}),
+        **({"bfs": e["id"], "canton": e["canton"]} if e["kind"] == "municipality" else {}),
+        "domain": e["domains"][0] if e["domains"] else "",
+        "certificates": {
+            "count": n, "dvCount": vc["DV"], "ovCount": vc["OV"] + vc["IV"], "evCount": vc["EV"],
+            "issuers": [{"name": c["name"], "count": c["hosts"], "country": c["control_country"],
+                         "zone": ZONE_COMPAT.get(c["zone"], 3)} for c in e["by_ca"]],
+        },
+        "score": nz(e["sovereignty_score"]), "trustScore": nz(e["assurance_score"]),
+    }
+
+
+def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -> dict[str, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    paths = {}
+
+    p = out_dir / "results.json"
+    p.write_text(json.dumps({"meta": run_meta, **{k: v for k, v in result.items() if k != "hostnames"}},
+                            ensure_ascii=False, indent=1))
+    paths["results"] = p
+
+    p = out_dir / "hostnames.csv"
+    with p.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=HOST_COLUMNS, extrasaction="ignore")
+        w.writeheader()
+        for r in result["hostnames"]:
+            w.writerow({k: _flat(r.get(k)) for k in HOST_COLUMNS})
+    paths["hostnames"] = p
+
+    ent_rows = [entity_row(e) for e in result["entities"]]
+    p = out_dir / "entities.csv"
+    with p.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=ENTITY_COLUMNS)
+        w.writeheader()
+        for r in ent_rows:
+            w.writerow({k: _flat(r.get(k)) for k in ENTITY_COLUMNS})
+    paths["entities"] = p
+
+    compat = {"generated": result["generated"], "method": "tlsmap: hostnames in use, current certificate",
+              "cantons": {}, "municipalities": {}, "federal": {}}
+    for e in result["entities"]:
+        bucket = {"canton": "cantons", "municipality": "municipalities", "federal": "federal"}[e["kind"]]
+        compat[bucket][e["id"]] = compat_entry(e)
+    compat["totalCantons"] = len(compat["cantons"])
+    compat["totalMunicipalities"] = len(compat["municipalities"])
+    p = out_dir / "data.min.json"
+    p.write_text(json.dumps(compat, ensure_ascii=False, separators=(",", ":")))
+    paths["map"] = p
+
+    p = out_dir / "run.json"
+    p.write_text(json.dumps(run_meta, ensure_ascii=False, indent=1))
+    paths["run"] = p
+
+    try:
+        paths["xlsx"] = _xlsx(result, ent_rows, registry, run_meta, out_dir / "export.xlsx")
+    except ImportError:
+        pass
+    return paths
+
+
+def _xlsx(result, ent_rows, registry: Registry, meta, path: Path) -> Path:
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill
+    from openpyxl.utils import get_column_letter
+
+    wb = Workbook()
+    head = Font(bold=True, color="FFFFFF")
+    fill = PatternFill("solid", fgColor="1F2937")
+
+    def sheet(ws, columns, rows):
+        ws.append(columns)
+        for c in ws[1]:
+            c.font, c.fill = head, fill
+        for r in rows:
+            ws.append([_flat(r.get(k)) for k in columns])
+        ws.freeze_panes = "A2"
+        ws.auto_filter.ref = ws.dimensions
+        for i, col in enumerate(columns, 1):
+            ws.column_dimensions[get_column_letter(i)].width = min(40, max(10, len(col) + 2))
+
+    ws = wb.active
+    ws.title = "Entities"
+    sheet(ws, ENTITY_COLUMNS, ent_rows)
+
+    checks = []
+    for e in result["entities"]:
+        for c in e["checks"]:
+            checks.append({"entity": e["key"], "name": e["name"], **c})
+    sheet(wb.create_sheet("Checks"), ["entity", "name", "id", "label", "status", "detail"], checks)
+    sheet(wb.create_sheet("Hostnames"), HOST_COLUMNS, result["hostnames"])
+    sheet(wb.create_sheet("CA registry"),
+          ["id", "name", "operator", "operator_country", "controller", "control_country", "zone",
+           "validation", "verified", "sources", "notes"],
+          [{**ca.__dict__, "sources": "; ".join(ca.sources)} for ca in registry.cas])
+    ws = wb.create_sheet("Run")
+    for k, v in meta.items():
+        ws.append([k, _flat(v)])
+    wb.save(path)
+    return path

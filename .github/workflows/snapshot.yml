@@ -1,0 +1,44 @@
+name: monthly snapshot
+
+on:
+  schedule:
+    - cron: "17 3 2 * *"   # 2nd of every month, 03:17 UTC
+  workflow_dispatch:
+    inputs:
+      canton:
+        description: "Only this canton (code, e.g. ZG); empty = all"
+        required: false
+      probe:
+        description: "Run the live TLS probe"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .[dev]
+      - run: pytest -q
+      - name: Run pipeline
+        env:
+          CERTSPOTTER_API_KEY: ${{ secrets.CERTSPOTTER_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.canton }}" ]; then ARGS="$ARGS --canton ${{ github.event.inputs.canton }}"; fi
+          if [ "${{ github.event.inputs.probe }}" != "false" ]; then ARGS="$ARGS --probe"; fi
+          tlsmap run $ARGS
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output
+          git commit -m "Snapshot $(date -u +%Y-%m-%d)" || echo "nothing to commit"
+          git push
