@@ -114,8 +114,12 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
 def knockout(r: dict) -> str:
     """Conditions that put a resource to zero regardless of other checks."""
     for e in r.get("endpoints") or []:
-        if e.get("ok") and e.get("valid") is False:
-            return "invalid certificate: " + (e.get("verify_error") or "")[:80]
+        err = e.get("verify_error") or ""
+        # A missing intermediate is a server misconfiguration that most browsers
+        # repair on their own (AIA fetching, cached intermediates); it is
+        # reported per endpoint but not treated as a knock-out.
+        if e.get("ok") and e.get("valid") is False and "unable to get local issuer certificate" not in err:
+            return "invalid certificate: " + err[:80]
         if (e.get("revocation") or {}).get("status") == "revoked":
             return "revoked certificate"
     return ""

@@ -75,6 +75,10 @@ endpoint serves a certificate that does not validate (expired, wrong name,
 untrusted chain) or one that is revoked. Users are exposed to these failures
 directly, so no other strength should compensate for them.
 
+An incomplete chain (the server does not send its intermediate certificate)
+is not a knock-out: most browsers repair it on their own. It is reported per
+endpoint in `endpoints.csv` (`verify_error`).
+
 ## 3. From checks to scores
 
 **Category score** of a resource (0–100): the weighted share of points in
@@ -135,3 +139,4 @@ later.
 6. **Revocation unknown.** When no OCSP responder or CRL is reachable, is that n/a (current proposal) or a fail?
 7. **PQ "preferred".** The test requires the server to choose the hybrid group when the client lists X25519 first. Is "enabled" enough for v1?
 8. **Thresholds.** Green from 80 or from 90?
+9. **Incomplete chains.** In the first Zug run, 15 of 313 endpoints did not send their intermediate certificate. Knock-out, a failed check, or report only (current proposal)?
