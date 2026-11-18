@@ -156,6 +156,8 @@ class Pipeline:
             hz = [asn_res.get(ip, {}) for ip in r.get("ips", [])]
             r["hosting_zones"] = [self.reg.zone_for(a.get("country", "")) for a in hz if a]
             r["hosting_as"] = [f"{a.get('as_name', '')} ({a.get('country', '')})".strip() for a in hz if a]
+            r["hosting"] = [{"ip": ip, "asn": asn_res.get(ip, {}).get("asn", ""), "as_name": asn_res.get(ip, {}).get("as_name", ""),
+                             "country": asn_res.get(ip, {}).get("country", "")} for ip in r.get("ips", [])]
 
         # ECH (HTTPS record) and CAA per resource
         log.info("ECH and CAA checks for %d hostnames", len(resources))
@@ -196,7 +198,7 @@ class Pipeline:
             for n in z["ns"]:
                 ip = (ns_dns.get(n) or {}).get("ips", [""])[:1]
                 a = asn_res.get(ip[0], {}) if ip and ip[0] else {}
-                prov.append({"ns": n, "as_name": a.get("as_name", ""), "country": a.get("country", ""),
+                prov.append({"ns": n, "asn": a.get("asn", ""), "as_name": a.get("as_name", ""), "country": a.get("country", ""),
                              "zone": self.reg.zone_for(a.get("country", ""))})
             z["providers"] = prov
 
@@ -220,7 +222,8 @@ class Pipeline:
         for r in resources:
             dom = dom_of.get((r["entity"], r["hostname"]), "")
             z = zones.get(dom, {})
-            ctx = {"ns_zones": [p["zone"] for p in z.get("providers", [])],
+            ctx = {"ns_zones": [p["zone"] for p in z.get("providers", [])], "ns_domain": dom,
+                   "ns": [[p["ns"], p.get("asn", ""), p["as_name"], p["country"]] for p in z.get("providers", [])],
                    "ns_providers": sorted({f"{p['as_name']} ({p['country']})" for p in z.get("providers", [])})}
             results = trustmark.evaluate(r, ctx, tm_cfg)
             ko = trustmark.knockout(r)

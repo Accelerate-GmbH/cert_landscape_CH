@@ -110,3 +110,12 @@ footer a { color: var(--text-secondary); }
 .tmhead .v { font-size: 30px; font-weight: 650; font-variant-numeric: tabular-nums; }
 .stack td { vertical-align: top; }
 .stack td:first-child { color: var(--text-muted); width: 42%; }
+.src { display: block; font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.src a, .srccell a { color: var(--text-muted); }
+.srccell { font-size: 11px; color: var(--text-muted); }
+td.num, th.num { white-space: nowrap; }
+td.ev { overflow-wrap: anywhere; }
+.linkbtn { font: inherit; background: none; border: 0; padding: 0; color: var(--cat-1); text-decoration: underline; cursor: pointer; }
+.checks-t td { vertical-align: top; }
+.checks-t td:first-child { width: 42%; }
+.checks-t .st { display: inline-block; margin: 2px 0; }

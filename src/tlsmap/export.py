@@ -46,6 +46,37 @@ def _flat(v):
     return "" if v is None else v
 
 
+def resource_entry(r: dict) -> dict:
+    """Everything the map needs to drill down from a score to its evidence."""
+    eps = []
+    host_by_ip = {h["ip"]: h for h in r.get("hosting") or []}
+    for e in r.get("endpoints") or []:
+        c, rv = e.get("cert") or {}, e.get("revocation") or {}
+        hb = host_by_ip.get(e.get("ip"), {})
+        eps.append({"ip": e.get("ip"), "at": e.get("checked_at"), "ok": e.get("ok"), "valid": e.get("valid"),
+                    "err": e.get("verify_error") or e.get("error") or "", "tls": e.get("tls_version", ""),
+                    "grp": e.get("group", ""), "pq": e.get("pq", ""), "val": c.get("validation", ""),
+                    "iss": c.get("issuer_cn", ""), "sha": c.get("sha256", ""), "exp": c.get("not_after", ""),
+                    "scts": len(e.get("scts") or []), "rev": rv.get("status", ""), "revm": rv.get("method", ""),
+                    "revu": rv.get("url", ""), "asn": hb.get("asn", ""), "as": hb.get("as_name", ""), "cc": hb.get("country", "")})
+    probed = {e["ip"] for e in eps}
+    for h in r.get("hosting") or []:
+        if h["ip"] not in probed:
+            eps.append({"ip": h["ip"], "asn": h["asn"], "as": h["as_name"], "cc": h["country"], "ok": None})
+    tm = r.get("tm") or {}
+    return {
+        "h": r["hostname"], "crit": r.get("critical", False), "o": tm.get("overall"), "c": tm.get("categories"),
+        "ko": r.get("tm_knockout", ""),
+        "cert": {"src": r.get("source", ""), "id": r.get("cert_id", ""), "sha": r.get("cert_sha256") or "",
+                 "iss": r.get("issuer_cn", ""), "org": r.get("issuer_org", ""), "val": r.get("validation", ""),
+                 "basis": r.get("validation_basis", ""), "exp": r.get("not_after", "")},
+        "root": {"name": r.get("root_name", ""), "owner": r.get("root_owner", ""), "cc": r.get("root_country", "")},
+        "caa": r.get("caa_found_at") or "", "ech": r.get("ech", ""), "plat": r.get("platform", ""),
+        "chk": [[x["check"], x["status"], x["value"], x["method"], x["evidence"]] for x in r.get("tm_checks", [])],
+        "ep": eps,
+    }
+
+
 def host_row(r: dict) -> dict:
     tm = r.get("tm") or {}
     cats = tm.get("categories") or {}
@@ -221,6 +252,17 @@ def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -
     p = out_dir / "map.json"
     p.write_text(json.dumps(map_json(result, run_meta), ensure_ascii=False, separators=(",", ":")))
     paths["webmap"] = p
+
+    rdir = out_dir / "resources"
+    rdir.mkdir(exist_ok=True)
+    by_entity: dict[str, list] = {}
+    for r in result["hostnames"]:
+        if r.get("tm"):
+            by_entity.setdefault(r["entity"], []).append(resource_entry(r))
+    for key, items in by_entity.items():
+        items.sort(key=lambda x: (x["o"] if x["o"] is not None else -1))
+        (rdir / (key.replace(":", "-") + ".json")).write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")))
+    paths["resources"] = rdir
 
     p = out_dir / "run.json"
     p.write_text(json.dumps(run_meta, ensure_ascii=False, indent=1))

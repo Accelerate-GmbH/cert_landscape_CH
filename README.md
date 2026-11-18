@@ -99,7 +99,10 @@ A sample run for canton Zug is in `samples/zug/`.
 `web/` is a static map (Leaflet, no tracking, no tile server) in German,
 French, Italian and English: sovereignty and identity validation per canton
 and municipality, critical services, CAA, good-practice checks and the CA mix
-per entity. The `publish map` workflow deploys it to GitHub Pages with the
+per entity. Every score shows its source, and every entity drills down to
+its hostnames, each check result with its measured value and evidence, and
+links to verify it independently (crt.sh, SSL Labs, dns.google, DNSViz,
+bgp.he.net). The `publish map` workflow deploys it to GitHub Pages with the
 latest `output/latest/map.json`. Local preview:
 
 ```bash
@@ -138,6 +141,10 @@ This project builds on the work and data of others:
 - **DNS-over-HTTPS** from [Google Public DNS](https://developers.google.com/speed/public-dns)
   and [Cloudflare](https://developers.cloudflare.com/1.1.1.1/).
 - **IP-to-ASN mapping** from [Team Cymru](https://www.team-cymru.com/ip-asn-mapping).
+- **Verification links** in the map point to [crt.sh](https://crt.sh),
+  [Qualys SSL Labs](https://www.ssllabs.com/ssltest/),
+  [dns.google](https://dns.google), [DNSViz](https://dnsviz.net) and
+  [Hurricane Electric BGP Toolkit](https://bgp.he.net).
 - **Boundaries** from [swiss-maps](https://github.com/interactivethings/swiss-maps)
   (Interactive Things), based on swisstopo data.
 - **Software**: [Leaflet](https://leafletjs.com) (BSD-2-Clause),

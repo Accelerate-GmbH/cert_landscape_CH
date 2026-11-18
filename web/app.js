@@ -118,7 +118,7 @@
         const id = String(f.id), e = ents[id];
         const name = (e && e.n) || (f.properties && f.properties.name) || id;
         lyr.on("mousemove", (ev) => {
-          showTip(ev, "<b>" + esc(name) + "</b><br>" + esc(t("m_" + state.metric)) + ": " + esc(valueText(e)));
+          showTip(ev, "<b>" + esc(name) + "</b><br>" + esc(t("m_" + state.metric)) + ": " + esc(isTM(state.metric) && value(e) !== null ? value(e) + " / 100" : valueText(e)));
           lyr.setStyle({ weight: 2, color: css("--text-primary") });
           lyr.bringToFront();
         });
@@ -145,7 +145,9 @@
       rows = labels.map((l, i) => '<div class="row"><span class="sw" style="background:' + css("--seq-" + (i + 1)) + '"></span>' + l + "</div>").join("");
       rows += '<div class="row"><span class="sw" style="background:' + css("--nodata") + '"></span>' + esc(t("no_data")) + "</div>";
     }
-    el.innerHTML = '<div class="t">' + esc(t("m_" + state.metric)) + '</div><div class="d">' + esc(t("m_" + state.metric + "_d")) + "</div>" + rows;
+    const ls = state.metric === "tm" ? ["tls", "ocsp", "dns", "sct", "ccadb", "cymru"].map((x) => SRCL[x]()).join(", ") : src(state.metric);
+    el.innerHTML = '<div class="t">' + esc(t("m_" + state.metric)) + '</div><div class="d">' + esc(t("m_" + state.metric + "_d")) +
+      (ls ? '<br><span class="src">' + esc(t("source_col")) + ": " + ls + "</span>" : "") + "</div>" + rows;
   }
 
   /* ---- side panel -------------------------------------------------------- */
@@ -162,7 +164,7 @@
     const e = (state.data.entities[level] || {})[id];
     const panel = document.getElementById("panel");
     if (!e) { panel.innerHTML = '<button class="close" data-close>✕</button><p class="muted">' + esc(t("no_data")) + "</p>"; return; }
-    const kpi = (v, l) => '<div class="kpi"><div class="v">' + esc(fmt(v)) + '</div><div class="l">' + esc(l) + "</div></div>";
+    const kpi = (v, l, k) => '<div class="kpi"><div class="v">' + esc(fmt(v)) + '</div><div class="l">' + esc(l) + "</div>" + srcSpan(k) + "</div>";
     const vc = e.v || {};
     const cas = (e.cas || []).map((c) => "<tr><td>" + esc(c[0]) + "</td><td>" + esc(c[1]) + '</td><td class="num">' + c[3] + "</td></tr>").join("");
     const checks = Object.entries(e.chk || {}).map(([k, s]) =>
@@ -174,8 +176,10 @@
       '<p class="sub">' + esc((e.d || []).join(", ")) + "</p>" +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
       tmSection(e) + stackSection(e) +
+      (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
+        esc(t("res_show")) + " (" + e.tm.n + ")</button></p>" : "") +
       "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
-      '<div class="kpis">' + kpi(e.s, t("m_s")) + kpi(e.a, t("m_a")) + kpi(e.cs, t("m_cs")) + kpi(e.ca, t("m_ca")) + "</div>" +
+      '<div class="kpis">' + kpi(e.s, t("m_s"), "s") + kpi(e.a, t("m_a"), "a") + kpi(e.cs, t("m_cs"), "cs") + kpi(e.ca, t("m_ca"), "ca") + "</div>" +
       '<p class="sub" style="margin-top:8px">' + esc(t("hosts_in_use")) + ": <b>" + e.h + "</b> (" + esc(t("critical")) + " " + e.hc + ") · " +
       e.hf + " " + esc(t("hosts_found")) + "</p>" +
       "<h3>" + esc(t("zones")) + "</h3>" + zoneBar(e.z || {}) +
@@ -190,6 +194,28 @@
       "<h3>" + esc(t("network")) + '</h3><p class="sub">' + dict(e.net) + "</p>";
   }
 
+  /* Where each number comes from, shown next to it. */
+  const SRCL = {
+    tls: () => esc(t("src_tls")),
+    ocsp: () => esc(t("src_revocation")),
+    sct: () => esc(t("src_sct")),
+    name: () => esc(t("src_name")),
+    dns: () => '<a href="https://developers.google.com/speed/public-dns/docs/doh">' + esc(t("src_dns")) + "</a>",
+    ccadb: () => '<a href="https://www.ccadb.org">CCADB</a>',
+    cymru: () => '<a href="https://www.team-cymru.com/ip-asn-mapping">Team Cymru</a>',
+    ct: () => '<a href="https://crt.sh">' + esc(t("src_ct")) + " (crt.sh)</a>",
+  };
+  const SRC = {
+    "own.identity": ["tls", "ct"], "own.revocation": ["ocsp"], "own.dnssec": ["dns"], "own.caa": ["dns"], "own.ct": ["sct"],
+    "sov.ca": ["ccadb"], "sov.dns": ["dns", "cymru"], "sov.hosting": ["cymru"], "sov.tld": ["name"],
+    "sec.tls13": ["tls"], "sec.pqc": ["tls"], "prv.ech": ["dns"],
+    s: ["ct", "ccadb"], cs: ["ct", "ccadb"], a: ["ct", "tls"], ca: ["ct", "tls"], caa: ["dns"],
+    tm_own: ["tls", "ocsp", "dns", "sct"], tm_sov: ["ccadb", "dns", "cymru"], tm_sec: ["tls"], tm_prv: ["dns"],
+    st_tld: ["name"], st_dns: ["dns", "cymru"], st_dnssec: ["dns"], st_host: ["cymru"], st_ca: ["ct", "ccadb"], st_root: ["ccadb"],
+  };
+  const src = (k) => (SRC[k] || []).map((x) => SRCL[x]()).join(", ");
+  const srcSpan = (k) => (SRC[k] ? '<span class="src">' + esc(t("source_col")) + ": " + src(k) + "</span>" : "");
+
   function chip(l, text) {
     const col = l === "none" ? css("--nodata") : css(LIGHT_COLORS[l]);
     return '<span class="chip"><i style="background:' + col + '"></i>' + esc(text || t(l === "none" ? "not_assessed" : "light_" + l)) + "</span>";
@@ -200,28 +226,103 @@
     const cats = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
     const rows = cats.map(([c, m]) => {
       const v = tm.c ? tm.c[c] : null;
-      return '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(v) + "</span>" + chip(lightOf(v)) + "</div>";
+      return '<div class="cat"><span>' + esc(t("m_" + m)) + srcSpan(m) + '</span><span class="num">' + fmt(v) + "</span>" + chip(lightOf(v)) + "</div>";
     }).join("");
     const checks = Object.entries(tm.k || {}).map(([id, c]) =>
-      "<tr><td>" + esc(t(id)) + '</td><td class="num">' + Math.round(100 * (c.pass + 0.5 * c.partial) / c.assessed) + ' %</td><td class="num">' + c.assessed + "</td></tr>").join("");
+      "<tr><td>" + esc(t(id)) + '</td><td class="num">' + Math.round(100 * (c.pass + 0.5 * c.partial) / c.assessed) + ' %</td><td class="num">' + c.assessed +
+      '</td><td class="srccell">' + src(id) + "</td></tr>").join("");
     return "<h3>" + esc(t("trustmark")) + '</h3><div class="tmhead"><span class="v">' + fmt(tm.o) + "</span>" + chip(lightOf(tm.o)) +
       (tm.el ? chip("green", t("eligible")) : "") + '</div><p class="sub">' + (tm.n || 0) + " " + esc(t("resources")) +
       (tm.ko ? " · " + tm.ko + " " + esc(t("knockouts")) : "") + "</p>" + rows +
       '<table style="margin-top:8px"><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("pass_col")) +
-      '</th><th class="num">n</th></tr></thead><tbody>' + checks + "</tbody></table>";
+      '</th><th class="num">n</th><th>' + esc(t("source_col")) + '</th></tr></thead><tbody>' + checks + "</tbody></table>";
   }
   function stackSection(e) {
     const st = e.stack;
     if (!st) return "";
     const list = (arr, fmtItem) => (arr && arr.length ? arr.map(fmtItem).join("<br>") : "–");
     return "<h3>" + esc(t("stack")) + '</h3><table class="stack"><tbody>' +
-      "<tr><td>" + esc(t("st_tld")) + "</td><td>." + esc((st.tld || []).join(", .")) + "</td></tr>" +
-      "<tr><td>" + esc(t("st_dns")) + "</td><td>" + list(st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + "</td></tr>" +
-      "<tr><td>" + esc(t("st_dnssec")) + "</td><td>" + esc(t(st.dnssec ? "yes" : "no")) + "</td></tr>" +
-      "<tr><td>" + esc(t("st_host")) + "</td><td>" + list(st.host, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
-      "<tr><td>" + esc(t("st_ca")) + "</td><td>" + list(st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + "): " + x[2]) + "</td></tr>" +
-      "<tr><td>" + esc(t("st_root")) + "</td><td>" + list(st.root, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_tld")) + srcSpan("st_tld") + "</td><td>." + esc((st.tld || []).join(", .")) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_dns")) + srcSpan("st_dns") + "</td><td>" + list(st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + "</td></tr>" +
+      "<tr><td>" + esc(t("st_dnssec")) + srcSpan("st_dnssec") + "</td><td>" + esc(t(st.dnssec ? "yes" : "no")) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_host")) + srcSpan("st_host") + "</td><td>" + list(st.host, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_ca")) + srcSpan("st_ca") + "</td><td>" + list(st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + "): " + x[2]) + "</td></tr>" +
+      "<tr><td>" + esc(t("st_root")) + srcSpan("st_root") + "</td><td>" + list(st.root, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
       "</tbody></table>";
+  }
+
+  /* ---- drill-down: entity -> resources -> checks -> sources ------------- */
+  const cache = {};
+  const enc = encodeURIComponent;
+  const ext = (href, text) => '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(text) + "</a>";
+  const dnsLink = (name, type) => ext("https://dns.google/query?name=" + enc(name) + "&rr_type=" + type, "dns.google " + type);
+  const asLink = (asn) => (asn ? ext("https://bgp.he.net/AS" + enc(asn), "AS" + asn) : "");
+  const ctLink = (c) => c.sha ? ext("https://crt.sh/?sha256=" + enc(c.sha), "crt.sh") :
+    (c.src === "crtsh" && c.id ? ext("https://crt.sh/?id=" + enc(c.id), "crt.sh") : "");
+  const labsLink = (h) => ext("https://www.ssllabs.com/ssltest/analyze.html?d=" + enc(h) + "&hideResults=on", "SSL Labs");
+  function checkLinks(id, r, dom) {
+    const h = r.h;
+    const ips = (r.ep || []).map((x) => asLink(x.asn)).filter(Boolean);
+    switch (id) {
+      case "own.identity": case "own.ct": return [ctLink(r.cert), labsLink(h)];
+      case "own.revocation": return [...new Set((r.ep || []).map((x) => x.revu).filter(Boolean))].map((u) => ext(u, u.replace(/^https?:\/\//, "").slice(0, 40)));
+      case "own.dnssec": return [dnsLink(h, "A"), ext("https://dnsviz.net/d/" + enc(h) + "/dnssec/", "DNSViz")];
+      case "own.caa": return [dnsLink(r.caa || h, "CAA")];
+      case "sov.ca": return [ctLink(r.cert), ext("https://crt.sh/?CN=" + enc(r.root.name || ""), "crt.sh root"), ext("https://www.ccadb.org/resources", "CCADB")];
+      case "sov.dns": return [dnsLink(dom || h, "NS")];
+      case "sov.hosting": return [...new Set(ips)];
+      case "sec.tls13": case "sec.pqc": return [labsLink(h)];
+      case "prv.ech": return [dnsLink(h, "HTTPS")];
+      default: return [];
+    }
+  }
+  function loadResources(level, id) {
+    const key = level + "-" + id;
+    if (cache[key]) return Promise.resolve(cache[key]);
+    return fetch("data/resources/" + key + ".json").then((r) => (r.ok ? r.json() : [])).then((d) => (cache[key] = d));
+  }
+  function resourceList(level, id) {
+    const e = state.data.entities[level][id];
+    const panel = document.getElementById("panel");
+    panel.innerHTML = '<p class="muted">' + esc(t("loading")) + "</p>";
+    loadResources(level, id).then((list) => {
+      const rows = list.map((r, i) => '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) +
+        (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (r.ko ? ' <span class="chip">K.-o.</span>' : "") +
+        '</td><td class="num">' + fmt(r.o) + "</td><td>" + chip(lightOf(r.o), " ") + "</td></tr>").join("");
+      panel.innerHTML = '<button class="close" data-sel="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
+        "<h2>" + esc(e.n) + '</h2><p class="sub">' + esc(t("res_title")) + ": " + list.length + "</p>" +
+        '<table><thead><tr><th>Hostname</th><th class="num">TM</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>";
+    });
+  }
+  function resourceDetail(level, id, idx) {
+    const e = state.data.entities[level][id];
+    const r = cache[level + "-" + id][idx];
+    const dom = (e.d || []).find((d) => r.h === d || r.h.endsWith("." + d)) || "";
+    const panel = document.getElementById("panel");
+    const chk = r.chk.map(([cid, st, val, method, ev]) => {
+      const links = checkLinks(cid, r, dom).filter(Boolean).join(" · ");
+      return '<tr><td>' + esc(t(cid)) + '<br><span class="st ' + (st === "n/a" ? "na" : st === "partial" ? "na" : st) + '">' +
+        esc(t("status_" + st)) + "</span>" + '<span class="src">' + esc(method) + "</span></td>" +
+        '<td class="ev">' + esc(String(val === null || val === undefined ? "" : val)) + (ev ? '<span class="src">' + esc(ev) + "</span>" : "") +
+        '</td><td class="srccell">' + links + "</td></tr>";
+    }).join("");
+    const eps = (r.ep || []).map((x) => "<tr><td>" + esc(x.ip) + '<span class="src">' + (x.at ? esc(t("checked")) + " " + esc(x.at) : esc(t("not_probed"))) +
+      "</span></td><td>" + esc(x.tls || "") + (x.grp ? '<span class="src">' + esc(x.grp) + (x.pq ? " · PQ " + esc(x.pq) : "") + "</span>" : "") +
+      "</td><td>" + esc(x.val || "") + (x.rev ? '<span class="src">' + esc(x.revm || "") + " " + esc(x.rev) + " · SCT " + (x.scts || 0) + "</span>" : "") +
+      (x.err ? '<span class="src">' + esc(x.err) + "</span>" : "") + "</td><td>" + asLink(x.asn) + '<span class="src">' + esc(x.as || "") + " " + esc(x.cc || "") + "</span></td></tr>").join("");
+    const c = r.cert;
+    panel.innerHTML = '<button class="close" data-res="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
+      "<h2>" + esc(r.h) + '</h2><p class="sub">' + esc(e.n) + (r.crit ? " · " + esc(t("crit_tag")) : "") + "</p>" +
+      (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + "</p>" : "") +
+      '<div class="tmhead"><span class="v">' + fmt(r.o) + "</span>" + chip(lightOf(r.o)) + "</div>" +
+      [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]].map(([k, m]) =>
+        '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(r.c ? r.c[k] : null) + "</span>" + chip(lightOf(r.c ? r.c[k] : null)) + "</div>").join("") +
+      "<h3>" + esc(t("checks")) + '</h3><table class="checks-t"><thead><tr><th>' + esc(t("check_col")) + "</th><th>" + esc(t("value_col")) +
+      "</th><th>" + esc(t("verify_at")) + "</th></tr></thead><tbody>" + chk + "</tbody></table>" +
+      "<h3>" + esc(t("cert")) + '</h3><p class="sub">' + esc(c.val) + " · " + esc(c.org) + " · " + esc(c.iss) + " · " + esc((c.exp || "").slice(0, 10)) +
+      "<br>Root: " + esc(r.root.name) + " (" + esc(r.root.owner) + ", " + esc(r.root.cc) + ") · " + ctLink(c) + " · " + labsLink(r.h) + "</p>" +
+      "<h3>" + esc(t("endpoints")) + "</h3><table><thead><tr><th>" + esc(t("ip_col")) + "</th><th>TLS</th><th>" + esc(t("cert")) +
+      "</th><th>" + esc(t("net_col")) + "</th></tr></thead><tbody>" + eps + "</tbody></table>";
   }
 
   function overview() {
@@ -272,6 +373,10 @@
     const lvl = ev.target.closest("[data-level]");
     if (lvl) { state.level = lvl.dataset.level; applyI18n(); draw(); refreshPanel(); fillSearch(); return; }
     if (ev.target.closest("[data-close]")) { select(null, null); return; }
+    const res = ev.target.closest("[data-res]");
+    if (res) { const [l, i] = res.dataset.res.split(":"); resourceList(l, i); return; }
+    const rd = ev.target.closest("[data-rdetail]");
+    if (rd) { const [l, i, k] = rd.dataset.rdetail.split(":"); resourceDetail(l, i, Number(k)); return; }
     const sel = ev.target.closest("[data-sel]");
     if (sel) { const [l, i] = sel.dataset.sel.split(":"); select(l, i); return; }
     const srt = ev.target.closest("[data-sort]");

@@ -3,7 +3,7 @@ name: publish map
 on:
   push:
     branches: [main]
-    paths: ["web/**", "output/latest/map.json"]
+    paths: ["web/**", "output/latest/**"]
   workflow_run:
     workflows: ["monthly snapshot"]
     types: [completed]
@@ -37,6 +37,7 @@ jobs:
           curl -fsSL -o site/data/ch-combined.json https://unpkg.com/swiss-maps@4.7.0/2026/ch-combined.json
           if [ -f output/latest/map.json ]; then
             cp output/latest/map.json site/data/map.json
+            if [ -d output/latest/resources ]; then cp -r output/latest/resources site/data/resources; fi
           else
             cp web/data/map.json site/data/map.json
           fi

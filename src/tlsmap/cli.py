@@ -49,8 +49,13 @@ def cmd_run(a) -> int:
     paths = write_all(result, out_dir, registry, meta)
     latest = Path(a.out) / "latest"
     latest.mkdir(parents=True, exist_ok=True)
+    import shutil
     for p in paths.values():
-        (latest / p.name).write_bytes(p.read_bytes())
+        if p.is_dir():
+            shutil.rmtree(latest / p.name, ignore_errors=True)
+            shutil.copytree(p, latest / p.name)
+        else:
+            (latest / p.name).write_bytes(p.read_bytes())
     print(json.dumps({k: str(v) for k, v in paths.items()}, indent=1))
     unknown = Counter(r["issuer_org"] for r in result["hostnames"] if r["ca_id"] == "unknown")
     if unknown:

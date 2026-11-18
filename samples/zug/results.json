@@ -2,8 +2,8 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T23:28:44Z",
-  "finished": "2026-11-18T23:29:02Z",
+  "started": "2026-11-18T23:40:00Z",
+  "finished": "2026-11-18T23:40:01Z",
   "entities": {
    "canton": 1,
    "municipality": 11
@@ -20,15 +20,15 @@
   "settings_sha256": "d80a1cefd7a64b1b",
   "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
-  "ccadb_fetched": "2026-11-18T23:28:44Z",
+  "ccadb_fetched": "2026-11-18T23:40:01Z",
   "python": "3.13.18",
   "http": {
-   "requests": 918,
-   "cache_hits": 1153,
+   "requests": 0,
+   "cache_hits": 2071,
    "errors": 0
   }
  },
- "generated": "2026-11-18T23:28:44Z",
+ "generated": "2026-11-18T23:40:00Z",
  "entities": [
   {
    "key": "canton:9",
@@ -269,25 +269,29 @@
      "providers": [
       {
        "ns": "a.zg-ns.ch",
-       "as_name": "RCODEZERO-ANYCAST-SEC1-TLD - ipcom GmbH, AT",
+       "asn": "1921",
+       "as_name": "ipcom GmbH",
        "country": "AT",
        "zone": "eea"
       },
       {
        "ns": "a.zg-ns.net",
-       "as_name": "RCODEZERO-ANYCAST-SEC1-TLD - ipcom GmbH, AT",
+       "asn": "1921",
+       "as_name": "ipcom GmbH",
        "country": "AT",
        "zone": "eea"
       },
       {
        "ns": "b.zg-ns.ch",
-       "as_name": "KNIPP-IRONDNS1-AS - Knipp Medien und Kommunikation GmbH, DE",
+       "asn": "50611",
+       "as_name": "Knipp Medien und Kommunikation GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "b.zg-ns.net",
-       "as_name": "KNIPP-AS - Knipp Medien und Kommunikation GmbH, DE",
+       "asn": "8391",
+       "as_name": "Knipp Medien und Kommunikation GmbH",
        "country": "DE",
        "zone": "eea"
       }
@@ -502,19 +506,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -729,19 +736,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -963,13 +973,15 @@
      "providers": [
       {
        "ns": "ns29.tophost.ch",
-       "as_name": "NOVATREND-AS - NovaTrend Services GmbH, CH",
+       "asn": "35206",
+       "as_name": "NovaTrend Services GmbH",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "ns30.tophost.ch",
-       "as_name": "NOVATREND-AS - NovaTrend Services GmbH, CH",
+       "asn": "35206",
+       "as_name": "NovaTrend Services GmbH",
        "country": "CH",
        "zone": "ch"
       }
@@ -1192,19 +1204,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -1419,19 +1434,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -1646,19 +1664,22 @@
      "providers": [
       {
        "ns": "dns1.i-web.ch",
-       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "asn": "3303",
+       "as_name": "Swisscom (Schweiz) AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "dns2.i-web.ch",
-       "as_name": "exoscale - Akenes SA, CH",
+       "asn": "61098",
+       "as_name": "Akenes SA",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "dns3.i-web.ch",
-       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "asn": "3303",
+       "as_name": "Swisscom (Schweiz) AG",
        "country": "CH",
        "zone": "ch"
       }
@@ -1873,19 +1894,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -2101,19 +2125,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -2328,19 +2355,22 @@
      "providers": [
       {
        "ns": "dns1.i-web.ch",
-       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "asn": "3303",
+       "as_name": "Swisscom (Schweiz) AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "dns2.i-web.ch",
-       "as_name": "exoscale - Akenes SA, CH",
+       "asn": "61098",
+       "as_name": "Akenes SA",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "dns3.i-web.ch",
-       "as_name": "SWISSCOM - Swisscom (Schweiz) AG, CH",
+       "asn": "3303",
+       "as_name": "Swisscom (Schweiz) AG",
        "country": "CH",
        "zone": "ch"
       }
@@ -2547,19 +2577,22 @@
      "providers": [
       {
        "ns": "ns1.backslash.ch",
-       "as_name": "SOLNET - BSE Software GmbH, CH",
+       "asn": "9044",
+       "as_name": "BSE Software GmbH",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "ns2.backslash.ch",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       },
       {
        "ns": "ns3.backslash.ch",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       }
@@ -2797,19 +2830,22 @@
      "providers": [
       {
        "ns": "ch.ch-inter.net",
-       "as_name": "ASN-METANET - METANET AG, CH",
+       "asn": "21069",
+       "as_name": "METANET AG",
        "country": "CH",
        "zone": "ch"
       },
       {
        "ns": "de.ch-inter.net",
-       "as_name": "HETZNER-AS - Hetzner Online GmbH, DE",
+       "asn": "24940",
+       "as_name": "Hetzner Online GmbH",
        "country": "DE",
        "zone": "eea"
       },
       {
        "ns": "nl.ch-inter.net",
-       "as_name": "LEASEWEB-NL-AMS-01 - LeaseWeb Netherlands B.V., NL",
+       "asn": "60781",
+       "as_name": "LeaseWeb Netherlands B.V.",
        "country": "NL",
        "zone": "eea"
       }
@@ -2908,9 +2944,9 @@
  "probe_caps": {},
  "ct_lag_days": 38.3,
  "http_stats": {
-  "requests": 918,
-  "cache_hits": 1153,
+  "requests": 0,
+  "cache_hits": 2071,
   "errors": 0
  },
- "ccadb_fetched": "2026-11-18T23:28:44Z"
+ "ccadb_fetched": "2026-11-18T23:40:01Z"
 }

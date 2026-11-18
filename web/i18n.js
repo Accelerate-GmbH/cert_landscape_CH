@@ -1,6 +1,8 @@
 /* Interface texts. Swiss German orthography (ss, no ß). */
 window.I18N = {
   de: {
+    res_title: "Ressourcen", res_show: "Alle Hostnamen mit Prüfergebnissen anzeigen", back: "Zurück", endpoints: "Endpunkte (A/AAAA)", cert: "Zertifikat", value_col: "Wert", evidence_col: "Nachweis", verify_at: "Nachprüfen", crit_tag: "kritisch", checked: "geprüft", not_probed: "nicht live geprüft", loading: "Lade …", status_pass: "erfüllt", status_partial: "teilweise", status_fail: "nicht erfüllt", "status_n/a": "nicht beurteilt", ip_col: "Adresse", net_col: "Netz",
+    source_col: "Quelle", src_tls: "TLS-Prüfung live", src_revocation: "OCSP/CRL der CA", src_sct: "SCT im Zertifikat", src_dns: "DNS", src_name: "Hostname", src_ct: "Certificate Transparency",
     m_tm: "TrustMark gesamt", m_tm_d: "Gewichteter Gesamtwert der vier Kategorien (Entwurf v0.1). Grün ab 80, gelb ab 50.",
     m_tm_own: "Eigentümerschaft & Schutz", m_tm_own_d: "OV/EV-Zertifikat auf allen Endpunkten, Sperrstatus, DNSSEC, CAA, CT.",
     m_tm_sov: "Technologische Souveränität", m_tm_sov_d: "Domizil von Root-CA, DNS-Anbieter und Hosting; Schweizer TLD.",
@@ -49,6 +51,8 @@ window.I18N = {
     method: "Methode", rating_doc: "Bewertung", source: "Quellcode und Daten", close: "Schliessen", table: "Tabelle",
   },
   fr: {
+    res_title: "Ressources", res_show: "Afficher tous les noms d’hôte avec résultats", back: "Retour", endpoints: "Points d’accès (A/AAAA)", cert: "Certificat", value_col: "Valeur", evidence_col: "Preuve", verify_at: "Vérifier", crit_tag: "critique", checked: "contrôlé", not_probed: "pas contrôlé en direct", loading: "Chargement …", status_pass: "rempli", status_partial: "partiel", status_fail: "non rempli", "status_n/a": "non évalué", ip_col: "Adresse", net_col: "Réseau",
+    source_col: "Source", src_tls: "Contrôle TLS en direct", src_revocation: "OCSP/CRL de l’AC", src_sct: "SCT dans le certificat", src_dns: "DNS", src_name: "Nom d’hôte", src_ct: "Certificate Transparency",
     m_tm: "TrustMark global", m_tm_d: "Score pondéré des quatre catégories (projet v0.1). Vert dès 80, jaune dès 50.",
     m_tm_own: "Propriété & protection", m_tm_own_d: "Certificat OV/EV sur tous les points d’accès, révocation, DNSSEC, CAA, CT.",
     m_tm_sov: "Souveraineté technologique", m_tm_sov_d: "Domicile de l’AC racine, du fournisseur DNS et de l’hébergement ; TLD suisse.",
@@ -97,6 +101,8 @@ window.I18N = {
     method: "Méthode", rating_doc: "Évaluation", source: "Code source et données", close: "Fermer", table: "Tableau",
   },
   it: {
+    res_title: "Risorse", res_show: "Mostra tutti i nomi host con i risultati", back: "Indietro", endpoints: "Endpoint (A/AAAA)", cert: "Certificato", value_col: "Valore", evidence_col: "Prova", verify_at: "Verificare", crit_tag: "critico", checked: "controllato", not_probed: "non controllato in tempo reale", loading: "Caricamento …", status_pass: "soddisfatto", status_partial: "parziale", status_fail: "non soddisfatto", "status_n/a": "non valutato", ip_col: "Indirizzo", net_col: "Rete",
+    source_col: "Fonte", src_tls: "Controllo TLS in tempo reale", src_revocation: "OCSP/CRL della CA", src_sct: "SCT nel certificato", src_dns: "DNS", src_name: "Nome host", src_ct: "Certificate Transparency",
     m_tm: "TrustMark complessivo", m_tm_d: "Punteggio ponderato delle quattro categorie (bozza v0.1). Verde da 80, giallo da 50.",
     m_tm_own: "Proprietà e protezione", m_tm_own_d: "Certificato OV/EV su tutti gli endpoint, revoca, DNSSEC, CAA, CT.",
     m_tm_sov: "Sovranità tecnologica", m_tm_sov_d: "Domicilio della CA radice, del fornitore DNS e dell’hosting; TLD svizzero.",
@@ -145,6 +151,8 @@ window.I18N = {
     method: "Metodo", rating_doc: "Valutazione", source: "Codice sorgente e dati", close: "Chiudi", table: "Tabella",
   },
   en: {
+    res_title: "Resources", res_show: "Show all hostnames with check results", back: "Back", endpoints: "Endpoints (A/AAAA)", cert: "Certificate", value_col: "Value", evidence_col: "Evidence", verify_at: "Verify", crit_tag: "critical", checked: "checked", not_probed: "not checked live", loading: "Loading …", status_pass: "passed", status_partial: "partial", status_fail: "failed", "status_n/a": "not assessed", ip_col: "Address", net_col: "Network",
+    source_col: "Source", src_tls: "Live TLS check", src_revocation: "CA OCSP/CRL", src_sct: "SCT in certificate", src_dns: "DNS", src_name: "Hostname", src_ct: "Certificate Transparency",
     m_tm: "TrustMark overall", m_tm_d: "Weighted score of the four categories (draft v0.1). Green from 80, yellow from 50.",
     m_tm_own: "Ownership & protection", m_tm_own_d: "OV/EV certificate on every endpoint, revocation, DNSSEC, CAA, CT.",
     m_tm_sov: "Technology sovereignty", m_tm_sov_d: "Domicile of root CA, DNS provider and hosting; Swiss TLD.",

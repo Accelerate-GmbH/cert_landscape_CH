@@ -64,7 +64,8 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
         add("own.revocation", "fail", "revoked", "ocsp/crl")
     elif all(s == "good" for s in revs):
         methods = sorted({e["revocation"].get("method", "") for e in eps if e.get("revocation")})
-        add("own.revocation", "pass", "good", "/".join(methods))
+        urls = sorted({e["revocation"].get("url", "") for e in eps if e.get("revocation", {}).get("url")})
+        add("own.revocation", "pass", "good", "/".join(methods), " ".join(urls))
     else:
         add("own.revocation", "n/a", "unknown", "ocsp/crl", "no responder or CRL reachable")
     add("own.dnssec", "pass" if r.get("dnssec") else "fail", bool(r.get("dnssec")), "dns-ad")
@@ -82,7 +83,8 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
     add("sov.ca", {"ch": "pass", "eea": "partial"}.get(r.get("root_zone"), "fail" if r.get("root_zone") else "n/a"),
         f"{r.get('root_owner', '')} ({r.get('root_country', '')})", "ccadb-root", r.get("root_name", ""))
     ns_zones = ctx.get("ns_zones") or []
-    add("sov.dns", _zone_status(ns_zones), ", ".join(ctx.get("ns_providers") or []), "dns-ns-asn")
+    add("sov.dns", _zone_status(ns_zones), ", ".join(ctx.get("ns_providers") or []), "dns-ns-asn",
+        ctx.get("ns_domain", ""))
     host_zones = r.get("hosting_zones") or []
     add("sov.hosting", _zone_status(host_zones), ", ".join(sorted(set(r.get("hosting_as") or []))), "asn")
     tld = r.get("tld", "")
