@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      back_github: "Zurück zu GitHub",
       level_federal: "Bund", level_sector: "Kritische Dienste", fed_table_title: "Bundesverwaltung", fed_total: "Bundesverwaltung gesamt, gewichtet nach Anzahl Dienste",
       fed_intro: "Departemente mit ihren Ämtern, dazu Bundeskanzlei sowie Gerichte und Parlament. Klick auf eine Zeile für Details, auf einen Wert für seine Herleitung.",
       fed_none: "Die Bundesverwaltung ist erst seit diesem Monat im Lauf. Die Ergebnisse erscheinen, sobald der Lauf abgeschlossen ist.",
@@ -22,7 +23,7 @@ window.GUIDE = {
       hosts_here: "Hosts", hosts_sorted: "Sortiert nach Bewertung, tiefste zuerst. Klick zeigt alle Prüfungen des Hosts.", measured_at: "gemessen bei {x}",
       fed_title: "Bund", fed_note: "Departemente, Ämter, Gerichte und Parlament. Klicken für Details.",
       t_canton: "Kanton", t_municipality: "Gemeinde", t_federal: "Bund", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
-      no_match: "Keine Treffer", searching: "Suche …", search: "Kanton, Gemeinde, Bund, Domain oder Host",
+      no_match: "Keine Treffer", searching: "Suche …", search: "Ort, Amt, Domain oder Host suchen",
       view: "Ansicht", view_simple: "Einfach", view_expert: "Fachlich", help: "Erklärungen",
       help_title: "So funktioniert die Karte", help_more: "Ausführliche Methode (GitHub)",
       verdict_green: "Gut aufgestellt", verdict_yellow: "Teilweise gut aufgestellt", verdict_red: "Deutlicher Handlungsbedarf", verdict_none: "Noch nicht bewertet",
@@ -130,6 +131,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      back_github: "Retour à GitHub",
       level_federal: "Confédération", level_sector: "Services critiques", fed_table_title: "Administration fédérale", fed_total: "Administration fédérale au total, pondérée par le nombre de services",
       fed_intro: "Départements avec leurs offices, plus la Chancellerie fédérale ainsi que les tribunaux et le parlement. Cliquez sur une ligne pour les détails, sur une valeur pour son calcul.",
       fed_none: "L’administration fédérale fait partie du passage depuis ce mois. Les résultats apparaissent dès que le passage est terminé.",
@@ -146,7 +148,7 @@ window.GUIDE = {
       hosts_here: "Hôtes", hosts_sorted: "Triés par évaluation, la plus basse d’abord. Cliquez pour voir tous les contrôles de l’hôte.", measured_at: "mesuré chez {x}",
       fed_title: "Confédération", fed_note: "Départements, offices, tribunaux et parlement. Cliquez pour les détails.",
       t_canton: "Canton", t_municipality: "Commune", t_federal: "Confédération", t_organisation: "Organisation", t_domain: "Domaine", t_host: "Hôte",
-      no_match: "Aucun résultat", searching: "Recherche …", search: "Canton, commune, Confédération, domaine ou hôte",
+      no_match: "Aucun résultat", searching: "Recherche …", search: "Lieu, office, domaine ou hôte",
       view: "Affichage", view_simple: "Simple", view_expert: "Expert", help: "Explications",
       help_title: "Comment lire la carte", help_more: "Méthode détaillée (GitHub)",
       verdict_green: "Bien positionné", verdict_yellow: "Partiellement bien positionné", verdict_red: "Action nécessaire", verdict_none: "Pas encore évalué",
@@ -254,6 +256,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      back_github: "Torna a GitHub",
       level_federal: "Confederazione", level_sector: "Servizi critici", fed_table_title: "Amministrazione federale", fed_total: "Amministrazione federale nel complesso, ponderata per numero di servizi",
       fed_intro: "Dipartimenti con i loro uffici, più la Cancelleria federale nonché tribunali e parlamento. Cliccare su una riga per i dettagli, su un valore per il suo calcolo.",
       fed_none: "L’amministrazione federale fa parte dell’esecuzione da questo mese. I risultati compaiono appena l’esecuzione è conclusa.",
@@ -270,7 +273,7 @@ window.GUIDE = {
       hosts_here: "Host", hosts_sorted: "Ordinati per valutazione, la più bassa prima. Cliccare per tutti i controlli dell’host.", measured_at: "misurato presso {x}",
       fed_title: "Confederazione", fed_note: "Dipartimenti, uffici, tribunali e parlamento. Cliccare per i dettagli.",
       t_canton: "Cantone", t_municipality: "Comune", t_federal: "Confederazione", t_organisation: "Organizzazione", t_domain: "Dominio", t_host: "Host",
-      no_match: "Nessun risultato", searching: "Ricerca …", search: "Cantone, comune, Confederazione, dominio o host",
+      no_match: "Nessun risultato", searching: "Ricerca …", search: "Luogo, ufficio, dominio o host",
       view: "Visualizzazione", view_simple: "Semplice", view_expert: "Esperto", help: "Spiegazioni",
       help_title: "Come leggere la carta", help_more: "Metodo dettagliato (GitHub)",
       verdict_green: "Ben posizionato", verdict_yellow: "Parzialmente ben posizionato", verdict_red: "Interventi necessari", verdict_none: "Non ancora valutato",
@@ -378,6 +381,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      back_github: "Back to GitHub",
       level_federal: "Federal", level_sector: "Critical services", fed_table_title: "Federal administration", fed_total: "Federal administration overall, weighted by number of services",
       fed_intro: "Departments with their offices, plus the Federal Chancellery, the courts and parliament. Click a row for details, a value for how it is calculated.",
       fed_none: "The federal administration is part of the run from this month. Results appear as soon as the run has finished.",
@@ -394,7 +398,7 @@ window.GUIDE = {
       hosts_here: "Hosts", hosts_sorted: "Sorted by rating, lowest first. Click to see all checks of the host.", measured_at: "measured at {x}",
       fed_title: "Federal", fed_note: "Departments, offices, courts and parliament. Click for details.",
       t_canton: "Canton", t_municipality: "Municipality", t_federal: "Federal", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
-      no_match: "No matches", searching: "Searching …", search: "Canton, municipality, federal, domain or host",
+      no_match: "No matches", searching: "Searching …", search: "Place, office, domain or host",
       view: "View", view_simple: "Simple", view_expert: "Expert", help: "Explanations",
       help_title: "How to read the map", help_more: "Full method (GitHub)",
       verdict_green: "In good shape", verdict_yellow: "Partly in good shape", verdict_red: "Clear need for action", verdict_none: "Not rated yet",
