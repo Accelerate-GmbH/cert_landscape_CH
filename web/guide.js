@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      level_hosts: "Alle Hosts", hosts_title: "Alle Hosts", col_owner: "Betreiber", col_type: "Art", type_all: "alle Arten", only_crit: "nur kritische", prev: "zurück", next: "weiter", rows_shown: "{a}–{b} von {n}", hosts_filter: "Host oder Betreiber filtern", hosts_csv: "Ganze Liste als CSV", hosts_intro: "Alle bewerteten Hosts von Kantonen, Gemeinden, Bund und kritischen Diensten. Klick auf eine Spalte sortiert, Klick auf einen Host zeigt alle Prüfungen.", hosts_panel: "{n} Hosts mit Bewertung, nach Ampel:",
       pq_preferred: "bevorzugt", pq_enabled: "angeboten", pq_no: "nicht angeboten",
       hosts_sorted_col: "Wert der gewählten Spalte pro Host, tiefster zuerst. Klick zeigt alle Prüfungen des Hosts.", orgs_mean_col: "Mittel der Hosts in dieser Gruppe für die gewählte Spalte. Klick zeigt die Organisation.",
       back_github: "Zurück zu GitHub",
@@ -133,6 +134,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      level_hosts: "Tous les hôtes", hosts_title: "Tous les hôtes", col_owner: "Exploitant", col_type: "Type", type_all: "tous les types", only_crit: "critiques seulement", prev: "précédent", next: "suivant", rows_shown: "{a}–{b} sur {n}", hosts_filter: "Filtrer hôte ou exploitant", hosts_csv: "Liste complète en CSV", hosts_intro: "Tous les hôtes évalués des cantons, communes, de la Confédération et des services critiques. Cliquez sur une colonne pour trier, sur un hôte pour voir tous ses contrôles.", hosts_panel: "{n} hôtes évalués, par couleur :",
       pq_preferred: "préféré", pq_enabled: "proposé", pq_no: "non proposé",
       hosts_sorted_col: "Valeur de la colonne choisie par hôte, la plus basse d’abord. Cliquez pour voir tous les contrôles de l’hôte.", orgs_mean_col: "Moyenne des hôtes de ce groupe pour la colonne choisie. Cliquez pour voir l’organisation.",
       back_github: "Retour à GitHub",
@@ -260,6 +262,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      level_hosts: "Tutti gli host", hosts_title: "Tutti gli host", col_owner: "Gestore", col_type: "Tipo", type_all: "tutti i tipi", only_crit: "solo critici", prev: "indietro", next: "avanti", rows_shown: "{a}–{b} di {n}", hosts_filter: "Filtra host o gestore", hosts_csv: "Elenco completo in CSV", hosts_intro: "Tutti gli host valutati di cantoni, comuni, Confederazione e servizi critici. Cliccare su una colonna per ordinare, su un host per tutti i controlli.", hosts_panel: "{n} host valutati, per colore:",
       pq_preferred: "preferito", pq_enabled: "offerto", pq_no: "non offerto",
       hosts_sorted_col: "Valore della colonna scelta per host, il più basso prima. Cliccare per tutti i controlli dell’host.", orgs_mean_col: "Media degli host di questo gruppo per la colonna scelta. Cliccare per l’organizzazione.",
       back_github: "Torna a GitHub",
@@ -387,6 +390,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      level_hosts: "All hosts", hosts_title: "All hosts", col_owner: "Operator", col_type: "Type", type_all: "all types", only_crit: "critical only", prev: "previous", next: "next", rows_shown: "{a}–{b} of {n}", hosts_filter: "Filter host or operator", hosts_csv: "Full list as CSV", hosts_intro: "All rated hosts of cantons, municipalities, the federal administration and critical services. Click a column to sort, a host to see all its checks.", hosts_panel: "{n} rated hosts, by colour:",
       pq_preferred: "preferred", pq_enabled: "offered", pq_no: "not offered",
       hosts_sorted_col: "Value of the chosen column per host, lowest first. Click to see all checks of the host.", orgs_mean_col: "Mean of the hosts in this group for the chosen column. Click to see the organisation.",
       back_github: "Back to GitHub",

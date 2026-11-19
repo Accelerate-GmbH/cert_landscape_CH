@@ -40,6 +40,7 @@ jobs:
             cp output/latest/map.json site/data/map.json
             if [ -d output/latest/resources ]; then cp -r output/latest/resources site/data/resources; fi
             if [ -f output/latest/search.json ]; then cp output/latest/search.json site/data/search.json; fi
+            if [ -f output/latest/hosts.json ]; then cp output/latest/hosts.json site/data/hosts.json; fi
           else
             cp web/data/map.json site/data/map.json
           fi

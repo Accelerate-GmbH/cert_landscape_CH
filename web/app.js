@@ -154,7 +154,7 @@
     document.getElementById("legend").hidden = sectorView;
     document.querySelector(".metric").hidden = sectorView;
     document.getElementById("orgtoggle").hidden = sectorView || !Object.keys(state.data.entities.organisation || {}).length;
-    if (sectorView) { if (state.level === "federal") renderFederal(); else renderMatrix(); return; }
+    if (sectorView) { if (state.level === "federal") renderFederal(); else if (state.level === "hosts") renderHosts(); else renderMatrix(); return; }
     setTimeout(() => map.invalidateSize(), 0);
     if (state.layer) state.layer.remove();
     const obj = state.level === "canton" ? state.topo.objects.cantons : state.topo.objects.municipalities;
@@ -556,7 +556,92 @@
       ' <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a>" + (linked ? " · " + esc(t("linked_note").replace("{n}", linked)) : "") + "</p>" + sel +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
   }
-  function isTable() { return state.level === "sector" || state.level === "federal"; }
+  function isTable() { return state.level === "sector" || state.level === "federal" || state.level === "hosts"; }
+
+  /* ---- all hosts: one sortable, filterable table ------------------------- */
+  const HL = { rows: null, loading: null, sort: { k: "o", dir: 1 }, q: "", type: "", crit: false, page: 0, size: 100 };
+  function loadHosts() {
+    if (HL.rows || HL.loading) return HL.loading || Promise.resolve(HL.rows);
+    const url = DATA_URL.replace(/map\.json(\?.*)?$/, "hosts.json") + "?v=" + BUILD;
+    HL.loading = fetch(url).then((r) => (r.ok ? r.json() : { rows: [] })).catch(() => ({ rows: [] })).then((j) => {
+      const order = j.order || CHECK_IDS;
+      HL.rows = (j.rows || []).map((x) => {
+        const [lvl, ...rest] = x[1].split(":"); const id = rest.join(":");
+        const e = (state.data.entities[lvl] || {})[id];
+        const st = {}; order.forEach((cid, i) => { st[cid] = (x[7] || "")[i] || "-"; });
+        return { h: x[0], key: x[1], lvl, id, owner: e ? e.n : x[1], o: x[2], c: { ownership: x[3], sovereignty: x[4], security: x[5], privacy: x[6] }, st, crit: !!x[8] };
+      });
+      return HL.rows;
+    });
+    return HL.loading;
+  }
+  const ST_VAL = { p: 2, h: 1, f: 0, "-": -1 };
+  function hostsFiltered() {
+    const q = HL.q.trim().toLowerCase();
+    let rows = HL.rows.filter((r) => (!HL.type || r.lvl === HL.type) && (!HL.crit || r.crit) &&
+      (!q || r.h.includes(q) || r.owner.toLowerCase().includes(q)));
+    const k = HL.sort.k, dir = HL.sort.dir;
+    const get = k === "h" ? (r) => r.h : k === "owner" ? (r) => r.owner : k === "type" ? (r) => r.lvl :
+      k === "o" ? (r) => r.o ?? -1 : k.startsWith("cat:") ? (r) => r.c[k.slice(4)] ?? -1 : (r) => ST_VAL[r.st[k.slice(4)]] ?? -1;
+    rows = rows.slice().sort((a, b) => { const va = get(a), vb = get(b); return (va > vb ? 1 : va < vb ? -1 : a.h.localeCompare(b.h)) * dir; });
+    return rows;
+  }
+  function stCell(st, title) {
+    const l = { p: "green", h: "yellow", f: "red" }[st];
+    if (!l) return '<td class="cell sup">–</td>';
+    return '<td class="cell stc" title="' + esc(title + ": " + t("status_" + ST_NAME[st])) + '" style="background:' + css(LIGHT_COLORS[l]) + '22;border-left:3px solid ' +
+      css(LIGHT_COLORS[l]) + '">' + { p: "✓", h: "½", f: "✗" }[st] + "</td>";
+  }
+  function renderHostsTable() {
+    const box = document.getElementById("hoststable");
+    if (!box) return;
+    if (!HL.rows) { box.innerHTML = '<p class="muted">' + esc(t("loading")) + "</p>"; return; }
+    const rows = hostsFiltered();
+    const pages = Math.max(1, Math.ceil(rows.length / HL.size));
+    HL.page = Math.min(HL.page, pages - 1);
+    const from = HL.page * HL.size, part = rows.slice(from, from + HL.size);
+    const th = (k, label, title) => '<th data-hsort="' + k + '"' + (title ? ' title="' + esc(title) + '"' : "") + ">" + esc(label) +
+      (HL.sort.k === k ? (HL.sort.dir < 0 ? " ↓" : " ↑") : "") + "</th>";
+    const head = th("h", t("t_host")) + th("owner", t("col_owner")) + th("type", t("col_type")) + th("o", simple() ? t("m_tm") : "TP") +
+      CATS.map(([c, m]) => th("cat:" + c, simple() ? t("m_" + m) : t({ tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" }[m]), t("m_" + m))).join("") +
+      (simple() ? "" : CHECK_IDS.map((cid) => th("chk:" + cid, CHECK_SHORT[cid], t(cid))).join(""));
+    const body = part.map((r) => '<tr class="click" data-hostrow="' + esc(r.key + "|" + r.h) + '"><td class="hn">' + esc(r.h) +
+      (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + "</td><td>" + esc(r.owner) + '</td><td class="src">' + esc(t(KIND_LABEL[r.lvl])) + "</td>" +
+      cell(r.o, t("m_tm"), null) + CATS.map(([c, m]) => cell(r.c[c], t("m_" + m), null)).join("") +
+      (simple() ? "" : CHECK_IDS.map((cid) => stCell(r.st[cid], t(cid))).join("")) + "</tr>").join("");
+    const pager = '<div class="pager"><span class="src">' + esc(t("rows_shown").replace("{a}", rows.length ? from + 1 : 0).replace("{b}", from + part.length).replace("{n}", rows.length)) + "</span> " +
+      '<button class="linkbtn" data-hpage="-1"' + (HL.page ? "" : " disabled") + ">← " + esc(t("prev")) + "</button> " +
+      '<button class="linkbtn" data-hpage="1"' + (HL.page < pages - 1 ? "" : " disabled") + ">" + esc(t("next")) + " →</button></div>";
+    box.innerHTML = pager + '<div class="hostswrap"><table class="hosts"><thead><tr>' + head + "</tr></thead><tbody>" + body + "</tbody></table></div>" + pager;
+  }
+  function renderHosts() {
+    const types = ["", "canton", "municipality", "federal", "organisation"];
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("hosts_title")) + '</h2><p class="sub">' + esc(t("hosts_intro")) +
+      ' <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/output/latest/hostnames.csv">' + esc(t("hosts_csv")) + "</a></p>" +
+      '<div class="hostfilters"><input id="hostq" type="search" autocomplete="off" placeholder="' + esc(t("hosts_filter")) + '" value="' + esc(HL.q) + '">' +
+      '<select id="hosttype">' + types.map((x) => '<option value="' + x + '"' + (x === HL.type ? " selected" : "") + ">" + esc(x ? t(KIND_LABEL[x]) : t("type_all")) + "</option>").join("") + "</select>" +
+      '<label><input type="checkbox" id="hostcrit"' + (HL.crit ? " checked" : "") + "> " + esc(t("only_crit")) + "</label></div>" +
+      '<div id="hoststable"></div>';
+    const q = document.getElementById("hostq");
+    let tmo = null;
+    q.addEventListener("input", () => { clearTimeout(tmo); tmo = setTimeout(() => { HL.q = q.value; HL.page = 0; renderHostsTable(); }, 150); });
+    document.getElementById("hosttype").addEventListener("change", (ev) => { HL.type = ev.target.value; HL.page = 0; renderHostsTable(); });
+    document.getElementById("hostcrit").addEventListener("change", (ev) => { HL.crit = ev.target.checked; HL.page = 0; renderHostsTable(); });
+    renderHostsTable();
+    loadHosts().then(renderHostsTable);
+  }
+  function overviewHosts() {
+    loadHosts().then(() => {
+      if (state.level !== "hosts" || state.selected) return;
+      const d = { green: 0, yellow: 0, red: 0 };
+      HL.rows.forEach((r) => { const l = lightOf(r.o); if (d[l] !== undefined) d[l]++; });
+      const n = HL.rows.length;
+      document.getElementById("panel").innerHTML = "<h2>" + esc(t("hosts_title")) + '</h2><p class="sub">' + esc(t("hosts_panel").replace("{n}", n.toLocaleString("de-CH"))) + "</p>" +
+        ["green", "yellow", "red"].map((k) => '<div class="lrow"><span class="sw" style="background:' + css(LIGHT_COLORS[k]) + '"></span><span><b>' +
+          esc(t("verdict_" + k)) + ":</b> " + d[k].toLocaleString("de-CH") + " (" + Math.round(100 * d[k] / (n || 1)) + " %)</span></div>").join("") +
+        '<p><button class="linkbtn" data-help="lights">' + esc(t("what_lights")) + "</button></p>";
+    });
+  }
 
   /* ---- federal level: departments as a table ------------------------------ */
   function fedEntries() {
@@ -1025,6 +1110,7 @@
   function overview() {
     if (state.level === "sector") { overviewSectors(); return; }
     if (state.level === "federal") { overviewFederal(); return; }
+    if (state.level === "hosts") { overviewHosts(); return; }
     if (simple()) { simpleOverview(); return; }
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
@@ -1076,6 +1162,12 @@
     if (vw) { state.view = vw.dataset.view; try { localStorage.setItem("view", state.view); } catch (e) { /* ignore */ }
       try { const u = new URL(location.href); u.searchParams.set("view", state.view); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
       applyI18n(); draw(); if (state.help) helpPanel(state.help); else refreshPanel(); return; }
+    const hs = ev.target.closest("[data-hsort]");
+    if (hs) { const k = hs.dataset.hsort; HL.sort = { k, dir: HL.sort.k === k ? -HL.sort.dir : (k === "h" || k === "owner" || k === "type" ? 1 : 1) }; HL.page = 0; renderHostsTable(); return; }
+    const hp2 = ev.target.closest("[data-hpage]");
+    if (hp2) { HL.page += Number(hp2.dataset.hpage); renderHostsTable(); document.getElementById("hoststable").scrollIntoView({ block: "start" }); return; }
+    const hr = ev.target.closest("[data-hostrow]");
+    if (hr) { const [key, host] = hr.dataset.hostrow.split("|"); const [l, ...rest] = key.split(":"); openHost(l, rest.join(":"), host, true); return; }
     const oh = ev.target.closest("[data-orghost]");
     if (oh) { const [oid, host] = oh.dataset.orghost.split("|"); openHost("organisation", oid, host, true); return; }
     const ft = ev.target.closest("[data-fedtoggle]");
@@ -1190,6 +1282,7 @@
       if (params.get("level") === "municipality" || (sel && sel.startsWith("municipality:"))) state.level = "municipality";
       if (params.get("level") === "federal" || (sel && sel.startsWith("federal:"))) state.level = "federal";
       if (params.get("level") === "sector") state.level = "sector";
+      if (params.get("level") === "hosts") state.level = "hosts";
       computeCenters(); fillSectors();
       applyI18n(); draw(); fillSearch();
       if (sel) { const [l, i] = sel.split(":"); select(l, i); } else overview();

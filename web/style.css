@@ -218,3 +218,14 @@ header .titles { flex: 1; min-width: 260px; }
 #metric { max-width: 210px; }
 #sectorfilter { max-width: 170px; }
 .searchwrap #search { width: 230px; }
+
+.hostfilters { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+.hostfilters #hostq { width: 280px; }
+.hostswrap { overflow-x: auto; }
+table.hosts td.hn { max-width: 300px; overflow-wrap: anywhere; }
+table.hosts th[data-hsort] { cursor: pointer; white-space: nowrap; user-select: none; }
+table.hosts th[data-hsort]:hover { color: var(--text-primary); }
+table.hosts td.stc { text-align: center; font-size: 12px; }
+.pager { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+.pager button[disabled] { opacity: .35; cursor: default; }
+table.hosts td { vertical-align: middle; }
