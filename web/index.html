@@ -23,7 +23,10 @@
     <div class="seg" role="group" aria-label="level">
       <button data-level="canton" data-i18n="level_canton"></button>
       <button data-level="municipality" data-i18n="level_municipality"></button>
+      <button data-level="sector" data-i18n="level_sector"></button>
     </div>
+    <label class="orgtoggle" id="orgtoggle"><input type="checkbox" id="showorgs" checked> <span data-i18n="orgs_layer"></span></label>
+    <select id="sectorfilter"><option value="" data-i18n="all_sectors"></option></select>
     <label class="metric">
       <span data-i18n="metric"></span>
       <select id="metric">
@@ -47,6 +50,7 @@
   <main>
     <section class="mapwrap">
       <div id="map" aria-label="map"></div>
+      <div id="matrix" hidden></div>
       <div class="legend" id="legend"></div>
       <div class="tooltip" id="tooltip" role="status" hidden></div>
     </section>

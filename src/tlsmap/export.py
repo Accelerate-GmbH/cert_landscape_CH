@@ -155,9 +155,76 @@ def _stack(e: dict) -> dict:
             "dnssec": any(z.get("dnssec_signed") for z in zone.values())}
 
 
+def _bfs_lookup() -> dict:
+    """(place name, canton code) -> BFS number, from the municipality list."""
+    from .config import CONFIG_DIR, DATA_DIR
+    import tomllib
+    code_of = {c["name"]: c["code"] for c in tomllib.load((CONFIG_DIR / "entities.toml").open("rb")).get("canton", [])}
+    out = {}
+    try:
+        data = json.loads((DATA_DIR / "municipalities_ch.json").read_text())
+    except FileNotFoundError:
+        return out
+    for m in data["municipalities"]:
+        name = m["name"].lower()
+        base = name.split(" (")[0]
+        cc = code_of.get(m.get("region", ""), "")
+        for n in {name, base}:
+            out[(n, cc)] = str(m["code"])
+            out.setdefault((n, ""), str(m["code"]))
+    return out
+
+
+def sector_json(result: dict) -> dict:
+    """Sector matrix: per sector, critical and other resources, with administrations as benchmark."""
+    from . import trustmark
+    from .config import load_settings
+    cfg = result.get("tm_cfg") or load_settings().raw["trustmark"]
+    vis = {e["key"]: e for e in result["entities"]}
+    groups: dict[tuple, list] = {}
+    for r in result["hostnames"]:
+        if not r.get("tm"):
+            continue
+        e = vis.get(r["entity"])
+        if not e or (e["kind"] == "organisation" and e.get("visibility") == "intern"):
+            continue
+        if e["kind"] == "organisation":
+            sec = r.get("sector") or e.get("sector") or "?"
+        else:
+            sec = {"canton": "@Kantone", "municipality": "@Gemeinden", "federal": "@Bund"}[e["kind"]]
+        groups.setdefault((sec, "krit" if r["critical"] else "other"), []).append(r)
+    sectors: dict[str, dict] = {}
+    for (sec, part), rows in groups.items():
+        agg = trustmark.aggregate(rows, {**cfg, "critical_resource_weight": 1})
+        d = sectors.setdefault(sec, {"orgs": set(), "hosts": 0, "subs": {}})
+        d[part] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
+                   "d": agg["distribution"], "ko": agg["knockouts"]}
+        d["hosts"] += len(rows)
+        for r in rows:
+            d["orgs"].add(r["entity"])
+            sub = r.get("subsector") or ""
+            if sub:
+                d["subs"][sub] = d["subs"].get(sub, 0) + 1
+    for sec, d in sectors.items():
+        rows = [r for (s2, _), rs in groups.items() if s2 == sec for r in rs]
+        agg = trustmark.aggregate(rows, cfg)
+        d["all"] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
+                    "d": agg["distribution"], "ko": agg["knockouts"]}
+        d["orgs"] = len(d["orgs"])
+        d["public"] = sum(1 for e in result["entities"] if e["kind"] == "organisation"
+                          and e.get("visibility") == "oeffentlich" and (e.get("sector") or "?") == sec)
+        if not sec.startswith("@") and d["orgs"] < cfg.get("min_orgs_per_sector", 5):
+            for part in ("krit", "other", "all"):
+                if part in d:
+                    d[part] = {"n": d[part]["n"], "suppressed": True}
+            d["suppressed"] = True
+    return sectors
+
+
 def map_json(result: dict, meta: dict) -> dict:
     """Compact per-entity data for the web map (web/)."""
-    ents: dict[str, dict] = {"canton": {}, "municipality": {}, "federal": {}}
+    ents: dict[str, dict] = {"canton": {}, "municipality": {}, "federal": {}, "organisation": {}}
+    bfs_of = _bfs_lookup()
     for e in result["entities"]:
         main = e["caa"].get(e["domains"][0]) if e["domains"] else None
         caa_state = None
@@ -184,17 +251,50 @@ def map_json(result: dict, meta: dict) -> dict:
             "tm": _tm_compact(e.get("trustmark") or {}),
             "stack": _stack(e),
         }
+        if e["kind"] == "organisation":
+            pl = e.get("place") or {}
+            ents["organisation"][e["id"]].update({
+                "sec": e.get("sector", ""), "sub": e.get("subsector", ""), "uid": e.get("uid", ""),
+                "ort": pl.get("ort", ""), "kt": pl.get("kanton", ""),
+                "bfs": bfs_of.get((pl.get("ort", "").lower(), pl.get("kanton", ""))) or bfs_of.get((pl.get("ort", "").lower(), "")),
+            })
     return {"generated": result["generated"], "ct_lag_days": result.get("ct_lag_days"),
             "ccadb_fetched": result.get("ccadb_fetched"),
             "ct_sources": meta.get("ct_sources_used", {}), "entities": ents}
 
 
+def is_public(e: dict) -> bool:
+    return e["kind"] != "organisation" or e.get("visibility") == "oeffentlich"
+
+
+def split_public(result: dict) -> dict:
+    """The result restricted to what may be published: administrations and
+    organisations marked 'oeffentlich'. Sector aggregates keep everything but
+    'intern'."""
+    pub_keys = {e["key"] for e in result["entities"] if is_public(e)}
+    out = dict(result)
+    out["entities"] = [e for e in result["entities"] if e["key"] in pub_keys]
+    out["hostnames"] = [r for r in result["hostnames"] if r["entity"] in pub_keys]
+    out["checklog"] = [x for x in result.get("checklog", []) if x["entity"] in pub_keys]
+    return out
+
+
 def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -> dict[str, Path]:
+    """Public files in out_dir; the complete set (all organisations) in out_dir/restricted."""
+    full = result
+    has_restricted = any(not is_public(e) for e in full["entities"])
+    paths = _write(split_public(full), out_dir, registry, run_meta, sectors_from=full)
+    if has_restricted:
+        _write(full, out_dir / "restricted", registry, run_meta, sectors_from=full)
+    return paths
+
+
+def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sectors_from: dict) -> dict[str, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = {}
 
     p = out_dir / "results.json"
-    p.write_text(json.dumps({"meta": run_meta, **{k: v for k, v in result.items() if k not in ("hostnames", "checklog")}},
+    p.write_text(json.dumps({"meta": run_meta, **{k: v for k, v in result.items() if k not in ("hostnames", "checklog", "tm_cfg")}},
                             ensure_ascii=False, indent=1))
     paths["results"] = p
 
@@ -239,9 +339,10 @@ def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -
     paths["entities"] = p
 
     compat = {"generated": result["generated"], "method": "tlsmap: hostnames in use, current certificate",
-              "cantons": {}, "municipalities": {}, "federal": {}}
+              "cantons": {}, "municipalities": {}, "federal": {}, "organisations": {}}
     for e in result["entities"]:
-        bucket = {"canton": "cantons", "municipality": "municipalities", "federal": "federal"}[e["kind"]]
+        bucket = {"canton": "cantons", "municipality": "municipalities", "federal": "federal",
+                  "organisation": "organisations"}[e["kind"]]
         compat[bucket][e["id"]] = compat_entry(e)
     compat["totalCantons"] = len(compat["cantons"])
     compat["totalMunicipalities"] = len(compat["municipalities"])
@@ -250,7 +351,9 @@ def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -
     paths["map"] = p
 
     p = out_dir / "map.json"
-    p.write_text(json.dumps(map_json(result, run_meta), ensure_ascii=False, separators=(",", ":")))
+    mj = map_json(result, run_meta)
+    mj["sectors"] = sector_json(sectors_from)
+    p.write_text(json.dumps(mj, ensure_ascii=False, separators=(",", ":")))
     paths["webmap"] = p
 
     rdir = out_dir / "resources"

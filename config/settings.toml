@@ -148,6 +148,9 @@ critical_resource_weight = 3
 swiss_tlds = ["ch", "swiss"]
 # Minimum embedded SCTs for the CT check (browsers require 2 to 3).
 min_scts = 2
+# Sector aggregates are only published from this many organisations on, so
+# that no single organisation's result can be read from a small sector.
+min_orgs_per_sector = 5
 
 # Weight of each check inside its category.
 [trustmark.checks]

@@ -22,7 +22,7 @@ def cmd_run(a) -> int:
     settings = load_settings(Path(a.settings) if a.settings else None)
     registry = Registry(Path(a.registry) if a.registry else None)
     kinds = [k.strip() for k in a.entities.split(",")]
-    ents = load_entities(kinds, canton_filter=a.canton)
+    ents = load_entities(kinds, canton_filter=a.canton, hosts_path=a.hosts)
     if a.limit:
         ents = ents[: a.limit]
     if not ents:
@@ -37,6 +37,7 @@ def cmd_run(a) -> int:
         "tool": "tlsmap", "version": __version__, "started": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "finished": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "entities": dict(Counter(e.kind for e in ents)), "canton_filter": a.canton,
+        "listed_hosts": sum(len(e.hosts) for e in ents),
         "ct_sources_used": dict(Counter(d["source"] for d in result["discovery"])),
         "ct_errors": sum(1 for d in result["discovery"] if d["error"]),
         "ct_lag_days": result.get("ct_lag_days"),
@@ -101,8 +102,9 @@ def main(argv: list[str] | None = None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     r = sub.add_parser("run", help="discover, classify, check DNS, score and export")
-    r.add_argument("--entities", default="cantons,municipalities",
-                   help="comma list of cantons, municipalities, federal")
+    r.add_argument("--entities", default="cantons,municipalities,organisations",
+                   help="comma list of cantons, municipalities, organisations, federal")
+    r.add_argument("--hosts", help="host list CSV for organisations (default data/hosts_ch.csv)")
     r.add_argument("--canton", help="only this canton and its municipalities (code, e.g. ZG)")
     r.add_argument("--limit", type=int, help="only the first N entities (testing)")
     r.add_argument("--cert-detail", choices=["none", "auto", "all"], default="auto",

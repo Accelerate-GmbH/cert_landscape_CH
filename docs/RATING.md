@@ -111,7 +111,29 @@ yellow and red resources, and the number of knock-outs.
 **TrustMark eligible** (proposal for the later signal): no knock-out and all
 four categories green.
 
-## 5. Logging
+## 5. Sectors and critical services
+
+Organisations from the host list are grouped by the sectors and sub-sectors
+of the national strategy for the protection of critical infrastructures
+(SKI, BABS). Each host has a service type; criticality follows from sector
+and service type (proposal, can be overridden per host):
+
+| Sector | Critical service types |
+|---|---|
+| Finance | login, transaction, API |
+| Health | customer portal (patient portal, EPD, referrers), login |
+| Energy | customer portal, remote access |
+| Information and communication | login, customer portal |
+| Transport | transaction (ticketing), API |
+| Authorities | customer portal (e-government), login, API (e-ID/swiyu) |
+| Other sectors | login, customer portal, remote access |
+
+The sector view shows each sector twice, for critical and other services,
+with cantons and municipalities as benchmark rows. A sector is only shown
+with at least five organisations. Organisations appear by name only if they
+are marked public in the host list.
+
+## 6. Logging
 
 Every check execution is written to `checks.jsonl`, one line per resource and
 check: time of the check, entity, hostname, check ID, category, result,
@@ -121,7 +143,7 @@ revocation method, certificate fingerprint) are in `endpoints.csv`. Together
 they let anyone retrace a score and are the basis for signed measurements
 later.
 
-## 6. Examples
+## 7. Examples
 
 | Resource | Situation | Result |
 |---|---|---|
@@ -129,7 +151,7 @@ later.
 | A municipal website | Let's Encrypt DV, no DNSSEC, no CAA, 2 SCTs; Swiss DNS, hosting on a US CDN; TLS 1.3, PQ preferred; no ECH | ownership 33, sovereignty 38, security 100, privacy 0 → overall 46, red |
 | Any resource with an expired certificate | – | knock-out, overall 0, red |
 
-## 7. Open questions for the standard's owners
+## 8. Open questions for the standard's owners
 
 1. **Weights.** Should sovereignty weigh as much as ownership, and privacy less while ECH is rare?
 2. **EEA partial credit.** Is an EU/EEA provider half as good as a Swiss one, or should only Swiss count?
@@ -140,3 +162,4 @@ later.
 7. **PQ "preferred".** The test requires the server to choose the hybrid group when the client lists X25519 first. Is "enabled" enough for v1?
 8. **Thresholds.** Green from 80 or from 90?
 9. **Incomplete chains.** In the first Zug run, 15 of 313 endpoints did not send their intermediate certificate. Knock-out, a failed check, or report only (current proposal)?
+10. **Critical services.** Should DV on a critical service turn the ownership category red regardless of the other checks?

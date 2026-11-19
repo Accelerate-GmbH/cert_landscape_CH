@@ -181,3 +181,32 @@ def test_map_json_shape():
     m = map_json({"generated": "2026-11-19T00:00:00Z", "entities": [e]}, {})
     z = m["entities"]["canton"]["9"]
     assert z["caa"] == "swiss" and z["gp"] == 100 and z["cas"][0] == ["SwissSign", "CH", "ch", 2]
+
+
+def test_host_list_organisations(tmp_path):
+    from tlsmap.config import load_organisations
+    csv_path = tmp_path / "hosts.csv"
+    csv_path.write_text(
+        "hostname,begruendung,organisation,uid,sektor,teilsektor,service_typ,kritisch,plz,ort,kanton,quelle_url,sichtbarkeit,sicherheit,bemerkung\n"
+        "ebanking.beispielbank.ch,x,Beispielbank AG,CHE-000.000.001,Finanzen,Banken,login,ja,8000,Zürich,ZH,,aggregat,hoch,\n"
+        "www.beispielbank.ch,x,Beispielbank AG,CHE-000.000.001,Finanzen,Banken,website,,8000,Zürich,ZH,,aggregat,hoch,\n"
+        "www.example-energie.ch,x,Energie Beispiel AG,,Energie,Strom,website,nein,6300,Zug,ZG,,oeffentlich,hoch,\n", encoding="utf-8")
+    orgs = load_organisations(csv_path)
+    assert len(orgs) == 2
+    bank = next(o for o in orgs if o.name == "Beispielbank AG")
+    assert bank.kind == "organisation" and bank.domains == ["beispielbank.ch"] and bank.visibility == "aggregat"
+    assert bank.hosts["ebanking.beispielbank.ch"]["critical"] is True
+    assert bank.hosts["www.beispielbank.ch"]["critical"] is None      # derived later
+    assert load_organisations(csv_path, canton_filter="ZG")[0].name == "Energie Beispiel AG"
+
+
+def test_public_split_hides_aggregate_organisations():
+    from tlsmap.export import split_public
+    res = {"entities": [{"key": "canton:9", "kind": "canton"},
+                        {"key": "organisation:a", "kind": "organisation", "visibility": "oeffentlich"},
+                        {"key": "organisation:b", "kind": "organisation", "visibility": "aggregat"}],
+           "hostnames": [{"entity": "organisation:b", "hostname": "x"}, {"entity": "canton:9", "hostname": "y"}],
+           "checklog": [{"entity": "organisation:b"}]}
+    pub = split_public(res)
+    assert [e["key"] for e in pub["entities"]] == ["canton:9", "organisation:a"]
+    assert [r["hostname"] for r in pub["hostnames"]] == ["y"] and pub["checklog"] == []

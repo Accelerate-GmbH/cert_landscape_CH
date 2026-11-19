@@ -107,6 +107,13 @@
 
   function draw() {
     if (!state.topo || !state.data) return;
+    const sectorView = state.level === "sector";
+    document.getElementById("map").hidden = sectorView;
+    document.getElementById("matrix").hidden = !sectorView;
+    document.getElementById("legend").hidden = sectorView;
+    document.querySelector(".metric").hidden = sectorView;
+    if (sectorView) { renderMatrix(); return; }
+    setTimeout(() => map.invalidateSize(), 0);
     if (state.layer) state.layer.remove();
     const obj = state.level === "canton" ? state.topo.objects.cantons : state.topo.objects.municipalities;
     const ents = entities();
@@ -128,6 +135,125 @@
     }).addTo(map);
     if (state.lakes) state.lakes.bringToFront();
     legend();
+    drawOrgs();
+  }
+
+  /* ---- organisations: grouped per canton (zoomed out) or place ---------- */
+  const CANTON_CODES = ["ZH","BE","LU","UR","SZ","OW","NW","GL","ZG","FR","SO","BS","BL","SH","AR","AI","SG","GR","AG","TG","TI","VD","VS","NE","GE","JU"];
+  const centers = { canton: {}, municipality: {} };
+  function computeCenters() {
+    for (const [lvl, obj] of [["canton", state.topo.objects.cantons], ["municipality", state.topo.objects.municipalities]]) {
+      topojson.feature(state.topo, obj).features.forEach((f) => { centers[lvl][String(f.id)] = L.geoJSON(f).getBounds().getCenter(); });
+    }
+  }
+  let orgLayer = null;
+  function orgList() {
+    const sf = document.getElementById("sectorfilter").value;
+    return Object.entries((state.data.entities.organisation) || {}).filter(([, o]) => !sf || o.sec === sf);
+  }
+  function donut(counts, n) {
+    const total = counts.green + counts.yellow + counts.red + counts.none || 1;
+    const r = 9 + 4 * Math.sqrt(n), c = 2 * Math.PI * (r - 4);
+    let off = 0, segs = "";
+    for (const [k, col] of [["green", css("--good")], ["yellow", css("--warning")], ["red", css("--critical")], ["none", css("--nodata")]]) {
+      if (!counts[k]) continue;
+      const len = c * counts[k] / total;
+      segs += '<circle r="' + (r - 4) + '" fill="none" stroke="' + col + '" stroke-width="8" stroke-dasharray="' + len + " " + (c - len) +
+        '" stroke-dashoffset="' + (-off) + '" transform="rotate(-90)"/>';
+      off += len;
+    }
+    return '<svg width="' + 2 * r + '" height="' + 2 * r + '" viewBox="' + (-r) + " " + (-r) + " " + 2 * r + " " + 2 * r + '">' +
+      '<circle r="' + r + '" fill="' + css("--surface-1") + '"/>' + segs +
+      '<text text-anchor="middle" dy="0.35em" font-size="11" font-weight="600" fill="' + css("--text-primary") + '">' + n + "</text></svg>";
+  }
+  function drawOrgs() {
+    if (orgLayer) { orgLayer.remove(); orgLayer = null; }
+    if (state.level === "sector" || !document.getElementById("showorgs").checked) return;
+    const byPlace = map.getZoom() >= 9.5;
+    const groups = {};
+    for (const [id, o] of orgList()) {
+      const cid = String(CANTON_CODES.indexOf(o.kt) + 1);
+      const key = byPlace && o.bfs && centers.municipality[o.bfs] ? "municipality:" + o.bfs : "canton:" + cid;
+      if (!centers[key.split(":")[0]][key.split(":")[1]]) continue;
+      (groups[key] = groups[key] || []).push(id);
+    }
+    orgLayer = L.layerGroup().addTo(map);
+    for (const [key, ids] of Object.entries(groups)) {
+      const [lvl, gid] = key.split(":");
+      const counts = { green: 0, yellow: 0, red: 0, none: 0 };
+      ids.forEach((id) => { counts[lightOf(value(state.data.entities.organisation[id], "tm"))]++; });
+      const r = 9 + 4 * Math.sqrt(ids.length);
+      const m = L.marker(centers[lvl][gid], { icon: L.divIcon({ className: "orgicon", html: donut(counts, ids.length), iconSize: [2 * r, 2 * r] }),
+        riseOnHover: true, keyboard: true, title: ids.length + " " + t("orgs_here") });
+      m.on("click", () => (ids.length === 1 ? select("organisation", ids[0]) : orgGroupPanel(ids, lvl, gid)));
+      orgLayer.addLayer(m);
+    }
+  }
+  function orgGroupPanel(ids, lvl, gid) {
+    const place = lvl === "canton" ? CANTON_CODES[Number(gid) - 1] : ((state.data.entities.municipality[gid] || {}).n || gid);
+    const rows = ids.map((id) => [id, state.data.entities.organisation[id]])
+      .sort((a, b) => a[1].n.localeCompare(b[1].n))
+      .map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + '<span class="src">' + esc(o.sec) +
+        (o.sub ? " · " + esc(o.sub) : "") + '</span></td><td class="num">' + fmt(value(o, "tm")) + "</td><td>" + chip(lightOf(value(o, "tm")), " ") + "</td></tr>").join("");
+    document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(place) + '</h2><p class="sub">' +
+      ids.length + " " + esc(t("n_orgs")) + '</p><table><thead><tr><th>' + esc(t("orgs_here")) + '</th><th class="num">TM</th><th></th></tr></thead><tbody>' +
+      rows + "</tbody></table>";
+  }
+
+  /* ---- sector matrix ------------------------------------------------------- */
+  const CHECK_IDS = ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "sov.ca", "sov.dns", "sov.hosting", "sov.tld", "sec.tls13", "sec.pqc", "prv.ech"];
+  const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "own.dnssec": "DNSSEC", "own.caa": "CAA", "own.ct": "SCT",
+    "sov.ca": "CA", "sov.dns": "DNS", "sov.hosting": "Host", "sov.tld": "TLD", "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "prv.ech": "ECH" };
+  const CATS = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
+  function share(k) { return k && k.assessed ? Math.round(100 * (k.pass + 0.5 * k.partial) / k.assessed) : null; }
+  function cell(v, title) {
+    if (v === null || v === undefined) return '<td class="cell sup">–</td>';
+    const l = lightOf(v);
+    const col = css(LIGHT_COLORS[l]);
+    return '<td class="cell" title="' + esc(title || "") + '" style="background:' + col + "22;box-shadow:inset 3px 0 " + col + '">' + v + "</td>";
+  }
+  function matrixRow(cls, label, part, key) {
+    if (!part) return "";
+    if (part.suppressed) return '<tr class="' + cls + '" data-sector="' + esc(key) + '"><td class="name">' + label + '</td><td class="sup" colspan="' +
+      (5 + CHECK_IDS.length) + '">' + esc(t("suppressed")) + " (n = " + part.n + ")</td></tr>";
+    return '<tr class="' + cls + ' click" data-sector="' + esc(key) + '"><td class="name">' + label + '<span class="src">n = ' + part.n + "</span></td>" +
+      cell(part.o, t("m_tm")) + CATS.map(([c, m]) => cell(part.c ? part.c[c] : null, t("m_" + m))).join("") +
+      CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id))).join("") + "</tr>";
+  }
+  function renderMatrix() {
+    const sec = state.data.sectors || {};
+    const names = Object.keys(sec).filter((k) => !k.startsWith("@")).sort((a, b) => a.localeCompare(b));
+    const bench = ["@Kantone", "@Gemeinden", "@Bund"].filter((k) => sec[k]);
+    const benchLabel = { "@Kantone": "bench_canton", "@Gemeinden": "bench_municipality", "@Bund": "bench_federal" };
+    let rows = "";
+    for (const k of names.concat(bench)) {
+      const d = sec[k];
+      const isB = k.startsWith("@");
+      const label = isB ? esc(t(benchLabel[k])) : esc(k) + '<span class="src">' + d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</span>";
+      rows += matrixRow("sec" + (isB ? " bench" : ""), label, d.all, k);
+      rows += matrixRow("sub", esc(t("m_krit")), d.krit, k) + matrixRow("sub", esc(t("m_other")), d.other, k);
+    }
+    const CS = { tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" };
+    const head = "<th></th><th>TM</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(t(CS[m])) + "</th>").join("") +
+      CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + " · " + esc(t("source_col")) + ": " + esc((SRC[id] || []).join(", ")) + '">' + CHECK_SHORT[id] + "</th>").join("");
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + "</p>" +
+      (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
+  }
+  function sectorPanel(key) {
+    const d = (state.data.sectors || {})[key];
+    if (!d) return;
+    if (key.startsWith("@")) { select(null, null); return; }
+    const pubs = Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key)
+      .sort((a, b) => a[1].n.localeCompare(b[1].n));
+    const rows = pubs.map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + (o.sub ? '<span class="src">' + esc(o.sub) + "</span>" : "") +
+      '</td><td class="num">' + fmt(value(o, "tm")) + "</td><td>" + chip(lightOf(value(o, "tm")), " ") + "</td></tr>").join("");
+    const subs = Object.entries(d.subs || {}).map(([k, v]) => esc(k) + " " + v).join(", ");
+    const hidden = d.orgs - pubs.length;
+    document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(key) + '</h2><p class="sub">' +
+      d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</p>" +
+      (subs ? "<h3>" + esc(t("subsector")) + '</h3><p class="sub">' + subs + "</p>" : "") +
+      (pubs.length ? "<h3>" + esc(t("orgs_here")) + '</h3><table><tbody>' + rows + "</tbody></table>" : "") +
+      (hidden > 0 ? '<p class="note">' + esc(t("agg_note").replace("{n}", hidden)) + "</p>" : "");
   }
 
   function legend() {
@@ -174,6 +300,8 @@
       '<button class="close" data-close aria-label="' + esc(t("close")) + '">✕</button>' +
       "<h2>" + esc(e.n) + "</h2>" +
       '<p class="sub">' + esc((e.d || []).join(", ")) + "</p>" +
+      (level === "organisation" ? '<p class="sub">' + esc(t("sector")) + ": " + esc(e.sec || "–") + (e.sub ? " · " + esc(e.sub) : "") +
+        "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + esc(e.uid) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
       tmSection(e) + stackSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
@@ -328,7 +456,8 @@
   function overview() {
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
-    const all = Object.values(state.data.entities[state.level] || {});
+    const lvlForStats = state.level === "sector" ? "canton" : state.level;
+    const all = Object.values(state.data.entities[lvlForStats] || {});
     const hosts = all.reduce((a, e) => a + (e.h || 0), 0);
     const zsum = { ch: 0, eea: 0, third: 0, unknown: 0 };
     all.forEach((e) => Object.keys(zsum).forEach((k) => { zsum[k] += (e.z && e.z[k] ? e.z[k] : 0) * (e.h || 0); }));
@@ -345,7 +474,7 @@
       '</td><td class="num">' + fmt(value(e, "tm")) + '</td><td class="num">' + fmt(e.s) + '</td><td class="num">' + fmt(e.a) +
       '</td><td class="num">' + fmt(e.h) + "</td></tr>").join("");
     panel.innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("overview_text")) + "</p>" +
-      "<h3>" + esc(t("national")) + ' · ' + esc(t(state.level === "canton" ? "level_canton" : "level_municipality")) + "</h3>" +
+      "<h3>" + esc(t("national")) + ' · ' + esc(t(lvlForStats === "canton" ? "level_canton" : "level_municipality")) + "</h3>" +
       '<p class="sub">' + esc(t("total_hosts")) + ": <b>" + hosts + "</b></p>" + zoneBar(zsum) +
       (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("tm", "TM", 1) + th("s", t("s_short"), 1) +
         th("a", t("a_short"), 1) + th("h", t("h_short"), 1) + "</tr></thead><tbody>" + rows + "</tbody></table>" : "");
@@ -369,7 +498,7 @@
   document.addEventListener("click", (ev) => {
     const lang = ev.target.closest("[data-lang]");
     if (lang) { state.lang = lang.dataset.lang; try { localStorage.setItem("lang", state.lang); } catch (e) { /* ignore */ }
-      applyI18n(); legend(); refreshPanel(); return; }
+      applyI18n(); legend(); refreshPanel(); if (state.data) fillSectors(); if (state.level === "sector") renderMatrix(); return; }
     const lvl = ev.target.closest("[data-level]");
     if (lvl) { state.level = lvl.dataset.level; applyI18n(); draw(); refreshPanel(); fillSearch(); return; }
     if (ev.target.closest("[data-close]")) { select(null, null); return; }
@@ -379,21 +508,46 @@
     if (rd) { const [l, i, k] = rd.dataset.rdetail.split(":"); resourceDetail(l, i, Number(k)); return; }
     const sel = ev.target.closest("[data-sel]");
     if (sel) { const [l, i] = sel.dataset.sel.split(":"); select(l, i); return; }
+    const sr = ev.target.closest("[data-sector]");
+    if (sr) { sectorPanel(sr.dataset.sector); return; }
     const srt = ev.target.closest("[data-sort]");
     if (srt) { const k = srt.dataset.sort; state.sort = { key: k, dir: state.sort.key === k ? -state.sort.dir : (k === "n" ? 1 : -1) }; overview(); }
   });
   document.getElementById("metric").addEventListener("change", (ev) => { state.metric = ev.target.value; draw(); });
+  document.getElementById("showorgs").addEventListener("change", drawOrgs);
+  document.getElementById("sectorfilter").addEventListener("change", drawOrgs);
+  map.on("zoomend", drawOrgs);
+  function fillSectors() {
+    const sel = document.getElementById("sectorfilter");
+    const secs = new Set(Object.keys(state.data.sectors || {}).filter((k) => !k.startsWith("@")));
+    Object.values(state.data.entities.organisation || {}).forEach((o) => o.sec && secs.add(o.sec));
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">' + esc(t("all_sectors")) + "</option>" + [...secs].sort().map((k) => '<option value="' + esc(k) + '">' + esc(k) + "</option>").join("");
+    sel.value = cur;
+    const hasOrgs = Object.keys(state.data.entities.organisation || {}).length > 0;
+    document.getElementById("orgtoggle").hidden = !hasOrgs;
+    sel.hidden = !hasOrgs && !secs.size;
+  }
   const search = document.getElementById("search");
   function fillSearch() {
     const dl = document.getElementById("names");
     const opts = [];
-    for (const lvl of ["canton", "municipality"]) {
+    for (const lvl of ["canton", "municipality", "organisation"]) {
       for (const [id, e] of Object.entries((state.data && state.data.entities[lvl]) || {})) opts.push(e.n);
     }
     dl.innerHTML = opts.sort().map((n) => '<option value="' + esc(n) + '">').join("");
   }
   search.addEventListener("change", () => {
     const q = search.value.trim().toLowerCase();
+    for (const [id, o] of Object.entries(state.data.entities.organisation || {})) {
+      if (o.n.toLowerCase() === q) {
+        if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
+        select("organisation", id);
+        const c = (o.bfs && centers.municipality[o.bfs]) || centers.canton[String(CANTON_CODES.indexOf(o.kt) + 1)];
+        if (c) map.setView(c, 11);
+        return;
+      }
+    }
     for (const lvl of ["canton", "municipality"]) {
       for (const [id, e] of Object.entries(state.data.entities[lvl] || {})) {
         if (e.n.toLowerCase() === q) {
@@ -417,6 +571,7 @@
       }
       const sel = params.get("sel");
       if (params.get("level") === "municipality" || (sel && sel.startsWith("municipality:"))) state.level = "municipality";
+      computeCenters(); fillSectors();
       applyI18n(); draw(); fillSearch();
       if (sel) { const [l, i] = sel.split(":"); select(l, i); } else overview();
     })

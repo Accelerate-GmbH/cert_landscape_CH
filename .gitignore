@@ -6,3 +6,4 @@ __pycache__/
 .pytest_cache/
 web/data/ch-combined.json
 web/data/resources/
+output/**/restricted/

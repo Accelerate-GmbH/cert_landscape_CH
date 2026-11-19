@@ -1,0 +1,3 @@
+hostname,begruendung,organisation,uid,sektor,teilsektor,service_typ,kritisch,plz,ort,kanton,quelle_url,sichtbarkeit,sicherheit,bemerkung
+ebanking.beispielbank.ch,Beispielzeile,Beispielbank AG,CHE-000.000.000,Finanzen,Banken,login,ja,8000,Zürich,ZH,https://www.beispielbank.ch/,aggregat,hoch,
+www.beispielbank.ch,Beispielzeile,Beispielbank AG,CHE-000.000.000,Finanzen,Banken,website,nein,8000,Zürich,ZH,https://www.beispielbank.ch/,aggregat,hoch,

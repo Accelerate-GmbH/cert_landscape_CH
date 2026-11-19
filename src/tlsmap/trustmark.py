@@ -80,7 +80,8 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
         add("own.ct", "n/a", "", "none", "needs live probe")
 
     # --- technology sovereignty ----------------------------------------------
-    add("sov.ca", {"ch": "pass", "eea": "partial"}.get(r.get("root_zone"), "fail" if r.get("root_zone") else "n/a"),
+    rz = r.get("root_zone") or "unknown"
+    add("sov.ca", "n/a" if rz == "unknown" else {"ch": "pass", "eea": "partial"}.get(rz, "fail"),
         f"{r.get('root_owner', '')} ({r.get('root_country', '')})", "ccadb-root", r.get("root_name", ""))
     ns_zones = ctx.get("ns_zones") or []
     add("sov.dns", _zone_status(ns_zones), ", ".join(ctx.get("ns_providers") or []), "dns-ns-asn",

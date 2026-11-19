@@ -29,6 +29,7 @@
   }
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; }
 .viz-root { min-height: 100vh; display: flex; flex-direction: column; }
 
@@ -119,3 +120,17 @@ td.ev { overflow-wrap: anywhere; }
 .checks-t td { vertical-align: top; }
 .checks-t td:first-child { width: 42%; }
 .checks-t .st { display: inline-block; margin: 2px 0; }
+
+.orgtoggle { display: flex; gap: 6px; align-items: center; color: var(--text-secondary); }
+#matrix { position: absolute; inset: 0; overflow: auto; padding: 14px 16px; background: var(--surface-1); }
+#matrix h2 { font-size: 18px; margin: 0 0 2px; }
+#matrix table { font-size: 12.5px; }
+#matrix th { white-space: nowrap; font-size: 11.5px; }
+#matrix td.cell { text-align: center; font-variant-numeric: tabular-nums; min-width: 38px; }
+#matrix tr.sec td.name { font-weight: 600; padding-top: 8px; }
+#matrix tr.sub td.name { padding-left: 18px; color: var(--text-secondary); }
+#matrix tr.bench td.name { font-style: italic; }
+#matrix .sup { color: var(--text-muted); }
+.orgicon { display: flex; align-items: center; justify-content: center; }
+.orgicon svg { overflow: visible; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+#matrix td.name { min-width: 190px; }

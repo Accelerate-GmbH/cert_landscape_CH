@@ -68,8 +68,8 @@ class CTClient:
             self.order = ["crtsh"]
 
     # -- sources ---------------------------------------------------------------
-    def crtsh(self, domain: str) -> list[CertRecord]:
-        q = urllib.parse.quote(f"%.{domain}")
+    def crtsh(self, domain: str, exact: bool = False) -> list[CertRecord]:
+        q = urllib.parse.quote(domain if exact else f"%.{domain}")
         url = f"https://crt.sh/?q={q}&output=json&exclude=expired&deduplicate=Y"
         rows = None
         for attempt in range(3):
@@ -89,12 +89,12 @@ class CTClient:
             ))
         return out
 
-    def certspotter(self, domain: str) -> list[CertRecord]:
+    def certspotter(self, domain: str, exact: bool = False) -> list[CertRecord]:
         headers = {"Authorization": f"Bearer {self.cs_key}"} if self.cs_key else {}
         out: list[CertRecord] = []
         after = None
         for _ in range(1000):  # pagination guard
-            params = [("domain", domain), ("include_subdomains", "true"),
+            params = [("domain", domain), ("include_subdomains", "false" if exact else "true"),
                       ("expand", "dns_names"), ("expand", "issuer"), ("expand", "cert_der")]
             if after:
                 params.append(("after", after))
@@ -113,11 +113,11 @@ class CTClient:
             after = rows[-1]["id"]
         return out
 
-    def discover(self, domain: str) -> DiscoveryResult:
+    def discover(self, domain: str, exact: bool = False) -> DiscoveryResult:
         errors = []
         for src in self.order:
             try:
-                recs = getattr(self, src)(domain)
+                recs = getattr(self, src)(domain, exact)
                 res = DiscoveryResult(domain=domain, source=src, records=recs)
                 if recs:
                     res.newest_not_before = max(r.not_before for r in recs)

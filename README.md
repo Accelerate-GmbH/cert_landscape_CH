@@ -77,6 +77,30 @@ paid Cert Spotter API key (`CERTSPOTTER_API_KEY`) discovery is current too.
 pipeline tests canary hosts first and refuses to probe if certificates are
 being replaced.
 
+## Critical infrastructure host list
+
+Besides administrations, the pipeline rates organisations from a host list
+(`data/hosts_ch.csv`, format in `data/hosts_ch.template.csv`): one row per
+host with organisation, UID, sector and sub-sector (SKI strategy, BABS),
+service type (`login`, `kundenportal`, `transaktion`, `api`, `fernzugriff`,
+`email`, `website`), criticality, seat and visibility. Only the listed hosts
+are rated, not every subdomain of the organisation.
+
+Visibility per organisation:
+
+| `sichtbarkeit` | Map and public files | Sector aggregates |
+|---|---|---|
+| `oeffentlich` | name, results and drill-down | included |
+| `aggregat` (default) | not shown | included |
+| `intern` | not shown | not included |
+
+Sector values are only published from five organisations per sector on
+(`min_orgs_per_sector`), so no single result can be read from them. Complete
+results, including non-public organisations, are written to
+`output/<date>/restricted/`; that folder is never committed and the
+workflow keeps it as a 90-day artifact. While the host list itself sits in
+this repository, the repository must stay private.
+
 ## Output
 
 Each run writes `output/<date>/` and copies it to `output/latest/`:
@@ -99,7 +123,9 @@ A sample run for canton Zug is in `samples/zug/`.
 `web/` is a static map (Leaflet, no tracking, no tile server) in German,
 French, Italian and English: sovereignty and identity validation per canton
 and municipality, critical services, CAA, good-practice checks and the CA mix
-per entity. Every score shows its source, and every entity drills down to
+per entity. A sector view compares sectors (critical and other services)
+with cantons and municipalities; organisations appear as grouped symbols per
+canton or place and can be searched by name. Every score shows its source, and every entity drills down to
 its hostnames, each check result with its measured value and evidence, and
 links to verify it independently (crt.sh, SSL Labs, dns.google, DNSViz,
 bgp.he.net). The `publish map` workflow deploys it to GitHub Pages with the
