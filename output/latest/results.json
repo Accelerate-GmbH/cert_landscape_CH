@@ -2,7 +2,7 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "merged_at": "2026-11-19T07:57:12Z",
+  "merged_at": "2026-11-19T07:59:08Z",
   "batches": 27,
   "entities": {
    "canton": 26,
@@ -181,10 +181,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 19,
-     "sovereignty": 79,
+     "sovereignty": 67,
      "security": 66,
      "privacy": 0
     },
@@ -233,8 +233,8 @@
       "assessed": 44
      },
      "sov.dns": {
-      "pass": 45,
-      "partial": 0,
+      "pass": 0,
+      "partial": 45,
       "fail": 0,
       "assessed": 45
      },
@@ -273,8 +273,8 @@
     "knockouts": 2,
     "distribution": {
      "green": 0,
-     "yellow": 13,
-     "red": 32,
+     "yellow": 7,
+     "red": 38,
      "none": 0
     },
     "eligible": false
@@ -2151,16 +2151,16 @@
     }
    ],
    "posture": {
-    "overall": 46,
+    "overall": 42,
     "categories": {
      "ownership": 50,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 62,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -2204,8 +2204,8 @@
      },
      "sov.dns": {
       "pass": 0,
-      "partial": 4,
-      "fail": 0,
+      "partial": 0,
+      "fail": 4,
       "assessed": 4
      },
      "sov.hosting": {
@@ -2243,8 +2243,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 1,
-     "red": 3,
+     "yellow": 0,
+     "red": 4,
      "none": 0
     },
     "eligible": false
@@ -2555,16 +2555,16 @@
     }
    ],
    "posture": {
-    "overall": 46,
+    "overall": 41,
     "categories": {
      "ownership": 16,
-     "sovereignty": 87,
+     "sovereignty": 75,
      "security": 75,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "green",
+     "sovereignty": "yellow",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -2607,8 +2607,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -3041,10 +3041,10 @@
     }
    ],
    "posture": {
-    "overall": 37,
+    "overall": 32,
     "categories": {
      "ownership": 0,
-     "sovereignty": 92,
+     "sovereignty": 80,
      "security": null,
      "privacy": 0
     },
@@ -3081,8 +3081,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -3272,16 +3272,16 @@
     }
    ],
    "posture": {
-    "overall": 36,
+    "overall": 32,
     "categories": {
      "ownership": 7,
-     "sovereignty": 88,
+     "sovereignty": 75,
      "security": 25,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "green",
+     "sovereignty": "yellow",
      "security": "red",
      "privacy": "red",
      "overall": "red"
@@ -3324,8 +3324,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -3668,16 +3668,16 @@
     }
    ],
    "posture": {
-    "overall": 45,
+    "overall": 40,
     "categories": {
      "ownership": 11,
-     "sovereignty": 87,
+     "sovereignty": 75,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "green",
+     "sovereignty": "yellow",
      "security": "green",
      "privacy": "red",
      "overall": "red"
@@ -3720,8 +3720,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -3914,10 +3914,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -3966,8 +3966,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -4406,16 +4406,16 @@
     }
    ],
    "posture": {
-    "overall": 43,
+    "overall": 39,
     "categories": {
      "ownership": 19,
-     "sovereignty": 89,
+     "sovereignty": 77,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "green",
+     "sovereignty": "yellow",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -4458,8 +4458,8 @@
       "assessed": 5
      },
      "sov.dns": {
-      "pass": 5,
-      "partial": 0,
+      "pass": 0,
+      "partial": 5,
       "fail": 0,
       "assessed": 5
      },
@@ -4498,8 +4498,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 3,
+     "yellow": 0,
+     "red": 5,
      "none": 0
     },
     "eligible": false
@@ -6225,16 +6225,16 @@
     }
    ],
    "posture": {
-    "overall": 45,
+    "overall": 40,
     "categories": {
      "ownership": 11,
-     "sovereignty": 87,
+     "sovereignty": 75,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "green",
+     "sovereignty": "yellow",
      "security": "green",
      "privacy": "red",
      "overall": "red"
@@ -6277,8 +6277,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -6955,10 +6955,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -7007,8 +7007,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -8397,16 +8397,16 @@
     }
    ],
    "posture": {
-    "overall": 43,
+    "overall": 40,
     "categories": {
      "ownership": 41,
-     "sovereignty": 56,
+     "sovereignty": 43,
      "security": 62,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -8449,8 +8449,8 @@
       "assessed": 15
      },
      "sov.dns": {
-      "pass": 15,
-      "partial": 0,
+      "pass": 0,
+      "partial": 15,
       "fail": 0,
       "assessed": 15
      },
@@ -8489,8 +8489,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 4,
-     "red": 11,
+     "yellow": 0,
+     "red": 15,
      "none": 0
     },
     "eligible": false
@@ -8793,10 +8793,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -8845,8 +8845,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -9301,10 +9301,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -9353,8 +9353,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -9563,19 +9563,19 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 47,
     "categories": {
      "ownership": 78,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -9615,9 +9615,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -9655,8 +9655,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 0,
+     "yellow": 0,
+     "red": 2,
      "none": 0
     },
     "eligible": false
@@ -9809,10 +9809,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -9861,8 +9861,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -10070,10 +10070,10 @@
     }
    ],
    "posture": {
-    "overall": 31,
+    "overall": 28,
     "categories": {
      "ownership": 36,
-     "sovereignty": 72,
+     "sovereignty": 58,
      "security": 50,
      "privacy": 0
     },
@@ -10122,8 +10122,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -10571,16 +10571,16 @@
     }
    ],
    "posture": {
-    "overall": 40,
+    "overall": 36,
     "categories": {
      "ownership": 33,
-     "sovereignty": 57,
+     "sovereignty": 45,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -10623,8 +10623,8 @@
       "assessed": 5
      },
      "sov.dns": {
-      "pass": 5,
-      "partial": 0,
+      "pass": 0,
+      "partial": 5,
       "fail": 0,
       "assessed": 5
      },
@@ -11257,19 +11257,19 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 48,
     "categories": {
      "ownership": 64,
-     "sovereignty": 60,
+     "sovereignty": 48,
      "security": 56,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -11309,8 +11309,8 @@
       "assessed": 22
      },
      "sov.dns": {
-      "pass": 22,
-      "partial": 0,
+      "pass": 0,
+      "partial": 22,
       "fail": 0,
       "assessed": 22
      },
@@ -11349,8 +11349,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 19,
-     "red": 3,
+     "yellow": 2,
+     "red": 20,
      "none": 0
     },
     "eligible": false
@@ -11503,10 +11503,10 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 48,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 64,
      "privacy": 0
     },
@@ -11515,7 +11515,7 @@
      "sovereignty": "yellow",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -11555,8 +11555,8 @@
       "assessed": 7
      },
      "sov.dns": {
-      "pass": 7,
-      "partial": 0,
+      "pass": 0,
+      "partial": 7,
       "fail": 0,
       "assessed": 7
      },
@@ -11749,10 +11749,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -11801,8 +11801,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -12479,16 +12479,16 @@
     }
    ],
    "posture": {
-    "overall": 44,
+    "overall": 36,
     "categories": {
      "ownership": 22,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
      "overall": "red"
@@ -12531,9 +12531,9 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 3,
       "assessed": 3
      },
      "sov.hosting": {
@@ -12571,8 +12571,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 1,
+     "yellow": 0,
+     "red": 3,
      "none": 0
     },
     "eligible": false
@@ -12725,10 +12725,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -12777,8 +12777,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -12971,19 +12971,19 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 44,
     "categories": {
      "ownership": 67,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -13023,9 +13023,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -13063,8 +13063,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 0,
+     "yellow": 0,
+     "red": 2,
      "none": 0
     },
     "eligible": false
@@ -13359,10 +13359,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -13411,8 +13411,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -13859,10 +13859,10 @@
     }
    ],
    "posture": {
-    "overall": 43,
+    "overall": 38,
     "categories": {
      "ownership": 36,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 72,
      "privacy": 0
     },
@@ -13911,8 +13911,8 @@
       "assessed": 11
      },
      "sov.dns": {
-      "pass": 11,
-      "partial": 0,
+      "pass": 0,
+      "partial": 11,
       "fail": 0,
       "assessed": 11
      },
@@ -14359,16 +14359,16 @@
     }
    ],
    "posture": {
-    "overall": 47,
+    "overall": 40,
     "categories": {
      "ownership": 53,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -14411,9 +14411,9 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 4,
       "assessed": 4
      },
      "sov.hosting": {
@@ -14451,8 +14451,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 2,
+     "yellow": 0,
+     "red": 4,
      "none": 0
     },
     "eligible": false
@@ -14605,16 +14605,16 @@
     }
    ],
    "posture": {
-    "overall": 58,
+    "overall": 51,
     "categories": {
      "ownership": 48,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
      "overall": "yellow"
@@ -14657,9 +14657,9 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 3,
       "assessed": 3
      },
      "sov.hosting": {
@@ -14697,8 +14697,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 3,
-     "red": 0,
+     "yellow": 2,
+     "red": 1,
      "none": 0
     },
     "eligible": false
@@ -14859,16 +14859,16 @@
     }
    ],
    "posture": {
-    "overall": 60,
+    "overall": 53,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
      "overall": "yellow"
@@ -14911,9 +14911,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -16890,10 +16890,10 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 47,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 88,
      "privacy": 0
     },
@@ -16902,7 +16902,7 @@
      "sovereignty": "yellow",
      "security": "green",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -16942,8 +16942,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -17144,10 +17144,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -17196,8 +17196,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -17390,10 +17390,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -17442,8 +17442,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -17636,10 +17636,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -17688,8 +17688,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -18129,10 +18129,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -18181,8 +18181,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -19367,10 +19367,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -19419,8 +19419,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -19613,10 +19613,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -19665,8 +19665,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -19859,10 +19859,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -19911,8 +19911,8 @@
       "assessed": 7
      },
      "sov.dns": {
-      "pass": 7,
-      "partial": 0,
+      "pass": 0,
+      "partial": 7,
       "fail": 0,
       "assessed": 7
      },
@@ -20247,19 +20247,19 @@
     }
    ],
    "posture": {
-    "overall": 58,
+    "overall": 48,
     "categories": {
      "ownership": 83,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": null,
      "privacy": 0
     },
     "lights": {
      "ownership": "green",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "none",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -20287,9 +20287,9 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 1,
       "assessed": 1
      },
      "sov.hosting": {
@@ -20315,8 +20315,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 1,
-     "red": 0,
+     "yellow": 0,
+     "red": 1,
      "none": 0
     },
     "eligible": false
@@ -21135,10 +21135,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -21187,8 +21187,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -22179,10 +22179,10 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 47,
     "categories": {
      "ownership": 49,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 70,
      "privacy": 0
     },
@@ -22191,7 +22191,7 @@
      "sovereignty": "yellow",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -22231,8 +22231,8 @@
       "assessed": 5
      },
      "sov.dns": {
-      "pass": 5,
-      "partial": 0,
+      "pass": 0,
+      "partial": 5,
       "fail": 0,
       "assessed": 5
      },
@@ -22425,10 +22425,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -22477,8 +22477,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -22934,16 +22934,16 @@
     }
    ],
    "posture": {
-    "overall": 38,
+    "overall": 34,
     "categories": {
      "ownership": 33,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -22986,8 +22986,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -23180,10 +23180,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -23232,8 +23232,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -23702,10 +23702,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -23754,8 +23754,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -24202,10 +24202,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -24254,8 +24254,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -24448,10 +24448,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -24500,8 +24500,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -25248,16 +25248,16 @@
     }
    ],
    "posture": {
-    "overall": 44,
+    "overall": 41,
     "categories": {
      "ownership": 56,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -25300,8 +25300,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -25486,10 +25486,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -25538,8 +25538,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -25882,10 +25882,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -25934,8 +25934,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -26137,10 +26137,10 @@
     }
    ],
    "posture": {
-    "overall": 44,
+    "overall": 40,
     "categories": {
      "ownership": 33,
-     "sovereignty": 46,
+     "sovereignty": 33,
      "security": 83,
      "privacy": 0
     },
@@ -26189,8 +26189,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -26399,19 +26399,19 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 44,
     "categories": {
      "ownership": 67,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -26451,9 +26451,9 @@
       "assessed": 5
      },
      "sov.dns": {
-      "pass": 5,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 5,
       "assessed": 5
      },
      "sov.hosting": {
@@ -26491,8 +26491,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 5,
-     "red": 0,
+     "yellow": 0,
+     "red": 5,
      "none": 0
     },
     "eligible": false
@@ -27399,10 +27399,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -27451,8 +27451,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -28183,10 +28183,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -28235,8 +28235,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -29429,10 +29429,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -29481,8 +29481,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -30826,10 +30826,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -30878,8 +30878,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -32484,10 +32484,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 75,
      "privacy": 0
     },
@@ -32536,8 +32536,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -33130,10 +33130,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -33182,8 +33182,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -33376,10 +33376,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -33428,8 +33428,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -34994,10 +34994,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -35046,8 +35046,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -35240,10 +35240,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -35292,8 +35292,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -36002,10 +36002,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -36054,8 +36054,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -36248,10 +36248,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -36300,8 +36300,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -36732,16 +36732,16 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 41,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -36784,9 +36784,9 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 3,
       "assessed": 3
      },
      "sov.hosting": {
@@ -37232,10 +37232,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -37284,8 +37284,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -37648,10 +37648,10 @@
     }
    ],
    "posture": {
-    "overall": 32,
+    "overall": 28,
     "categories": {
      "ownership": 44,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 0,
      "privacy": 0
     },
@@ -37700,8 +37700,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -39304,10 +39304,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -39356,8 +39356,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -39550,10 +39550,10 @@
     }
    ],
    "posture": {
-    "overall": 44,
+    "overall": 40,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 62,
      "privacy": 0
     },
@@ -39602,8 +39602,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -39796,10 +39796,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -39848,8 +39848,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -40604,10 +40604,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -40656,8 +40656,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -40850,10 +40850,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -40902,8 +40902,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -41238,10 +41238,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -41290,8 +41290,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -41960,16 +41960,16 @@
     }
    ],
    "posture": {
-    "overall": 37,
+    "overall": 34,
     "categories": {
      "ownership": 33,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -42013,8 +42013,8 @@
      },
      "sov.dns": {
       "pass": 0,
-      "partial": 1,
-      "fail": 0,
+      "partial": 0,
+      "fail": 1,
       "assessed": 1
      },
      "sov.hosting": {
@@ -42214,10 +42214,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -42266,8 +42266,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -42698,10 +42698,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -42750,8 +42750,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -42944,16 +42944,16 @@
     }
    ],
    "posture": {
-    "overall": 37,
+    "overall": 34,
     "categories": {
      "ownership": 33,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -42996,8 +42996,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -43190,10 +43190,10 @@
     }
    ],
    "posture": {
-    "overall": 48,
+    "overall": 44,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -43242,8 +43242,8 @@
       "assessed": 4
      },
      "sov.dns": {
-      "pass": 4,
-      "partial": 0,
+      "pass": 0,
+      "partial": 4,
       "fail": 0,
       "assessed": 4
      },
@@ -44512,16 +44512,16 @@
     }
    ],
    "posture": {
-    "overall": 37,
+    "overall": 34,
     "categories": {
      "ownership": 33,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -44564,8 +44564,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -44996,10 +44996,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -45048,8 +45048,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -45504,16 +45504,16 @@
     }
    ],
    "posture": {
-    "overall": 37,
+    "overall": 34,
     "categories": {
      "ownership": 33,
-     "sovereignty": 50,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "red"
@@ -45556,8 +45556,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -46184,10 +46184,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -46236,8 +46236,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -47246,10 +47246,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -47298,8 +47298,8 @@
       "assessed": 1
      },
      "sov.dns": {
-      "pass": 1,
-      "partial": 0,
+      "pass": 0,
+      "partial": 1,
       "fail": 0,
       "assessed": 1
      },
@@ -48442,16 +48442,16 @@
     }
    ],
    "posture": {
-    "overall": 61,
+    "overall": 54,
     "categories": {
      "ownership": 100,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "green",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
      "overall": "yellow"
@@ -48494,9 +48494,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -48958,19 +48958,19 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 46,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -49010,9 +49010,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -49050,8 +49050,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 0,
+     "yellow": 0,
+     "red": 2,
      "none": 0
     },
     "eligible": false
@@ -49204,10 +49204,10 @@
     }
    ],
    "posture": {
-    "overall": 54,
+    "overall": 50,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 100,
      "privacy": 0
     },
@@ -49256,8 +49256,8 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
-      "partial": 0,
+      "pass": 0,
+      "partial": 2,
       "fail": 0,
       "assessed": 2
      },
@@ -49450,19 +49450,19 @@
     }
    ],
    "posture": {
-    "overall": 51,
+    "overall": 44,
     "categories": {
      "ownership": 67,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 50,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "yellow",
      "privacy": "red",
-     "overall": "yellow"
+     "overall": "red"
     },
     "checks": {
      "own.identity": {
@@ -49502,9 +49502,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -49542,8 +49542,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 2,
-     "red": 0,
+     "yellow": 0,
+     "red": 2,
      "none": 0
     },
     "eligible": false
@@ -49946,16 +49946,16 @@
     }
    ],
    "posture": {
-    "overall": 60,
+    "overall": 53,
     "categories": {
      "ownership": 56,
-     "sovereignty": 62,
+     "sovereignty": 38,
      "security": 100,
      "privacy": 0
     },
     "lights": {
      "ownership": "yellow",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
      "overall": "yellow"
@@ -49998,9 +49998,9 @@
       "assessed": 2
      },
      "sov.dns": {
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 0,
+      "fail": 2,
       "assessed": 2
      },
      "sov.hosting": {
@@ -50192,10 +50192,10 @@
     }
    ],
    "posture": {
-    "overall": 41,
+    "overall": 37,
     "categories": {
      "ownership": 33,
-     "sovereignty": 62,
+     "sovereignty": 50,
      "security": 50,
      "privacy": 0
     },
@@ -50244,8 +50244,8 @@
       "assessed": 3
      },
      "sov.dns": {
-      "pass": 3,
-      "partial": 0,
+      "pass": 0,
+      "partial": 3,
       "fail": 0,
       "assessed": 3
      },
@@ -50456,16 +50456,16 @@
     }
    ],
    "posture": {
-    "overall": 49,
+    "overall": 45,
     "categories": {
      "ownership": 37,
-     "sovereignty": 56,
+     "sovereignty": 44,
      "security": 83,
      "privacy": 0
     },
     "lights": {
      "ownership": "red",
-     "sovereignty": "yellow",
+     "sovereignty": "red",
      "security": "green",
      "privacy": "red",
      "overall": "red"
@@ -50508,8 +50508,8 @@
       "assessed": 6
      },
      "sov.dns": {
-      "pass": 6,
-      "partial": 0,
+      "pass": 0,
+      "partial": 6,
       "fail": 0,
       "assessed": 6
      },
@@ -50548,8 +50548,8 @@
     "knockouts": 0,
     "distribution": {
      "green": 0,
-     "yellow": 4,
-     "red": 2,
+     "yellow": 3,
+     "red": 3,
      "none": 0
     },
     "eligible": false
