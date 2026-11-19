@@ -64,11 +64,14 @@ The list is part of every run:
 - **No double measurement.** 77 listed hosts belong to cantons or
   municipalities (for example `www.zh.ch`). They are measured there and
   linked; the list keeps its own sector, service type and criticality.
-- **Aggregates only.** All rows are `sichtbarkeit = aggregat`: the map shows
-  results per sector, sub-sector, service type and canton of the operator's
-  seat, never per host, and only from five organisations per group. The
-  share of rows with low confidence (`sicherheit = tief`) is shown next to
-  each aggregate.
+- **Public down to the host.** All rows are `sichtbarkeit = oeffentlich`
+  (decided 19 November 2026; before that they were aggregate-only). The map
+  shows results per sector, sub-sector, service type and canton of the
+  operator's seat, and each group lists its hosts with a drill-down to every
+  check. Group values appear from five organisations. The share of rows with
+  low confidence (`sicherheit = tief`) is shown next to each group. The
+  visibility is taken from the list at every merge, so a change in the list
+  applies without rating the hosts again.
 - **Verified every month.** `tlsmap verify-list` checks that each host still
   resolves and answers over HTTPS and that its source page still links it.
   Results are in `data/critical_services/verification.md`; hosts failing
@@ -173,8 +176,11 @@ has no area of its own: a box at the top right of the map shows its overall
 value and opens a list of departments (plus Federal Chancellery, and courts
 and parliament), each with the same drill-down as a canton. The search
 suggests cantons, municipalities, departments, domains and single hostnames
-while typing (`search.json`, administrations only; hosts of the
-critical-services list are not searchable). The sector view compares
+while typing (`search.json`: administrations and public rows of the
+critical-services list). Where a canton or municipality has no rating, the
+map gives the reason: no domain known, only a shared domain, CT query
+failed, no certificates found, names not in DNS, nothing could be checked,
+or not collected in this run (`no_data_reason` in `entities.csv`). The sector view compares
 sectors, sub-sectors, service types or cantons of seat (critical and other
 services) with cantons and municipalities; organisations appear as grouped
 symbols per canton or place and can be searched by name. Every traffic light

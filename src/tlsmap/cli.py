@@ -72,9 +72,10 @@ def cmd_run(a) -> int:
 
 
 def cmd_merge(a) -> int:
-    from .merge import combine, load_raw
+    from .merge import apply_list_visibility, combine, load_raw
     parts = [load_raw(Path(p)) for p in a.raw]
     result = combine(parts)
+    vis_changed = apply_list_visibility(result, a.list)
     registry = Registry()
     started = datetime.now(timezone.utc)
     snapshot = result["generated"][:10]
@@ -86,7 +87,7 @@ def cmd_merge(a) -> int:
         "ct_lag_days": result.get("ct_lag_days"), "ccadb_fetched": result.get("ccadb_fetched"),
         "probe_note": result.get("probe"), "settings_sha256": file_sha256(CONFIG_DIR / "settings.toml"),
         "registry_sha256": file_sha256(registry.path), "python": platform.python_version(),
-        "http": result.get("http_stats"),
+        "http": result.get("http_stats"), "visibility_from_list": vis_changed,
     }
     out_dir = Path(a.out) / snapshot
     paths = write_all(result, out_dir, registry, meta)
@@ -174,6 +175,8 @@ def main(argv: list[str] | None = None) -> int:
     m = sub.add_parser("merge", help="combine raw batch results and write the outputs")
     m.add_argument("raw", nargs="+", help="raw result files (json.gz)")
     m.add_argument("--out", default=str(ROOT / "output"))
+    m.add_argument("--list", default=str(ROOT / "data" / "critical_services" / "critical_services_ch.csv"),
+                   help="host list whose visibility applies to the merged result")
     m.set_defaults(func=cmd_merge)
 
     v = sub.add_parser("verify-list", help="check that listed hosts still resolve, answer and are linked from their source")

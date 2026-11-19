@@ -84,3 +84,21 @@ def link_admin_hosts(result: dict) -> int:
                     rows = [r for r in result["hostnames"] if r["entity"] == e["key"] and r.get("tm")]
                     e["posture"] = posture.aggregate(rows, cfg)
     return len(linked)
+
+
+def apply_list_visibility(result: dict, list_path) -> int:
+    """Take the visibility of organisations from the current list, so a change
+    in the list applies at the next merge without rating the hosts again."""
+    from pathlib import Path
+    from .config import load_organisations
+    p = Path(list_path)
+    if not p.exists():
+        return 0
+    vis = {f"organisation:{o.id}": o.visibility for o in load_organisations(p)}
+    changed = 0
+    for e in result["entities"]:
+        v = vis.get(e["key"])
+        if e["kind"] == "organisation" and v and e.get("visibility") != v:
+            e["visibility"] = v
+            changed += 1
+    return changed

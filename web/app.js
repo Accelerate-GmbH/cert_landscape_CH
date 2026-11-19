@@ -163,10 +163,12 @@
                        weight: state.level === "canton" ? 1.2 : 0.4 }),
       onEachFeature: (f, lyr) => {
         const id = String(f.id), e = ents[id];
-        const name = (e && e.n) || (f.properties && f.properties.name) || id;
+        const name = (e && e.n) || (f.properties && f.properties.name) || featureName(state.level, id);
         lyr.on("mousemove", (ev) => {
           const v = value(e);
+          const w = isTM(state.metric) && v === null ? whyOf(state.level, e) : null;
           showTip(ev, "<b>" + esc(name) + "</b><br>" + esc(t("m_" + state.metric)) + ": " + esc(isTM(state.metric) && v !== null ? v + " / 100" : valueText(e)) +
+            (w ? '<br><span class="src">' + esc(t("whys_" + w)) + "</span>" : "") +
             (simple() && isTM(state.metric) ? "<br>" + chip(lightOf(v), t("verdict_" + lightOf(v))) : ""));
           lyr.setStyle({ weight: 2, color: css("--text-primary") });
           lyr.bringToFront();
@@ -523,17 +525,33 @@
     const dims = ["sektor", "teilsektor", "service_typ", "kanton"].filter((x) => x === "sektor" || (state.data.dims && state.data.dims[x]));
     const sel = '<div class="seg" role="group" style="margin:6px 0 8px">' + dims.map((x) =>
       '<button data-dim="' + x + '" aria-pressed="' + (x === dim) + '">' + esc(t("dim_" + x)) + "</button>").join("") + "</div>";
-    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + (simple() ? esc(t("sector_intro_simple")) + " " : "") + esc(t("matrix_note")) + " " + esc(t("agg_only")) +
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + (simple() ? esc(t("sector_intro_simple")) + " " : "") + esc(t("matrix_note")) + " " + (aggHidden() ? esc(t("agg_only")) : "") +
       ' <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a>" + (linked ? " · " + esc(t("linked_note").replace("{n}", linked)) : "") + "</p>" + sel +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
+  }
+  function aggHidden() {
+    const d = dimData("sektor");
+    return Object.entries(d).some(([k, x]) => !k.startsWith("@") && x.orgs > (x.public || 0));
   }
   function sectorPanel(spec) {
     const [dim, key] = spec.includes("|") ? spec.split("|") : ["sektor", spec];
     const d = dimData(dim)[key];
     if (!d) return;
     if (key.startsWith("@")) { select(null, null); return; }
-    const pubs = Object.entries(state.data.entities.organisation || {}).filter(([, o]) => dim === "sektor" && o.sec === key)
-      .sort((a, b) => a[1].n.localeCompare(b[1].n));
+    const inGroup = (o, h) => dim === "sektor" ? (h[2] || o.sec || "–") === key : dim === "teilsektor" ? ((h[2] || o.sec || "–") + " / " + (h[3] || o.sub || "–")) === key :
+      dim === "service_typ" ? (h[4] || "–") === key : dim === "kanton" ? (o.kt || o.c || "–") === key : false;
+    const hostRows = [];
+    const orgIds = new Set();
+    Object.entries(state.data.entities.organisation || {}).forEach(([id, o]) => (o.hs || []).forEach((h) => {
+      if (inGroup(o, h)) { hostRows.push([id, o, h]); orgIds.add(id); }
+    }));
+    hostRows.sort((a, b) => (a[2][1] ?? 101) - (b[2][1] ?? 101) || a[2][0].localeCompare(b[2][0]));
+    const pubs = [...orgIds].map((id) => [id, state.data.entities.organisation[id]]).sort((a, b) => a[1].n.localeCompare(b[1].n));
+    const linkedName = (k) => { const [l, i] = k.split(":"); const x = (state.data.entities[l] || {})[i]; return x ? x.n : k; };
+    const hrows = hostRows.map(([id, o, h]) => '<tr class="click" data-orghost="' + esc(id + "|" + h[0]) + '"><td>' + esc(h[0]) +
+      (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + '<span class="src">' + esc(o.n) + (h[4] ? " · " + esc(t("st_" + h[4]) !== "st_" + h[4] ? t("st_" + h[4]) : h[4]) : "") +
+      (h[6] ? " · " + esc(t("measured_at").replace("{x}", linkedName(h[6]))) : "") + '</span></td><td class="num">' + fmt(h[1]) + "</td><td>" +
+      chip(lightOf(h[1]), " ") + "</td></tr>").join("");
     const rows = pubs.map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + (o.sub ? '<span class="src">' + esc(o.sub) + "</span>" : "") +
       '</td><td class="num">' + fmt(value(o, "tm")) + "</td><td>" + chip(lightOf(value(o, "tm")), " ") + "</td></tr>").join("");
     const hidden = d.orgs - pubs.length;
@@ -545,7 +563,8 @@
           chip(lightOf(d.all.c ? d.all.c[c] : null), null, d.all.c && d.all.c[c] !== null ? ["s", dim, key, "all", "cat:" + c].join("|") : null) + "</div>").join("") : '<p class="note">' + esc(t("suppressed")) + "</p>") +
       (d.linked ? '<p class="src">' + esc(t("linked_note").replace("{n}", d.linked)) + "</p>" : "") +
       '<p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>" +
-      (pubs.length ? "<h3>" + esc(t("orgs_here")) + '</h3><table><tbody>' + rows + "</tbody></table>" : "") +
+      (hostRows.length ? "<h3>" + esc(t("hosts_here")) + " (" + hostRows.length + ')</h3><p class="src">' + esc(t("hosts_sorted")) + "</p><table><tbody>" + hrows + "</tbody></table>" : "") +
+      (pubs.length ? "<h3>" + esc(t("orgs_here")) + " (" + pubs.length + ')</h3><table><tbody>' + rows + "</tbody></table>" : "") +
       (hidden > 0 ? '<p class="note">' + esc(t("agg_note").replace("{n}", hidden)) + "</p>" : "");
   }
 
@@ -583,10 +602,42 @@
     return '<div class="bar" role="img" aria-label="' + esc(t("zones")) + '">' + segs + '</div><div class="keyrow">' + keys + "</div>";
   }
 
+  /* ---- why there is no value ------------------------------------------------ */
+  function featureName(level, id) {
+    const obj = state.topo && (level === "canton" ? state.topo.objects.cantons : level === "municipality" ? state.topo.objects.municipalities : null);
+    if (level === "municipality" && state.data.mnames && state.data.mnames[id]) return state.data.mnames[id];
+    if (level === "canton" && CANTON_CODES[+id - 1]) return t("t_canton") + " " + CANTON_CODES[+id - 1];
+    if (!obj) return id;
+    const g = obj.geometries.find((x) => String(x.id) === String(id));
+    return (g && g.properties && g.properties.name) || id;
+  }
+  function whyOf(level, e) {
+    if (!e) return level === "canton" ? "not_in_run" : "missing";
+    if (e.tm && e.tm.o !== undefined && e.tm.o !== null) return null;
+    if (e.why) return e.why;
+    if (!e.d || !e.d.length) return "no_domain";          // data from before reasons were exported
+    if (!e.hf) return e.sd ? "shared" : "no_certs";
+    if (!e.h) return "not_resolving";
+    return "not_assessed";
+  }
+  function whyBox(level, e) {
+    const w = whyOf(level, e);
+    if (!w) return "";
+    const doms = e && e.d && e.d.length ? '<p class="src">' + esc(t("t_domain")) + ": " + esc(e.d.join(", ")) + "</p>" : "";
+    return '<div class="why"><b>' + esc(t("why_title")) + "</b><p><b>" + esc(t("whys_" + w)) + ".</b> " + esc(t("why_" + w)) + "</p>" + doms + "</div>";
+  }
+
   function detail(level, id) {
+    detailInner(level, id);
+    const e = (state.data.entities[level] || {})[id];
+    const box = e ? whyBox(level, e) : "";
+    const h2 = document.querySelector("#panel h2");
+    if (box && h2 && !document.querySelector("#panel .why")) h2.insertAdjacentHTML("afterend", box);
+  }
+  function detailInner(level, id) {
     const e = (state.data.entities[level] || {})[id];
     const panel = document.getElementById("panel");
-    if (!e) { panel.innerHTML = '<button class="close" data-close>✕</button><p class="muted">' + esc(t("no_data")) + "</p>"; return; }
+    if (!e) { panel.innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(featureName(level, id)) + "</h2>" + whyBox(level, null); return; }
     if (simple()) { panel.innerHTML = simpleDetail(e, level, id); return; }
     const kpi = (v, l, k) => '<div class="kpi"><div class="v">' + esc(fmt(v)) + '</div><div class="l">' + esc(l) + "</div>" + srcSpan(k) + "</div>";
     const vc = e.v || {};
@@ -714,7 +765,7 @@
     if (level === "organisation") html += '<p class="sub">' + esc(trSKI(e.sec || "–")) + (e.ort ? " · " + esc(e.ort) : "") + "</p>";
     else if (doms.length) html += '<p class="sub">' + esc(doms.slice(0, 3).join(", ")) + (doms.length > 3 ? " +" + (doms.length - 3) : "") + "</p>";
     if (e.sd) html += '<p class="note">' + esc(t("shared")) + "</p>";
-    if (tm.o === undefined || tm.o === null) return html + verdictBlock(null) + '<p class="sub">' + esc(G().lights.simple.none) + "</p>";
+    if (tm.o === undefined || tm.o === null) return html + verdictBlock(null) + whyBox(level, e);
     const extra = '<div class="sub">' + esc(t("services_checked").replace("{n}", tm.n || 0)) +
       (d.green !== undefined ? " · " + esc(t("dist_line").replace("{g}", d.green || 0).replace("{y}", d.yellow || 0).replace("{r}", d.red || 0)) : "") + "</div>";
     html += verdictBlock(tm.o, ["e", level, id, "overall"].join("|"), extra);
@@ -784,7 +835,7 @@
 
   function overviewSectors() {
     document.getElementById("panel").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + (simple() ? esc(t("sector_intro_simple")) + " " : "") + esc(t("matrix_note")) + "</p><p class=\"sub\">" +
-      esc(t("agg_only")) + '</p><p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>";
+      (aggHidden() ? esc(t("agg_only")) : "") + '</p><p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>";
   }
 
   /* ---- drill-down: entity -> resources -> checks -> sources ------------- */
@@ -864,6 +915,19 @@
       "</th><th>" + esc(t("net_col")) + "</th></tr></thead><tbody>" + eps + "</tbody></table>";
   }
 
+  /* Units without a value, by reason (including areas missing from the run). */
+  function whyCounts(lvl) {
+    const ents = state.data.entities[lvl] || {};
+    const cnt = {};
+    Object.values(ents).forEach((e) => { const w = whyOf(lvl, e); if (w) cnt[w] = (cnt[w] || 0) + 1; });
+    const obj = lvl === "canton" ? state.topo.objects.cantons : state.topo.objects.municipalities;
+    obj.geometries.forEach((g) => { if (!ents[String(g.id)]) { const w = whyOf(lvl, null); cnt[w] = (cnt[w] || 0) + 1; } });
+    const keys = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]);
+    if (!keys.length) return "";
+    return '<p class="sub"><b>' + esc(t("without_value")) + ":</b></p><ul class=\"plainlist\">" + keys.map((k) => '<li title="' + esc(t("why_" + k)) + '">' + cnt[k] + " · " +
+      esc(t("whys_" + k)) + "</li>").join("") + "</ul>";
+  }
+
   function simpleOverview() {
     const lvl = state.level;
     const ents = Object.entries(state.data.entities[lvl] || {});
@@ -880,7 +944,7 @@
     document.getElementById("panel").innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("intro_simple")) + "</p>" +
       "<h3>" + esc(t("sec_lights")) + "</h3>" + ["green", "yellow", "red", "none"].map(lightLine).join("") +
       '<p class="sub">' + esc(G().lights.simple.note) + "</p>" +
-      "<h3>" + esc(t("units_by_light").replace("{units}", t(lvl === "canton" ? "level_canton" : "level_municipality"))) + "</h3>" + bar +
+      "<h3>" + esc(t("units_by_light").replace("{units}", t(lvl === "canton" ? "level_canton" : "level_municipality"))) + "</h3>" + bar + whyCounts(lvl) +
       (rank ? "<h3>" + esc(t("ranking")) + "</h3><table><tbody>" + rank + "</tbody></table>" : "") +
       '<p><button class="linkbtn" data-help="what">' + esc(t("to_help")) + " →</button></p>";
   }
@@ -909,7 +973,7 @@
       '</td><td class="num">' + fmt(e.h) + "</td></tr>").join("");
     panel.innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("overview_text")) + "</p>" +
       "<h3>" + esc(t("national")) + ' · ' + esc(t(lvlForStats === "canton" ? "level_canton" : "level_municipality")) + "</h3>" +
-      '<p class="sub">' + esc(t("total_hosts")) + ": <b>" + hosts + "</b></p>" + zoneBar(zsum) +
+      '<p class="sub">' + esc(t("total_hosts")) + ": <b>" + hosts + "</b></p>" + zoneBar(zsum) + whyCounts(lvlForStats) +
       (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("tm", "TP", 1) + th("s", t("s_short"), 1) +
         th("a", t("a_short"), 1) + th("h", t("h_short"), 1) + "</tr></thead><tbody>" + rows + "</tbody></table>" : "");
   }
@@ -938,6 +1002,8 @@
     if (vw) { state.view = vw.dataset.view; try { localStorage.setItem("view", state.view); } catch (e) { /* ignore */ }
       try { const u = new URL(location.href); u.searchParams.set("view", state.view); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
       applyI18n(); draw(); if (state.help) helpPanel(state.help); else refreshPanel(); return; }
+    const oh = ev.target.closest("[data-orghost]");
+    if (oh) { const [oid, host] = oh.dataset.orghost.split("|"); openHost("organisation", oid, host, true); return; }
     const ft = ev.target.closest("[data-fedtoggle]");
     if (ft) { state.fedOpen = !state.fedOpen; drawFederal(); return; }
     const hp = ev.target.closest("[data-help]");
@@ -991,6 +1057,11 @@
     sugItems = suggestions(search.value); sugPos = -1; renderSuggest();
     if (!hostIndex) loadHostIndex().then(() => { if (document.activeElement === search) { sugItems = suggestions(search.value); renderSuggest(); } });
   }
+  /* Open the check results of one host; from the sector view the back button returns there. */
+  function openHost(lvl, id, host, keepView) {
+    if (!keepView) select(lvl, id);
+    loadResources(lvl, id).then((list) => { const i = (list || []).findIndex((r) => r.h === host); if (i >= 0) resourceDetail(lvl, id, i); });
+  }
   function goTo(x) {
     sugBox.hidden = true; search.value = x.label; search.blur();
     const { lvl, id } = x;
@@ -1000,6 +1071,7 @@
       select("organisation", id);
       const c = (o.bfs && centers.municipality[o.bfs]) || centers.canton[String(CANTON_CODES.indexOf(o.kt) + 1)];
       if (c) map.setView(c, 11);
+      if (x.kind === "host") openHost("organisation", id, x.label, true);
       return;
     }
     if (lvl === "federal") {
@@ -1009,9 +1081,7 @@
       state.layer.eachLayer((l) => { if (String(l.feature.id) === id) map.fitBounds(l.getBounds(), { maxZoom: 11 }); });
     }
     select(lvl, id);
-    if (x.kind === "host") {
-      loadResources(lvl, id).then((list) => { const i = (list || []).findIndex((r) => r.h === x.label); if (i >= 0) resourceDetail(lvl, id, i); });
-    }
+    if (x.kind === "host") openHost(lvl, id, x.label, true);
   }
   search.addEventListener("input", updateSuggest);
   search.addEventListener("focus", () => { loadHostIndex(); if (search.value.trim().length >= 2) updateSuggest(); });

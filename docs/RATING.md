@@ -133,7 +133,8 @@ canton of the operator's seat, each split into critical and other services,
 with cantons and municipalities as benchmark rows. A group is only shown
 with at least five organisations, and the share of low-confidence rows is
 shown next to it. Organisations appear by name only if they are marked
-public in the list; at present all rows are aggregate-only.
+public in the list; at present all rows are public, and each group lists
+its hosts with a drill-down to every check.
 
 ## 6. Logging
 

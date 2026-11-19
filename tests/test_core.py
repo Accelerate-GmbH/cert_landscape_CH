@@ -231,3 +231,26 @@ def test_listed_host_links_to_administration():
     assert r["critical"] is True and r["sector"] == "Behörden"         # list attributes kept
     assert r["linked_to"] == "canton:1"
     assert [x["status"] for x in res["checklog"] if x["entity"] == "organisation:kt-zh"] == ["pass"]
+
+
+def test_no_data_reason():
+    from tlsmap.export import no_data_reason
+    base = {"posture": {}, "domains": ["x.ch"], "discovery": [{"domain": "x.ch", "error": None}],
+            "hosts_found": 0, "hosts_in_use": 0, "shared_domain": False}
+    assert no_data_reason({**base, "posture": {"overall": 40}}) is None
+    assert no_data_reason({**base, "domains": []}) == "no_domain"
+    assert no_data_reason({**base, "discovery": [{"domain": "x.ch", "error": "HTTP 502"}]}) == "ct_error"
+    assert no_data_reason(base) == "no_certs"
+    assert no_data_reason({**base, "shared_domain": True}) == "shared"
+    assert no_data_reason({**base, "hosts_found": 3}) == "not_resolving"
+    assert no_data_reason({**base, "hosts_found": 3, "hosts_in_use": 2}) == "not_assessed"
+
+
+def test_list_visibility_applies_at_merge(tmp_path):
+    from tlsmap.merge import apply_list_visibility
+    p = tmp_path / "list.csv"
+    p.write_text("hostname,organisation,uid,sichtbarkeit\nwww.bank.ch,Bank AG,CHE-1,oeffentlich\n", encoding="utf-8")
+    from tlsmap.config import load_organisations
+    oid = load_organisations(p)[0].id
+    res = {"entities": [{"key": f"organisation:{oid}", "kind": "organisation", "visibility": "aggregat"}]}
+    assert apply_list_visibility(res, p) == 1 and res["entities"][0]["visibility"] == "oeffentlich"

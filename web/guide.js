@@ -6,6 +6,16 @@
 window.GUIDE = {
   de: {
     ui: {
+      why_title: "Warum keine Bewertung?", without_value: "Ohne Bewertung",
+      whys_no_domain: "Keine Domain bekannt", why_no_domain: "In den Quelldaten ist für diese Einheit weder eine Website- noch eine Mail-Domain eingetragen. Korrekturen sind über ein GitHub-Issue willkommen.",
+      whys_shared: "Nur geteilte Domain", why_shared: "Die Einheit nutzt nur die Domain des Kantons oder eine Domain, die sie mit anderen Gemeinden teilt. Deren Dienste werden dort gezählt, nicht hier.",
+      whys_ct_error: "Abfrage fehlgeschlagen", why_ct_error: "Das öffentliche Zertifikatsverzeichnis (crt.sh) hat im letzten Lauf für diese Domains nicht geantwortet. Der nächste Lauf versucht es erneut.",
+      whys_no_certs: "Keine Zertifikate gefunden", why_no_certs: "Für die Domain ist in den öffentlichen Zertifikatsverzeichnissen kein gültiges Zertifikat eingetragen. Häufig läuft die Website unter einer anderen Domain, bei einem Anbieter oder ohne HTTPS.",
+      whys_not_resolving: "Nicht im DNS", why_not_resolving: "Es gibt Zertifikate für die Domain, aber keine der Adressen löst im DNS auf. Die Dienste sind abgeschaltet oder nur intern erreichbar.",
+      whys_not_assessed: "Nicht prüfbar", why_not_assessed: "Die Adressen sind im DNS vorhanden, aber keine der Prüfungen liess sich durchführen, etwa weil der Server über HTTPS nicht antwortet.",
+      whys_not_in_run: "Noch nicht erhoben", why_not_in_run: "Für diesen Kanton liegen aus dem aktuellen Lauf noch keine Ergebnisse vor. Der Lauf fehlt oder läuft noch.",
+      whys_missing: "Nicht erhoben", why_missing: "Diese Gemeinde ist nicht im aktuellen Lauf: Entweder fehlt der Lauf ihres Kantons noch, oder sie ist (zum Beispiel nach einer Fusion) nicht in der Gemeindeliste.",
+      hosts_here: "Hosts", hosts_sorted: "Sortiert nach Bewertung, tiefste zuerst. Klick zeigt alle Prüfungen des Hosts.", measured_at: "gemessen bei {x}",
       fed_title: "Bund", fed_note: "Departemente, Ämter, Gerichte und Parlament. Klicken für Details.",
       t_canton: "Kanton", t_municipality: "Gemeinde", t_federal: "Bund", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
       no_match: "Keine Treffer", searching: "Suche …", search: "Kanton, Gemeinde, Bund, Domain oder Host",
@@ -22,7 +32,7 @@ window.GUIDE = {
       sec_crit: "Kritische Dienste", sec_data: "Daten und Aktualisierung", sec_limits: "Was die Bewertung nicht sagt",
       intro_simple: "Die Karte zeigt, wie gut die Online-Dienste von Kantonen, Gemeinden und Bund geschützt sind und wie stark sie von ausländischen Anbietern abhängen. Klicken Sie auf einen Kanton oder eine Gemeinde.",
       to_help: "Alles erklärt", view_hint: "Einfach: Erklärungen ohne Vorwissen. Fachlich: alle Kennzahlen, Formeln und Rohwerte.",
-      sector_intro_simple: "Die Tabelle zeigt pro Wirtschaftssektor, wie gut die wichtigsten Online-Dienste abschneiden. Einzelne Firmen werden nicht gezeigt.",
+      sector_intro_simple: "Die Tabelle zeigt pro Wirtschaftssektor, wie gut die wichtigsten Online-Dienste abschneiden. Ein Klick auf einen Sektor listet die einzelnen Hosts.",
       orgs_simple: "Kreise auf der Karte: Organisationen der Liste kritischer Dienste, gruppiert nach Ort. Die Farben zeigen den Anteil grün, gelb und rot.",
     },
     s: {
@@ -88,11 +98,11 @@ window.GUIDE = {
       },
       crit: {
         s: ["Zusätzlich prüfen wir die rund 1000 wichtigsten Online-Dienste der Schweiz, etwa von Banken, Spitälern, Energie, Verkehr und Medien.",
-            "Diese Resultate zeigen wir nur zusammengefasst, nie für einzelne Firmen, und erst ab fünf Organisationen pro Gruppe. Bei einem Teil der Liste ist die Zuordnung unsicher; der Anteil steht jeweils daneben.",
+            "Die Resultate stehen pro Sektor und lassen sich bis zum einzelnen Host aufklappen. Gruppenwerte erscheinen erst ab fünf Organisationen. Bei einem Teil der Liste ist die Zuordnung zum Betreiber unsicher; der Anteil steht jeweils daneben.",
             "Dienste, die einem Kanton oder einer Gemeinde gehören, werden dort gemessen und nur verlinkt."],
         x: ["Liste in data/critical_services: Betreiber mit UID, Sektor und Teilsektor nach der nationalen SKI-Strategie (2023), Service-Typ, Kritikalität, Sichtbarkeit, Sicherheit der Zuordnung.",
             "Bewertet werden die gelisteten Hosts; domainbezogene Fakten (DNSSEC-Signatur, Nameserver, CAA) stammen von der registrierbaren Domain. Weitere Subdomains werden nicht bewertet.",
-            "Gliederung nach Sektor, Teilsektor, Service-Typ und Kanton des Sitzes, je kritisch / übrig. Unterdrückung unter {min_orgs} Organisationen; Anteil «Sicherheit tief» je Aggregat. Hosts von Kantonen und Gemeinden werden dort gemessen und übernommen (verlinkt).",
+            "Gliederung nach Sektor, Teilsektor, Service-Typ und Kanton des Sitzes, je kritisch / übrig, mit Hostliste und Drill-down (alle Zeilen «oeffentlich»). Gruppenwerte erst ab {min_orgs} Organisationen; Anteil «Sicherheit tief» je Aggregat. Hosts von Kantonen und Gemeinden werden dort gemessen und übernommen (verlinkt).",
             "Die Liste wird monatlich geprüft (DNS, HTTPS, Quellen-Link; tlsmap verify-list); Änderungen erfolgen von Hand."],
       },
       data: {
@@ -116,6 +126,16 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      why_title: "Pourquoi pas d’évaluation ?", without_value: "Sans évaluation",
+      whys_no_domain: "Aucun domaine connu", why_no_domain: "Les données sources n’indiquent ni domaine de site web ni domaine de messagerie pour cette entité. Les corrections sont bienvenues via une issue GitHub.",
+      whys_shared: "Domaine partagé seulement", why_shared: "L’entité utilise seulement le domaine du canton ou un domaine partagé avec d’autres communes. Ces services y sont comptés, pas ici.",
+      whys_ct_error: "Requête échouée", why_ct_error: "Le registre public des certificats (crt.sh) n’a pas répondu pour ces domaines lors du dernier passage. Le prochain passage réessaiera.",
+      whys_no_certs: "Aucun certificat trouvé", why_no_certs: "Aucun certificat valide n’est enregistré pour ce domaine dans les registres publics. Souvent, le site se trouve sous un autre domaine, chez un fournisseur ou sans HTTPS.",
+      whys_not_resolving: "Absent du DNS", why_not_resolving: "Des certificats existent pour le domaine, mais aucune adresse ne se résout dans le DNS. Les services sont arrêtés ou seulement internes.",
+      whys_not_assessed: "Non contrôlable", why_not_assessed: "Les adresses existent dans le DNS, mais aucun contrôle n’a pu être effectué, par exemple parce que le serveur ne répond pas en HTTPS.",
+      whys_not_in_run: "Pas encore relevé", why_not_in_run: "Le passage actuel n’a pas encore de résultats pour ce canton. Il manque ou est en cours.",
+      whys_missing: "Non relevé", why_missing: "Cette commune ne figure pas dans le passage actuel : soit le passage de son canton manque encore, soit elle ne figure pas dans la liste des communes (par exemple après une fusion).",
+      hosts_here: "Hôtes", hosts_sorted: "Triés par évaluation, la plus basse d’abord. Cliquez pour voir tous les contrôles de l’hôte.", measured_at: "mesuré chez {x}",
       fed_title: "Confédération", fed_note: "Départements, offices, tribunaux et parlement. Cliquez pour les détails.",
       t_canton: "Canton", t_municipality: "Commune", t_federal: "Confédération", t_organisation: "Organisation", t_domain: "Domaine", t_host: "Hôte",
       no_match: "Aucun résultat", searching: "Recherche …", search: "Canton, commune, Confédération, domaine ou hôte",
@@ -132,7 +152,7 @@ window.GUIDE = {
       sec_crit: "Services critiques", sec_data: "Données et mise à jour", sec_limits: "Ce que l’évaluation ne dit pas",
       intro_simple: "La carte montre la protection des services en ligne des cantons, des communes et de la Confédération et leur dépendance envers des fournisseurs étrangers. Cliquez sur un canton ou une commune.",
       to_help: "Tout est expliqué", view_hint: "Simple : explications sans connaissances préalables. Expert : tous les indicateurs, formules et valeurs brutes.",
-      sector_intro_simple: "Le tableau montre, par secteur économique, les résultats des principaux services en ligne. Les entreprises individuelles ne sont pas affichées.",
+      sector_intro_simple: "Le tableau montre, par secteur économique, les résultats des principaux services en ligne. Un clic sur un secteur liste les hôtes.",
       orgs_simple: "Cercles sur la carte : organisations de la liste des services critiques, regroupées par lieu. Les couleurs montrent la part de vert, jaune et rouge.",
     },
     s: {
@@ -198,11 +218,11 @@ window.GUIDE = {
       },
       crit: {
         s: ["Nous contrôlons aussi les quelque 1000 services en ligne les plus importants de Suisse, par exemple de banques, hôpitaux, énergie, transports et médias.",
-            "Ces résultats ne sont montrés que regroupés, jamais par entreprise, et seulement dès cinq organisations par groupe. Pour une partie de la liste, l’attribution est incertaine ; la part est indiquée.",
+            "Les résultats sont présentés par secteur et peuvent être dépliés jusqu’à l’hôte individuel. Les valeurs de groupe n’apparaissent qu’à partir de cinq organisations. Pour une partie de la liste, l’attribution à l’exploitant est incertaine ; la part est indiquée.",
             "Les services appartenant à un canton ou à une commune y sont mesurés et seulement liés."],
         x: ["Liste dans data/critical_services : exploitant avec IDE, secteur et sous-secteur selon la stratégie nationale PIC (2023), type de service, criticité, visibilité, fiabilité de l’attribution.",
             "Les hôtes listés sont évalués ; les faits liés au domaine (signature DNSSEC, serveurs de noms, CAA) proviennent du domaine enregistrable. Les autres sous-domaines ne sont pas évalués.",
-            "Regroupement par secteur, sous-secteur, type de service et canton du siège, critiques / autres. Suppression sous {min_orgs} organisations ; part « fiabilité faible » par agrégat. Les hôtes des cantons et communes y sont mesurés et repris (liés).",
+            "Regroupement par secteur, sous-secteur, type de service et canton du siège, critiques / autres, avec liste des hôtes et détail (toutes les lignes « oeffentlich »). Valeurs de groupe dès {min_orgs} organisations ; part « fiabilité faible » par agrégat. Les hôtes des cantons et communes y sont mesurés et repris (liés).",
             "La liste est vérifiée chaque mois (DNS, HTTPS, lien source ; tlsmap verify-list) ; les modifications se font à la main."],
       },
       data: {
@@ -226,6 +246,16 @@ window.GUIDE = {
 
   it: {
     ui: {
+      why_title: "Perché nessuna valutazione?", without_value: "Senza valutazione",
+      whys_no_domain: "Nessun dominio noto", why_no_domain: "Nei dati di partenza non è indicato né un dominio web né un dominio di posta per questa unità. Le correzioni sono benvenute tramite una issue GitHub.",
+      whys_shared: "Solo dominio condiviso", why_shared: "L’unità usa solo il dominio del cantone o un dominio condiviso con altri comuni. Quei servizi sono contati lì, non qui.",
+      whys_ct_error: "Richiesta non riuscita", why_ct_error: "Il registro pubblico dei certificati (crt.sh) non ha risposto per questi domini nell’ultima esecuzione. La prossima esecuzione riproverà.",
+      whys_no_certs: "Nessun certificato trovato", why_no_certs: "Per il dominio non è registrato alcun certificato valido nei registri pubblici. Spesso il sito si trova sotto un altro dominio, presso un fornitore o senza HTTPS.",
+      whys_not_resolving: "Non nel DNS", why_not_resolving: "Esistono certificati per il dominio, ma nessun indirizzo si risolve nel DNS. I servizi sono spenti o solo interni.",
+      whys_not_assessed: "Non verificabile", why_not_assessed: "Gli indirizzi esistono nel DNS, ma nessun controllo è stato possibile, per esempio perché il server non risponde in HTTPS.",
+      whys_not_in_run: "Non ancora rilevato", why_not_in_run: "L’esecuzione attuale non ha ancora risultati per questo cantone. Manca o è in corso.",
+      whys_missing: "Non rilevato", why_missing: "Questo comune non è nell’esecuzione attuale: o manca ancora l’esecuzione del suo cantone, o non è nell’elenco dei comuni (per esempio dopo una fusione).",
+      hosts_here: "Host", hosts_sorted: "Ordinati per valutazione, la più bassa prima. Cliccare per tutti i controlli dell’host.", measured_at: "misurato presso {x}",
       fed_title: "Confederazione", fed_note: "Dipartimenti, uffici, tribunali e parlamento. Cliccare per i dettagli.",
       t_canton: "Cantone", t_municipality: "Comune", t_federal: "Confederazione", t_organisation: "Organizzazione", t_domain: "Dominio", t_host: "Host",
       no_match: "Nessun risultato", searching: "Ricerca …", search: "Cantone, comune, Confederazione, dominio o host",
@@ -242,7 +272,7 @@ window.GUIDE = {
       sec_crit: "Servizi critici", sec_data: "Dati e aggiornamento", sec_limits: "Cosa la valutazione non dice",
       intro_simple: "La carta mostra quanto sono protetti i servizi online di cantoni, comuni e Confederazione e quanto dipendono da fornitori esteri. Cliccare su un cantone o un comune.",
       to_help: "Tutto spiegato", view_hint: "Semplice: spiegazioni senza conoscenze preliminari. Esperto: tutti gli indicatori, formule e valori grezzi.",
-      sector_intro_simple: "La tabella mostra per settore economico i risultati dei principali servizi online. Le singole aziende non sono mostrate.",
+      sector_intro_simple: "La tabella mostra per settore economico i risultati dei principali servizi online. Un clic su un settore elenca i singoli host.",
       orgs_simple: "Cerchi sulla carta: organizzazioni dell’elenco dei servizi critici, raggruppate per luogo. I colori mostrano la quota di verde, giallo e rosso.",
     },
     s: {
@@ -308,11 +338,11 @@ window.GUIDE = {
       },
       crit: {
         s: ["Controlliamo inoltre i circa 1000 servizi online più importanti della Svizzera, per esempio di banche, ospedali, energia, trasporti e media.",
-            "Questi risultati sono mostrati solo in forma aggregata, mai per singola azienda, e solo da cinque organizzazioni per gruppo. Per una parte dell’elenco l’attribuzione è incerta; la quota è indicata.",
+            "I risultati sono presentati per settore e si possono aprire fino al singolo host. I valori di gruppo compaiono solo da cinque organizzazioni. Per una parte dell’elenco l’attribuzione al gestore è incerta; la quota è indicata.",
             "I servizi che appartengono a un cantone o a un comune sono misurati lì e solo collegati."],
         x: ["Elenco in data/critical_services: gestore con IDI, settore e sottosettore secondo la strategia nazionale PIC (2023), tipo di servizio, criticità, visibilità, affidabilità dell’attribuzione.",
             "Sono valutati gli host elencati; i fatti legati al dominio (firma DNSSEC, name server, CAA) provengono dal dominio registrabile. Altri sottodomini non sono valutati.",
-            "Raggruppamento per settore, sottosettore, tipo di servizio e cantone della sede, critici / altri. Soppressione sotto {min_orgs} organizzazioni; quota «affidabilità bassa» per aggregato. Gli host di cantoni e comuni sono misurati lì e ripresi (collegati).",
+            "Raggruppamento per settore, sottosettore, tipo di servizio e cantone della sede, critici / altri, con elenco degli host e dettaglio (tutte le righe «oeffentlich»). Valori di gruppo da {min_orgs} organizzazioni; quota «affidabilità bassa» per aggregato. Gli host di cantoni e comuni sono misurati lì e ripresi (collegati).",
             "L’elenco è verificato ogni mese (DNS, HTTPS, link alla fonte; tlsmap verify-list); le modifiche avvengono a mano."],
       },
       data: {
@@ -336,6 +366,16 @@ window.GUIDE = {
 
   en: {
     ui: {
+      why_title: "Why no rating?", without_value: "Without a rating",
+      whys_no_domain: "No domain known", why_no_domain: "The source data lists neither a website nor a mail domain for this unit. Corrections are welcome as a GitHub issue.",
+      whys_shared: "Shared domain only", why_shared: "The unit only uses the canton's domain or one it shares with other municipalities. Those services are counted there, not here.",
+      whys_ct_error: "Query failed", why_ct_error: "The public certificate log (crt.sh) did not answer for these domains in the last run. The next run will try again.",
+      whys_no_certs: "No certificates found", why_no_certs: "No valid certificate for the domain is recorded in the public logs. Often the website runs under another domain, at a provider, or without HTTPS.",
+      whys_not_resolving: "Not in DNS", why_not_resolving: "Certificates exist for the domain, but none of the names resolves in DNS. The services are switched off or internal only.",
+      whys_not_assessed: "Could not be checked", why_not_assessed: "The names exist in DNS, but none of the checks could be made, for example because the server does not answer over HTTPS.",
+      whys_not_in_run: "Not collected yet", why_not_in_run: "The current run has no results for this canton yet. The batch is missing or still running.",
+      whys_missing: "Not collected", why_missing: "This municipality is not in the current run: either its canton's batch is still missing, or it is not on the municipality list (for example after a merger).",
+      hosts_here: "Hosts", hosts_sorted: "Sorted by rating, lowest first. Click to see all checks of the host.", measured_at: "measured at {x}",
       fed_title: "Federal", fed_note: "Departments, offices, courts and parliament. Click for details.",
       t_canton: "Canton", t_municipality: "Municipality", t_federal: "Federal", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
       no_match: "No matches", searching: "Searching …", search: "Canton, municipality, federal, domain or host",
@@ -352,7 +392,7 @@ window.GUIDE = {
       sec_crit: "Critical services", sec_data: "Data and updates", sec_limits: "What the rating does not say",
       intro_simple: "The map shows how well the online services of cantons, municipalities and the federal administration are protected and how much they depend on foreign providers. Click a canton or municipality.",
       to_help: "Everything explained", view_hint: "Simple: explanations without prior knowledge. Expert: all indicators, formulas and raw values.",
-      sector_intro_simple: "The table shows, per economic sector, how the most important online services score. Individual companies are not shown.",
+      sector_intro_simple: "The table shows, per economic sector, how the most important online services score. Click a sector to list its hosts.",
       orgs_simple: "Circles on the map: organisations on the critical-services list, grouped by place. The colours show the share of green, yellow and red.",
     },
     s: {
@@ -418,11 +458,11 @@ window.GUIDE = {
       },
       crit: {
         s: ["We also check about 1,000 of the most important online services in Switzerland, for example of banks, hospitals, energy, transport and media.",
-            "These results are only shown in summary, never for single companies, and only from five organisations per group. For part of the list the assignment is uncertain; the share is shown next to it.",
+            "Results are shown per sector and can be opened down to the single host. Group values only appear from five organisations. For part of the list the assignment to the operator is uncertain; the share is shown next to it.",
             "Services that belong to a canton or municipality are measured there and only linked."],
         x: ["List in data/critical_services: operator with UID, sector and sub-sector under the national CIP strategy (2023), service type, criticality, visibility, confidence of the assignment.",
             "The listed hosts are rated; domain-level facts (DNSSEC signing, name servers, CAA) come from the registrable domain. Other subdomains are not rated.",
-            "Grouping by sector, sub-sector, service type and canton of seat, critical / other. Suppressed below {min_orgs} organisations; share of low-confidence rows per aggregate. Hosts of cantons and municipalities are measured there and taken over (linked).",
+            "Grouping by sector, sub-sector, service type and canton of seat, critical / other, with host list and drill-down (all rows 'oeffentlich'). Group values from {min_orgs} organisations; share of low-confidence rows per aggregate. Hosts of cantons and municipalities are measured there and taken over (linked).",
             "The list is verified monthly (DNS, HTTPS, source link; tlsmap verify-list); changes are made by hand."],
       },
       data: {

@@ -28,7 +28,7 @@ ENTITY_COLUMNS = [
     "expiring_soon", "weak_crypto", "crypto_coverage", "multi_ca_hosts", "caa", "checks_passed",
     "checks_failed", "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy",
     "posture_light", "posture_eligible", "posture_resources", "posture_knockouts", "dnssec_signed", "dns_providers",
-    "ct_source", "ct_newest_entry",
+    "ct_source", "ct_newest_entry", "no_data_reason",
 ]
 
 ENDPOINT_COLUMNS = ["entity", "hostname", "ip", "family", "checked_at", "ok", "valid", "verify_error", "error",
@@ -86,6 +86,26 @@ def host_row(r: dict) -> dict:
     return row
 
 
+def no_data_reason(e: dict) -> str | None:
+    """Why an entity has no Trust Posture value; None if it has one.
+    no_domain: no domain known; shared: only domains it shares with the canton
+    or other municipalities; ct_error: the CT query failed; no_certs: no
+    current certificate in CT; not_resolving: certificates exist but no name
+    resolves in DNS; not_assessed: names in use, but no check could be made."""
+    if (e.get("posture") or {}).get("overall") is not None:
+        return None
+    if not e.get("domains"):
+        return "no_domain"
+    disc = e.get("discovery") or []
+    if disc and all(d.get("error") for d in disc):
+        return "ct_error"
+    if not e.get("hosts_found"):
+        return "shared" if e.get("shared_domain") else "no_certs"
+    if not e.get("hosts_in_use"):
+        return "not_resolving"
+    return "not_assessed"
+
+
 def entity_row(e: dict) -> dict:
     caa_txt = "; ".join(f"{d}: {', '.join(c.get('issue') or []) or 'none'}" for d, c in e.get("caa", {}).items())
     disc = e.get("discovery", [])
@@ -114,6 +134,7 @@ def entity_row(e: dict) -> dict:
         "checks_failed": sum(1 for c in e["checks"] if c["status"] == "fail"),
         "ct_source": "; ".join(sorted({d["source"] for d in disc})),
         "ct_newest_entry": max((d["newest_not_before"] or "" for d in disc), default=""),
+        "no_data_reason": no_data_reason(e) or "",
     }
 
 
@@ -241,6 +262,10 @@ def sector_json(result: dict, dim: str = "sektor") -> dict:
 
 def map_json(result: dict, meta: dict) -> dict:
     """Compact per-entity data for the web map (web/)."""
+    hosts_by_entity: dict[str, list] = {}
+    for r in result.get("hostnames", []):
+        if r["entity"].startswith("organisation:"):
+            hosts_by_entity.setdefault(r["entity"], []).append(r)
     ents: dict[str, dict] = {"canton": {}, "municipality": {}, "federal": {}, "organisation": {}}
     bfs_of = _bfs_lookup()
     for e in result["entities"]:
@@ -258,6 +283,7 @@ def map_json(result: dict, meta: dict) -> dict:
         ents[e["kind"]][e["id"]] = {
             "n": e["name"], "c": e.get("code", ""), "d": e["domains"], "sd": e.get("shared_domain", False),
             "hf": e["hosts_found"], "h": e["hosts_in_use"], "hc": e["critical_in_use"],
+            **({"why": no_data_reason(e)} if no_data_reason(e) else {}),
             "s": e["sovereignty_score"], "cs": e["critical_sovereignty_score"],
             "a": e["assurance_score"], "ca": e["critical_assurance_score"],
             "z": e["zone_shares"], "v": e["validation_counts"],
@@ -271,12 +297,26 @@ def map_json(result: dict, meta: dict) -> dict:
         }
         if e["kind"] == "organisation":
             pl = e.get("place") or {}
+            # hosts with what the sector view needs to list and filter them:
+            # [hostname, overall, sector, sub-sector, service type, critical, linked to]
+            hs = [[r["hostname"], (r.get("tm") or {}).get("overall"), r.get("sector") or e.get("sector", ""),
+                   r.get("subsector") or e.get("subsector", ""), r.get("service_type") or "",
+                   1 if r.get("critical") else 0, r.get("linked_to") or ""]
+                  for r in hosts_by_entity.get(e["key"], [])]
             ents["organisation"][e["id"]].update({
+                "hs": hs,
                 "sec": e.get("sector", ""), "sub": e.get("subsector", ""), "uid": e.get("uid", ""),
                 "ort": pl.get("ort", ""), "kt": pl.get("kanton", ""),
                 "bfs": bfs_of.get((pl.get("ort", "").lower(), pl.get("kanton", ""))) or bfs_of.get((pl.get("ort", "").lower(), "")),
             })
-    return {"generated": result["generated"], "ct_lag_days": result.get("ct_lag_days"),
+    # names of all municipalities, so the map can name those missing from a run
+    try:
+        from .config import DATA_DIR
+        mlist = json.loads((DATA_DIR / "municipalities_ch.json").read_text())["municipalities"]
+        mnames = {str(m["code"]): m["name"] for m in mlist}
+    except (OSError, KeyError, ValueError):
+        mnames = {}
+    return {"generated": result["generated"], "ct_lag_days": result.get("ct_lag_days"), "mnames": mnames,
             "ccadb_fetched": result.get("ccadb_fetched"),
             "ct_sources": meta.get("ct_sources_used", {}), "entities": ents}
 
