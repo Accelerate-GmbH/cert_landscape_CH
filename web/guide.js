@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      ur_tag: "nicht erreichbar", ur_title: "Löst im DNS auf, hat bei der Messung aber an keiner Adresse über HTTPS geantwortet. Die Bewertung beruht nur auf den Prüfungen aus dem DNS.", ur_note: "Der Host löst im DNS auf, hat bei der Messung aber an keiner Adresse über HTTPS geantwortet. Die Prüfungen, die eine Verbindung brauchen (Zertifikat, Sperrstatus, TLS, PQC), sind nicht beurteilt; die Bewertung beruht nur auf den Prüfungen aus dem DNS. Möglich sind ein abgeschalteter oder nur intern erreichbarer Dienst oder eine Sperre gegen unseren Messpunkt.",
       total_before_ko: "Summe vor K.-o.", ko_row: "K.-o.: ungültiges oder gesperrtes Zertifikat, der Host zählt mit 0",
       level_hosts: "Alle Hosts", hosts_title: "Alle Hosts", col_owner: "Betreiber", col_type: "Art", type_all: "alle Arten", only_crit: "nur kritische", prev: "zurück", next: "weiter", rows_shown: "{a}–{b} von {n}", hosts_filter: "Host oder Betreiber filtern", hosts_csv: "Ganze Liste als CSV", hosts_intro: "Alle bewerteten Hosts von Kantonen, Gemeinden, Bund und kritischen Diensten. Klick auf eine Spalte sortiert, Klick auf einen Host zeigt alle Prüfungen.", hosts_panel: "{n} Hosts mit Bewertung, nach Ampel:",
       pq_preferred: "bevorzugt", pq_enabled: "angeboten", pq_no: "nicht angeboten",
@@ -135,6 +136,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      ur_tag: "injoignable", ur_title: "Résolu dans le DNS, mais aucune adresse n’a répondu en HTTPS lors de la mesure. L’évaluation ne repose que sur les contrôles DNS.", ur_note: "L’hôte est résolu dans le DNS, mais aucune adresse n’a répondu en HTTPS lors de la mesure. Les contrôles qui exigent une connexion (certificat, révocation, TLS, PQC) ne sont pas évalués ; l’évaluation ne repose que sur les contrôles DNS. Causes possibles : service arrêté ou seulement interne, ou blocage de notre point de mesure.",
       total_before_ko: "Somme avant élimination", ko_row: "Élimination : certificat invalide ou révoqué, l’hôte compte 0",
       level_hosts: "Tous les hôtes", hosts_title: "Tous les hôtes", col_owner: "Exploitant", col_type: "Type", type_all: "tous les types", only_crit: "critiques seulement", prev: "précédent", next: "suivant", rows_shown: "{a}–{b} sur {n}", hosts_filter: "Filtrer hôte ou exploitant", hosts_csv: "Liste complète en CSV", hosts_intro: "Tous les hôtes évalués des cantons, communes, de la Confédération et des services critiques. Cliquez sur une colonne pour trier, sur un hôte pour voir tous ses contrôles.", hosts_panel: "{n} hôtes évalués, par couleur :",
       pq_preferred: "préféré", pq_enabled: "proposé", pq_no: "non proposé",
@@ -264,6 +266,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      ur_tag: "non raggiungibile", ur_title: "Si risolve nel DNS, ma nessun indirizzo ha risposto in HTTPS durante la misura. La valutazione si basa solo sui controlli DNS.", ur_note: "L’host si risolve nel DNS, ma nessun indirizzo ha risposto in HTTPS durante la misura. I controlli che richiedono una connessione (certificato, revoca, TLS, PQC) non sono valutati; la valutazione si basa solo sui controlli DNS. Possibili cause: servizio spento o solo interno, o blocco del nostro punto di misura.",
       total_before_ko: "Somma prima dell’eliminazione", ko_row: "Eliminazione: certificato non valido o revocato, l’host conta 0",
       level_hosts: "Tutti gli host", hosts_title: "Tutti gli host", col_owner: "Gestore", col_type: "Tipo", type_all: "tutti i tipi", only_crit: "solo critici", prev: "indietro", next: "avanti", rows_shown: "{a}–{b} di {n}", hosts_filter: "Filtra host o gestore", hosts_csv: "Elenco completo in CSV", hosts_intro: "Tutti gli host valutati di cantoni, comuni, Confederazione e servizi critici. Cliccare su una colonna per ordinare, su un host per tutti i controlli.", hosts_panel: "{n} host valutati, per colore:",
       pq_preferred: "preferito", pq_enabled: "offerto", pq_no: "non offerto",
@@ -393,6 +396,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      ur_tag: "not reachable", ur_title: "Resolves in DNS, but no address answered over HTTPS during the measurement. The rating rests on the DNS checks only.", ur_note: "The host resolves in DNS, but no address answered over HTTPS during the measurement. Checks that need a connection (certificate, revocation, TLS, PQC) are not assessed; the rating rests on the DNS checks only. Possible causes: a service switched off or internal only, or a block against our vantage point.",
       total_before_ko: "Sum before knock-out", ko_row: "Knock-out: invalid or revoked certificate, the host counts as 0",
       level_hosts: "All hosts", hosts_title: "All hosts", col_owner: "Operator", col_type: "Type", type_all: "all types", only_crit: "critical only", prev: "previous", next: "next", rows_shown: "{a}–{b} of {n}", hosts_filter: "Filter host or operator", hosts_csv: "Full list as CSV", hosts_intro: "All rated hosts of cantons, municipalities, the federal administration and critical services. Click a column to sort, a host to see all its checks.", hosts_panel: "{n} rated hosts, by colour:",
       pq_preferred: "preferred", pq_enabled: "offered", pq_no: "not offered",

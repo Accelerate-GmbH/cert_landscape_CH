@@ -15,7 +15,7 @@ HOST_COLUMNS = [
     "days_left", "key_type", "key_bits", "signature_hash", "subject_org", "platform", "cnames", "ip",
     "asn", "as_name", "net_country", "ips", "hosting_as", "tld", "dnssec", "caa_found_at", "caa_issue", "ech",
     "root_name", "root_owner", "root_country", "root_zone", "endpoints_consistent",
-    "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy", "posture_knockout", "other_issuers", "valid_cert_count", "source", "cert_id",
+    "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy", "posture_knockout", "unreachable", "other_issuers", "valid_cert_count", "source", "cert_id",
     "cert_sha256", "probe_ok", "probe_verified", "probe_tls_version", "served_issuer_org",
     "served_matches_ct", "probe_error",
 ]
@@ -46,6 +46,12 @@ def _flat(v):
     return "" if v is None else v
 
 
+def unreachable(r: dict) -> bool:
+    """Resolves in DNS, but no address answered over HTTPS in the live probe."""
+    eps = [e for e in r.get("endpoints") or [] if e.get("ok") is not None]
+    return bool(eps) and not any(e.get("ok") for e in eps)
+
+
 def resource_entry(r: dict) -> dict:
     """Everything the map needs to drill down from a score to its evidence."""
     eps = []
@@ -66,6 +72,7 @@ def resource_entry(r: dict) -> dict:
     tm = r.get("tm") or {}
     return {
         "h": r["hostname"], "crit": r.get("critical", False), "o": tm.get("overall"), "c": tm.get("categories"),
+        "ur": unreachable(r),
         "ko": r.get("posture_knockout", ""),
         "cert": {"src": r.get("source", ""), "id": r.get("cert_id", ""), "sha": r.get("cert_sha256") or "",
                  "iss": r.get("issuer_cn", ""), "org": r.get("issuer_org", ""), "val": r.get("validation", ""),
@@ -82,6 +89,7 @@ def host_row(r: dict) -> dict:
     cats = tm.get("categories") or {}
     row = {k: r.get(k) for k in HOST_COLUMNS}
     row.update({"posture_overall": tm.get("overall"), "posture_knockout": r.get("posture_knockout", ""),
+                "unreachable": unreachable(r) if r.get("in_use") else "",
                 **{f"posture_{c}": cats.get(c) for c in ("ownership", "sovereignty", "security", "privacy")}})
     return row
 
@@ -311,12 +319,12 @@ def map_json(result: dict, meta: dict) -> dict:
             # hosts with what the sector view needs to list and filter them:
             # [hostname, overall, sector, sub-sector, service type, critical, linked to,
             #  [ownership, sovereignty, security, privacy], check statuses in CHECK_ORDER
-            #  (p pass, h partial, f fail, - not assessed)]
+            #  (p pass, h partial, f fail, - not assessed), unreachable]
             hs = [[r["hostname"], (r.get("tm") or {}).get("overall"), r.get("sector") or e.get("sector", ""),
                    r.get("subsector") or e.get("subsector", ""), r.get("service_type") or "",
                    1 if r.get("critical") else 0, r.get("linked_to") or "",
                    [((r.get("tm") or {}).get("categories") or {}).get(c) for c in CATEGORIES],
-                   _status_string(r)]
+                   _status_string(r), 1 if unreachable(r) else 0]
                   for r in hosts_by_entity.get(e["key"], [])]
             ents["organisation"][e["id"]].update({
                 "hs": hs,
@@ -473,7 +481,7 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
             del unrated[key][h]
     # All rated hosts in one compact table for the map's host list:
     # [hostname, entity key, overall, ownership, sovereignty, security, privacy,
-    #  check statuses in CHECK_ORDER, critical, knock-out reason]
+    #  check statuses in CHECK_ORDER, critical, knock-out reason, unreachable]
     rows_all = []
     for r in result["hostnames"]:
         key = r["entity"]
@@ -481,7 +489,8 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
             continue
         cats = r["tm"].get("categories") or {}
         rows_all.append([r["hostname"], key, r["tm"].get("overall"), *[cats.get(c) for c in CATEGORIES],
-                         _status_string(r), 1 if r.get("critical") else 0, r.get("posture_knockout") or ""])
+                         _status_string(r), 1 if r.get("critical") else 0, r.get("posture_knockout") or "",
+                         1 if unreachable(r) else 0])
     rows_all.sort(key=lambda x: (x[0], x[1]))
     p = out_dir / "hosts.json"
     p.write_text(json.dumps({"v": 1, "order": CHECK_ORDER, "rows": rows_all}, ensure_ascii=False, separators=(",", ":")))
