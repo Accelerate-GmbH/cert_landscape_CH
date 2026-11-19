@@ -188,7 +188,8 @@ jobs:
 
   merge:
     needs: [test, cantons, federal, services, verify-list]
-    if: always() && needs.test.result == 'success'
+    # not after a cancelled run: a cut-off merge must not overwrite newer output
+    if: ${{ !cancelled() && needs.test.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
