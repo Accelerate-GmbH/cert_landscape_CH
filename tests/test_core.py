@@ -306,3 +306,37 @@ def test_new_checks_sectxt_registrar_hsts():
     ctx = {"sectxt": {"status": "none"}, "registrar": {"name": "CSC", "country": "US"}}
     st = {c["check"]: c["status"] for c in evaluate(r, ctx, cfg)}
     assert st["own.sectxt"] == "fail" and st["sov.registrar"] == "fail" and st["sec.hsts"] == "fail"
+
+
+def test_starttls_against_local_server():
+    """STARTTLS code path end to end against a tiny local SMTP server (plain, no STARTTLS)."""
+    import socket, threading
+    from tlsmap.mail import MailCheck
+    srv = socket.socket(); srv.bind(("127.0.0.1", 0)); srv.listen(1)
+    port = srv.getsockname()[1]
+
+    def serve():
+        c, _ = srv.accept()
+        f = c.makefile("rwb")
+        f.write(b"220 test ESMTP\r\n"); f.flush()
+        while True:
+            line = f.readline()
+            if not line:
+                break
+            if line.upper().startswith((b"EHLO", b"HELO")):
+                f.write(b"250-test\r\n250 SIZE 1000\r\n"); f.flush()
+            elif line.upper().startswith(b"QUIT"):
+                f.write(b"221 bye\r\n"); f.flush(); break
+            else:
+                f.write(b"250 ok\r\n"); f.flush()
+        c.close()
+    threading.Thread(target=serve, daemon=True).start()
+    import smtplib
+    orig = smtplib.SMTP.connect
+    smtplib.SMTP.connect = lambda self, host="", port_=0, source_address=None: orig(self, "127.0.0.1", port)
+    try:
+        res = MailCheck(None, None, timeout=5).starttls("mx.example.ch", "127.0.0.1")
+    finally:
+        smtplib.SMTP.connect = orig
+    assert res == {"ok": True, "starttls": False}
+    assert MailCheck(None, None, timeout=1).starttls("mx.invalid", "192.0.2.1")["ok"] is False
