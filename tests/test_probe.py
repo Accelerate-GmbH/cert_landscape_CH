@@ -90,3 +90,11 @@ def test_resource_rating_from_endpoints():
     sc = posture.score(res, cfg)
     assert sc["categories"] == {"ownership": 100, "sovereignty": 100, "security": 75, "privacy": 0}
     assert sc["overall"] == 79  # the worked example in docs/RATING.md
+
+
+def test_endpoint_never_raises_on_bad_chain(monkeypatch):
+    from tlsmap import probe
+    monkeypatch.setattr(probe, "_handshake", lambda *a, **k: {"tls_version": "TLSv1.3", "cipher": "x", "group": "", "chain": [b"not a cert"]})
+    monkeypatch.setattr(probe, "pq_test", lambda *a, **k: {"pq": "no"})
+    out = probe.endpoint("example.ch", "192.0.2.1")
+    assert out["ok"] and out["chain_error"] and "cert" not in out

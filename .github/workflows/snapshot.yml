@@ -21,9 +21,13 @@ on:
         description: "Run the live TLS checks"
         type: boolean
         default: true
+      reuse_run:
+        description: "Run ID whose batches to keep (rerun single cantons on top of an earlier run)"
+        required: false
 
 permissions:
   contents: write
+  actions: read
 
 env:
   PROBE: ${{ github.event.inputs.probe == 'false' && '' || '--probe' }}
@@ -61,17 +65,24 @@ jobs:
           uv venv --python 3.15 .venv
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
           echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
-      - name: Cache lookups (lets a cut-off batch resume)
-        uses: actions/cache@v4
+      - name: Restore lookups (lets a cut-off batch resume)
+        uses: actions/cache/restore@v4
         with:
           path: .cache
           key: tlsmap-${{ matrix.canton }}-${{ github.run_id }}
           restore-keys: tlsmap-${{ matrix.canton }}-
       - run: uv pip install -e .
       - name: Run canton ${{ matrix.canton }}
+        timeout-minutes: 310
         env:
           CERTSPOTTER_API_KEY: ${{ secrets.CERTSPOTTER_API_KEY }}
         run: tlsmap run --canton ${{ matrix.canton }} --entities cantons,municipalities $PROBE --raw-out raw/${{ matrix.canton }}.json.gz
+      - name: Save lookups, also when the batch failed or was cut off
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache
+          key: tlsmap-${{ matrix.canton }}-${{ github.run_id }}-${{ github.run_attempt }}
       - uses: actions/upload-artifact@v4
         with:
           name: raw-${{ matrix.canton }}
@@ -82,7 +93,7 @@ jobs:
     needs: test
     if: github.event.inputs.list != 'false'
     runs-on: ubuntu-latest
-    timeout-minutes: 330
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -91,8 +102,8 @@ jobs:
           uv venv --python 3.15 .venv
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
           echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
-      - name: Cache lookups
-        uses: actions/cache@v4
+      - name: Restore lookups (lets a cut-off batch resume)
+        uses: actions/cache/restore@v4
         with:
           path: .cache
           key: tlsmap-services-${{ github.run_id }}
@@ -101,7 +112,14 @@ jobs:
       - name: Rate the critical-services list
         env:
           CERTSPOTTER_API_KEY: ${{ secrets.CERTSPOTTER_API_KEY }}
+        timeout-minutes: 320
         run: tlsmap run --entities organisations $PROBE --raw-out raw/services.json.gz
+      - name: Save lookups, also when the batch failed or was cut off
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache
+          key: tlsmap-services-${{ github.run_id }}-${{ github.run_attempt }}
       - uses: actions/upload-artifact@v4
         with:
           name: raw-services
@@ -139,6 +157,24 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -e .
+      - name: Batches of the earlier run (overwritten by this run's batches)
+        if: github.event.inputs.reuse_run != '' && github.event.inputs.reuse_run != null
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.inputs.reuse_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: raw-*
+          path: raw
+          merge-multiple: true
+      - name: List check of the earlier run
+        if: github.event.inputs.reuse_run != '' && github.event.inputs.reuse_run != null && github.event.inputs.list == 'false'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.inputs.reuse_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: verification
+          path: data/critical_services
       - uses: actions/download-artifact@v4
         with:
           pattern: raw-*
