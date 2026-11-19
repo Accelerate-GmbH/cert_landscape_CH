@@ -55,6 +55,33 @@ system (Team Cymru IP-to-ASN). A hyperscaler region in Zurich still belongs
 to a US-registered network and counts as US: the check measures who controls
 the infrastructure, not where the server stands.
 
+A network that belongs to the rated organisation itself (its name in the AS
+name, for example `UBS AG` for ubs.com) counts with the organisation's seat,
+whatever country the network is registered in.
+
+Name servers (sov.dns), from 19 November 2026:
+
+| Status | Rule |
+|---|---|
+| pass | all name servers at the organisation itself or with Swiss operators, **or** the zone is spread over at least two independent operators, one of them local (own or Swiss) |
+| partial | several independent operators, all abroad; or all within the EU/EEA |
+| fail | a single foreign operator outside the EU/EEA serves the zone alone |
+
+Independent operators are told apart by the operator in the AS name
+(`Akamai International B.V.` and `Akamai Technologies, Inc.` are one
+operator). Spreading a zone over independent operators means no single
+provider can answer for it alone; together with a local operator the
+organisation keeps control. Example: ubs.com is served by UBS's own name
+servers, Akamai and Vercara, which is a pass.
+
+Hosting (sov.hosting) keeps the domicile rule (all local = pass, local or
+EU/EEA = partial, otherwise fail), with the organisation's own network
+counted as local.
+
+The rule is applied again at every merge from the stored name-server and
+network data (`tlsmap merge`), so a change takes effect without measuring
+again.
+
 ### C. Connection security
 
 | ID | Check | Pass | Partial | Fail | Weight |

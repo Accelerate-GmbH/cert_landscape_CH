@@ -72,9 +72,10 @@ def cmd_run(a) -> int:
 
 
 def cmd_merge(a) -> int:
-    from .merge import apply_list_visibility, combine, load_raw
+    from .merge import apply_list_visibility, combine, load_raw, reapply_sovereignty
     parts = [load_raw(Path(p)) for p in a.raw]
     result = combine(parts)
+    rerated = reapply_sovereignty(result)
     vis_changed = apply_list_visibility(result, a.list)
     registry = Registry()
     started = datetime.now(timezone.utc)
@@ -87,7 +88,7 @@ def cmd_merge(a) -> int:
         "ct_lag_days": result.get("ct_lag_days"), "ccadb_fetched": result.get("ccadb_fetched"),
         "probe_note": result.get("probe"), "settings_sha256": file_sha256(CONFIG_DIR / "settings.toml"),
         "registry_sha256": file_sha256(registry.path), "python": platform.python_version(),
-        "http": result.get("http_stats"), "visibility_from_list": vis_changed,
+        "http": result.get("http_stats"), "visibility_from_list": vis_changed, "sovereignty_rerated": rerated,
     }
     out_dir = Path(a.out) / snapshot
     paths = write_all(result, out_dir, registry, meta)
