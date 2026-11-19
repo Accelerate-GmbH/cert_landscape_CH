@@ -11,9 +11,9 @@ from __future__ import annotations
 CATEGORIES = ["ownership", "sovereignty", "security", "privacy"]
 CHECK_CATEGORY = {
     "own.identity": "ownership", "own.revocation": "ownership", "own.dnssec": "ownership",
-    "own.caa": "ownership", "own.ct": "ownership",
-    "sov.ca": "sovereignty", "sov.dns": "sovereignty", "sov.hosting": "sovereignty", "sov.tld": "sovereignty",
-    "sec.tls13": "security", "sec.pqc": "security",
+    "own.caa": "ownership", "own.ct": "ownership", "own.sectxt": "ownership",
+    "sov.ca": "sovereignty", "sov.dns": "sovereignty", "sov.registrar": "sovereignty", "sov.hosting": "sovereignty", "sov.tld": "sovereignty",
+    "sec.tls13": "security", "sec.pqc": "security", "sec.hsts": "security",
     "prv.ech": "privacy",
 }
 IDENTITY_LEVELS = ("OV", "EV", "IV")
@@ -164,6 +164,14 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
         add("own.ct", st, mn, "tls-sct")
     else:
         add("own.ct", "n/a", "", "none", "needs live probe")
+    st_txt = ctx.get("sectxt")
+    if st_txt is None:
+        add("own.sectxt", "n/a", "", "none", "not checked")
+    else:
+        sv = st_txt.get("status", "none")
+        add("own.sectxt", {"valid": "pass", "expired": "partial", "no_expires": "partial"}.get(sv, "fail"),
+            sv + (" (expires " + st_txt.get("expires", "")[:10] + ")" if st_txt.get("expires") else ""),
+            "https-security-txt", st_txt.get("url", ""))
 
     # --- technology sovereignty ----------------------------------------------
     rz = r.get("root_zone") or "unknown"
@@ -173,6 +181,13 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
     selfs = set(ctx.get("self") or [])
     ns_txt = ", ".join(ctx.get("ns_providers") or [])
     add("sov.dns", dns_status(parse_providers(ns_txt), selfs, eea), ns_txt, "dns-ns-asn", ctx.get("ns_domain", ""))
+    reg = ctx.get("registrar")
+    if not reg or not reg.get("country"):
+        add("sov.registrar", "n/a", (reg or {}).get("name", "") or "", "rdap", (reg or {}).get("error", "") or "registrar country unknown")
+    else:
+        cc = reg["country"]
+        add("sov.registrar", "pass" if cc == "CH" else ("partial" if cc in eea else "fail"),
+            f"{reg.get('name', '')} ({cc})", "rdap", reg.get("url", ""))
     host_txt = ", ".join(sorted(set(r.get("hosting_as") or [])))
     add("sov.hosting", hosting_status(parse_providers(host_txt), selfs, eea), host_txt, "asn")
     tld = r.get("tld", "")
@@ -194,6 +209,18 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
     else:
         add("sec.tls13", "n/a", "", "none", "needs live probe")
         add("sec.pqc", "n/a", "", "none", "needs live probe")
+    hs = r.get("http_sec")
+    if not hs or ("hsts" not in hs and hs.get("http_status", "x") == "x"):
+        add("sec.hsts", "n/a", "", "none", "needs live probe")
+    else:
+        min_age = cfg.get("hsts_min_age", 15552000)
+        hsts_ok = (hs.get("hsts") or 0) >= min_age
+        no_plain = hs.get("http_redirect_https") is True or hs.get("http_status") is None
+        st = "pass" if hsts_ok and no_plain else ("partial" if hsts_ok or no_plain else "fail")
+        val = ("HSTS max-age " + str(hs["hsts"]) if hs.get("hsts") is not None else "no HSTS") + " · " + (
+            "port 80 closed" if hs.get("http_status") is None else
+            ("HTTP → HTTPS" if hs.get("http_redirect_https") else f"HTTP {hs.get('http_status')} without redirect"))
+        add("sec.hsts", st, val, "http-hsts", "preload" if hs.get("hsts_preload") else "")
 
     # --- connection privacy ----------------------------------------------------
     ech = r.get("ech", "none")

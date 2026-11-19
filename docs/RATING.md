@@ -50,6 +50,7 @@ below).
 | sov.ca | Domicile of the issuing CA, defined by the root of the chain | CA owner of the root certificate in the CCADB, plus sourced parent companies | 3 |
 | sov.dns | Control and spread of the DNS operation (rule below) | operator and network (AS) of the entity domain's authoritative name servers | 2 |
 | sov.hosting | Domicile of the hosting provider; the organisation's own network counts with its seat | network (AS) of every endpoint address | 2 |
+| sov.registrar | Domicile of the registrar (from 19 November 2026) | RDAP of the registry (rdap.nic.ch for .ch/.li, IANA bootstrap otherwise); for gTLDs the country from the registrar's RDAP or `config/registrars.json`. CH pass, EU/EEA partial, otherwise fail, unknown not assessed | 1 |
 | sov.tld | Swiss top-level domain | `.ch` or `.swiss` pass, anything else fails | 1 |
 
 Network domicile comes from the registration country of the autonomous
@@ -89,6 +90,7 @@ again.
 | ID | Check | Pass | Partial | Fail | Weight |
 |---|---|---|---|---|---|
 | sec.tls13 | TLS 1.3 | every endpoint negotiates TLS 1.3 | some do | none | 1 |
+| sec.hsts | HSTS and no plain-text access (from 19 November 2026) | HSTS max-age of at least 180 days, and port 80 redirects to https:// or is closed | one of the two | neither | 1 |
 | sec.pqc | Post-quantum key exchange offered and preferred | every endpoint accepts X25519MLKEM768 and chooses it when the client offers X25519 first (preferred) | accepted when offered alone but not chosen over X25519 (offered), or not on all endpoints | not accepted | 1 |
 
 Why "offered" only earns a partial: Chrome, Edge, Firefox, Safari and
@@ -234,3 +236,11 @@ domain are left out.
 STARTTLS is tested once per mail server from the GitHub runner (port 25 is
 reachable there, tested 19 November 2026); a server that does not answer is
 not assessed. An entity's mail value is the mean of its rated mail domains.
+
+
+## security.txt (own.sectxt, from 19 November 2026)
+
+Category ownership & protection, weight 1. `/.well-known/security.txt` on
+the entity domain or `www.<domain>` with a `Contact:` line (RFC 9116): with a
+valid `Expires:` pass, expired or without `Expires:` partial, missing fail.
+Checked per domain and applied to the domain's hosts, like CAA and DNSSEC.

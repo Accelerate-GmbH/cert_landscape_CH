@@ -289,3 +289,20 @@ def test_reapply_sovereignty():
     assert reapply_sovereignty(res) == 1
     assert checks[0]["status"] == "pass" and res["checklog"][0]["status"] == "pass"
     assert res["entities"][0]["posture"]["overall"] is not None
+
+
+def test_new_checks_sectxt_registrar_hsts():
+    from tlsmap.posture import evaluate
+    from tlsmap.config import load_settings
+    from tlsmap.webextra import parse_security_txt
+    assert parse_security_txt("Contact: mailto:a@b.ch\nExpires: 2027-01-01T00:00:00Z\n")["expires"].startswith("2027")
+    cfg = {**load_settings()["trust_posture"], "eea_countries": ["DE"]}
+    r = {"endpoints": [{"ok": True, "cert": {"validation": "OV"}, "tls_version": "TLSv1.3", "scts": ["a", "b"], "pq": "preferred"}],
+         "http_sec": {"hsts": 31536000, "http_status": 301, "http_redirect_https": True}, "tld": "ch"}
+    ctx = {"sectxt": {"status": "valid", "expires": "2027-01-01"}, "registrar": {"name": "Key-Systems GmbH", "country": "DE"}}
+    st = {c["check"]: c["status"] for c in evaluate(r, ctx, cfg)}
+    assert st["own.sectxt"] == "pass" and st["sov.registrar"] == "partial" and st["sec.hsts"] == "pass"
+    r["http_sec"] = {"hsts": None, "http_status": 200, "http_redirect_https": False}
+    ctx = {"sectxt": {"status": "none"}, "registrar": {"name": "CSC", "country": "US"}}
+    st = {c["check"]: c["status"] for c in evaluate(r, ctx, cfg)}
+    assert st["own.sectxt"] == "fail" and st["sov.registrar"] == "fail" and st["sec.hsts"] == "fail"

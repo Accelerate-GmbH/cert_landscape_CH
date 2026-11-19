@@ -3,7 +3,7 @@
 How well are the online services of the federal administration, cantons,
 municipalities and critical infrastructure protected, and who controls them?
 The project started as a map of the certificate landscape; it now rates
-each service with twelve checks on ownership, sovereignty, security and
+each service with fifteen checks on ownership, sovereignty, security and
 privacy (Trust Posture).
 
 **Map: https://accelerate-gmbh.github.io/cert_landscape_CH/** (German, French,
@@ -67,7 +67,7 @@ in `data/critical_services/`. How it was built and enriched is documented in
 The list is part of every run:
 
 - **Hosts, not whole domains.** Each listed host is rated as a service with
-  the twelve Trust Posture checks. Facts that belong to the domain (DNSSEC
+  the fifteen Trust Posture checks. Facts that belong to the domain (DNSSEC
   signing of the zone, name servers, CAA) are read from the host's
   registrable domain. Other subdomains of an operator are not rated, so the
   results stay limited to the services judged critical.
@@ -174,10 +174,10 @@ French, Italian and English. It has two views, switched at the top right
   sit.
 - **Expert** with all indicators (including the certificate metrics of the
   original model: sovereignty, identity validation, CAA, good practice),
-  formulas, weights, raw values and all twelve checks in the sector matrix.
+  formulas, weights, raw values and all fifteen checks in the sector matrix.
 
 The **Explanations** panel describes what the map shows, the traffic light,
-the four areas, the twelve checks (why they matter, how they are measured,
+the four areas, the fifteen checks (why they matter, how they are measured,
 weight and source), the critical-services layer, data and updates, and what
 the rating does not say, at the depth of the chosen view.
 
