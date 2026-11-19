@@ -291,16 +291,33 @@
     for (const [key, ids] of Object.entries(groups)) {
       const [lvl, gid] = key.split(":");
       const counts = { green: 0, yellow: 0, red: 0, none: 0 };
-      ids.forEach((id) => { counts[lightOf(value(state.data.entities.organisation[id], "tm"))]++; });
+      const perHost = state.orgMode === "host";
+      let n = 0;
+      ids.forEach((id) => {
+        const o = state.data.entities.organisation[id];
+        if (perHost) (o.hs || []).forEach((h) => { counts[lightOf(h[1])]++; n++; });
+        else { counts[lightOf(value(o, "tm"))]++; n++; }
+      });
       const r = 9 + 4 * Math.sqrt(ids.length);
       const m = L.marker(centers[lvl][gid], { icon: L.divIcon({ className: "orgicon", html: donut(counts, ids.length), iconSize: [2 * r, 2 * r] }),
-        riseOnHover: true, keyboard: true, title: ids.length + " " + t("orgs_here") });
+        riseOnHover: true, keyboard: true, title: ids.length + " " + t("orgs_here") + (perHost ? " · " + n + " " + t("n_hosts") : "") });
       m.on("click", () => (ids.length === 1 ? select("organisation", ids[0]) : orgGroupPanel(ids, lvl, gid)));
       orgLayer.addLayer(m);
     }
   }
   function orgGroupPanel(ids, lvl, gid) {
     const place = lvl === "canton" ? CANTON_CODES[Number(gid) - 1] : ((state.data.entities.municipality[gid] || {}).n || gid);
+    if (state.orgMode === "host") {
+      const hosts = [];
+      ids.forEach((id) => (state.data.entities.organisation[id].hs || []).forEach((h) => hosts.push([id, state.data.entities.organisation[id], h])));
+      hosts.sort((a, b) => (b[2][1] ?? -1) - (a[2][1] ?? -1) || a[2][0].localeCompare(b[2][0]));
+      document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(place) + '</h2><p class="sub">' +
+        ids.length + " " + esc(t("n_orgs")) + " · " + hosts.length + " " + esc(t("n_hosts")) + "</p><table><tbody>" +
+        hosts.map(([id, o, h]) => '<tr class="click" data-orghost="' + esc(id + "|" + h[0]) + '"><td>' + esc(h[0]) + (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") +
+          (h[9] ? urTag() : "") + '<span class="src">' + esc(o.n) + '</span></td><td class="num">' + fmt(h[1]) + "</td><td>" + chip(lightOf(h[1]), " ") + "</td></tr>").join("") +
+        "</tbody></table>";
+      return;
+    }
     const rows = ids.map((id) => [id, state.data.entities.organisation[id]])
       .sort((a, b) => a[1].n.localeCompare(b[1].n))
       .map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + '<span class="src">' + esc(o.sec) +
@@ -754,7 +771,7 @@
     const ls = state.metric === "tm" ? ["tls", "ocsp", "dns", "sct", "ccadb", "cymru"].map((x) => SRCL[x]()).join(", ") : src(state.metric);
     el.innerHTML = '<div class="t">' + esc(t("m_" + state.metric)) + '</div><div class="d">' + esc(t("m_" + state.metric + "_d")) +
       (ls && !simple() ? '<br><span class="src">' + esc(t("source_col")) + ": " + ls + "</span>" : "") + "</div>" + rows +
-      (simple() && document.getElementById("showorgs").checked && Object.keys(state.data.entities.organisation || {}).length ? '<p class="src">' + esc(t("orgs_simple")) + "</p>" : "");
+      (simple() && document.getElementById("showorgs").checked && Object.keys(state.data.entities.organisation || {}).length ? '<p class="src">' + esc(t(state.orgMode === "host" ? "orgs_simple_host" : "orgs_simple")) + "</p>" : "");
   }
 
   /* ---- side panel -------------------------------------------------------- */
@@ -1250,6 +1267,7 @@
   });
   document.getElementById("metric").addEventListener("change", (ev) => { state.metric = ev.target.value; draw(); });
   document.getElementById("showorgs").addEventListener("change", () => { drawOrgs(); legend(); });
+  document.getElementById("orgmode").addEventListener("change", (ev) => { state.orgMode = ev.target.value; drawOrgs(); legend(); });
   document.getElementById("sectorfilter").addEventListener("change", drawOrgs);
   map.on("zoomend", drawOrgs);
   function fillSectors() {

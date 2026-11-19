@@ -1,7 +1,7 @@
 {
  "tool": "tlsmap",
  "version": "0.1.0",
- "merged_at": "2026-11-19T09:04:21Z",
+ "merged_at": "2026-11-19T11:46:18Z",
  "batches": 27,
  "entities": {
   "canton": 26,
@@ -16,7 +16,7 @@
  "ct_lag_days": 44.6,
  "ccadb_fetched": "2026-11-19T06:27:58Z",
  "probe_note": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
- "settings_sha256": "704e5f6199e4054a",
+ "settings_sha256": "21f10e82a41e8238",
  "registry_sha256": "c74d9b5cdda54882",
  "python": "3.13.18",
  "http": {

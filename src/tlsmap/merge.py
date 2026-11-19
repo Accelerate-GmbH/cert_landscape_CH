@@ -104,16 +104,21 @@ def apply_list_visibility(result: dict, list_path) -> int:
     return changed
 
 
+def current_cfg(result: dict) -> dict:
+    """Rating configuration from the current settings, so changed weights or
+    rules apply at the next merge without measuring again."""
+    from .config import load_settings
+    from .registry import Registry
+    cfg = {**load_settings()["trust_posture"], "eea_countries": sorted(Registry().eea)}
+    result["tm_cfg"] = cfg
+    return cfg
+
+
 def reapply_sovereignty(result: dict) -> int:
     """Re-rate the name-server and hosting checks from the stored measurements
     with the current rule, then the scores of every resource and entity. Lets
     a rule change apply at the next merge without measuring again."""
-    cfg = result.get("tm_cfg")
-    if not cfg:
-        return 0
-    if not cfg.get("eea_countries"):
-        from .registry import Registry
-        cfg["eea_countries"] = sorted(Registry().eea)
+    cfg = current_cfg(result)
     eea = set(cfg["eea_countries"])
     selfs = {e["key"]: posture.self_tokens(e["name"], e.get("domains") or []) for e in result["entities"]}
     changed: dict[tuple, dict] = {}
@@ -134,16 +139,16 @@ def reapply_sovereignty(result: dict) -> int:
                 x["status"] = new
                 touched = True
                 changed[(r["entity"], r["hostname"], x["check"])] = new
-        if touched:
-            sc = posture.score(checks, cfg)
-            if r.get("posture_knockout"):
-                sc["overall"] = 0
-            r["tm"] = sc
+        # every resource is scored again with the current weights
+        sc = posture.score(checks, cfg)
+        if r.get("posture_knockout"):
+            sc["overall"] = 0
+        r["tm"] = sc
     for x in result.get("checklog", []):
         k = (x["entity"], x["hostname"], x["check"])
         if k in changed:
             x["status"] = changed[k]
-    if changed:
+    if True:
         by_entity: dict[str, list] = {}
         for r in result["hostnames"]:
             if r.get("tm"):

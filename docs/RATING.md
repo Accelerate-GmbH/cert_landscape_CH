@@ -140,12 +140,13 @@ scores.
 |---|---|---|
 | Ownership visibility and protection | 30% | who stands behind the resource, and whether that can be verified |
 | Technology sovereignty | 30% | the campaign's core question: who controls the stack |
-| Connection security | 25% | baseline protection of every connection |
-| Connection privacy | 15% | ECH is still early; lower weight until it is widely deployable |
+| Connection security | 30% | baseline protection of every connection (25% until 19 November 2026) |
+| Connection privacy | 10% | ECH is still early: without it a host can still reach 90 and green; with 5% it would hardly count (15% until 19 November 2026) |
 
 Categories that could not be assessed (for example connection security
 without a live probe) are left out and the remaining weights are
-normalised. The rating shows which categories were assessed.
+normalised. Weights and rules are applied again at every merge (`tlsmap
+merge`), so a change takes effect without measuring again. The rating shows which categories were assessed.
 
 **Traffic light**, per category and overall: **green** from 80, **yellow**
 from 50, **red** below 50.
@@ -199,8 +200,8 @@ later.
 
 | Resource | Situation | Result |
 |---|---|---|
-| A canton login portal | SwissSign OV, DNSSEC, CAA, 2 SCTs; Swiss DNS and hosting; TLS 1.3; PQ enabled but not preferred; no ECH | ownership 100, sovereignty 100, security 75, privacy 0 → overall 79, yellow |
-| A municipal website | Let's Encrypt DV, no DNSSEC, no CAA, 2 SCTs; Swiss DNS, hosting on a US CDN; TLS 1.3, PQ preferred; no ECH | ownership 33, sovereignty 38, security 100, privacy 0 → overall 46, red |
+| A canton login portal | SwissSign OV, DNSSEC, CAA, 2 SCTs; Swiss DNS and hosting; TLS 1.3; PQ enabled but not preferred; no ECH | ownership 100, sovereignty 100, security 75, privacy 0 → overall 82, green |
+| A municipal website | Let's Encrypt DV, no DNSSEC, no CAA, 2 SCTs; Swiss DNS, hosting on a US CDN; TLS 1.3, PQ preferred; no ECH | ownership 33, sovereignty 38, security 100, privacy 0 → overall 51, yellow |
 | Any resource with an expired certificate | – | knock-out, overall 0, red |
 
 ## 8. Open questions for the standard's owners

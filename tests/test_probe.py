@@ -89,7 +89,7 @@ def test_resource_rating_from_endpoints():
     res = posture.evaluate(r, {"ns_zones": ["ch"], "ns_providers": ["Swisscom (CH)"]}, cfg)
     sc = posture.score(res, cfg)
     assert sc["categories"] == {"ownership": 100, "sovereignty": 100, "security": 75, "privacy": 0}
-    assert sc["overall"] == 79  # the worked example in docs/RATING.md
+    assert sc["overall"] == 82  # the worked example in docs/RATING.md
 
 
 def test_endpoint_never_raises_on_bad_chain(monkeypatch):
