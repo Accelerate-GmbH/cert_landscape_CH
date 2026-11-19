@@ -473,7 +473,7 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
             del unrated[key][h]
     # All rated hosts in one compact table for the map's host list:
     # [hostname, entity key, overall, ownership, sovereignty, security, privacy,
-    #  check statuses in CHECK_ORDER, critical]
+    #  check statuses in CHECK_ORDER, critical, knock-out reason]
     rows_all = []
     for r in result["hostnames"]:
         key = r["entity"]
@@ -481,7 +481,7 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
             continue
         cats = r["tm"].get("categories") or {}
         rows_all.append([r["hostname"], key, r["tm"].get("overall"), *[cats.get(c) for c in CATEGORIES],
-                         _status_string(r), 1 if r.get("critical") else 0])
+                         _status_string(r), 1 if r.get("critical") else 0, r.get("posture_knockout") or ""])
     rows_all.sort(key=lambda x: (x[0], x[1]))
     p = out_dir / "hosts.json"
     p.write_text(json.dumps({"v": 1, "order": CHECK_ORDER, "rows": rows_all}, ensure_ascii=False, separators=(",", ":")))
