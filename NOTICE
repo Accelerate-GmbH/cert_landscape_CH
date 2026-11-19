@@ -50,3 +50,11 @@ Data sources used at run time
 
 Libraries
   cryptography (Apache-2.0 or BSD-3-Clause), openpyxl (MIT).
+
+data/critical_services/
+  Operator names, UIDs and legal seats from the UID register of the Swiss
+  Federal Statistical Office (BFS), queried through its public web service
+  https://www.uid-wse.admin.ch/V5.0/PublicServices.svc in November 2026.
+  Sector and sub-sector names from the Nationale Strategie zum Schutz
+  kritischer Infrastrukturen of 16 June 2023 (BBl 2023 1659) and
+  https://www.babs.admin.ch/de/die-kritischen-infrastrukturen.

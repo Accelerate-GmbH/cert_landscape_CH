@@ -1,0 +1,1001 @@
+﻿rang,hostname,organisation,sektor,traegerschaft,stufe,typ,warum_kritisch
+1,www.admin.ch,Bundesverwaltung,Behörden,öffentlich,1,Website/Portal,Zentrales Webportal und Namensraum der Bundesverwaltung; Hunderte Fachanwendungen hängen an dieser Domain
+2,www.bazg.admin.ch,BAZG,Behörden,öffentlich,1,Website/Portal,"Zoll und Grenze: Warenverkehr, Abgaben, Grenzsicherheit; Ausfall stoppt Import/Export"
+3,www.be.ch,Kanton Bern,Behörden,öffentlich,1,Website/Portal,Zweitgrösster Kanton; Bundesstadt-Kanton mit umfangreichen E-Government-Diensten
+4,www.ch.ch,Bundeskanzlei (ch.ch),Behörden,öffentlich,1,Website/Portal,"Einstiegsportal für Behördenleistungen von Bund, Kantonen und Gemeinden; Krisenkommunikation an die Bevölkerung"
+5,www.easygov.swiss,SECO EasyGov,Behörden,öffentlich,1,Website/Portal,"Transaktionsportal für Unternehmensgründung, Bewilligungen und Meldungen; Pflichtkanal für viele KMU-Behördengänge"
+6,www.estv.admin.ch,ESTV,Behörden,öffentlich,1,Website/Portal,"Steuerverwaltung: MWST, Verrechnungssteuer, Stempelabgaben; grösster Einnahmekanal des Bundes"
+7,www.ge.ch,République et canton de Genève,Behörden,öffentlich,1,Website/Portal,"Kanton mit internationalem Genf; e-démarches, Steuern, Polizei"
+8,www.vd.ch,Canton de Vaud,Behörden,öffentlich,1,Website/Portal,"Grösster Westschweizer Kanton; Steuern, Gesundheit, Sicherheit"
+9,www.zefix.ch,EHRA Zefix,Behörden,öffentlich,1,Website/Portal,"Zentraler Firmenindex; Banken, Notariate und Behörden prüfen hier täglich Firmenexistenz und Zeichnungsberechtigung"
+10,www.zh.ch,Kanton Zürich,Behörden,öffentlich,1,Website/Portal,"Grösster Kanton (1,6 Mio. Einwohner); Steuern, Strassenverkehrsamt, Gesundheitsdirektion, Polizei"
+11,www.alert.swiss,BABS Alertswiss,Öffentliche Sicherheit,öffentlich,1,Website/Portal,Offizieller Alarmierungs- und Warnkanal an die Bevölkerung; muss im Ereignisfall erreichbar sein
+12,www.meteoschweiz.admin.ch,MeteoSchweiz,Öffentliche Sicherheit,öffentlich,1,Website/Portal,Amtliche Wetter- und Unwetterwarnungen; Grundlage für Luftfahrt und Bevölkerungsschutz
+13,www.naturgefahren.ch,Naturgefahrenportal,Öffentliche Sicherheit,öffentlich,1,Website/Portal,"Gebündelte Warnungen zu Hochwasser, Lawinen, Unwetter und Waldbrand"
+14,www.ncsc.admin.ch,BACS (Bundesamt für Cybersicherheit),Öffentliche Sicherheit,öffentlich,1,Website/Portal,Nationale Melde- und Koordinationsstelle für Cybervorfälle; Warnungen an KI-Betreiber
+15,auth.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,1,Login/Identität,Authentisierungsendpunkt AGOV
+16,eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,1,Login/Identität,Identitäts- und Zugriffsverwaltung des Bundes (eIAM) für Mitarbeitende und Partner
+17,identifier-reg-api.trust-infra.swiyu.admin.ch,swiyu Basisregister,IKT & Vertrauensinfrastruktur,öffentlich,1,Register/Vertrauensinfrastruktur,API des Basisregisters
+18,identifier-reg.trust-infra.swiyu.admin.ch,swiyu Basisregister,IKT & Vertrauensinfrastruktur,öffentlich,1,Register/Vertrauensinfrastruktur,Basisregister (DID-Verzeichnis) der swiyu-Vertrauensinfrastruktur; Verifizierer lösen hier Aussteller auf
+19,idp.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,1,Login/Identität,Identity Provider von AGOV; zentrales Behördenlogin für Bevölkerung und Wirtschaft – Ausfall sperrt alle angebundenen E-Services
+20,login.fedlogin.eiam.admin.ch,BIT eIAM FED-LOGIN,IKT & Vertrauensinfrastruktur,öffentlich,1,Login/Identität,Login der Bundesangestellten; Zugang zu internen Fachanwendungen
+21,op.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,1,Login/Identität,OpenID-Provider von AGOV; Token-Ausstellung für angebundene Anwendungen
+22,status-reg-api.trust-infra.swiyu.admin.ch,swiyu Statusregister,IKT & Vertrauensinfrastruktur,öffentlich,1,Register/Vertrauensinfrastruktur,API des Statusregisters
+23,status-reg.trust-infra.swiyu.admin.ch,swiyu Statusregister,IKT & Vertrauensinfrastruktur,öffentlich,1,Register/Vertrauensinfrastruktur,Widerrufsstatus von E-ID und Nachweisen; ohne Erreichbarkeit keine Gültigkeitsprüfung
+24,trust-reg.trust-infra.swiyu.admin.ch,swiyu Vertrauensregister,IKT & Vertrauensinfrastruktur,öffentlich,1,Register/Vertrauensinfrastruktur,Vertrauensregister: bestätigt Identität von Ausstellern und Verifizierern
+25,www.pki.admin.ch,Swiss Government PKI,IKT & Vertrauensinfrastruktur,öffentlich,1,Website/Portal,Zertifikate und Smartcards der Bundesverwaltung; Grundlage für Behördensignaturen
+26,www.swiyu.admin.ch,swiyu Vertrauensinfrastruktur,IKT & Vertrauensinfrastruktur,öffentlich,1,Website/Portal,Staatliche Vertrauensinfrastruktur für E-ID und digitale Nachweise; Basis- und Vertrauensregister
+27,www.finma.ch,FINMA,Finanzen,öffentlich,1,Website/Portal,"Finanzmarktaufsicht; Bewilligungen, Meldungen und Krisenmassnahmen bei Banken und Versicherungen"
+28,www.snb.ch,Schweizerische Nationalbank,Finanzen,öffentlich,1,Website/Portal,"Geldpolitik, Bargeldversorgung und Betreiberin des Zahlungssystems SIC (Notenbankgeld)"
+29,www.ensi.ch,ENSI,Energie,öffentlich,1,Website/Portal,Aufsicht über Kernanlagen; Notfallorganisation bei nuklearen Ereignissen
+30,www.bag.admin.ch,BAG,Gesundheit,öffentlich,1,Website/Portal,"Gesundheitsbehörde: Pandemie, Meldesysteme Infektionskrankheiten, Strahlenschutz"
+31,www.chuv.ch,CHUV,Gesundheit,öffentlich,1,Website/Portal,Universitätsspital Lausanne
+32,www.hug.ch,HUG,Gesundheit,öffentlich,1,Website/Portal,Universitätsspital Genf; grösstes Spital der Schweiz nach Betten
+33,www.swissmedic.ch,Swissmedic,Gesundheit,öffentlich,1,Website/Portal,Zulassung und Überwachung von Arzneimitteln und Medizinprodukten; Chargenrückrufe
+34,www.usb.ch,Universitätsspital Basel,Gesundheit,öffentlich,1,Website/Portal,Universitätsspital Nordwestschweiz
+35,www.usz.ch,Universitätsspital Zürich,Gesundheit,öffentlich,1,Website/Portal,Grösstes Universitätsspital; Spitzenmedizin und Notfallversorgung
+36,www.gva.ch,Genève Aéroport,Verkehr & Logistik,öffentlich,1,Website/Portal,Zweitgrösster Flughafen; internationales Genf
+37,www.bwl.admin.ch,BWL,Detailhandel & Nahrung,öffentlich,1,Website/Portal,"Wirtschaftliche Landesversorgung: Pflichtlager und Krisenvorsorge für Strom, Lebensmittel, Heilmittel"
+38,www.nic.ch,SWITCH Registry,IKT & Vertrauensinfrastruktur,halbprivat,1,Website/Portal,Registry der Domains .ch und .li; Ausfall macht alle .ch-Namen unauflösbar
+39,www.swisscom.ch,Swisscom,IKT & Vertrauensinfrastruktur,halbprivat,1,Website/Portal,"Grösster Telekomanbieter; Festnetz, Mobilfunk, Notrufweiterleitung und Behördennetze"
+40,www.swissid.ch,SwissID,IKT & Vertrauensinfrastruktur,halbprivat,1,Website/Portal,"Verbreitetste private digitale Identität (Post, SBB, Behörden-Logins)"
+41,www.swisssign.com,SwissSign,IKT & Vertrauensinfrastruktur,halbprivat,1,Website/Portal,"Schweizer Trust Service Provider (QES, TLS, SwissID); Vertrauensanker für Behörden und Wirtschaft"
+42,www.switch.ch,SWITCH,IKT & Vertrauensinfrastruktur,halbprivat,1,Website/Portal,"Hochschulnetz, CERT für Finanzsektor und Hochschulen, Betreiberin .ch-Registry"
+43,onba.zkb.ch,Zürcher Kantonalbank,Finanzen,halbprivat,1,Login/Identität,Online-Banking der ZKB; systemrelevante Kantonalbank
+44,www.postfinance.ch,PostFinance,Finanzen,halbprivat,1,Website/Portal,Systemrelevantes Finanzinstitut; Grundversorgungsauftrag im Zahlungsverkehr
+45,www.zkb.ch,Zürcher Kantonalbank,Finanzen,halbprivat,1,Website/Portal,Systemrelevante Kantonalbank mit Staatsgarantie
+46,www.alpiq.com,Alpiq,Energie,halbprivat,1,Website/Portal,Grosser Stromproduzent und Händler (u. a. KKW Gösgen-Beteiligung)
+47,www.axpo.com,Axpo,Energie,halbprivat,1,Website/Portal,Grösster Stromproduzent (inkl. KKW Beznau); Energiehandel
+48,www.bkw.ch,BKW,Energie,halbprivat,1,Website/Portal,Energie- und Netzbetreiberin Bern/Jura
+49,www.swissgrid.ch,Swissgrid,Energie,halbprivat,1,Website/Portal,Übertragungsnetzbetreiberin; Netzstabilität und Systemdienstleistungen für das ganze Land
+50,www.insel.ch,Insel Gruppe,Gesundheit,halbprivat,1,Website/Portal,Grösste Spitalgruppe; Universitätsspital Bern
+51,www.suva.ch,Suva,Gesundheit,halbprivat,1,Website/Portal,Obligatorische Unfallversicherung für rund die Hälfte der Erwerbstätigen
+52,www.flughafen-zuerich.ch,Flughafen Zürich,Verkehr & Logistik,halbprivat,1,Website/Portal,Grösster Flughafen und Luftfracht-Hub
+53,www.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,Website/Portal,"Brief-, Paket- und Grundversorgung; E-Voting, PostCard, Logistik für Behörden"
+54,www.sbb.ch,SBB,Verkehr & Logistik,halbprivat,1,Website/Portal,"Rückgrat des öffentlichen Verkehrs; Fahrplan, Ticketing, Bahnbetrieb"
+55,www.skyguide.ch,Skyguide,Verkehr & Logistik,halbprivat,1,Website/Portal,Flugsicherung für den gesamten Schweizer und Teile des angrenzenden Luftraums
+56,www.swisspass.ch,SwissPass (Alliance SwissPass),Verkehr & Logistik,halbprivat,1,Website/Portal,Zentrales Login und Abo-Träger für den gesamten öV
+57,www.srf.ch,SRF,Medien,halbprivat,1,Website/Portal,Service-public-Medium; offizieller Kanal für Behördeninformation in Krisen (deutsch)
+58,www.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,Website/Portal,Zweitgrösster Telekomanbieter; Mobilfunk und Kabelnetz
+59,ebanking-ch.ubs.com,UBS,Finanzen,privat,1,Login/Identität,E-Banking der UBS Schweiz; grösster Anteil am privaten Zahlungsverkehr
+60,www.ebill.ch,eBill (SIX),Finanzen,privat,1,Website/Portal,Nationale E-Rechnungsplattform; Millionen Rechnungen pro Monat via E-Banking
+61,www.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,Website/Portal,Systemrelevante Bankengruppe; grösste Retailbank-Gruppe nach Kundenzahl
+62,www.six-group.com,SIX Group,Finanzen,privat,1,Website/Portal,"Finanzmarktinfrastruktur: Börse, SIC-Betrieb, Wertschriftenabwicklung (SECOM), Kartenplattformen"
+63,www.six-swiss-exchange.com,SIX Swiss Exchange,Finanzen,privat,1,Website/Portal,Hauptbörse der Schweiz; Handel und Kursversorgung
+64,www.twint.ch,TWINT,Finanzen,privat,1,Website/Portal,Meistgenutzte Mobile-Payment-Lösung der Schweiz; im Detailhandel und P2P breit verankert
+65,www.ubs.com,UBS,Finanzen,privat,1,Website/Portal,Einzige verbleibende Schweizer Grossbank (G-SIB); grösster Anteil an Zahlungsverkehr und Vermögensverwaltung
+66,www.worldline.com,Worldline,Finanzen,privat,1,Website/Portal,Grösster Acquirer der Schweiz (ehem. SIX Payment Services); Kartenakzeptanz im Handel
+67,www.galexis.com,Galexis,Gesundheit,privat,1,Website/Portal,"Grösster Pharma-Grossist; beliefert Apotheken, Ärzte und Spitäler täglich"
+68,www.hin.ch,HIN,Gesundheit,privat,1,Website/Portal,"Gesicherte E-Mail und Identitäten für Ärztinnen, Spitäler und Labors"
+69,www.medidata.ch,MediData,Gesundheit,privat,1,Website/Portal,Zentraler Datenaustausch für Arztrechnungen zwischen Leistungserbringern und Krankenversicherern
+70,www.rega.ch,Rega,Gesundheit,privat,1,Website/Portal,Luftrettung; Alarmierung über 1414 und App
+71,www.toxinfo.ch,Tox Info Suisse,Gesundheit,privat,1,Website/Portal,Nationale Giftnotrufzentrale 145
+72,www.coop.ch,Coop,Detailhandel & Nahrung,privat,1,Website/Portal,Zweitgrösste Detailhändlerin; Lebensmittelversorgung landesweit
+73,www.fenaco.com,fenaco,Detailhandel & Nahrung,privat,1,Website/Portal,"Agrargenossenschaft: Landwirtschaftsbedarf, Lebensmittelverarbeitung, Landi, Volg, Agrola"
+74,www.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Website/Portal,Grösste Detailhändlerin und Arbeitgeberin; Lebensmittelversorgung landesweit
+75,auth.vd.ch,Canton de Vaud,Behörden,öffentlich,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Canton de Vaud: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+76,e-dec-web.ezv.admin.ch,BAZG e-dec,Behörden,öffentlich,1,Fachanwendung,Elektronische Zollanmeldung (e-dec) – noch Hauptkanal für Exporte
+77,eportal.admin.ch,BIT ePortal,Behörden,öffentlich,1,Fachanwendung,"ePortal des Bundes: Zugang zu Unternehmens- und Bürgerservices (ESTV, BAZG u. a.)"
+78,id.vd.ch,Canton de Vaud,Behörden,öffentlich,1,Identitäts-Endpunkt,"Identitäts-Endpunkt von Canton de Vaud: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+79,mwstabrechnen.estv.admin.ch,ESTV,Behörden,öffentlich,1,Fachanwendung,Elektronische MWST-Abrechnung aller Steuerpflichtigen
+80,passar-b2bhub.bazg.admin.ch,BAZG Passar,Behörden,öffentlich,1,Fachanwendung,B2B-Schnittstelle für Spediteure und Software-Hersteller
+81,passar.bazg.admin.ch,BAZG Passar,Behörden,öffentlich,1,Fachanwendung,Neues Warenverkehrssystem; Zollanmeldungen von Import und Export
+82,sedex-service.admin.ch,BFS sedex,Behörden,öffentlich,1,Fachanwendung,"sedex-Dienste: sicherer Datenaustausch zwischen Einwohnerregistern, Steuer- und Sozialbehörden"
+83,sso.be.ch,Kanton Bern,Behörden,öffentlich,1,Single-Sign-on,"Single-Sign-on von Kanton Bern: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+84,sso.zh.ch,Kanton Zürich,Behörden,öffentlich,1,Single-Sign-on,"Single-Sign-on von Kanton Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+85,www.schweizerpass.ch,fedpol,Behörden,öffentlich,1,Fachanwendung,Ausweisbeantragung
+86,www.uid.admin.ch,BFS UID-Register,Behörden,öffentlich,1,Fachanwendung,Unternehmens-Identifikationsnummer; Referenz für alle Behörden-Register
+87,auth.ncsc.admin.ch,BACS (Bundesamt für Cybersicherheit),Öffentliche Sicherheit,öffentlich,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von BACS (Bundesamt für Cybersicherheit): Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+88,www.fedpol.admin.ch,fedpol,Öffentliche Sicherheit,öffentlich,1,Fachanwendung,Bundespolizei
+89,backend.eid.admin.ch,BJ/BIT E-ID,IKT & Vertrauensinfrastruktur,öffentlich,1,Fachanwendung,Backend der E-ID-Ausstellung
+90,www.eid.admin.ch,BJ/BIT E-ID,IKT & Vertrauensinfrastruktur,öffentlich,1,Fachanwendung,Informations- und Antragsportal der staatlichen E-ID
+91,login.snb.ch,Schweizerische Nationalbank,Finanzen,öffentlich,1,Login-Endpunkt,"Login-Endpunkt von Schweizerische Nationalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+92,auth.hug.ch,HUG,Gesundheit,öffentlich,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von HUG: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+93,auth.usz.ch,Universitätsspital Zürich,Gesundheit,öffentlich,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Universitätsspital Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+94,id.chuv.ch,CHUV,Gesundheit,öffentlich,1,Identitäts-Endpunkt,"Identitäts-Endpunkt von CHUV: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+95,login.hug.ch,HUG,Gesundheit,öffentlich,1,Login-Endpunkt,"Login-Endpunkt von HUG: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+96,login.swissmedic.ch,Swissmedic,Gesundheit,öffentlich,1,Login-Endpunkt,"Login-Endpunkt von Swissmedic: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+97,login.swisscom.ch,Swisscom,IKT & Vertrauensinfrastruktur,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von Swisscom: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+98,login.swissid.ch,SwissID,IKT & Vertrauensinfrastruktur,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von SwissID: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+99,sso.switch.ch,SWITCH,IKT & Vertrauensinfrastruktur,halbprivat,1,Single-Sign-on,"Single-Sign-on von SWITCH: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+100,banking.postfinance.ch,PostFinance,Finanzen,halbprivat,1,Online-Banking,"Online-Banking von PostFinance: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+101,auth.alpiq.com,Alpiq,Energie,halbprivat,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Alpiq: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+102,login.axpo.com,Axpo,Energie,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von Axpo: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+103,login.bkw.ch,BKW,Energie,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von BKW: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+104,login.swissgrid.ch,Swissgrid,Energie,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von Swissgrid: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+105,sso.axpo.com,Axpo,Energie,halbprivat,1,Single-Sign-on,"Single-Sign-on von Axpo: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+106,login.suva.ch,Suva,Gesundheit,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von Suva: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+107,auth.sbb.ch,SBB,Verkehr & Logistik,halbprivat,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von SBB: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+108,id.flughafen-zuerich.ch,Flughafen Zürich,Verkehr & Logistik,halbprivat,1,Identitäts-Endpunkt,"Identitäts-Endpunkt von Flughafen Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+109,login.sbb.ch,SBB,Verkehr & Logistik,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von SBB: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+110,login.swisspass.ch,SwissPass (Alliance SwissPass),Verkehr & Logistik,halbprivat,1,Login-Endpunkt,"Login-Endpunkt von SwissPass (Alliance SwissPass): Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+111,auth.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Sunrise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+112,login.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,Login-Endpunkt,"Login-Endpunkt von Sunrise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+113,sso.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,Single-Sign-on,"Single-Sign-on von Sunrise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+114,auth.ubs.com,UBS,Finanzen,privat,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von UBS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+115,banking.twint.ch,TWINT,Finanzen,privat,1,Online-Banking,"Online-Banking von TWINT: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+116,e-banking.ubs.com,UBS,Finanzen,privat,1,E-Banking,"E-Banking von UBS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+117,ebanking.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,E-Banking,"E-Banking von Raiffeisen Schweiz: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+118,ebanking.ubs.com,UBS,Finanzen,privat,1,E-Banking,"E-Banking von UBS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+119,id.twint.ch,TWINT,Finanzen,privat,1,Identitäts-Endpunkt,"Identitäts-Endpunkt von TWINT: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+120,id.ubs.com,UBS,Finanzen,privat,1,Identitäts-Endpunkt,"Identitäts-Endpunkt von UBS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+121,login.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,Login-Endpunkt,"Login-Endpunkt von Raiffeisen Schweiz: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+122,login.six-group.com,SIX Group,Finanzen,privat,1,Login-Endpunkt,"Login-Endpunkt von SIX Group: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+123,auth.hin.ch,HIN,Gesundheit,privat,1,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von HIN: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+124,login.fenaco.com,fenaco,Detailhandel & Nahrung,privat,1,Login-Endpunkt,"Login-Endpunkt von fenaco: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+125,login.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Login-Endpunkt,"Login-Endpunkt von Migros: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+126,portal.finma.ch,FINMA,Finanzen,öffentlich,1,Kundenportal,Kundenportal von FINMA: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+127,portal.swissmedic.ch,Swissmedic,Gesundheit,öffentlich,1,Kundenportal,Kundenportal von Swissmedic: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+128,account.swissid.ch,SwissID,IKT & Vertrauensinfrastruktur,halbprivat,1,Kontoverwaltung,Kontoverwaltung von SwissID: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+129,portal.swisssign.com,SwissSign,IKT & Vertrauensinfrastruktur,halbprivat,1,Kundenportal,Kundenportal von SwissSign: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+130,portal.switch.ch,SWITCH,IKT & Vertrauensinfrastruktur,halbprivat,1,Kundenportal,Kundenportal von SWITCH: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+131,customer.axpo.com,Axpo,Energie,halbprivat,1,Kundenportal,Kundenportal von Axpo: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+132,my.bkw.ch,BKW,Energie,halbprivat,1,Kundenkonto,Kundenkonto von BKW: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+133,portal.axpo.com,Axpo,Energie,halbprivat,1,Kundenportal,Kundenportal von Axpo: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+134,account.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,Kontoverwaltung,Kontoverwaltung von Die Post: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+135,my.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,Kundenkonto,Kundenkonto von Die Post: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+136,my.skyguide.ch,Skyguide,Verkehr & Logistik,halbprivat,1,Kundenkonto,Kundenkonto von Skyguide: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+137,portal.skyguide.ch,Skyguide,Verkehr & Logistik,halbprivat,1,Kundenportal,Kundenportal von Skyguide: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+138,account.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,Kontoverwaltung,Kontoverwaltung von Raiffeisen Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+139,my.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,Kundenkonto,Kundenkonto von Raiffeisen Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+140,my.ubs.com,UBS,Finanzen,privat,1,Kundenkonto,Kundenkonto von UBS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+141,portal.six-group.com,SIX Group,Finanzen,privat,1,Kundenportal,Kundenportal von SIX Group: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+142,portal.twint.ch,TWINT,Finanzen,privat,1,Kundenportal,Kundenportal von TWINT: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+143,secure.six-group.com,SIX Group,Finanzen,privat,1,Gesicherter Kundenbereich,Gesicherter Kundenbereich von SIX Group: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+144,secure.six-swiss-exchange.com,SIX Swiss Exchange,Finanzen,privat,1,Gesicherter Kundenbereich,Gesicherter Kundenbereich von SIX Swiss Exchange: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+145,secure.ubs.com,UBS,Finanzen,privat,1,Gesicherter Kundenbereich,Gesicherter Kundenbereich von UBS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+146,my.medidata.ch,MediData,Gesundheit,privat,1,Kundenkonto,Kundenkonto von MediData: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+147,portal.rega.ch,Rega,Gesundheit,privat,1,Kundenportal,Kundenportal von Rega: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+148,account.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Kontoverwaltung,Kontoverwaltung von Migros: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+149,my.coop.ch,Coop,Detailhandel & Nahrung,privat,1,Kundenkonto,Kundenkonto von Coop: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+150,online.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Online-Kundenzugang,Online-Kundenzugang von Migros: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+151,portal.fenaco.com,fenaco,Detailhandel & Nahrung,privat,1,Kundenportal,Kundenportal von fenaco: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+152,secure.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Migros: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+153,api.ch.ch,Bundeskanzlei (ch.ch),Behörden,öffentlich,1,API/Schnittstelle,"API/Schnittstelle von Bundeskanzlei (ch.ch): Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+154,app.ge.ch,République et canton de Genève,Behörden,öffentlich,1,Web-App,"Web-App von République et canton de Genève: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+155,app.fedpol.admin.ch,fedpol,Öffentliche Sicherheit,öffentlich,1,Web-App,"Web-App von fedpol: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+156,api.finma.ch,FINMA,Finanzen,öffentlich,1,API/Schnittstelle,"API/Schnittstelle von FINMA: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+157,api.hug.ch,HUG,Gesundheit,öffentlich,1,API/Schnittstelle,"API/Schnittstelle von HUG: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+158,api.usz.ch,Universitätsspital Zürich,Gesundheit,öffentlich,1,API/Schnittstelle,"API/Schnittstelle von Universitätsspital Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+159,app.chuv.ch,CHUV,Gesundheit,öffentlich,1,Web-App,"Web-App von CHUV: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+160,shop.usb.ch,Universitätsspital Basel,Gesundheit,öffentlich,1,Online-Shop,"Online-Shop von Universitätsspital Basel: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+161,api.gva.ch,Genève Aéroport,Verkehr & Logistik,öffentlich,1,API/Schnittstelle,"API/Schnittstelle von Genève Aéroport: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+162,api.swisscom.ch,Swisscom,IKT & Vertrauensinfrastruktur,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Swisscom: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+163,api.swissid.ch,SwissID,IKT & Vertrauensinfrastruktur,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von SwissID: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+164,shop.swisscom.ch,Swisscom,IKT & Vertrauensinfrastruktur,halbprivat,1,Online-Shop,"Online-Shop von Swisscom: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+165,api.postfinance.ch,PostFinance,Finanzen,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von PostFinance: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+166,api.alpiq.com,Alpiq,Energie,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Alpiq: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+167,api.axpo.com,Axpo,Energie,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Axpo: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+168,api.bkw.ch,BKW,Energie,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von BKW: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+169,api.swissgrid.ch,Swissgrid,Energie,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Swissgrid: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+170,shop.axpo.com,Axpo,Energie,halbprivat,1,Online-Shop,"Online-Shop von Axpo: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+171,api.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Die Post: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+172,api.skyguide.ch,Skyguide,Verkehr & Logistik,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von Skyguide: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+173,app.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,Web-App,"Web-App von Die Post: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+174,shop.flughafen-zuerich.ch,Flughafen Zürich,Verkehr & Logistik,halbprivat,1,Online-Shop,"Online-Shop von Flughafen Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+175,shop.post.ch,Die Post,Verkehr & Logistik,halbprivat,1,Online-Shop,"Online-Shop von Die Post: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+176,shop.sbb.ch,SBB,Verkehr & Logistik,halbprivat,1,Online-Shop,"Online-Shop von SBB: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+177,api.srf.ch,SRF,Medien,halbprivat,1,API/Schnittstelle,"API/Schnittstelle von SRF: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+178,api.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,API/Schnittstelle,"API/Schnittstelle von Sunrise: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+179,shop.sunrise.ch,Sunrise,IKT & Vertrauensinfrastruktur,privat,1,Online-Shop,"Online-Shop von Sunrise: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+180,api.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,API/Schnittstelle,"API/Schnittstelle von Raiffeisen Schweiz: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+181,api.six-group.com,SIX Group,Finanzen,privat,1,API/Schnittstelle,"API/Schnittstelle von SIX Group: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+182,api.ubs.com,UBS,Finanzen,privat,1,API/Schnittstelle,"API/Schnittstelle von UBS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+183,shop.raiffeisen.ch,Raiffeisen Schweiz,Finanzen,privat,1,Online-Shop,"Online-Shop von Raiffeisen Schweiz: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+184,shop.twint.ch,TWINT,Finanzen,privat,1,Online-Shop,"Online-Shop von TWINT: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+185,shop.ubs.com,UBS,Finanzen,privat,1,Online-Shop,"Online-Shop von UBS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+186,app.hin.ch,HIN,Gesundheit,privat,1,Web-App,"Web-App von HIN: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+187,app.rega.ch,Rega,Gesundheit,privat,1,Web-App,"Web-App von Rega: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+188,shop.rega.ch,Rega,Gesundheit,privat,1,Online-Shop,"Online-Shop von Rega: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+189,api.coop.ch,Coop,Detailhandel & Nahrung,privat,1,API/Schnittstelle,"API/Schnittstelle von Coop: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+190,api.migros.ch,Migros,Detailhandel & Nahrung,privat,1,API/Schnittstelle,"API/Schnittstelle von Migros: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+191,app.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Web-App,"Web-App von Migros: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+192,shop.coop.ch,Coop,Detailhandel & Nahrung,privat,1,Online-Shop,"Online-Shop von Coop: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+193,shop.migros.ch,Migros,Detailhandel & Nahrung,privat,1,Online-Shop,"Online-Shop von Migros: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+194,auth-pams.estv.admin.ch,ESTV,Behörden,öffentlich,2,Login/Identität,Authentisierung ESTV-Onlinedienste
+195,eumzug.swiss,eUmzugCH,Behörden,öffentlich,2,Website/Portal,Elektronische Wohnsitzmeldung; verbindet Einwohnerregister der Gemeinden
+196,idp.alv.admin.ch,SECO ALV,Behörden,öffentlich,2,Login/Identität,Login der Arbeitslosenversicherung (Auszahlungen an Stellensuchende)
+197,www.ag.ch,Kanton Aargau,Behörden,öffentlich,2,Website/Portal,Bevölkerungsreicher Mittellandkanton; Standort Kernkraftwerke und Netzknoten
+198,www.ahv-iv.ch,AHV/IV Informationsstelle,Behörden,öffentlich,2,Website/Portal,Informations- und Formularportal der 1. Säule für alle Versicherten und Arbeitgeber
+199,www.amtsblattportal.ch,SECO Amtsblattportal (SHAB),Behörden,öffentlich,2,Website/Portal,"Rechtsverbindliche Publikation von Handelsregister-, Konkurs- und Schuldenrufmeldungen"
+200,www.arbeit.swiss,SECO Arbeitsmarkt (Job-Room),Behörden,öffentlich,2,Website/Portal,Anmeldung zur Arbeitslosigkeit und Stellenmeldepflicht; Pflichtkanal für Arbeitgeber und Stellensuchende
+201,www.bern.ch,Stadt Bern,Behörden,öffentlich,2,Website/Portal,Bundesstadt; Einwohnerdienste und Sicherheit
+202,www.bfs.admin.ch,BFS,Behörden,öffentlich,2,Website/Portal,"Bundesstatistik, UID-Register, sedex und Interoperabilitätsplattform I14Y"
+203,www.bk.admin.ch,Bundeskanzlei,Behörden,öffentlich,2,Website/Portal,"Stabsstelle des Bundesrats; Abstimmungsresultate, Krisenkommunikation, Digitale Transformation (DTI)"
+204,www.bl.ch,Kanton Basel-Landschaft,Behörden,öffentlich,2,Website/Portal,Kantonale Verwaltung Nordwestschweiz
+205,www.bs.ch,Kanton Basel-Stadt,Behörden,öffentlich,2,Website/Portal,Stadtkanton mit Life-Sciences-Cluster und Rheinhäfen; Grenzregion zu DE/FR
+206,www.eda.admin.ch,EDA,Behörden,öffentlich,2,Website/Portal,"Aussenbeziehungen, Konsulardienste und Krisenmanagement für Auslandschweizer"
+207,www.fedlex.admin.ch,Bundeskanzlei Fedlex,Behörden,öffentlich,2,Website/Portal,Massgebliche Publikation des Bundesrechts; Rechtssicherheit hängt an Verfügbarkeit und Integrität
+208,www.fr.ch,État de Fribourg,Behörden,öffentlich,2,Website/Portal,Zweisprachiger Kanton; kantonale Verwaltung
+209,www.geo.admin.ch,GeoAdmin,Behörden,öffentlich,2,Website/Portal,"Geodatenplattform des Bundes; Karten- und API-Dienste für Behörden, Blaulicht und Wirtschaft"
+210,www.gr.ch,Kanton Graubünden,Behörden,öffentlich,2,Website/Portal,Flächengrösster Kanton; Verkehrsachsen und Naturgefahren
+211,www.lu.ch,Kanton Luzern,Behörden,öffentlich,2,Website/Portal,Zentrum der Zentralschweiz; kantonale Verwaltung und Steuern
+212,www.seco.admin.ch,SECO,Behörden,öffentlich,2,Website/Portal,"Wirtschaftspolitik, Arbeitslosenversicherung (Auszahlungssysteme), Exportkontrolle"
+213,www.sem.admin.ch,SEM,Behörden,öffentlich,2,Website/Portal,"Migrations- und Asylverfahren, Visa, Einreise (ZEMIS, Schengen)"
+214,www.sg.ch,Kanton St. Gallen,Behörden,öffentlich,2,Website/Portal,Zentrum der Ostschweiz; kantonale Verwaltung und Steuern
+215,www.stadt-zuerich.ch,Stadt Zürich,Behörden,öffentlich,2,Website/Portal,"Grösste Stadt; Einwohnerdienste, Schutz & Rettung, ewz, VBZ, Wasserversorgung"
+216,www.swisstopo.admin.ch,swisstopo,Behörden,öffentlich,2,Website/Portal,"Landesvermessung und Geobasisdaten; Grundlage für Planung, Blaulicht und Navigation"
+217,www.ti.ch,Repubblica e Cantone Ticino,Behörden,öffentlich,2,Website/Portal,Italienischsprachiger Kanton; Grenzverkehr mit Italien
+218,www.vs.ch,État du Valais,Behörden,öffentlich,2,Website/Portal,Kanton mit Wasserkraft und hohem Naturgefahrenrisiko
+219,www.zas.admin.ch,ZAS,Behörden,öffentlich,2,Website/Portal,"Zentrale Ausgleichsstelle: AHV-Nummern, Rentenauszahlungen ins Ausland"
+220,www.zg.ch,Kanton Zug,Behörden,öffentlich,2,Website/Portal,"Sitz vieler Rohstoff-, Krypto- und Holdinggesellschaften; Handelsregister mit hoher Last"
+221,www.babs.admin.ch,BABS,Öffentliche Sicherheit,öffentlich,2,Website/Portal,"Bevölkerungsschutz, Alarmierung, Schutz kritischer Infrastrukturen"
+222,www.bafu.admin.ch,BAFU,Öffentliche Sicherheit,öffentlich,2,Website/Portal,"Umwelt, Hochwasser- und Naturgefahrenwarnungen, Hydrologie"
+223,www.hydrodaten.admin.ch,BAFU Hydrologie,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Pegel- und Abflussdaten in Echtzeit; Hochwasserwarnung
+224,www.kapo.zh.ch,Kantonspolizei Zürich,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Grösstes Polizeikorps; Online-Anzeigen und Fahndung
+225,www.police.be.ch,Kantonspolizei Bern,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Polizeikorps Bern
+226,www.seismo.ethz.ch,Schweizerischer Erdbebendienst,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Erdbebenüberwachung und -alarmierung
+227,www.slf.ch,WSL-Institut SLF,Öffentliche Sicherheit,öffentlich,2,Website/Portal,"Lawinenbulletin; Grundlage für Sperrungen von Strassen, Bahnen und Skigebieten"
+228,www.suisse-epolice.ch,Suisse ePolice,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Gemeinsames Portal mehrerer Kantone für Online-Anzeigen
+229,www.vbs.admin.ch,VBS,Öffentliche Sicherheit,öffentlich,2,Website/Portal,Verteidigung und Sicherheitspolitik
+230,www.vtg.admin.ch,Armee,Öffentliche Sicherheit,öffentlich,2,Website/Portal,"Armee: Mobilmachung, Dienstplanung, Kommunikation an Angehörige der Armee"
+231,access.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,2,Login/Identität,Zugangs-Gateway eIAM für Fachanwendungen
+232,auth.trust-infra.swiyu.admin.ch,swiyu,IKT & Vertrauensinfrastruktur,öffentlich,2,Login/Identität,Authentisierung für Teilnehmende der Vertrauensinfrastruktur
+233,cert.fedlogin.eiam.admin.ch,BIT eIAM FED-LOGIN,IKT & Vertrauensinfrastruktur,öffentlich,2,Login/Identität,Zertifikatsbasiertes Login (Smartcard) der Bundesverwaltung
+234,feds.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,2,Login/Identität,Föderationsdienst für Kantone und Partnerorganisationen
+235,idp-base.gate.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,2,Login/Identität,IdP-Gateway eIAM
+236,portal.trust-infra.swiyu.admin.ch,swiyu,IKT & Vertrauensinfrastruktur,öffentlich,2,Register/Vertrauensinfrastruktur,Onboarding-Portal für Aussteller und Verifizierer
+237,www.bakom.admin.ch,BAKOM,IKT & Vertrauensinfrastruktur,öffentlich,2,Website/Portal,"Fernmeldeaufsicht, Funkfrequenzen, Grundversorgung Telekom"
+238,www.bit.admin.ch,BIT,IKT & Vertrauensinfrastruktur,öffentlich,2,Website/Portal,"IT-Leistungserbringer des Bundes; betreibt eIAM, AGOV, sedex und Rechenzentren"
+239,www.bis.org,BIZ (Basel),Finanzen,öffentlich,2,Website/Portal,Bank der Zentralbanken; Sitz in Basel
+240,www.compenswiss.ch,compenswiss (AHV-Ausgleichsfonds),Finanzen,öffentlich,2,Website/Portal,"Verwaltet die Ausgleichsfonds von AHV, IV und EO (rund 40 Mrd. CHF)"
+241,www.bfe.admin.ch,BFE,Energie,öffentlich,2,Website/Portal,"Energiepolitik, Versorgungssicherheit, Stromkrisen-Vorbereitung"
+242,www.ekz.ch,EKZ,Energie,öffentlich,2,Website/Portal,Grösster kantonaler Verteilnetzbetreiber
+243,www.elcom.admin.ch,ElCom,Energie,öffentlich,2,Website/Portal,Regulator Strommarkt; Überwachung Versorgungssicherheit
+244,www.ewz.ch,ewz,Energie,öffentlich,2,Website/Portal,Strom- und Glasfasernetz der Stadt Zürich
+245,www.iwb.ch,IWB,Energie,öffentlich,2,Website/Portal,"Strom, Gas, Wasser, Fernwärme Basel"
+246,www.sig-ge.ch,SIG,Energie,öffentlich,2,Website/Portal,"Strom, Gas, Wasser, Fernwärme Kanton Genf"
+247,www.e-health-suisse.ch,eHealth Suisse,Gesundheit,öffentlich,2,Website/Portal,Koordination des elektronischen Patientendossiers (EPD)
+248,www.eoc.ch,Ente Ospedaliero Cantonale,Gesundheit,öffentlich,2,Website/Portal,Spitalverbund Tessin
+249,www.kispi.uzh.ch,Universitäts-Kinderspital Zürich,Gesundheit,öffentlich,2,Website/Portal,Grösstes Kinderspital der Schweiz
+250,www.kssg.ch,Kantonsspital St. Gallen,Gesundheit,öffentlich,2,Website/Portal,Zentrumsspital Ostschweiz
+251,www.astra.admin.ch,ASTRA,Verkehr & Logistik,öffentlich,2,Website/Portal,"Nationalstrassen, Verkehrsmanagement und Fahrzeugzulassungsdaten (IVZ)"
+252,www.bav.admin.ch,BAV,Verkehr & Logistik,öffentlich,2,Website/Portal,Aufsicht und Finanzierung öffentlicher Verkehr; Sicherheit Bahn
+253,www.bazl.admin.ch,BAZL,Verkehr & Logistik,öffentlich,2,Website/Portal,"Zivilluftfahrt: Lizenzen, Drohnenregistrierung, Flugsicherheit"
+254,www.opentransportdata.swiss,Open Transport Data,Verkehr & Logistik,öffentlich,2,Website/Portal,Fahrplan- und Echtzeitdaten-Plattform; speist Reise-Apps und Anzeigen
+255,www.port-of-switzerland.ch,Schweizerische Rheinhäfen,Verkehr & Logistik,öffentlich,2,Website/Portal,"Rheinhäfen Basel; rund 10 % der Importe, v. a. Mineralöl"
+256,www.vbz.ch,VBZ,Verkehr & Logistik,öffentlich,2,Website/Portal,Tram und Bus der Stadt Zürich
+257,www.zvv.ch,ZVV,Verkehr & Logistik,öffentlich,2,Website/Portal,Grösster Verkehrsverbund
+258,www.blv.admin.ch,BLV,Detailhandel & Nahrung,öffentlich,2,Website/Portal,Lebensmittelsicherheit und Tiergesundheit; Rückrufe und Seuchenbekämpfung
+259,www.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Website/Portal,Nationales Hochleistungsrechenzentrum; rechnet Wettermodelle für MeteoSchweiz
+260,www.epfl.ch,EPFL,Bildung & Forschung,öffentlich,2,Website/Portal,Spitzenhochschule Lausanne
+261,www.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Website/Portal,Spitzenhochschule; Forschungsinfrastruktur und Erdbebendienst
+262,www.icrc.org,IKRK,Internationale Organisationen,öffentlich,2,Website/Portal,Humanitäre Organisation mit Sitz in Genf; Ziel staatlicher Angriffe
+263,www.who.int,WHO,Internationale Organisationen,öffentlich,2,Website/Portal,Weltgesundheitsorganisation mit Sitz in Genf
+264,www.abraxas.ch,Abraxas Informatik,IKT & Vertrauensinfrastruktur,halbprivat,2,Website/Portal,"IT-Dienstleister mehrerer Kantone und Gemeinden; Steuer-, Einwohner- und E-Voting-nahe Fachanwendungen"
+265,www.bluewin.ch,Swisscom Bluewin,IKT & Vertrauensinfrastruktur,halbprivat,2,Website/Portal,Meistgenutzter Schweizer E-Mail-Dienst für Privatpersonen
+266,www.eduid.ch,SWITCH edu-ID,IKT & Vertrauensinfrastruktur,halbprivat,2,Website/Portal,Zentrale Identität für Hochschulangehörige
+267,www.akb.ch,Aargauische Kantonalbank,Finanzen,halbprivat,2,Website/Portal,Kantonalbank mit Staatsgarantie (Aargau)
+268,www.bcge.ch,Banque Cantonale de Genève,Finanzen,halbprivat,2,Website/Portal,Kantonalbank Genf
+269,www.bcv.ch,Banque Cantonale Vaudoise,Finanzen,halbprivat,2,Website/Portal,Grösste Westschweizer Kantonalbank
+270,www.bekb.ch,Berner Kantonalbank,Finanzen,halbprivat,2,Website/Portal,Kantonalbank Bern
+271,www.bkb.ch,Basler Kantonalbank,Finanzen,halbprivat,2,Website/Portal,Kantonalbank mit Staatsgarantie (Basel-Stadt)
+272,www.lukb.ch,Luzerner Kantonalbank,Finanzen,halbprivat,2,Website/Portal,Kantonalbank mit Staatsgarantie (Luzern)
+273,www.sgkb.ch,St.Galler Kantonalbank,Finanzen,halbprivat,2,Website/Portal,Kantonalbank mit Staatsgarantie (St. Gallen)
+274,www.ckw.ch,CKW,Energie,halbprivat,2,Website/Portal,Energieversorgerin Zentralschweiz
+275,www.groupe-e.ch,Groupe E,Energie,halbprivat,2,Website/Portal,Energieversorgerin Freiburg/Neuenburg
+276,www.romande-energie.ch,Romande Energie,Energie,halbprivat,2,Website/Portal,Grösste Energieversorgerin der Westschweiz
+277,www.ksa.ch,Kantonsspital Aarau,Gesundheit,halbprivat,2,Website/Portal,Zentrumsspital Aargau
+278,www.luks.ch,Luzerner Kantonsspital,Gesundheit,halbprivat,2,Website/Portal,Grösstes Zentrumsspital der Zentralschweiz
+279,www.bls.ch,BLS,Verkehr & Logistik,halbprivat,2,Website/Portal,"Zweitgrösste Bahn (Bern, Lötschberg)"
+280,www.euroairport.com,EuroAirport Basel-Mulhouse,Verkehr & Logistik,halbprivat,2,Website/Portal,Binationaler Flughafen; Fracht für Life-Sciences
+281,www.postauto.ch,PostAuto,Verkehr & Logistik,halbprivat,2,Website/Portal,Grösster Busbetreiber im Regional- und Bergverkehr
+282,www.rhb.ch,Rhätische Bahn,Verkehr & Logistik,halbprivat,2,Website/Portal,Bahnnetz Graubünden; teils einzige Wintererschliessung
+283,www.sbbcargo.com,SBB Cargo,Verkehr & Logistik,halbprivat,2,Website/Portal,Güterverkehr auf der Schiene; Versorgung des Detailhandels
+284,www.zurich-airport.com,Flughafen Zürich,Verkehr & Logistik,halbprivat,2,Website/Portal,Englischsprachige Domain des Flughafens Zürich
+285,www.rsi.ch,RSI,Medien,halbprivat,2,Website/Portal,Service-public-Medium Tessin
+286,www.rts.ch,RTS,Medien,halbprivat,2,Website/Portal,Service-public-Medium Westschweiz
+287,www.abacus.ch,Abacus,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,ERP- und Lohnsoftware vieler KMU und Gemeinden
+288,www.avaloq.com,Avaloq,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Kernbankensoftware vieler Schweizer Banken; Ausfall trifft mehrere Institute gleichzeitig
+289,www.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Verbreitetste Buchhaltungs-Cloud für Schweizer KMU
+290,www.finnova.com,Finnova,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Kernbankensoftware zahlreicher Kantonal- und Regionalbanken
+291,www.hostpoint.ch,Hostpoint,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Grösster Webhoster der Schweiz; Websites und E-Mail Hunderttausender KMU
+292,www.infomaniak.com,Infomaniak,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Grösster unabhängiger Cloud- und E-Mail-Anbieter (Genf)
+293,www.quovadisglobal.com,QuoVadis (DigiCert),IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Qualifizierte Signaturen und TLS-Zertifikate für Schweizer Banken und Behörden
+294,www.salt.ch,Salt,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Dritter Mobilfunknetzbetreiber
+295,www.swissix.ch,SwissIX,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Grösster Internet-Exchange der Schweiz
+296,www.threema.ch,Threema,IKT & Vertrauensinfrastruktur,privat,2,Website/Portal,Sicherer Messenger; offizieller Kommunikationskanal von Armee und Verwaltungen
+297,www.axa.ch,AXA Schweiz,Finanzen,privat,2,Website/Portal,"Grosser Sach-, Leben- und BVG-Versicherer"
+298,www.credit-suisse.com,Credit Suisse (UBS),Finanzen,privat,2,Website/Portal,Legacy-Domain der CS; noch genutzte Kundenkanäle während der Migration zu UBS
+299,www.datatrans.ch,Datatrans,Finanzen,privat,2,Website/Portal,Führender Payment Service Provider im Schweizer E-Commerce
+300,www.esisuisse.ch,esisuisse,Finanzen,privat,2,Website/Portal,Einlagensicherung; im Bankenkonkurs Auszahlung an Einleger
+301,www.juliusbaer.com,Julius Bär,Finanzen,privat,2,Website/Portal,Grösste reine Vermögensverwaltungsbank der Schweiz
+302,www.migrosbank.ch,Migros Bank,Finanzen,privat,2,Website/Portal,Grosse Retailbank mit breiter Hypothekar- und Sparbasis
+303,www.mobiliar.ch,Die Mobiliar,Finanzen,privat,2,Website/Portal,Marktführer Haushalt- und Gebäudeversicherung (privat)
+304,www.six-securities-services.com,SIX Securities Services,Finanzen,privat,2,Website/Portal,Zentralverwahrer und Wertschriftenabwicklung (SIS)
+305,www.swisscard.ch,Swisscard,Finanzen,privat,2,Website/Portal,"Kreditkartenherausgeberin (Amex, Cashback-Karten)"
+306,www.swissdec.ch,Swissdec,Finanzen,privat,2,Website/Portal,"Standard für elektronische Lohnmeldungen an AHV, Suva, Steuerämter und BFS"
+307,www.swisslife.ch,Swiss Life,Finanzen,privat,2,Website/Portal,Grösster Lebens- und BVG-Versicherer
+308,www.swissquote.ch,Swissquote,Finanzen,privat,2,Website/Portal,Grösste Online-Bank/Broker; Handelsplattform für Hunderttausende Kunden
+309,www.swissre.com,Swiss Re,Finanzen,privat,2,Website/Portal,Weltweit zweitgrösster Rückversicherer; systemisch für Versicherungsmarkt
+310,www.terravis.ch,SIX Terravis,Finanzen,privat,2,Website/Portal,"Elektronischer Grundbuchverkehr zwischen Banken, Notaren und Grundbuchämtern"
+311,www.viseca.ch,Viseca,Finanzen,privat,2,Website/Portal,Herausgeberin von Kreditkarten für Kantonal- und Raiffeisenbanken; 3-D-Secure-App «one»
+312,www.zurich.ch,Zurich Versicherung,Finanzen,privat,2,Website/Portal,Grösster Schweizer Erstversicherer
+313,www.carbura.ch,Carbura,Energie,privat,2,Website/Portal,Organisation der Pflichtlager für Erdölprodukte
+314,www.gaznat.ch,Gaznat,Energie,privat,2,Website/Portal,Gastransport und -beschaffung Westschweiz
+315,www.kkg.ch,Kernkraftwerk Gösgen,Energie,privat,2,Website/Portal,Kernkraftwerk; rund 13 % der Schweizer Stromproduktion
+316,www.kkl.ch,Kernkraftwerk Leibstadt,Energie,privat,2,Website/Portal,Grösstes Schweizer Kernkraftwerk
+317,www.ostral.ch,OSTRAL,Energie,privat,2,Website/Portal,Organisation für Stromversorgung in ausserordentlichen Lagen; Kontingentierung und Netzabschaltungen
+318,www.swissgas.ch,Swissgas,Energie,privat,2,Website/Portal,Gasbeschaffung und Hochdrucknetz
+319,www.transitgas.ch,Transitgas,Energie,privat,2,Website/Portal,Gas-Transitleitung Nord-Süd
+320,www.blutspende.ch,Blutspende SRK Schweiz,Gesundheit,privat,2,Website/Portal,Blutversorgung der Spitäler; Spenderaufrufe in Engpässen
+321,www.css.ch,CSS,Gesundheit,privat,2,Website/Portal,Grösster Krankenversicherer
+322,www.galenica.com,Galenica,Gesundheit,privat,2,Website/Portal,Grösste Apothekengruppe und Pharma-Logistik
+323,www.groupemutuel.ch,Groupe Mutuel,Gesundheit,privat,2,Website/Portal,Grosser Krankenversicherer (Westschweiz)
+324,www.hcisolutions.ch,HCI Solutions,Gesundheit,privat,2,Website/Portal,"Arzneimittel-Stammdaten (Index, Compendium) für Spitäler und Apotheken"
+325,www.helsana.ch,Helsana,Gesundheit,privat,2,Website/Portal,Grosser Krankenversicherer
+326,www.hirslanden.ch,Hirslanden,Gesundheit,privat,2,Website/Portal,Grösste Privatspitalgruppe
+327,www.novartis.com,Novartis,Gesundheit,privat,2,Website/Portal,Pharma-Grossunternehmen; Medikamentenversorgung
+328,www.ofac.ch,OFAC,Gesundheit,privat,2,Website/Portal,Abrechnungsstelle der Apotheken (Rezepte und Leistungsabrechnung)
+329,www.roche.com,Roche,Gesundheit,privat,2,Website/Portal,Weltgrösstes Pharma-/Diagnostikunternehmen; Diagnostik-Systeme in Spitallabors
+330,www.sasis.ch,SASIS,Gesundheit,privat,2,Website/Portal,Versichertenkarte-Daten und Zahlstellenregister der Krankenversicherer
+331,www.swica.ch,SWICA,Gesundheit,privat,2,Website/Portal,Grosser Krankenversicherer
+332,www.swisstransplant.org,Swisstransplant,Gesundheit,privat,2,Website/Portal,Nationale Organzuteilung; zeitkritische Koordination
+333,www.swiss.com,SWISS,Verkehr & Logistik,privat,2,Website/Portal,Nationale Fluggesellschaft
+334,www.aldi-suisse.ch,Aldi Suisse,Detailhandel & Nahrung,privat,2,Website/Portal,Discounter mit landesweitem Filialnetz
+335,www.denner.ch,Denner,Detailhandel & Nahrung,privat,2,Website/Portal,Grösster Discounter (Migros-Gruppe)
+336,www.galaxus.ch,Digitec Galaxus,Detailhandel & Nahrung,privat,2,Website/Portal,Grösster Onlinehändler der Schweiz
+337,www.landi.ch,Landi,Detailhandel & Nahrung,privat,2,Website/Portal,Detailhandel im ländlichen Raum
+338,www.lidl.ch,Lidl Schweiz,Detailhandel & Nahrung,privat,2,Website/Portal,Discounter mit landesweitem Filialnetz
+339,www.transgourmet.ch,Transgourmet,Detailhandel & Nahrung,privat,2,Website/Portal,"Grösster Gastro-Grosshändler (Coop); beliefert Spitäler, Heime, Gastronomie"
+340,www.volg.ch,Volg,Detailhandel & Nahrung,privat,2,Website/Portal,Dorfladen-Netz; oft einzige Einkaufsmöglichkeit im Dorf
+341,www.20min.ch,20 Minuten,Medien,privat,2,Website/Portal,Reichweitenstärkstes Nachrichtenportal
+342,www.keystone-sda.ch,Keystone-SDA,Medien,privat,2,Website/Portal,Nationale Nachrichtenagentur; beliefert alle Redaktionen
+343,api3.geo.admin.ch,swisstopo GeoAdmin,Behörden,öffentlich,2,Fachanwendung,Geodienste-API; in viele Fachanwendungen eingebunden
+344,auth.ag.ch,Kanton Aargau,Behörden,öffentlich,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Kanton Aargau: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+345,login.ag.ch,Kanton Aargau,Behörden,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von Kanton Aargau: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+346,login.eda.admin.ch,EDA,Behörden,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von EDA: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+347,login.gr.ch,Kanton Graubünden,Behörden,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von Kanton Graubünden: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+348,login.lu.ch,Kanton Luzern,Behörden,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von Kanton Luzern: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+349,login.stadt-zuerich.ch,Stadt Zürich,Behörden,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von Stadt Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+350,map.geo.admin.ch,swisstopo GeoAdmin,Behörden,öffentlich,2,Fachanwendung,Kartenviewer des Bundes; von Einsatzkräften und Bevölkerung genutzt
+351,passar.admin.ch,BAZG Passar,Behörden,öffentlich,2,Fachanwendung,Einstieg Warenverkehrssystem Passar
+352,popular-votes.admin.ch,Bundeskanzlei,Behörden,öffentlich,2,Fachanwendung,Abstimmungsresultate; Ziel von Manipulationsversuchen am Abstimmungssonntag
+353,sso.ti.ch,Repubblica e Cantone Ticino,Behörden,öffentlich,2,Single-Sign-on,"Single-Sign-on von Repubblica e Cantone Ticino: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+354,user.eportal.admin.ch,BIT ePortal,Behörden,öffentlich,2,Fachanwendung,Benutzerbereich ePortal
+355,via.admin.ch,BAZG Via,Behörden,öffentlich,2,Fachanwendung,Via-Plattform (E-Vignette und Grenzformalitäten)
+356,wmts.geo.admin.ch,swisstopo GeoAdmin,Behörden,öffentlich,2,Fachanwendung,Kartenkacheln (WMTS) für Behörden- und Blaulicht-Software
+357,www.sedex.ch,BFS sedex,Behörden,öffentlich,2,Fachanwendung,Informations- und Anmeldeseite sedex (Behörden-Datenaustausch)
+358,www.zefix.admin.ch,EHRA Zefix,Behörden,öffentlich,2,Fachanwendung,Zefix-Applikation (Firmenindex)
+359,sso.slf.ch,WSL-Institut SLF,Öffentliche Sicherheit,öffentlich,2,Single-Sign-on,"Single-Sign-on von WSL-Institut SLF: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+360,sso.suisse-epolice.ch,Suisse ePolice,Öffentliche Sicherheit,öffentlich,2,Single-Sign-on,"Single-Sign-on von Suisse ePolice: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+361,www.polyalert.admin.ch,BABS,Öffentliche Sicherheit,öffentlich,2,Fachanwendung,Polyalert-Alarmierungssystem
+362,agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,2,Fachanwendung,AGOV-Einstieg
+363,connect.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,2,Fachanwendung,Anbindungsendpunkt für Behördenanwendungen an AGOV
+364,forms.eid.admin.ch,BJ/BIT E-ID,IKT & Vertrauensinfrastruktur,öffentlich,2,Fachanwendung,Antragsformulare E-ID
+365,me.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,2,Fachanwendung,"Self-Service für AGOV-Konten (Recovery, Faktoren)"
+366,www.agov.admin.ch,BIT AGOV,IKT & Vertrauensinfrastruktur,öffentlich,2,Fachanwendung,Informationsseite AGOV-Behördenlogin
+367,auth.ekz.ch,EKZ,Energie,öffentlich,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von EKZ: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+368,auth.sig-ge.ch,SIG,Energie,öffentlich,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von SIG: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+369,login.ekz.ch,EKZ,Energie,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von EKZ: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+370,login.sig-ge.ch,SIG,Energie,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von SIG: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+371,sso.ekz.ch,EKZ,Energie,öffentlich,2,Single-Sign-on,"Single-Sign-on von EKZ: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+372,api.healthreg.admin.ch,BAG Gesundheitsberuferegister,Gesundheit,öffentlich,2,Fachanwendung,Register der Gesundheitsfachpersonen (MedReg/PsyReg/NAREG)
+373,auth.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von CSCS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+374,id.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von ETH Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+375,login.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von CSCS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+376,login.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Login-Endpunkt,"Login-Endpunkt von ETH Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+377,sso.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Single-Sign-on,"Single-Sign-on von CSCS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+378,auth.icrc.org,IKRK,Internationale Organisationen,öffentlich,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von IKRK: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+379,id.who.int,WHO,Internationale Organisationen,öffentlich,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von WHO: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+380,login.eduid.ch,SWITCH edu-ID,IKT & Vertrauensinfrastruktur,halbprivat,2,Login-Endpunkt,"Login-Endpunkt von SWITCH edu-ID: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+381,auth.bcv.ch,Banque Cantonale Vaudoise,Finanzen,halbprivat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Banque Cantonale Vaudoise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+382,auth.lukb.ch,Luzerner Kantonalbank,Finanzen,halbprivat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Luzerner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+383,banking.bekb.ch,Berner Kantonalbank,Finanzen,halbprivat,2,Online-Banking,"Online-Banking von Berner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+384,ebanking.bkb.ch,Basler Kantonalbank,Finanzen,halbprivat,2,E-Banking,"E-Banking von Basler Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+385,ebanking.lukb.ch,Luzerner Kantonalbank,Finanzen,halbprivat,2,E-Banking,"E-Banking von Luzerner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+386,ebanking.sgkb.ch,St.Galler Kantonalbank,Finanzen,halbprivat,2,E-Banking,"E-Banking von St.Galler Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+387,login.bkb.ch,Basler Kantonalbank,Finanzen,halbprivat,2,Login-Endpunkt,"Login-Endpunkt von Basler Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+388,login.lukb.ch,Luzerner Kantonalbank,Finanzen,halbprivat,2,Login-Endpunkt,"Login-Endpunkt von Luzerner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+389,netbanking.bcge.ch,Banque Cantonale de Genève,Finanzen,halbprivat,2,E-Banking,"E-Banking von Banque Cantonale de Genève: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+390,auth.groupe-e.ch,Groupe E,Energie,halbprivat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Groupe E: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+391,id.ckw.ch,CKW,Energie,halbprivat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von CKW: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+392,auth.bls.ch,BLS,Verkehr & Logistik,halbprivat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von BLS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+393,id.bls.ch,BLS,Verkehr & Logistik,halbprivat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von BLS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+394,id.rts.ch,RTS,Medien,halbprivat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von RTS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+395,login.rts.ch,RTS,Medien,halbprivat,2,Login-Endpunkt,"Login-Endpunkt von RTS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+396,auth.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von bexio: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+397,auth.salt.ch,Salt,IKT & Vertrauensinfrastruktur,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Salt: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+398,banking.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,Online-Banking,"Online-Banking von bexio: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+399,login.abacus.ch,Abacus,IKT & Vertrauensinfrastruktur,privat,2,Login-Endpunkt,"Login-Endpunkt von Abacus: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+400,login.infomaniak.com,Infomaniak,IKT & Vertrauensinfrastruktur,privat,2,Login-Endpunkt,"Login-Endpunkt von Infomaniak: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+401,login.salt.ch,Salt,IKT & Vertrauensinfrastruktur,privat,2,Login-Endpunkt,"Login-Endpunkt von Salt: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+402,sso.salt.ch,Salt,IKT & Vertrauensinfrastruktur,privat,2,Single-Sign-on,"Single-Sign-on von Salt: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+403,auth.viseca.ch,Viseca,Finanzen,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Viseca: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+404,banking.credit-suisse.com,Credit Suisse (UBS),Finanzen,privat,2,Online-Banking,"Online-Banking von Credit Suisse (UBS): Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+405,ebanking.axa.ch,AXA Schweiz,Finanzen,privat,2,E-Banking,"E-Banking von AXA Schweiz: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+406,ebanking.juliusbaer.com,Julius Bär,Finanzen,privat,2,E-Banking,"E-Banking von Julius Bär: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+407,ebanking.migrosbank.ch,Migros Bank,Finanzen,privat,2,E-Banking,"E-Banking von Migros Bank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+408,login.axa.ch,AXA Schweiz,Finanzen,privat,2,Login-Endpunkt,"Login-Endpunkt von AXA Schweiz: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+409,login.swisslife.ch,Swiss Life,Finanzen,privat,2,Login-Endpunkt,"Login-Endpunkt von Swiss Life: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+410,login.zurich.ch,Zurich Versicherung,Finanzen,privat,2,Login-Endpunkt,"Login-Endpunkt von Zurich Versicherung: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+411,sso.juliusbaer.com,Julius Bär,Finanzen,privat,2,Single-Sign-on,"Single-Sign-on von Julius Bär: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+412,sso.swisscard.ch,Swisscard,Finanzen,privat,2,Single-Sign-on,"Single-Sign-on von Swisscard: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+413,login.swissgas.ch,Swissgas,Energie,privat,2,Login-Endpunkt,"Login-Endpunkt von Swissgas: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+414,auth.novartis.com,Novartis,Gesundheit,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Novartis: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+415,id.css.ch,CSS,Gesundheit,privat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von CSS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+416,id.novartis.com,Novartis,Gesundheit,privat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von Novartis: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+417,id.roche.com,Roche,Gesundheit,privat,2,Identitäts-Endpunkt,"Identitäts-Endpunkt von Roche: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+418,login.css.ch,CSS,Gesundheit,privat,2,Login-Endpunkt,"Login-Endpunkt von CSS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+419,login.helsana.ch,Helsana,Gesundheit,privat,2,Login-Endpunkt,"Login-Endpunkt von Helsana: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+420,login.roche.com,Roche,Gesundheit,privat,2,Login-Endpunkt,"Login-Endpunkt von Roche: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+421,login.swica.ch,SWICA,Gesundheit,privat,2,Login-Endpunkt,"Login-Endpunkt von SWICA: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+422,login.swiss.com,SWISS,Verkehr & Logistik,privat,2,Login-Endpunkt,"Login-Endpunkt von SWISS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+423,sso.swiss.com,SWISS,Verkehr & Logistik,privat,2,Single-Sign-on,"Single-Sign-on von SWISS: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+424,login.transgourmet.ch,Transgourmet,Detailhandel & Nahrung,privat,2,Login-Endpunkt,"Login-Endpunkt von Transgourmet: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+425,auth.20min.ch,20 Minuten,Medien,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von 20 Minuten: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+426,auth.keystone-sda.ch,Keystone-SDA,Medien,privat,2,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Keystone-SDA: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+427,account.zg.ch,Kanton Zug,Behörden,öffentlich,2,Kontoverwaltung,Kontoverwaltung von Kanton Zug: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+428,my.bl.ch,Kanton Basel-Landschaft,Behörden,öffentlich,2,Kundenkonto,Kundenkonto von Kanton Basel-Landschaft: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+429,my.lu.ch,Kanton Luzern,Behörden,öffentlich,2,Kundenkonto,Kundenkonto von Kanton Luzern: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+430,online.vs.ch,État du Valais,Behörden,öffentlich,2,Online-Kundenzugang,Online-Kundenzugang von État du Valais: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+431,portal.bern.ch,Stadt Bern,Behörden,öffentlich,2,Kundenportal,Kundenportal von Stadt Bern: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+432,portal.vs.ch,État du Valais,Behörden,öffentlich,2,Kundenportal,Kundenportal von État du Valais: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+433,portal.zg.ch,Kanton Zug,Behörden,öffentlich,2,Kundenportal,Kundenportal von Kanton Zug: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+434,secure.bs.ch,Kanton Basel-Stadt,Behörden,öffentlich,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Kanton Basel-Stadt: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+435,portal.bis.org,BIZ (Basel),Finanzen,öffentlich,2,Kundenportal,Kundenportal von BIZ (Basel): Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+436,portal.compenswiss.ch,compenswiss (AHV-Ausgleichsfonds),Finanzen,öffentlich,2,Kundenportal,Kundenportal von compenswiss (AHV-Ausgleichsfonds): Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+437,mein.ewz.ch,ewz,Energie,öffentlich,2,Kundenkonto,Kundenkonto von ewz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+438,my.ekz.ch,EKZ,Energie,öffentlich,2,Kundenkonto,Kundenkonto von EKZ: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+439,online.iwb.ch,IWB,Energie,öffentlich,2,Online-Kundenzugang,Online-Kundenzugang von IWB: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+440,portal.ekz.ch,EKZ,Energie,öffentlich,2,Kundenportal,Kundenportal von EKZ: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+441,portal.iwb.ch,IWB,Energie,öffentlich,2,Kundenportal,Kundenportal von IWB: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+442,portal.eoc.ch,Ente Ospedaliero Cantonale,Gesundheit,öffentlich,2,Kundenportal,Kundenportal von Ente Ospedaliero Cantonale: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+443,portal.kispi.uzh.ch,Universitäts-Kinderspital Zürich,Gesundheit,öffentlich,2,Kundenportal,Kundenportal von Universitäts-Kinderspital Zürich: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+444,secure.eoc.ch,Ente Ospedaliero Cantonale,Gesundheit,öffentlich,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Ente Ospedaliero Cantonale: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+445,account.zvv.ch,ZVV,Verkehr & Logistik,öffentlich,2,Kontoverwaltung,Kontoverwaltung von ZVV: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+446,account.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Kontoverwaltung,Kontoverwaltung von CSCS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+447,my.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Kundenkonto,Kundenkonto von CSCS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+448,online.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Online-Kundenzugang,Online-Kundenzugang von ETH Zürich: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+449,portal.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,Kundenportal,Kundenportal von CSCS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+450,portal.who.int,WHO,Internationale Organisationen,öffentlich,2,Kundenportal,Kundenportal von WHO: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+451,secure.who.int,WHO,Internationale Organisationen,öffentlich,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von WHO: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+452,portal.abraxas.ch,Abraxas Informatik,IKT & Vertrauensinfrastruktur,halbprivat,2,Kundenportal,Kundenportal von Abraxas Informatik: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+453,portal.bcge.ch,Banque Cantonale de Genève,Finanzen,halbprivat,2,Kundenportal,Kundenportal von Banque Cantonale de Genève: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+454,portal.bkb.ch,Basler Kantonalbank,Finanzen,halbprivat,2,Kundenportal,Kundenportal von Basler Kantonalbank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+455,my.ckw.ch,CKW,Energie,halbprivat,2,Kundenkonto,Kundenkonto von CKW: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+456,my.groupe-e.ch,Groupe E,Energie,halbprivat,2,Kundenkonto,Kundenkonto von Groupe E: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+457,portal.ckw.ch,CKW,Energie,halbprivat,2,Kundenportal,Kundenportal von CKW: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+458,my.sbbcargo.com,SBB Cargo,Verkehr & Logistik,halbprivat,2,Kundenkonto,Kundenkonto von SBB Cargo: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+459,account.infomaniak.com,Infomaniak,IKT & Vertrauensinfrastruktur,privat,2,Kontoverwaltung,Kontoverwaltung von Infomaniak: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+460,account.swissix.ch,SwissIX,IKT & Vertrauensinfrastruktur,privat,2,Kontoverwaltung,Kontoverwaltung von SwissIX: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+461,my.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,Kundenkonto,Kundenkonto von bexio: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+462,my.salt.ch,Salt,IKT & Vertrauensinfrastruktur,privat,2,Kundenkonto,Kundenkonto von Salt: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+463,portal.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,Kundenportal,Kundenportal von bexio: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+464,portal.swissix.ch,SwissIX,IKT & Vertrauensinfrastruktur,privat,2,Kundenportal,Kundenportal von SwissIX: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+465,account.swissquote.ch,Swissquote,Finanzen,privat,2,Kontoverwaltung,Kontoverwaltung von Swissquote: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+466,my.axa.ch,AXA Schweiz,Finanzen,privat,2,Kundenkonto,Kundenkonto von AXA Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+467,my.mobiliar.ch,Die Mobiliar,Finanzen,privat,2,Kundenkonto,Kundenkonto von Die Mobiliar: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+468,portal.datatrans.ch,Datatrans,Finanzen,privat,2,Kundenportal,Kundenportal von Datatrans: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+469,portal.mobiliar.ch,Die Mobiliar,Finanzen,privat,2,Kundenportal,Kundenportal von Die Mobiliar: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+470,portal.viseca.ch,Viseca,Finanzen,privat,2,Kundenportal,Kundenportal von Viseca: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+471,secure.axa.ch,AXA Schweiz,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von AXA Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+472,secure.migrosbank.ch,Migros Bank,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Migros Bank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+473,secure.mobiliar.ch,Die Mobiliar,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Die Mobiliar: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+474,secure.six-securities-services.com,SIX Securities Services,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von SIX Securities Services: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+475,secure.swissquote.ch,Swissquote,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Swissquote: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+476,secure.terravis.ch,SIX Terravis,Finanzen,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von SIX Terravis: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+477,portal.swissgas.ch,Swissgas,Energie,privat,2,Kundenportal,Kundenportal von Swissgas: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+478,secure.gaznat.ch,Gaznat,Energie,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Gaznat: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+479,account.novartis.com,Novartis,Gesundheit,privat,2,Kontoverwaltung,Kontoverwaltung von Novartis: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+480,account.roche.com,Roche,Gesundheit,privat,2,Kontoverwaltung,Kontoverwaltung von Roche: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+481,customer.roche.com,Roche,Gesundheit,privat,2,Kundenportal,Kundenportal von Roche: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+482,my.css.ch,CSS,Gesundheit,privat,2,Kundenkonto,Kundenkonto von CSS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+483,my.galenica.com,Galenica,Gesundheit,privat,2,Kundenkonto,Kundenkonto von Galenica: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+484,my.groupemutuel.ch,Groupe Mutuel,Gesundheit,privat,2,Kundenkonto,Kundenkonto von Groupe Mutuel: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+485,my.novartis.com,Novartis,Gesundheit,privat,2,Kundenkonto,Kundenkonto von Novartis: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+486,my.roche.com,Roche,Gesundheit,privat,2,Kundenkonto,Kundenkonto von Roche: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+487,portal.helsana.ch,Helsana,Gesundheit,privat,2,Kundenportal,Kundenportal von Helsana: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+488,portal.hirslanden.ch,Hirslanden,Gesundheit,privat,2,Kundenportal,Kundenportal von Hirslanden: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+489,portal.roche.com,Roche,Gesundheit,privat,2,Kundenportal,Kundenportal von Roche: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+490,portal.swica.ch,SWICA,Gesundheit,privat,2,Kundenportal,Kundenportal von SWICA: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+491,secure.roche.com,Roche,Gesundheit,privat,2,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Roche: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+492,account.aldi-suisse.ch,Aldi Suisse,Detailhandel & Nahrung,privat,2,Kontoverwaltung,Kontoverwaltung von Aldi Suisse: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+493,mein.aldi-suisse.ch,Aldi Suisse,Detailhandel & Nahrung,privat,2,Kundenkonto,Kundenkonto von Aldi Suisse: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+494,portal.denner.ch,Denner,Detailhandel & Nahrung,privat,2,Kundenportal,Kundenportal von Denner: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+495,portal.transgourmet.ch,Transgourmet,Detailhandel & Nahrung,privat,2,Kundenportal,Kundenportal von Transgourmet: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+496,my.20min.ch,20 Minuten,Medien,privat,2,Kundenkonto,Kundenkonto von 20 Minuten: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+497,api.ag.ch,Kanton Aargau,Behörden,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von Kanton Aargau: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+498,api.eda.admin.ch,EDA,Behörden,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von EDA: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+499,api.fr.ch,État de Fribourg,Behörden,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von État de Fribourg: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+500,api.geo.admin.ch,GeoAdmin,Behörden,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von GeoAdmin: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+501,api.stadt-zuerich.ch,Stadt Zürich,Behörden,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von Stadt Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+502,app.eda.admin.ch,EDA,Behörden,öffentlich,2,Web-App,"Web-App von EDA: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+503,app.ti.ch,Repubblica e Cantone Ticino,Behörden,öffentlich,2,Web-App,"Web-App von Repubblica e Cantone Ticino: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+504,app.zg.ch,Kanton Zug,Behörden,öffentlich,2,Web-App,"Web-App von Kanton Zug: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+505,shop.ahv-iv.ch,AHV/IV Informationsstelle,Behörden,öffentlich,2,Online-Shop,"Online-Shop von AHV/IV Informationsstelle: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+506,shop.swisstopo.admin.ch,swisstopo,Behörden,öffentlich,2,Online-Shop,"Online-Shop von swisstopo: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+507,api.slf.ch,WSL-Institut SLF,Öffentliche Sicherheit,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von WSL-Institut SLF: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+508,api.bis.org,BIZ (Basel),Finanzen,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von BIZ (Basel): Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+509,api.sig-ge.ch,SIG,Energie,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von SIG: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+510,app.bfe.admin.ch,BFE,Energie,öffentlich,2,Web-App,"Web-App von BFE: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+511,shop.ekz.ch,EKZ,Energie,öffentlich,2,Online-Shop,"Online-Shop von EKZ: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+512,api.opentransportdata.swiss,Open Transport Data,Verkehr & Logistik,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von Open Transport Data: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+513,api.cscs.ch,CSCS,Bildung & Forschung,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von CSCS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+514,api.epfl.ch,EPFL,Bildung & Forschung,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von EPFL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+515,api.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von ETH Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+516,app.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Web-App,"Web-App von ETH Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+517,shop.epfl.ch,EPFL,Bildung & Forschung,öffentlich,2,Online-Shop,"Online-Shop von EPFL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+518,shop.ethz.ch,ETH Zürich,Bildung & Forschung,öffentlich,2,Online-Shop,"Online-Shop von ETH Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+519,api.icrc.org,IKRK,Internationale Organisationen,öffentlich,2,API/Schnittstelle,"API/Schnittstelle von IKRK: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+520,app.icrc.org,IKRK,Internationale Organisationen,öffentlich,2,Web-App,"Web-App von IKRK: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+521,shop.icrc.org,IKRK,Internationale Organisationen,öffentlich,2,Online-Shop,"Online-Shop von IKRK: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+522,api.eduid.ch,SWITCH edu-ID,IKT & Vertrauensinfrastruktur,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von SWITCH edu-ID: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+523,shop.abraxas.ch,Abraxas Informatik,IKT & Vertrauensinfrastruktur,halbprivat,2,Online-Shop,"Online-Shop von Abraxas Informatik: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+524,api.akb.ch,Aargauische Kantonalbank,Finanzen,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von Aargauische Kantonalbank: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+525,api.bcge.ch,Banque Cantonale de Genève,Finanzen,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von Banque Cantonale de Genève: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+526,api.bcv.ch,Banque Cantonale Vaudoise,Finanzen,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von Banque Cantonale Vaudoise: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+527,app.bcge.ch,Banque Cantonale de Genève,Finanzen,halbprivat,2,Web-App,"Web-App von Banque Cantonale de Genève: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+528,app.romande-energie.ch,Romande Energie,Energie,halbprivat,2,Web-App,"Web-App von Romande Energie: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+529,api.bls.ch,BLS,Verkehr & Logistik,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von BLS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+530,api.euroairport.com,EuroAirport Basel-Mulhouse,Verkehr & Logistik,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von EuroAirport Basel-Mulhouse: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+531,api.zurich-airport.com,Flughafen Zürich,Verkehr & Logistik,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von Flughafen Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+532,shop.bls.ch,BLS,Verkehr & Logistik,halbprivat,2,Online-Shop,"Online-Shop von BLS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+533,shop.rhb.ch,Rhätische Bahn,Verkehr & Logistik,halbprivat,2,Online-Shop,"Online-Shop von Rhätische Bahn: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+534,shop.zurich-airport.com,Flughafen Zürich,Verkehr & Logistik,halbprivat,2,Online-Shop,"Online-Shop von Flughafen Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+535,api.rts.ch,RTS,Medien,halbprivat,2,API/Schnittstelle,"API/Schnittstelle von RTS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+536,shop.rsi.ch,RSI,Medien,halbprivat,2,Online-Shop,"Online-Shop von RSI: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+537,shop.rts.ch,RTS,Medien,halbprivat,2,Online-Shop,"Online-Shop von RTS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+538,api.bexio.com,bexio,IKT & Vertrauensinfrastruktur,privat,2,API/Schnittstelle,"API/Schnittstelle von bexio: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+539,api.infomaniak.com,Infomaniak,IKT & Vertrauensinfrastruktur,privat,2,API/Schnittstelle,"API/Schnittstelle von Infomaniak: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+540,api.threema.ch,Threema,IKT & Vertrauensinfrastruktur,privat,2,API/Schnittstelle,"API/Schnittstelle von Threema: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+541,shop.abacus.ch,Abacus,IKT & Vertrauensinfrastruktur,privat,2,Online-Shop,"Online-Shop von Abacus: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+542,shop.infomaniak.com,Infomaniak,IKT & Vertrauensinfrastruktur,privat,2,Online-Shop,"Online-Shop von Infomaniak: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+543,shop.threema.ch,Threema,IKT & Vertrauensinfrastruktur,privat,2,Online-Shop,"Online-Shop von Threema: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+544,api.axa.ch,AXA Schweiz,Finanzen,privat,2,API/Schnittstelle,"API/Schnittstelle von AXA Schweiz: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+545,api.juliusbaer.com,Julius Bär,Finanzen,privat,2,API/Schnittstelle,"API/Schnittstelle von Julius Bär: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+546,api.viseca.ch,Viseca,Finanzen,privat,2,API/Schnittstelle,"API/Schnittstelle von Viseca: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+547,api.zurich.ch,Zurich Versicherung,Finanzen,privat,2,API/Schnittstelle,"API/Schnittstelle von Zurich Versicherung: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+548,app.swisscard.ch,Swisscard,Finanzen,privat,2,Web-App,"Web-App von Swisscard: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+549,app.swissquote.ch,Swissquote,Finanzen,privat,2,Web-App,"Web-App von Swissquote: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+550,shop.axa.ch,AXA Schweiz,Finanzen,privat,2,Online-Shop,"Online-Shop von AXA Schweiz: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+551,shop.mobiliar.ch,Die Mobiliar,Finanzen,privat,2,Online-Shop,"Online-Shop von Die Mobiliar: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+552,shop.swisslife.ch,Swiss Life,Finanzen,privat,2,Online-Shop,"Online-Shop von Swiss Life: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+553,app.gaznat.ch,Gaznat,Energie,privat,2,Web-App,"Web-App von Gaznat: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+554,api.css.ch,CSS,Gesundheit,privat,2,API/Schnittstelle,"API/Schnittstelle von CSS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+555,api.groupemutuel.ch,Groupe Mutuel,Gesundheit,privat,2,API/Schnittstelle,"API/Schnittstelle von Groupe Mutuel: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+556,api.helsana.ch,Helsana,Gesundheit,privat,2,API/Schnittstelle,"API/Schnittstelle von Helsana: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+557,app.hirslanden.ch,Hirslanden,Gesundheit,privat,2,Web-App,"Web-App von Hirslanden: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+558,shop.hirslanden.ch,Hirslanden,Gesundheit,privat,2,Online-Shop,"Online-Shop von Hirslanden: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+559,shop.roche.com,Roche,Gesundheit,privat,2,Online-Shop,"Online-Shop von Roche: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+560,shop.swiss.com,SWISS,Verkehr & Logistik,privat,2,Online-Shop,"Online-Shop von SWISS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+561,api.aldi-suisse.ch,Aldi Suisse,Detailhandel & Nahrung,privat,2,API/Schnittstelle,"API/Schnittstelle von Aldi Suisse: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+562,api.transgourmet.ch,Transgourmet,Detailhandel & Nahrung,privat,2,API/Schnittstelle,"API/Schnittstelle von Transgourmet: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+563,app.transgourmet.ch,Transgourmet,Detailhandel & Nahrung,privat,2,Web-App,"Web-App von Transgourmet: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+564,app.volg.ch,Volg,Detailhandel & Nahrung,privat,2,Web-App,"Web-App von Volg: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+565,shop.denner.ch,Denner,Detailhandel & Nahrung,privat,2,Online-Shop,"Online-Shop von Denner: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+566,api.20min.ch,20 Minuten,Medien,privat,2,API/Schnittstelle,"API/Schnittstelle von 20 Minuten: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+567,app.20min.ch,20 Minuten,Medien,privat,2,Web-App,"Web-App von 20 Minuten: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+568,app.keystone-sda.ch,Keystone-SDA,Medien,privat,2,Web-App,"Web-App von Keystone-SDA: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+569,shop.20min.ch,20 Minuten,Medien,privat,2,Online-Shop,"Online-Shop von 20 Minuten: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+570,egovernment.ch,Digitale Verwaltung Schweiz,Behörden,öffentlich,3,Website/Portal,"Steuerung und Koordination des E-Governments von Bund, Kantonen und Gemeinden"
+571,ejpd.admin.ch,EJPD,Behörden,öffentlich,3,Website/Portal,Justiz- und Polizeidepartement
+572,www.bar.admin.ch,Bundesarchiv,Behörden,öffentlich,3,Website/Portal,Archivierung und Nachweis staatlichen Handelns
+573,www.bger.ch,Bundesgericht,Behörden,öffentlich,3,Website/Portal,Rechtsprechung und elektronischer Rechtsverkehr mit dem höchsten Gericht
+574,www.bj.admin.ch,Bundesamt für Justiz,Behörden,öffentlich,3,Website/Portal,"Strafregister, Grundbuch- und Handelsregisteraufsicht, e-ID-Gesetzgebung"
+575,www.bsv.admin.ch,BSV,Behörden,öffentlich,3,Website/Portal,"Aufsicht über AHV, IV, EO und berufliche Vorsorge"
+576,www.digitale-verwaltung-schweiz.ch,Digitale Verwaltung Schweiz (DVS),Behörden,öffentlich,3,Website/Portal,"Gemeinsame Organisation von Bund, Kantonen und Gemeinden für digitale Verwaltung"
+577,www.edi.admin.ch,EDI,Behörden,öffentlich,3,Website/Portal,Departement des Innern
+578,www.efd.admin.ch,EFD,Behörden,öffentlich,3,Website/Portal,Finanzdepartement; Delegierte Digitale Transformation Bund
+579,www.efv.admin.ch,Eidg. Finanzverwaltung,Behörden,öffentlich,3,Website/Portal,Bundeshaushalt und Tresorerie
+580,www.geneve.ch,Ville de Genève,Behörden,öffentlich,3,Website/Portal,Stadtverwaltung Genf
+581,www.lausanne.ch,Ville de Lausanne,Behörden,öffentlich,3,Website/Portal,Stadtverwaltung; eigene Energie- und Wasserversorgung (SiL)
+582,www.lugano.ch,Città di Lugano,Behörden,öffentlich,3,Website/Portal,Stadtverwaltung Lugano
+583,www.ne.ch,République et canton de Neuchâtel,Behörden,öffentlich,3,Website/Portal,Kantonale Verwaltung; Guichet unique früh digitalisiert
+584,www.parlament.ch,Parlamentsdienste,Behörden,öffentlich,3,Website/Portal,Informationsplattform des Bundesparlaments; Ziel von Manipulation und DDoS bei politischen Ereignissen
+585,www.sh.ch,Kanton Schaffhausen,Behörden,öffentlich,3,Website/Portal,Grenzkanton; kantonale Verwaltung
+586,www.so.ch,Kanton Solothurn,Behörden,öffentlich,3,Website/Portal,Kantonale Verwaltung; Standort KKW Gösgen
+587,www.stadt.sg.ch,Stadt St. Gallen,Behörden,öffentlich,3,Website/Portal,Stadtverwaltung St. Gallen
+588,www.stadtluzern.ch,Stadt Luzern,Behörden,öffentlich,3,Website/Portal,Stadtverwaltung Luzern
+589,www.svazurich.ch,SVA Zürich,Behörden,öffentlich,3,Website/Portal,"Grösste kantonale Ausgleichskasse (AHV, Prämienverbilligung)"
+590,www.sz.ch,Kanton Schwyz,Behörden,öffentlich,3,Website/Portal,Kantonale Verwaltung
+591,www.tg.ch,Kanton Thurgau,Behörden,öffentlich,3,Website/Portal,Kantonale Verwaltung Ostschweiz
+592,www.ur.ch,Kanton Uri,Behörden,öffentlich,3,Website/Portal,Gotthard-Achse; Nord-Süd-Transitverkehr
+593,www.uvek.admin.ch,UVEK,Behörden,öffentlich,3,Website/Portal,"Departement für Umwelt, Verkehr, Energie und Kommunikation"
+594,www.wbf.admin.ch,WBF,Behörden,öffentlich,3,Website/Portal,"Departement für Wirtschaft, Bildung und Forschung"
+595,www.winterthur.ch,Stadt Winterthur,Behörden,öffentlich,3,Website/Portal,Sechstgrösste Stadt; Stadtwerk und Einwohnerdienste
+596,www.zuerich.ch,Stadt Zürich,Behörden,öffentlich,3,Website/Portal,Zweitdomain der Stadt Zürich
+597,www.armasuisse.ch,armasuisse,Öffentliche Sicherheit,öffentlich,3,Website/Portal,Rüstungsbeschaffung und Wissenschaft & Technologie des VBS
+598,www.sepos.admin.ch,SEPOS,Öffentliche Sicherheit,öffentlich,3,Website/Portal,Staatssekretariat für Sicherheitspolitik; Koordination digitale Souveränität und Resilienz
+599,www.wsl.ch,WSL,Öffentliche Sicherheit,öffentlich,3,Website/Portal,"Forschung und Warnung zu Wald, Naturgefahren und Trockenheit"
+600,guestlogin.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,3,Login/Identität,Gastlogin für externe Partner
+601,identity-eiam.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,3,Login/Identität,Identitätsverwaltung eIAM
+602,init.eiam.admin.ch,BIT eIAM,IKT & Vertrauensinfrastruktur,öffentlich,3,Login/Identität,Registrierung/Onboarding eIAM
+603,www.chaeis.ch,Stiftung Auffangeinrichtung BVG,Finanzen,öffentlich,3,Website/Portal,Auffangeinrichtung der 2. Säule; Freizügigkeitskonten
+604,www.sfbvg.ch,Sicherheitsfonds BVG,Finanzen,öffentlich,3,Website/Portal,Garantiert Leistungen bei Zahlungsunfähigkeit von Pensionskassen
+605,www.sif.admin.ch,SIF,Finanzen,öffentlich,3,Website/Portal,Internationale Finanz- und Steuerfragen; Amtshilfe
+606,www.aet.ch,AET,Energie,öffentlich,3,Website/Portal,Azienda Elettrica Ticinese; Produktion und Netz Tessin
+607,www.aew.ch,AEW Energie,Energie,öffentlich,3,Website/Portal,Energieversorgerin Kanton Aargau
+608,www.ail.ch,AIL,Energie,öffentlich,3,Website/Portal,Aziende Industriali di Lugano
+609,www.energie360.ch,Energie 360°,Energie,öffentlich,3,Website/Portal,Gasversorgung Zürich
+610,www.ewb.ch,ewb,Energie,öffentlich,3,Website/Portal,Energie Wasser Bern
+611,www.ewl-luzern.ch,ewl,Energie,öffentlich,3,Website/Portal,Energie Wasser Luzern
+612,www.sgsw.ch,St.Galler Stadtwerke,Energie,öffentlich,3,Website/Portal,"Strom, Gas, Wasser, Glasfaser St. Gallen"
+613,www.144.ch,Sanitätsnotruf 144,Gesundheit,öffentlich,3,Website/Portal,Informationsseite Sanitätsnotruf
+614,www.h-fr.ch,HFR Hôpital fribourgeois,Gesundheit,öffentlich,3,Website/Portal,Spitalverbund Freiburg
+615,www.hopitalvs.ch,Hôpital du Valais,Gesundheit,öffentlich,3,Website/Portal,Spitalverbund Wallis
+616,www.ksbl.ch,Kantonsspital Baselland,Gesundheit,öffentlich,3,Website/Portal,Kantonsspital
+617,www.ksgr.ch,Kantonsspital Graubünden,Gesundheit,öffentlich,3,Website/Portal,Zentrumsspital Graubünden; Notfallversorgung Tourismusregion
+618,www.ksw.ch,Kantonsspital Winterthur,Gesundheit,öffentlich,3,Website/Portal,Zentrumsspital
+619,www.priminfo.admin.ch,BAG Priminfo,Gesundheit,öffentlich,3,Website/Portal,Offizieller Prämienrechner; hohe Last im Herbst
+620,www.solothurnerspitaeler.ch,Solothurner Spitäler,Gesundheit,öffentlich,3,Website/Portal,Spitalverbund Solothurn
+621,www.stgag.ch,Spital Thurgau,Gesundheit,öffentlich,3,Website/Portal,Spitalverbund Thurgau
+622,www.ukbb.ch,Universitäts-Kinderspital beider Basel,Gesundheit,öffentlich,3,Website/Portal,Kinderspital Nordwestschweiz
+623,bvb.ch,BVB,Verkehr & Logistik,öffentlich,3,Website/Portal,Tram und Bus Basel
+624,www.bernmobil.ch,Bernmobil,Verkehr & Logistik,öffentlich,3,Website/Portal,Tram und Bus Bern
+625,www.t-l.ch,TL,Verkehr & Logistik,öffentlich,3,Website/Portal,Öffentlicher Verkehr Lausanne (inkl. Metro)
+626,www.tpg.ch,TPG,Verkehr & Logistik,öffentlich,3,Website/Portal,Öffentlicher Verkehr Genf
+627,www.blw.admin.ch,BLW,Detailhandel & Nahrung,öffentlich,3,Website/Portal,Agrarpolitik und Direktzahlungen
+628,www.edulog.ch,edulog,Bildung & Forschung,öffentlich,3,Website/Portal,Föderation von Bildungsidentitäten für Schulen
+629,www.psi.ch,PSI,Bildung & Forschung,öffentlich,3,Website/Portal,Grösstes Forschungszentrum; Grossforschungsanlagen
+630,www.sbfi.admin.ch,SBFI,Bildung & Forschung,öffentlich,3,Website/Portal,"Bildungs- und Forschungspolitik, Berufsbildung"
+631,www.unibas.ch,Universität Basel,Bildung & Forschung,öffentlich,3,Website/Portal,Universität
+632,www.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Website/Portal,Universität
+633,www.unige.ch,Université de Genève,Bildung & Forschung,öffentlich,3,Website/Portal,Universität
+634,www.unil.ch,Université de Lausanne,Bildung & Forschung,öffentlich,3,Website/Portal,Universität
+635,www.uzh.ch,Universität Zürich,Bildung & Forschung,öffentlich,3,Website/Portal,Grösste Universität
+636,www.cern.ch,CERN,Internationale Organisationen,öffentlich,3,Website/Portal,Forschungszentrum an der Grenze CH/FR
+637,www.itu.int,ITU,Internationale Organisationen,öffentlich,3,Website/Portal,Internationale Fernmeldeunion (Genf)
+638,www.ungeneva.org,UNO Genf,Internationale Organisationen,öffentlich,3,Website/Portal,Zweitgrösster UNO-Sitz
+639,www.wipo.int,WIPO,Internationale Organisationen,öffentlich,3,Website/Portal,Weltorganisation für geistiges Eigentum (Genf)
+640,www.wto.org,WTO,Internationale Organisationen,öffentlich,3,Website/Portal,Welthandelsorganisation (Genf)
+641,www.ech.ch,Verein eCH,Behörden,halbprivat,3,Website/Portal,E-Government-Standards; Grundlage für Datenaustausch zwischen Registern
+642,www.ruag.ch,RUAG,Öffentliche Sicherheit,halbprivat,3,Website/Portal,Rüstungsbetrieb des Bundes; Instandhaltung Armeesysteme
+643,www.bedag.ch,Bedag Informatik,IKT & Vertrauensinfrastruktur,halbprivat,3,Website/Portal,IT-Dienstleister des Kantons Bern; Steuer- und Gerichtsapplikationen
+644,www.appkb.ch,Appenzeller Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Appenzell Innerrhoden)
+645,www.bancastato.ch,Banca dello Stato del Cantone Ticino,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Tessin)
+646,www.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Freiburg)
+647,www.bcj.ch,Banque Cantonale du Jura,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Jura)
+648,www.bcn.ch,Banque Cantonale Neuchâteloise,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Neuenburg)
+649,www.bcvs.ch,Banque Cantonale du Valais,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Wallis)
+650,www.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Basel-Landschaft)
+651,www.bvk.ch,BVK,Finanzen,halbprivat,3,Website/Portal,Grösste Pensionskasse (Kanton Zürich)
+652,www.gkb.ch,Graubündner Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Graubünden)
+653,www.glkb.ch,Glarner Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank; zudem Plattform für Online-Hypotheken
+654,www.nkb.ch,Nidwaldner Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Nidwalden)
+655,www.owkb.ch,Obwaldner Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Obwalden)
+656,www.publica.ch,PUBLICA,Finanzen,halbprivat,3,Website/Portal,Pensionskasse des Bundes und angeschlossener Organisationen
+657,www.shkb.ch,Schaffhauser Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Schaffhausen)
+658,www.szkb.ch,Schwyzer Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Schwyz)
+659,www.tkb.ch,Thurgauer Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank mit Staatsgarantie (Thurgau)
+660,www.ukb.ch,Urner Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Uri)
+661,www.zugerkb.ch,Zuger Kantonalbank,Finanzen,halbprivat,3,Website/Portal,Kantonalbank (Zug)
+662,www.repower.com,Repower,Energie,halbprivat,3,Website/Portal,Energieversorgerin Graubünden; Wasserkraft
+663,www.axsana.ch,Axsana (EPD),Gesundheit,halbprivat,3,Website/Portal,EPD-Stammgemeinschaft der Deutschschweiz
+664,www.cara.ch,CARA (EPD-Gemeinschaft),Gesundheit,halbprivat,3,Website/Portal,Stammgemeinschaft des EPD für Westschweizer Kantone
+665,www.sob.ch,Südostbahn,Verkehr & Logistik,halbprivat,3,Website/Portal,Bahnbetreiberin Ostschweiz/Gotthard-Bergstrecke
+666,www.srgssr.ch,SRG SSR,Medien,halbprivat,3,Website/Portal,Dachorganisation Service-public-Medien
+667,www.swissinfo.ch,SWI swissinfo.ch,Medien,halbprivat,3,Website/Portal,Auslandsangebot der SRG für Auslandschweizer
+668,www.securitas.ch,Securitas,Öffentliche Sicherheit,privat,3,Website/Portal,Grösster privater Sicherheitsdienst; Objektschutz für KI
+669,equinix.ch,Equinix Schweiz,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Rechenzentren in Zürich und Genf; Finanz-Interconnect
+670,init7.ch,Init7,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Glasfaser-ISP und Backbone
+671,www.adnovum.com,AdNovum,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Entwickler von Behörden- und Banken-IAM (u. a. Nevis); Sicherheitsrelevante Komponenten
+672,www.elca.ch,ELCA,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Grösster unabhängiger Schweizer IT-Integrator; betreibt Behörden- und Bankensysteme
+673,www.green.ch,green.ch,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,ISP und Betreiber grosser Rechenzentren (Lupfig)
+674,www.inventx.ch,Inventx,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Rechenzentrums- und IT-Betreiber für Banken und Versicherungen
+675,www.nevis.net,Nevis Security,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Authentifizierungsplattform vieler Schweizer Banken und Behörden
+676,www.proton.me,Proton,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Verschlüsselte E-Mail aus Genf; Nutzung durch Medien und Zivilgesellschaft
+677,www.quickline.ch,Quickline,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Verbund regionaler Kabelnetzbetreiber
+678,www.skribble.com,Skribble,IKT & Vertrauensinfrastruktur,privat,3,Website/Portal,Verbreitete E-Signatur-Plattform (ZertES-konform)
+679,entris-banking.ch,Entris Banking,Finanzen,privat,3,Website/Portal,"Dienstleister für Regionalbanken (Zahlungsverkehr, Banken-IT)"
+680,www.allianz.ch,Allianz Suisse,Finanzen,privat,3,Website/Portal,Allbranchenversicherer
+681,www.baloise.ch,Baloise,Finanzen,privat,3,Website/Portal,Grosser Allbranchenversicherer
+682,www.cembra.ch,Cembra Money Bank,Finanzen,privat,3,Website/Portal,Grösste Konsumkredit- und Kreditkartenbank
+683,www.cler.ch,Bank Cler,Finanzen,privat,3,Website/Portal,Retailbank (BKB-Gruppe); Anbieterin der Neobank Zak
+684,www.generali.ch,Generali Schweiz,Finanzen,privat,3,Website/Portal,Allbranchenversicherer
+685,www.hbl.ch,Hypothekarbank Lenzburg,Finanzen,privat,3,Website/Portal,Regionalbank und Kernbanken-Anbieterin (Finstar) für Neobanken
+686,www.helvetia.ch,Helvetia,Finanzen,privat,3,Website/Portal,Grosser Allbranchenversicherer
+687,www.lombardodier.com,Lombard Odier,Finanzen,privat,3,Website/Portal,Grosse Privatbank (Genf)
+688,www.paymentstandards.ch,SIX Payment Standards,Finanzen,privat,3,Website/Portal,Spezifikationen QR-Rechnung und ISO 20022 für den Schweizer Zahlungsverkehr
+689,www.pictet.com,Pictet,Finanzen,privat,3,Website/Portal,Grosse Privatbank und Vermögensverwalterin (Genf)
+690,www.swissbanking.ch,Schweizerische Bankiervereinigung,Finanzen,privat,3,Website/Portal,Branchenverband; Koordination von Krisen- und Cyberübungen der Banken
+691,www.valiant.ch,Valiant,Finanzen,privat,3,Website/Portal,Grösste regionale Retailbank im Mittelland
+692,www.vontobel.com,Vontobel,Finanzen,privat,3,Website/Portal,Vermögensverwaltung und strukturierte Produkte
+693,www.yuh.com,Yuh (Swissquote/PostFinance),Finanzen,privat,3,Website/Portal,Mobile Banking-App mit grosser Nutzerbasis
+694,www.zek.ch,ZEK,Finanzen,privat,3,Website/Portal,Zentralstelle für Kreditinformation; Kreditprüfung bei Konsumkrediten und Leasing
+695,www.ebm.ch,Primeo Energie,Energie,privat,3,Website/Portal,Energieversorgerin Nordwestschweiz
+696,www.migrol.ch,Migrol,Energie,privat,3,Website/Portal,Treibstoff- und Heizöl-Versorgung
+697,www.primeo-energie.ch,Primeo Energie,Energie,privat,3,Website/Portal,Energieversorgerin Nordwestschweiz
+698,www.svgw.ch,SVGW,Energie,privat,3,Website/Portal,Fachverband Gas und Wasser; Regelwerk für Trinkwasserversorgung
+699,www.amedis.ch,Amedis-UE,Gesundheit,privat,3,Website/Portal,Pharma-Grossist
+700,www.assura.ch,Assura,Gesundheit,privat,3,Website/Portal,Krankenversicherer
+701,www.compendium.ch,Compendium,Gesundheit,privat,3,Website/Portal,Arzneimittelinformation für Fachpersonen
+702,www.concordia.ch,Concordia,Gesundheit,privat,3,Website/Portal,Krankenversicherer
+703,www.lonza.com,Lonza,Gesundheit,privat,3,Website/Portal,Auftragsfertiger für Biopharmazeutika (u. a. Impfstoffe)
+704,www.medbase.ch,Medbase,Gesundheit,privat,3,Website/Portal,Grösstes Netz von Arztpraxen und Apotheken (Migros)
+705,www.medgate.ch,Medgate,Gesundheit,privat,3,Website/Portal,Telemedizin-Zentrum; Erstberatung für viele Versicherte
+706,www.paraplegie.ch,Schweizer Paraplegiker-Gruppe,Gesundheit,privat,3,Website/Portal,Querschnittzentrum; Rettung und Akutversorgung
+707,www.refdata.ch,Refdata,Gesundheit,privat,3,Website/Portal,Identifikationsnummern (GLN) für Gesundheitsfachpersonen und Artikel
+708,www.sanitas.com,Sanitas,Gesundheit,privat,3,Website/Portal,Krankenversicherer
+709,www.srk.ch,Schweizerisches Rotes Kreuz,Gesundheit,privat,3,Website/Portal,"Rotkreuzdienste, Katastrophenhilfe"
+710,www.swissmedical.net,Swiss Medical Network,Gesundheit,privat,3,Website/Portal,Privatspitalgruppe
+711,www.unilabs.ch,Unilabs,Gesundheit,privat,3,Website/Portal,Grosses medizinisches Labor
+712,www.viollier.ch,Viollier,Gesundheit,privat,3,Website/Portal,Grosses medizinisches Labor
+713,www.visana.ch,Visana,Gesundheit,privat,3,Website/Portal,Krankenversicherer
+714,www.zurrose.ch,Zur Rose,Gesundheit,privat,3,Website/Portal,Grösste Versandapotheke
+715,www.hupac.com,Hupac,Verkehr & Logistik,privat,3,Website/Portal,Kombinierter Verkehr durch die Alpen
+716,www.planzer.ch,Planzer,Verkehr & Logistik,privat,3,Website/Portal,Grosse Logistikgruppe; Detailhandelsbelieferung
+717,www.swissport.com,Swissport,Verkehr & Logistik,privat,3,Website/Portal,Bodenabfertigung an Schweizer Flughäfen
+718,www.tcs.ch,TCS,Verkehr & Logistik,privat,3,Website/Portal,"Pannenhilfe, Verkehrsinformation und Reiseschutz für 1,5 Mio. Mitglieder"
+719,www.viasuisse.ch,Viasuisse,Verkehr & Logistik,privat,3,Website/Portal,Verkehrsinformation für Radio und Navigation
+720,emmi.ch,Emmi,Detailhandel & Nahrung,privat,3,Website/Portal,Grösster Milchverarbeiter
+721,www.agrola.ch,Agrola,Detailhandel & Nahrung,privat,3,Website/Portal,Tankstellen und Heizöl (fenaco)
+722,www.bell.ch,Bell Food Group,Detailhandel & Nahrung,privat,3,Website/Portal,Grösster Fleischverarbeiter (Coop)
+723,www.brack.ch,Brack.ch,Detailhandel & Nahrung,privat,3,Website/Portal,Grosser Onlinehändler
+724,www.digitec.ch,Digitec,Detailhandel & Nahrung,privat,3,Website/Portal,Grösster Elektronik-Onlinehändler
+725,www.interdiscount.ch,Interdiscount,Detailhandel & Nahrung,privat,3,Website/Portal,Grösste Elektronikkette (Coop)
+726,www.manor.ch,Manor,Detailhandel & Nahrung,privat,3,Website/Portal,Grösste Warenhauskette
+727,www.nestle.com,Nestlé,Detailhandel & Nahrung,privat,3,Website/Portal,Weltgrösster Nahrungsmittelkonzern mit Sitz in Vevey
+728,www.prodega.ch,Prodega,Detailhandel & Nahrung,privat,3,Website/Portal,Abholgrosshandel (Transgourmet)
+729,www.ricardo.ch,Ricardo,Detailhandel & Nahrung,privat,3,Website/Portal,Grösster Online-Marktplatz der Schweiz
+730,www.saviva.ch,Saviva,Detailhandel & Nahrung,privat,3,Website/Portal,Gastro-Grosshandel (Migros)
+731,www.blick.ch,Blick,Medien,privat,3,Website/Portal,Reichweitenstarkes Nachrichtenportal
+732,www.nzz.ch,NZZ,Medien,privat,3,Website/Portal,Leitmedium
+733,www.tagesanzeiger.ch,Tages-Anzeiger,Medien,privat,3,Website/Portal,Reichweitenstarke Tageszeitung
+734,api.i14y.admin.ch,BFS I14Y,Behörden,öffentlich,3,Fachanwendung,Interoperabilitätsplattform für Behördendaten
+735,auth.lausanne.ch,Ville de Lausanne,Behörden,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Ville de Lausanne: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+736,auth.so.ch,Kanton Solothurn,Behörden,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Kanton Solothurn: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+737,auth.tg.ch,Kanton Thurgau,Behörden,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Kanton Thurgau: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+738,data.geo.admin.ch,swisstopo GeoAdmin,Behörden,öffentlich,3,Fachanwendung,Geodaten-Download
+739,downloads.sedex.admin.ch,BFS sedex,Behörden,öffentlich,3,Fachanwendung,Software und Zertifikate für sedex-Adapter
+740,e-vignette.admin.ch,BAZG E-Vignette,Behörden,öffentlich,3,Fachanwendung,Kauf der E-Vignette
+741,edoc.estv.admin.ch,ESTV,Behörden,öffentlich,3,Fachanwendung,Dokumentenaustausch ESTV
+742,id.sh.ch,Kanton Schaffhausen,Behörden,öffentlich,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Kanton Schaffhausen: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+743,login.sh.ch,Kanton Schaffhausen,Behörden,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Kanton Schaffhausen: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+744,login.tg.ch,Kanton Thurgau,Behörden,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Kanton Thurgau: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+745,login.winterthur.ch,Stadt Winterthur,Behörden,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Stadt Winterthur: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+746,mwsteasy.estv.admin.ch,ESTV,Behörden,öffentlich,3,Fachanwendung,Vereinfachte MWST-Abrechnung
+747,ordipro.eda.admin.ch,EDA Ordipro,Behörden,öffentlich,3,Fachanwendung,Akkreditierung von Diplomaten und internationalen Organisationen
+748,sso.lugano.ch,Città di Lugano,Behörden,öffentlich,3,Single-Sign-on,"Single-Sign-on von Città di Lugano: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+749,unternehmensabgabe.estv.admin.ch,ESTV,Behörden,öffentlich,3,Fachanwendung,Haushalts- und Unternehmensabgabe Radio/TV
+750,www.gateportal.zas.admin.ch,ZAS,Behörden,öffentlich,3,Fachanwendung,Portal der Zentralen Ausgleichsstelle für Ausgleichskassen
+751,gw-apinaz.admin.ch,BIT,IKT & Vertrauensinfrastruktur,öffentlich,3,Fachanwendung,API-Gateway des Bundes
+752,auth.aew.ch,AEW Energie,Energie,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von AEW Energie: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+753,login.energie360.ch,Energie 360°,Energie,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Energie 360°: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+754,login.ewb.ch,ewb,Energie,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von ewb: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+755,login.ewl-luzern.ch,ewl,Energie,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von ewl: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+756,auth.stgag.ch,Spital Thurgau,Gesundheit,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Spital Thurgau: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+757,login.ksbl.ch,Kantonsspital Baselland,Gesundheit,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Kantonsspital Baselland: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+758,login.ksw.ch,Kantonsspital Winterthur,Gesundheit,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Kantonsspital Winterthur: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+759,vzc-api.astra.admin.ch,ASTRA,Verkehr & Logistik,öffentlich,3,Fachanwendung,API Fahrzeugzulassung / Verkehrsdaten
+760,ws.api.astra.admin.ch,ASTRA,Verkehr & Logistik,öffentlich,3,Fachanwendung,Webservice-Schnittstelle ASTRA (u. a. IVZ)
+761,auth.unil.ch,Université de Lausanne,Bildung & Forschung,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Université de Lausanne: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+762,auth.uzh.ch,Universität Zürich,Bildung & Forschung,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Universität Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+763,id.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Universität Bern: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+764,id.unil.ch,Université de Lausanne,Bildung & Forschung,öffentlich,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Université de Lausanne: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+765,id.uzh.ch,Universität Zürich,Bildung & Forschung,öffentlich,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Universität Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+766,login.unibas.ch,Universität Basel,Bildung & Forschung,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Universität Basel: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+767,login.uzh.ch,Universität Zürich,Bildung & Forschung,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von Universität Zürich: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+768,auth.cern.ch,CERN,Internationale Organisationen,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von CERN: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+769,auth.itu.int,ITU,Internationale Organisationen,öffentlich,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von ITU: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+770,login.itu.int,ITU,Internationale Organisationen,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von ITU: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+771,login.wto.org,WTO,Internationale Organisationen,öffentlich,3,Login-Endpunkt,"Login-Endpunkt von WTO: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+772,sso.bedag.ch,Bedag Informatik,IKT & Vertrauensinfrastruktur,halbprivat,3,Single-Sign-on,"Single-Sign-on von Bedag Informatik: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+773,banking.bcj.ch,Banque Cantonale du Jura,Finanzen,halbprivat,3,Online-Banking,"Online-Banking von Banque Cantonale du Jura: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+774,e-banking.bcvs.ch,Banque Cantonale du Valais,Finanzen,halbprivat,3,E-Banking,"E-Banking von Banque Cantonale du Valais: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+775,e-banking.ukb.ch,Urner Kantonalbank,Finanzen,halbprivat,3,E-Banking,"E-Banking von Urner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+776,ebanking.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,E-Banking,"E-Banking von Banque Cantonale de Fribourg: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+777,ebanking.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,E-Banking,"E-Banking von Basellandschaftliche Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+778,ebanking.glkb.ch,Glarner Kantonalbank,Finanzen,halbprivat,3,E-Banking,"E-Banking von Glarner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+779,id.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Banque Cantonale de Fribourg: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+780,login.appkb.ch,Appenzeller Kantonalbank,Finanzen,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Appenzeller Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+781,login.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Banque Cantonale de Fribourg: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+782,login.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Basellandschaftliche Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+783,login.gkb.ch,Graubündner Kantonalbank,Finanzen,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Graubündner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+784,login.nkb.ch,Nidwaldner Kantonalbank,Finanzen,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Nidwaldner Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+785,netbanking.bcn.ch,Banque Cantonale Neuchâteloise,Finanzen,halbprivat,3,E-Banking,"E-Banking von Banque Cantonale Neuchâteloise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+786,sso.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,Single-Sign-on,"Single-Sign-on von Basellandschaftliche Kantonalbank: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+787,login.repower.com,Repower,Energie,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von Repower: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+788,auth.cara.ch,CARA (EPD-Gemeinschaft),Gesundheit,halbprivat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von CARA (EPD-Gemeinschaft): Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+789,login.srgssr.ch,SRG SSR,Medien,halbprivat,3,Login-Endpunkt,"Login-Endpunkt von SRG SSR: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+790,auth.elca.ch,ELCA,IKT & Vertrauensinfrastruktur,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von ELCA: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+791,auth.green.ch,green.ch,IKT & Vertrauensinfrastruktur,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von green.ch: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+792,auth.quickline.ch,Quickline,IKT & Vertrauensinfrastruktur,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Quickline: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+793,login.inventx.ch,Inventx,IKT & Vertrauensinfrastruktur,privat,3,Login-Endpunkt,"Login-Endpunkt von Inventx: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+794,login.quickline.ch,Quickline,IKT & Vertrauensinfrastruktur,privat,3,Login-Endpunkt,"Login-Endpunkt von Quickline: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+795,sso.adnovum.com,AdNovum,IKT & Vertrauensinfrastruktur,privat,3,Single-Sign-on,"Single-Sign-on von AdNovum: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+796,sso.nevis.net,Nevis Security,IKT & Vertrauensinfrastruktur,privat,3,Single-Sign-on,"Single-Sign-on von Nevis Security: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+797,sso.proton.me,Proton,IKT & Vertrauensinfrastruktur,privat,3,Single-Sign-on,"Single-Sign-on von Proton: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+798,sso.skribble.com,Skribble,IKT & Vertrauensinfrastruktur,privat,3,Single-Sign-on,"Single-Sign-on von Skribble: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+799,auth.hbl.ch,Hypothekarbank Lenzburg,Finanzen,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Hypothekarbank Lenzburg: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+800,auth.helvetia.ch,Helvetia,Finanzen,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Helvetia: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+801,banking.baloise.ch,Baloise,Finanzen,privat,3,Online-Banking,"Online-Banking von Baloise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+802,ebanking.baloise.ch,Baloise,Finanzen,privat,3,E-Banking,"E-Banking von Baloise: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+803,ebanking.cler.ch,Bank Cler,Finanzen,privat,3,E-Banking,"E-Banking von Bank Cler: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+804,ebanking.hbl.ch,Hypothekarbank Lenzburg,Finanzen,privat,3,E-Banking,"E-Banking von Hypothekarbank Lenzburg: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+805,login.cler.ch,Bank Cler,Finanzen,privat,3,Login-Endpunkt,"Login-Endpunkt von Bank Cler: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+806,login.helvetia.ch,Helvetia,Finanzen,privat,3,Login-Endpunkt,"Login-Endpunkt von Helvetia: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+807,login.pictet.com,Pictet,Finanzen,privat,3,Login-Endpunkt,"Login-Endpunkt von Pictet: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+808,auth.primeo-energie.ch,Primeo Energie,Energie,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Primeo Energie: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+809,login.primeo-energie.ch,Primeo Energie,Energie,privat,3,Login-Endpunkt,"Login-Endpunkt von Primeo Energie: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+810,auth.sanitas.com,Sanitas,Gesundheit,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Sanitas: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+811,id.unilabs.ch,Unilabs,Gesundheit,privat,3,Identitäts-Endpunkt,"Identitäts-Endpunkt von Unilabs: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+812,login.unilabs.ch,Unilabs,Gesundheit,privat,3,Login-Endpunkt,"Login-Endpunkt von Unilabs: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+813,sso.lonza.com,Lonza,Gesundheit,privat,3,Single-Sign-on,"Single-Sign-on von Lonza: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+814,auth.swissport.com,Swissport,Verkehr & Logistik,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von Swissport: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+815,sso.swissport.com,Swissport,Verkehr & Logistik,privat,3,Single-Sign-on,"Single-Sign-on von Swissport: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+816,auth.nzz.ch,NZZ,Medien,privat,3,Authentisierungs-Endpunkt,"Authentisierungs-Endpunkt von NZZ: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+817,login.tagesanzeiger.ch,Tages-Anzeiger,Medien,privat,3,Login-Endpunkt,"Login-Endpunkt von Tages-Anzeiger: Zugangspunkt für Kunden bzw. Mitarbeitende; Ausfall sperrt Nutzer aus, Kompromittierung ermöglicht Kontoübernahmen"
+818,my.lausanne.ch,Ville de Lausanne,Behörden,öffentlich,3,Kundenkonto,Kundenkonto von Ville de Lausanne: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+819,my.lugano.ch,Città di Lugano,Behörden,öffentlich,3,Kundenkonto,Kundenkonto von Città di Lugano: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+820,my.so.ch,Kanton Solothurn,Behörden,öffentlich,3,Kundenkonto,Kundenkonto von Kanton Solothurn: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+821,online.stadt.sg.ch,Stadt St. Gallen,Behörden,öffentlich,3,Online-Kundenzugang,Online-Kundenzugang von Stadt St. Gallen: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+822,portal.bsv.admin.ch,BSV,Behörden,öffentlich,3,Kundenportal,Kundenportal von BSV: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+823,portal.ejpd.admin.ch,EJPD,Behörden,öffentlich,3,Kundenportal,Kundenportal von EJPD: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+824,portal.parlament.ch,Parlamentsdienste,Behörden,öffentlich,3,Kundenportal,Kundenportal von Parlamentsdienste: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+825,portal.sh.ch,Kanton Schaffhausen,Behörden,öffentlich,3,Kundenportal,Kundenportal von Kanton Schaffhausen: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+826,portal.stadt.sg.ch,Stadt St. Gallen,Behörden,öffentlich,3,Kundenportal,Kundenportal von Stadt St. Gallen: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+827,portal.sfbvg.ch,Sicherheitsfonds BVG,Finanzen,öffentlich,3,Kundenportal,Kundenportal von Sicherheitsfonds BVG: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+828,account.ail.ch,AIL,Energie,öffentlich,3,Kontoverwaltung,Kontoverwaltung von AIL: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+829,my.ail.ch,AIL,Energie,öffentlich,3,Kundenkonto,Kundenkonto von AIL: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+830,my.energie360.ch,Energie 360°,Energie,öffentlich,3,Kundenkonto,Kundenkonto von Energie 360°: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+831,my.ewb.ch,ewb,Energie,öffentlich,3,Kundenkonto,Kundenkonto von ewb: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+832,my.sgsw.ch,St.Galler Stadtwerke,Energie,öffentlich,3,Kundenkonto,Kundenkonto von St.Galler Stadtwerke: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+833,portal.aew.ch,AEW Energie,Energie,öffentlich,3,Kundenportal,Kundenportal von AEW Energie: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+834,portal.ewb.ch,ewb,Energie,öffentlich,3,Kundenportal,Kundenportal von ewb: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+835,portal.ewl-luzern.ch,ewl,Energie,öffentlich,3,Kundenportal,Kundenportal von ewl: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+836,secure.aet.ch,AET,Energie,öffentlich,3,Gesicherter Kundenbereich,Gesicherter Kundenbereich von AET: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+837,mein.ksw.ch,Kantonsspital Winterthur,Gesundheit,öffentlich,3,Kundenkonto,Kundenkonto von Kantonsspital Winterthur: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+838,portal.ksbl.ch,Kantonsspital Baselland,Gesundheit,öffentlich,3,Kundenportal,Kundenportal von Kantonsspital Baselland: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+839,portal.ksgr.ch,Kantonsspital Graubünden,Gesundheit,öffentlich,3,Kundenportal,Kundenportal von Kantonsspital Graubünden: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+840,portal.ksw.ch,Kantonsspital Winterthur,Gesundheit,öffentlich,3,Kundenportal,Kundenportal von Kantonsspital Winterthur: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+841,portal.bernmobil.ch,Bernmobil,Verkehr & Logistik,öffentlich,3,Kundenportal,Kundenportal von Bernmobil: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+842,account.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Kontoverwaltung,Kontoverwaltung von Universität Bern: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+843,my.edulog.ch,edulog,Bildung & Forschung,öffentlich,3,Kundenkonto,Kundenkonto von edulog: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+844,my.unil.ch,Université de Lausanne,Bildung & Forschung,öffentlich,3,Kundenkonto,Kundenkonto von Université de Lausanne: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+845,portal.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Kundenportal,Kundenportal von Universität Bern: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+846,account.cern.ch,CERN,Internationale Organisationen,öffentlich,3,Kontoverwaltung,Kontoverwaltung von CERN: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+847,portal.vrsg.ch,VRSG,IKT & Vertrauensinfrastruktur,halbprivat,3,Kundenportal,Kundenportal von VRSG: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+848,secure.bedag.ch,Bedag Informatik,IKT & Vertrauensinfrastruktur,halbprivat,3,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Bedag Informatik: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+849,my.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,Kundenkonto,Kundenkonto von Banque Cantonale de Fribourg: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+850,portal.appkb.ch,Appenzeller Kantonalbank,Finanzen,halbprivat,3,Kundenportal,Kundenportal von Appenzeller Kantonalbank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+851,portal.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,Kundenportal,Kundenportal von Basellandschaftliche Kantonalbank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+852,portal.glkb.ch,Glarner Kantonalbank,Finanzen,halbprivat,3,Kundenportal,Kundenportal von Glarner Kantonalbank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+853,portal.tkb.ch,Thurgauer Kantonalbank,Finanzen,halbprivat,3,Kundenportal,Kundenportal von Thurgauer Kantonalbank: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+854,portal.repower.com,Repower,Energie,halbprivat,3,Kundenportal,Kundenportal von Repower: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+855,portal.sob.ch,Südostbahn,Verkehr & Logistik,halbprivat,3,Kundenportal,Kundenportal von Südostbahn: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+856,account.srgssr.ch,SRG SSR,Medien,halbprivat,3,Kontoverwaltung,Kontoverwaltung von SRG SSR: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+857,my.srgssr.ch,SRG SSR,Medien,halbprivat,3,Kundenkonto,Kundenkonto von SRG SSR: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+858,portal.srgssr.ch,SRG SSR,Medien,halbprivat,3,Kundenportal,Kundenportal von SRG SSR: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+859,account.proton.me,Proton,IKT & Vertrauensinfrastruktur,privat,3,Kontoverwaltung,Kontoverwaltung von Proton: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+860,my.elca.ch,ELCA,IKT & Vertrauensinfrastruktur,privat,3,Kundenkonto,Kundenkonto von ELCA: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+861,my.green.ch,green.ch,IKT & Vertrauensinfrastruktur,privat,3,Kundenkonto,Kundenkonto von green.ch: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+862,my.quickline.ch,Quickline,IKT & Vertrauensinfrastruktur,privat,3,Kundenkonto,Kundenkonto von Quickline: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+863,my.skribble.com,Skribble,IKT & Vertrauensinfrastruktur,privat,3,Kundenkonto,Kundenkonto von Skribble: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+864,portal.green.ch,green.ch,IKT & Vertrauensinfrastruktur,privat,3,Kundenportal,Kundenportal von green.ch: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+865,portal.nevis.net,Nevis Security,IKT & Vertrauensinfrastruktur,privat,3,Kundenportal,Kundenportal von Nevis Security: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+866,customer.generali.ch,Generali Schweiz,Finanzen,privat,3,Kundenportal,Kundenportal von Generali Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+867,my.allianz.ch,Allianz Suisse,Finanzen,privat,3,Kundenkonto,Kundenkonto von Allianz Suisse: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+868,my.baloise.ch,Baloise,Finanzen,privat,3,Kundenkonto,Kundenkonto von Baloise: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+869,my.generali.ch,Generali Schweiz,Finanzen,privat,3,Kundenkonto,Kundenkonto von Generali Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+870,my.helvetia.ch,Helvetia,Finanzen,privat,3,Kundenkonto,Kundenkonto von Helvetia: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+871,portal.generali.ch,Generali Schweiz,Finanzen,privat,3,Kundenportal,Kundenportal von Generali Schweiz: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+872,portal.hbl.ch,Hypothekarbank Lenzburg,Finanzen,privat,3,Kundenportal,Kundenportal von Hypothekarbank Lenzburg: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+873,my.ebm.ch,Primeo Energie,Energie,privat,3,Kundenkonto,Kundenkonto von Primeo Energie: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+874,my.primeo-energie.ch,Primeo Energie,Energie,privat,3,Kundenkonto,Kundenkonto von Primeo Energie: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+875,my.concordia.ch,Concordia,Gesundheit,privat,3,Kundenkonto,Kundenkonto von Concordia: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+876,my.visana.ch,Visana,Gesundheit,privat,3,Kundenkonto,Kundenkonto von Visana: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+877,portal.assura.ch,Assura,Gesundheit,privat,3,Kundenportal,Kundenportal von Assura: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+878,portal.medbase.ch,Medbase,Gesundheit,privat,3,Kundenportal,Kundenportal von Medbase: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+879,portal.medgate.ch,Medgate,Gesundheit,privat,3,Kundenportal,Kundenportal von Medgate: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+880,portal.sanitas.com,Sanitas,Gesundheit,privat,3,Kundenportal,Kundenportal von Sanitas: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+881,portal.viollier.ch,Viollier,Gesundheit,privat,3,Kundenportal,Kundenportal von Viollier: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+882,secure.concordia.ch,Concordia,Gesundheit,privat,3,Gesicherter Kundenbereich,Gesicherter Kundenbereich von Concordia: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+883,customer.swissport.com,Swissport,Verkehr & Logistik,privat,3,Kundenportal,Kundenportal von Swissport: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+884,my.tcs.ch,TCS,Verkehr & Logistik,privat,3,Kundenkonto,Kundenkonto von TCS: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+885,my.brack.ch,Brack.ch,Detailhandel & Nahrung,privat,3,Kundenkonto,Kundenkonto von Brack.ch: Bereich mit Personen- und Vertragsdaten; bevorzugtes Ziel von Phishing und Account-Takeover
+886,api.lugano.ch,Città di Lugano,Behörden,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von Città di Lugano: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+887,api.stadtluzern.ch,Stadt Luzern,Behörden,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von Stadt Luzern: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+888,api.tg.ch,Kanton Thurgau,Behörden,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von Kanton Thurgau: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+889,app.efv.admin.ch,Eidg. Finanzverwaltung,Behörden,öffentlich,3,Web-App,"Web-App von Eidg. Finanzverwaltung: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+890,shop.bger.ch,Bundesgericht,Behörden,öffentlich,3,Online-Shop,"Online-Shop von Bundesgericht: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+891,webmail.ge.ch,République et canton de Genève,Behörden,öffentlich,1,Webmail,Webmail von République et canton de Genève: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+892,webmail.vd.ch,Canton de Vaud,Behörden,öffentlich,1,Webmail,Webmail von Canton de Vaud: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+893,shop.wsl.ch,WSL,Öffentliche Sicherheit,öffentlich,3,Online-Shop,"Online-Shop von WSL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+894,webmail.finma.ch,FINMA,Finanzen,öffentlich,1,Webmail,Webmail von FINMA: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+895,api.ail.ch,AIL,Energie,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von AIL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+896,app.ail.ch,AIL,Energie,öffentlich,3,Web-App,"Web-App von AIL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+897,api.ksbl.ch,Kantonsspital Baselland,Gesundheit,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von Kantonsspital Baselland: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+898,app.h-fr.ch,HFR Hôpital fribourgeois,Gesundheit,öffentlich,3,Web-App,"Web-App von HFR Hôpital fribourgeois: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+899,webmail.usb.ch,Universitätsspital Basel,Gesundheit,öffentlich,1,Webmail,Webmail von Universitätsspital Basel: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+900,api.t-l.ch,TL,Verkehr & Logistik,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von TL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+901,api.tpg.ch,TPG,Verkehr & Logistik,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von TPG: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+902,app.t-l.ch,TL,Verkehr & Logistik,öffentlich,3,Web-App,"Web-App von TL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+903,shop.t-l.ch,TL,Verkehr & Logistik,öffentlich,3,Online-Shop,"Online-Shop von TL: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+904,shop.tpg.ch,TPG,Verkehr & Logistik,öffentlich,3,Online-Shop,"Online-Shop von TPG: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+905,webmail.gva.ch,Genève Aéroport,Verkehr & Logistik,öffentlich,1,Webmail,Webmail von Genève Aéroport: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+906,api.edulog.ch,edulog,Bildung & Forschung,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von edulog: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+907,api.psi.ch,PSI,Bildung & Forschung,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von PSI: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+908,api.unil.ch,Université de Lausanne,Bildung & Forschung,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von Université de Lausanne: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+909,app.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Web-App,"Web-App von Universität Bern: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+910,shop.unibe.ch,Universität Bern,Bildung & Forschung,öffentlich,3,Online-Shop,"Online-Shop von Universität Bern: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+911,shop.unige.ch,Université de Genève,Bildung & Forschung,öffentlich,3,Online-Shop,"Online-Shop von Université de Genève: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+912,shop.uzh.ch,Universität Zürich,Bildung & Forschung,öffentlich,3,Online-Shop,"Online-Shop von Universität Zürich: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+913,api.wipo.int,WIPO,Internationale Organisationen,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von WIPO: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+914,api.wto.org,WTO,Internationale Organisationen,öffentlich,3,API/Schnittstelle,"API/Schnittstelle von WTO: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+915,shop.itu.int,ITU,Internationale Organisationen,öffentlich,3,Online-Shop,"Online-Shop von ITU: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+916,shop.wipo.int,WIPO,Internationale Organisationen,öffentlich,3,Online-Shop,"Online-Shop von WIPO: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+917,webmail.switch.ch,SWITCH,IKT & Vertrauensinfrastruktur,halbprivat,1,Webmail,Webmail von SWITCH: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+918,api.bcf.ch,Banque Cantonale de Fribourg,Finanzen,halbprivat,3,API/Schnittstelle,"API/Schnittstelle von Banque Cantonale de Fribourg: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+919,api.bcj.ch,Banque Cantonale du Jura,Finanzen,halbprivat,3,API/Schnittstelle,"API/Schnittstelle von Banque Cantonale du Jura: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+920,api.blkb.ch,Basellandschaftliche Kantonalbank,Finanzen,halbprivat,3,API/Schnittstelle,"API/Schnittstelle von Basellandschaftliche Kantonalbank: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+921,shop.gkb.ch,Graubündner Kantonalbank,Finanzen,halbprivat,3,Online-Shop,"Online-Shop von Graubündner Kantonalbank: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+922,webmail.zkb.ch,Zürcher Kantonalbank,Finanzen,halbprivat,1,Webmail,Webmail von Zürcher Kantonalbank: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+923,app.repower.com,Repower,Energie,halbprivat,3,Web-App,"Web-App von Repower: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+924,shop.repower.com,Repower,Energie,halbprivat,3,Online-Shop,"Online-Shop von Repower: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+925,webmail.axpo.com,Axpo,Energie,halbprivat,1,Webmail,Webmail von Axpo: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+926,api.cara.ch,CARA (EPD-Gemeinschaft),Gesundheit,halbprivat,3,API/Schnittstelle,"API/Schnittstelle von CARA (EPD-Gemeinschaft): Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+927,shop.sob.ch,Südostbahn,Verkehr & Logistik,halbprivat,3,Online-Shop,"Online-Shop von Südostbahn: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+928,api.srgssr.ch,SRG SSR,Medien,halbprivat,3,API/Schnittstelle,"API/Schnittstelle von SRG SSR: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+929,api.elca.ch,ELCA,IKT & Vertrauensinfrastruktur,privat,3,API/Schnittstelle,"API/Schnittstelle von ELCA: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+930,api.skribble.com,Skribble,IKT & Vertrauensinfrastruktur,privat,3,API/Schnittstelle,"API/Schnittstelle von Skribble: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+931,shop.green.ch,green.ch,IKT & Vertrauensinfrastruktur,privat,3,Online-Shop,"Online-Shop von green.ch: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+932,shop.proton.me,Proton,IKT & Vertrauensinfrastruktur,privat,3,Online-Shop,"Online-Shop von Proton: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+933,api.baloise.ch,Baloise,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Baloise: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+934,api.cembra.ch,Cembra Money Bank,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Cembra Money Bank: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+935,api.generali.ch,Generali Schweiz,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Generali Schweiz: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+936,api.hbl.ch,Hypothekarbank Lenzburg,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Hypothekarbank Lenzburg: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+937,api.lombardodier.com,Lombard Odier,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Lombard Odier: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+938,api.pictet.com,Pictet,Finanzen,privat,3,API/Schnittstelle,"API/Schnittstelle von Pictet: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+939,shop.pictet.com,Pictet,Finanzen,privat,3,Online-Shop,"Online-Shop von Pictet: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+940,shop.yuh.com,Yuh (Swissquote/PostFinance),Finanzen,privat,3,Online-Shop,"Online-Shop von Yuh (Swissquote/PostFinance): Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+941,app.primeo-energie.ch,Primeo Energie,Energie,privat,3,Web-App,"Web-App von Primeo Energie: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+942,shop.primeo-energie.ch,Primeo Energie,Energie,privat,3,Online-Shop,"Online-Shop von Primeo Energie: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+943,api.refdata.ch,Refdata,Gesundheit,privat,3,API/Schnittstelle,"API/Schnittstelle von Refdata: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+944,api.unilabs.ch,Unilabs,Gesundheit,privat,3,API/Schnittstelle,"API/Schnittstelle von Unilabs: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+945,app.visana.ch,Visana,Gesundheit,privat,3,Web-App,"Web-App von Visana: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+946,shop.sanitas.com,Sanitas,Gesundheit,privat,3,Online-Shop,"Online-Shop von Sanitas: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+947,shop.swissmedical.net,Swiss Medical Network,Gesundheit,privat,3,Online-Shop,"Online-Shop von Swiss Medical Network: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+948,shop.unilabs.ch,Unilabs,Gesundheit,privat,3,Online-Shop,"Online-Shop von Unilabs: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+949,shop.visana.ch,Visana,Gesundheit,privat,3,Online-Shop,"Online-Shop von Visana: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+950,shop.zurrose.ch,Zur Rose,Gesundheit,privat,3,Online-Shop,"Online-Shop von Zur Rose: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+951,webmail.hin.ch,HIN,Gesundheit,privat,1,Webmail,Webmail von HIN: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+952,api.planzer.ch,Planzer,Verkehr & Logistik,privat,3,API/Schnittstelle,"API/Schnittstelle von Planzer: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+953,api.tcs.ch,TCS,Verkehr & Logistik,privat,3,API/Schnittstelle,"API/Schnittstelle von TCS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+954,shop.tcs.ch,TCS,Verkehr & Logistik,privat,3,Online-Shop,"Online-Shop von TCS: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+955,api.interdiscount.ch,Interdiscount,Detailhandel & Nahrung,privat,3,API/Schnittstelle,"API/Schnittstelle von Interdiscount: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+956,api.manor.ch,Manor,Detailhandel & Nahrung,privat,3,API/Schnittstelle,"API/Schnittstelle von Manor: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+957,shop.bell.ch,Bell Food Group,Detailhandel & Nahrung,privat,3,Online-Shop,"Online-Shop von Bell Food Group: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+958,webmail.fenaco.com,fenaco,Detailhandel & Nahrung,privat,1,Webmail,Webmail von fenaco: Webmail-Zugang (meist Mitarbeitende); häufiger Einstiegspunkt für Angriffe auf die Organisation
+959,api.blick.ch,Blick,Medien,privat,3,API/Schnittstelle,"API/Schnittstelle von Blick: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+960,shop.nzz.ch,NZZ,Medien,privat,3,Online-Shop,"Online-Shop von NZZ: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+961,shop.tagesanzeiger.ch,Tages-Anzeiger,Medien,privat,3,Online-Shop,"Online-Shop von Tages-Anzeiger: Schnittstelle bzw. Kanal für Apps, Partner oder Bestellungen; Ausfall unterbricht automatisierte Abläufe"
+962,bvger.ch,Bundesverwaltungsgericht,Behörden,öffentlich,4,Website/Portal,Beschwerdeinstanz gegen Bundesverfügungen; elektronische Eingaben
+963,login.e-helvetica.nb.admin.ch,Nationalbibliothek,Behörden,öffentlich,4,Login/Identität,Login e-Helvetica
+964,www.ai.ch,Kanton Appenzell Innerrhoden,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+965,www.ar.ch,Kanton Appenzell Ausserrhoden,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+966,www.are.admin.ch,ARE,Behörden,öffentlich,4,Website/Portal,Raumentwicklung
+967,www.bak.admin.ch,BAK,Behörden,öffentlich,4,Website/Portal,Kulturerbe und Kulturgüterschutz (Inventar ISOS)
+968,www.bbl.admin.ch,BBL,Behörden,öffentlich,4,Website/Portal,Beschaffung und Bundesbauten; Publikationen und Shop
+969,www.bellinzona.ch,Città di Bellinzona,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Bellinzona
+970,www.biel-bienne.ch,Stadt Biel/Bienne,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Biel
+971,www.bstger.ch,Bundesstrafgericht,Behörden,öffentlich,4,Website/Portal,Strafgerichtsbarkeit des Bundes
+972,www.bwo.admin.ch,BWO,Behörden,öffentlich,4,Website/Portal,Wohnungswesen; Referenzzinssatz für Mietverhältnisse
+973,www.chaux-de-fonds.ch,Ville de La Chaux-de-Fonds,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung La Chaux-de-Fonds
+974,www.chur.ch,Stadt Chur,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Chur
+975,www.edoeb.admin.ch,EDÖB,Behörden,öffentlich,4,Website/Portal,Datenschutzaufsicht; Meldestelle für Datenschutzverletzungen
+976,www.efk.admin.ch,Eidg. Finanzkontrolle,Behörden,öffentlich,4,Website/Portal,Oberstes Finanzaufsichtsorgan; Whistleblowing-Kanal
+977,www.esbk.admin.ch,ESBK,Behörden,öffentlich,4,Website/Portal,Spielbankenaufsicht; Sperrlisten Online-Casinos
+978,www.fribourg.ch,Ville de Fribourg,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Freiburg
+979,www.gl.ch,Kanton Glarus,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+980,www.ju.ch,République et canton du Jura,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+981,www.koeniz.ch,Gemeinde Köniz,Behörden,öffentlich,4,Website/Portal,Gemeindeverwaltung Köniz
+982,www.lancy.ch,Ville de Lancy,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Lancy
+983,www.metas.ch,METAS,Behörden,öffentlich,4,Website/Portal,Nationales Metrologieinstitut; liefert gesetzliche Zeit (Zeitsignal)
+984,www.nb.admin.ch,Nationalbibliothek,Behörden,öffentlich,4,Website/Portal,Langzeitarchivierung elektronischer Publikationen (e-Helvetica)
+985,www.neuchatel.ch,Ville de Neuchâtel,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Neuenburg
+986,www.nw.ch,Kanton Nidwalden,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+987,www.ow.ch,Kanton Obwalden,Behörden,öffentlich,4,Website/Portal,Kantonale Verwaltung
+988,www.schaffhausen.ch,Stadt Schaffhausen,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Schaffhausen
+989,www.sion.ch,Ville de Sion,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Sitten
+990,www.thun.ch,Stadt Thun,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Thun
+991,www.uster.ch,Stadt Uster,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Uster
+992,www.vernier.ch,Ville de Vernier,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Vernier
+993,www.weko.admin.ch,WEKO,Behörden,öffentlich,4,Website/Portal,Wettbewerbsaufsicht
+994,www.zug.ch,Stadt Zug,Behörden,öffentlich,4,Website/Portal,Stadtverwaltung Zug
+995,www.polizei.ch,Polizei (Portal),Öffentliche Sicherheit,öffentlich,4,Website/Portal,Polizeiportal
+996,www.comcom.admin.ch,ComCom,IKT & Vertrauensinfrastruktur,öffentlich,4,Website/Portal,Konzessionsbehörde Telekommunikation
+997,www.stadtwerk.winterthur.ch,Stadtwerk Winterthur,Energie,öffentlich,4,Website/Portal,Energie- und Wasserversorgung Winterthur
+998,www.viteos.ch,Viteos,Energie,öffentlich,4,Website/Portal,Energieversorgerin Neuenburg
+999,www.rhne.ch,Réseau hospitalier neuchâtelois,Gesundheit,öffentlich,4,Website/Portal,Spitalverbund Neuenburg
+1000,www.postcom.admin.ch,PostCom,Verkehr & Logistik,öffentlich,4,Website/Portal,Postregulation

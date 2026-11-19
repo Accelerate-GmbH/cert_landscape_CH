@@ -44,6 +44,17 @@ Per canton and municipality:
 - **Context**: CA mix, automation share (short-lived ACME certificates),
   third-party platforms (via CNAME), network country of the hosting.
 
+## Critical services beyond public administrations (draft)
+
+A list of the 1,000 most important Swiss hostnames across public,
+semi-public and private operators (banks, insurers, hospitals, energy,
+telecoms, transport, food supply, media), each with its operator and UID from
+the UID register, its sector and sub-sector under the national CIP strategy
+(SKI) of 16 June 2023, its service type and whether it counts as critical, is
+in `data/critical_services/`. How it was built and enriched is documented in
+[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md). It is not yet part of
+the scored pipeline runs.
+
 ## How it differs from a count of certificates
 
 | | Count of CT entries | tlsmap |
@@ -140,6 +151,12 @@ This project builds on the work and data of others:
   [Cert Spotter](https://sslmate.com/ct_search_api/) (SSLMate).
 - **DNS-over-HTTPS** from [Google Public DNS](https://developers.google.com/speed/public-dns)
   and [Cloudflare](https://developers.cloudflare.com/1.1.1.1/).
+- **UID register** of the Federal Statistical Office, public web service
+  ([uid.admin.ch](https://www.uid.admin.ch)): operator names, UIDs and seats
+  for the critical-services list.
+- **National CIP strategy** (BBl 2023 1659) and the sector list of the
+  Federal Office for Civil Protection
+  ([babs.admin.ch](https://www.babs.admin.ch/de/die-kritischen-infrastrukturen)).
 - **IP-to-ASN mapping** from [Team Cymru](https://www.team-cymru.com/ip-asn-mapping).
 - **Verification links** in the map point to [crt.sh](https://crt.sh),
   [Qualys SSL Labs](https://www.ssllabs.com/ssltest/),
