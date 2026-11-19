@@ -1,28 +1,28 @@
 {
  "tool": "tlsmap",
  "version": "0.1.0",
- "merged_at": "2026-11-19T07:47:16Z",
- "batches": 26,
+ "merged_at": "2026-11-19T07:48:40Z",
+ "batches": 27,
  "entities": {
-  "canton": 25,
-  "municipality": 1879,
+  "canton": 26,
+  "municipality": 2110,
   "organisation": 361
  },
  "ct_sources_used": {
-  "crtsh": 3010,
-  "none": 3
+  "crtsh": 3243,
+  "none": 4
  },
- "ct_errors": 3,
+ "ct_errors": 4,
  "ct_lag_days": 44.6,
- "ccadb_fetched": "2026-11-19T01:51:14Z",
+ "ccadb_fetched": "2026-11-19T06:27:58Z",
  "probe_note": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
  "settings_sha256": "33b243815a350cab",
  "registry_sha256": "c74d9b5cdda54882",
  "python": "3.13.18",
  "http": {
-  "requests": 79352,
-  "cache_hits": 18220,
-  "errors": 242
+  "requests": 84164,
+  "cache_hits": 19057,
+  "errors": 262
  },
  "visibility_from_list": 361,
  "linked_hosts": 45
