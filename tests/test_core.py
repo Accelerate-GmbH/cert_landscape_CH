@@ -269,6 +269,9 @@ def test_dns_provider_rule():
     assert dns_status([("Swisscom (Schweiz) AG", "CH")], set(), eea) == "pass"
     assert dns_status([("Cloudflare, Inc.", "US")], set(), eea) == "fail"       # one foreign operator alone
     assert dns_status([("Cloudflare, Inc.", "US"), ("Amazon.com, Inc.", "US")], set(), eea) == "partial"
+    assert dns_status([("Cloudflare, Inc.", "US"), ("Alibaba Cloud", "SG")], set(), eea) == "pass"   # two jurisdictions
+    assert dns_status([("Akamai International B.V.", "NL"), ("Akamai Technologies", "US")], set(), eea) == "fail"  # one operator
+    assert dns_status([("Hetzner Online GmbH", "DE"), ("OVH SAS", "NL")], set(), eea) == "partial"  # EEA counts as one
     assert dns_status([("Hetzner Online GmbH", "DE")], set(), eea) == "partial"
     assert hosting_status([("UBS AG", "US")], me, eea) == "pass"                # own network counts with the seat
     assert hosting_status([("Akamai International B.V.", "US")], me, eea) == "fail"
