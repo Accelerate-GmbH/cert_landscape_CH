@@ -1,0 +1,29 @@
+{
+ "tool": "tlsmap",
+ "version": "0.1.0",
+ "started": "2026-11-18T23:40:00Z",
+ "finished": "2026-11-18T23:40:01Z",
+ "entities": {
+  "canton": 1,
+  "municipality": 11
+ },
+ "canton_filter": "ZG",
+ "ct_sources_used": {
+  "crtsh": 12
+ },
+ "ct_errors": 0,
+ "ct_lag_days": 38.3,
+ "cert_detail": "auto",
+ "probe": false,
+ "probe_note": null,
+ "settings_sha256": "d80a1cefd7a64b1b",
+ "registry_sha256": "c74d9b5cdda54882",
+ "municipality_list_sha256": "8b819be63e0966e4",
+ "ccadb_fetched": "2026-11-18T23:40:01Z",
+ "python": "3.13.18",
+ "http": {
+  "requests": 0,
+  "cache_hits": 2071,
+  "errors": 0
+ }
+}

@@ -1,0 +1,60 @@
+Third-party material
+====================
+
+data/municipalities_ch.json
+  Municipality list with website and e-mail domains, taken from the MXmap
+  project, https://github.com/mxmap/secassure2026 (output/domains/domains_ch.json,
+  commit of 17 October 2026). Licence:
+
+    MIT License
+    
+    Copyright (c) 2026 MXmap project
+    
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+Map frontends
+  output/*/data.min.json follows the data shape of the map frontend from
+  https://github.com/mxmap/mxmap-ch (MIT, Copyright (c) 2026 David Huser), which
+  is also the basis of sslmap.nbrt.ch. No frontend code is included here.
+
+Web map (web/)
+  Leaflet 1.9.4 (BSD-2-Clause, Copyright (c) 2010-2023 Vladimir Agafonkin,
+  (c) 2010-2011 CloudMade), stylesheet copied to web/vendor/leaflet.css;
+  script loaded from unpkg.com. topojson-client 3.1.0 (ISC), loaded from unpkg.com.
+  Boundaries: swiss-maps 4.7.0 (interactivethings), based on swisstopo data.
+
+Inspiration
+  sslmap.nbrt.ch, map of Swiss public-sector TLS certificates (2026).
+
+Data sources used at run time
+  Common CA Database (CCADB), https://www.ccadb.org, CA owner per issuing CA.
+  Certificate Transparency via Cert Spotter (SSLMate) and crt.sh (Sectigo).
+  DNS via Google Public DNS and Cloudflare DNS-over-HTTPS.
+  IP-to-ASN mapping via Team Cymru.
+
+Libraries
+  cryptography (Apache-2.0 or BSD-3-Clause), openpyxl (MIT).
+
+data/critical_services/
+  Operator names, UIDs and legal seats from the UID register of the Swiss
+  Federal Statistical Office (BFS), queried through its public web service
+  https://www.uid-wse.admin.ch/V5.0/PublicServices.svc in November 2026.
+  Sector and sub-sector names from the Nationale Strategie zum Schutz
+  kritischer Infrastrukturen of 16 June 2023 (BBl 2023 1659) and
+  https://www.babs.admin.ch/de/die-kritischen-infrastrukturen.

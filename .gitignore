@@ -1,0 +1,9 @@
+.cache/
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+web/data/ch-combined.json
+web/data/resources/
+output/**/restricted/
