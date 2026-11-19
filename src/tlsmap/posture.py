@@ -78,19 +78,28 @@ def _local(name: str, cc: str, selfs: set[str]) -> bool:
 
 def dns_status(providers: list[tuple[str, str]], selfs: set[str], eea: set[str]) -> str:
     """Name servers of a zone.
-    pass: all at the organisation itself or in Switzerland, or spread over at
-          least two independent operators of which one is local;
-    partial: several independent operators, all abroad, or all in the EEA;
-    fail: a single foreign operator outside the EEA."""
+    pass: all at the organisation itself or in Switzerland; or spread over at
+          least two independent operators of which one is local; or spread
+          over independent operators in at least two jurisdictions (e.g. USA
+          and Asia; the EU/EEA counts as one jurisdiction);
+    partial: several independent operators in one foreign jurisdiction, or all
+          in the EU/EEA;
+    fail: a single foreign operator outside the EU/EEA."""
     if not providers:
         return "n/a"
     local = [_local(n, c, selfs) for n, c in providers]
-    ops = {operator_key(n) for n, _ in providers}
     if all(local):
         return "pass"
-    if any(local) and len(ops) >= 2:
-        return "pass"
-    if len(ops) >= 2 or all(l or c in eea for l, (n, c) in zip(local, providers)):
+    juris: dict[str, set] = {}
+    for (n, c), l in zip(providers, local):
+        juris.setdefault(operator_key(n), set()).add("local" if l else ("EEA" if c in eea else c or "?"))
+    if len(juris) >= 2:
+        if any("local" in j for j in juris.values()):
+            return "pass"
+        if len(set().union(*juris.values())) >= 2:
+            return "pass"
+        return "partial"
+    if all(l or c in eea for l, (n, c) in zip(local, providers)):
         return "partial"
     return "fail"
 

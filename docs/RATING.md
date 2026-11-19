@@ -63,8 +63,8 @@ Name servers (sov.dns), from 19 November 2026:
 
 | Status | Rule |
 |---|---|
-| pass | all name servers at the organisation itself or with Swiss operators, **or** the zone is spread over at least two independent operators, one of them local (own or Swiss) |
-| partial | several independent operators, all abroad; or all within the EU/EEA |
+| pass | all name servers at the organisation itself or with Swiss operators, **or** the zone is spread over at least two independent operators, one of them local (own or Swiss), **or** over independent operators in at least two jurisdictions (for example USA and Asia; the EU/EEA counts as one) |
+| partial | several independent operators within one foreign jurisdiction; or all within the EU/EEA |
 | fail | a single foreign operator outside the EU/EEA serves the zone alone |
 
 Independent operators are told apart by the operator in the AS name
