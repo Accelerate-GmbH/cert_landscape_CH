@@ -334,6 +334,12 @@
     return { cw: c.category_weights || { ownership: 0.3, sovereignty: 0.3, security: 0.25, privacy: 0.15 },
       w: c.checks || {}, g: c.green || 80, y: c.yellow || 50, crit: c.critical_resource_weight || 3 };
   }
+  /* Measured values in words where the raw value is a code (PQC: preferred/enabled/no per endpoint). */
+  function chkVal(cid, v) {
+    if (v === null || v === undefined) return "";
+    if (cid === "sec.pqc") return String(v).split("/").map((x) => (x ? t("pq_" + x) : "")).join(" / ");
+    return String(v);
+  }
   const stTag = (st) => '<span class="st ' + (st === "pass" ? "pass" : st === "fail" ? "fail" : "na") + '">' + esc(t("status_" + st)) + "</span>";
   function wmean(list, fn, crit) {
     let a = 0, b = 0;
@@ -409,7 +415,7 @@
         html += head(e.n + " · " + t(arg), sh) + note(t("f_chk"), plainChk(arg)) +
           '<p class="sub">' + stTag("pass") + " " + x.pass + " · " + stTag("partial") + " " + x.partial + " · " + stTag("fail") + " " + x.fail +
           " · " + esc(t("source_col")) + ": " + src(arg) + "</p><table><tbody>" +
-          rows.map(([r, i, y]) => resRow(level, id, i, r, "<td>" + stTag(y[1]) + "</td>" + (simple() ? "" : '<td class="ev">' + esc(String(y[2] ?? "")) +
+          rows.map(([r, i, y]) => resRow(level, id, i, r, "<td>" + stTag(y[1]) + "</td>" + (simple() ? "" : '<td class="ev">' + esc(chkVal(arg, y[2])) +
             (y[4] ? '<span class="src">' + esc(y[4]) + "</span>" : "") + '</td><td class="srccell">' + checkLinks(arg, r, dom(r)).filter(Boolean).join(" · ") + "</td>"))).join("") +
           "</tbody></table>";
       }
@@ -441,7 +447,7 @@
         const w = c.w[cid] ?? 1;
         const pt = PTS[x[1]];
         if (pt !== undefined) { a += w * pt; b += w; }
-        return "<tr><td>" + esc(t(cid)) + '<span class="src">' + esc(String(x[2] ?? "")) + "</span></td><td>" + stTag(x[1]) + '</td><td class="num">' + w +
+        return "<tr><td>" + esc(t(cid)) + '<span class="src">' + esc(chkVal(cid, x[2])) + "</span></td><td>" + stTag(x[1]) + '</td><td class="num">' + w +
           '</td><td class="num">' + (pt === undefined ? "–" : pt) + '</td><td class="num">' + (pt === undefined ? "–" : (w * pt).toFixed(1)) + "</td></tr>";
       }).join("");
       html += head(r.h + " · " + t("m_" + CAT_LABEL[arg]), r.c ? r.c[arg] : null) + note(t("f_res_cat"), plainCat(arg)) +
@@ -957,7 +963,7 @@
       const links = checkLinks(cid, r, dom).filter(Boolean).join(" · ");
       return '<tr><td>' + esc(t(cid)) + '<br><span class="st ' + (st === "n/a" ? "na" : st === "partial" ? "na" : st) + '">' +
         esc(t("status_" + st)) + "</span>" + '<span class="src">' + esc(method) + "</span></td>" +
-        '<td class="ev">' + esc(String(val === null || val === undefined ? "" : val)) + (ev ? '<span class="src">' + esc(ev) + "</span>" : "") +
+        '<td class="ev">' + esc(chkVal(cid, val)) + (ev ? '<span class="src">' + esc(ev) + "</span>" : "") +
         '</td><td class="srccell">' + links + "</td></tr>";
     }).join("");
     const eps = (r.ep || []).map((x) => "<tr><td>" + esc(x.ip) + '<span class="src">' + (x.at ? esc(t("checked")) + " " + esc(x.at) : esc(t("not_probed"))) +
