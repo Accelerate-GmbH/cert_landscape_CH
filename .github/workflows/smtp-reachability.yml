@@ -1,0 +1,37 @@
+name: smtp reachability test
+
+# One-off check whether runners can open outbound connections on port 25
+# (STARTTLS handshake for the mail checks).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: STARTTLS on port 25
+        shell: python
+        run: |
+          import smtplib, ssl, socket
+          hosts = ["mx.admin.ch", "mail.zg.ch", "smtp.swisscom.com", "aspmx.l.google.com", "mx1.mail.ovh.net"]
+          for mx in ["zg-ch.mail.protection.outlook.com"] + hosts:
+              try:
+                  s = smtplib.SMTP(mx, 25, timeout=15)
+                  s.ehlo("tlsmap.example")
+                  ok = s.has_extn("starttls")
+                  ver = ""
+                  if ok:
+                      s.starttls(context=ssl.create_default_context())
+                      ver = s.sock.version()
+                  print(mx, "connected", "starttls" if ok else "no-starttls", ver)
+                  s.quit()
+              except (OSError, smtplib.SMTPException) as e:
+                  print(mx, "FAILED", type(e).__name__, str(e)[:120])
