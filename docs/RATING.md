@@ -115,7 +115,7 @@ run).
 
 | ID | Check | Pass | Fail | Weight |
 |---|---|---|---|---|
-| prv.ech | Encrypted Client Hello configured in DNS | HTTPS record with a structurally valid ECHConfigList (version 0xfe0d) | no HTTPS record, no `ech`, or invalid config | 1 |
+| prv.ech | [Encrypted Client Hello (ECH)](https://support.mozilla.org/en-US/kb/understand-encrypted-client-hello) configured in DNS | HTTPS record with a structurally valid ECHConfigList (version 0xfe0d) | no HTTPS record, no `ech`, or invalid config | 1 |
 
 ### Knock-outs
 
@@ -141,7 +141,7 @@ scores.
 | Ownership visibility and protection | 30% | who stands behind the resource, and whether that can be verified |
 | Technology sovereignty | 30% | the campaign's core question: who controls the stack |
 | Connection security | 30% | baseline protection of every connection (25% until 19 November 2026) |
-| Connection privacy | 10% | ECH is still early: without it a host can still reach 90 and green; with 5% it would hardly count (15% until 19 November 2026) |
+| Connection privacy | 10% | Encrypted Client Hello (ECH) is still early: without it a host can still reach 90 and green; with 5% it would hardly count (15% until 19 November 2026) |
 
 Categories that could not be assessed (for example connection security
 without a live probe) are left out and the remaining weights are
