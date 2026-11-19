@@ -12,6 +12,8 @@ from pathlib import Path
 from . import mail as mail_mod
 from . import probe as probe_mod
 from .mail import MailCheck
+from . import webextra
+from .rdap import Rdap
 from .ccadb import CCADB
 from .certs import describe, load_cert
 from .config import Entity, Settings
@@ -209,6 +211,14 @@ class Pipeline:
                 caa[d] = res
             for d, z in zip(all_domains, ex.map(self.dns.zone, all_domains)):
                 zones[d] = z
+        # registrar (RDAP) and security.txt per domain
+        rdap = Rdap(self.http)
+        regdom = {d: d if d.count(".") <= 1 else d.split(".", d.count(".") - 1)[-1] for d in all_domains}
+        with ThreadPoolExecutor(min(8, self.conc["dns"])) as ex:
+            uniq = sorted(set(regdom.values()))
+            reg_res = dict(zip(uniq, ex.map(rdap.registrar, uniq)))
+            sectxt = dict(zip(all_domains, ex.map(lambda d: webextra.security_txt(self.http, d, self.now), all_domains)))
+        registrars = {d: reg_res.get(regdom[d], {}) for d in all_domains}
         ns_names = sorted({n for z in zones.values() for n in z["ns"]})
         with ThreadPoolExecutor(self.conc["dns"]) as ex:
             ns_dns = dict(zip(ns_names, ex.map(self.dns.host, ns_names)))
@@ -248,7 +258,8 @@ class Pipeline:
             ctx = {"ns_zones": [p["zone"] for p in z.get("providers", [])], "ns_domain": dom,
                    "ns": [[p["ns"], p.get("asn", ""), p["as_name"], p["country"]] for p in z.get("providers", [])],
                    "ns_providers": sorted({f"{p['as_name']} ({p['country']})" for p in z.get("providers", [])}),
-                   "self": sorted(ent_info.get(r["entity"], set()))}
+                   "self": sorted(ent_info.get(r["entity"], set())),
+                   "registrar": registrars.get(dom), "sectxt": sectxt.get(dom)}
             results = posture.evaluate(r, ctx, tm_cfg)
             ko = posture.knockout(r)
             sc = posture.score(results, tm_cfg)
@@ -330,6 +341,12 @@ class Pipeline:
             if ep.get("cert"):
                 ep["revocation"] = revs.get(ep["cert"]["sha256"], {"status": "unknown"})
             r.setdefault("endpoints", []).append(ep)
+        # HSTS and plain HTTP, once per host on the first address that answered
+        hjobs = [(r, next((e["ip"] for e in r.get("endpoints", []) if e.get("ok")), None)) for r in resources]
+        hjobs = [(r, ip) for r, ip in hjobs if ip]
+        with ThreadPoolExecutor(self.conc["probe"]) as ex:
+            for (r, _), res in zip(hjobs, ex.map(lambda j: webextra.http_security(j[0]["hostname"], j[1], t), hjobs)):
+                r["http_sec"] = res
         for r in resources:
             ok = [e for e in r.get("endpoints", []) if e.get("cert")]
             r["probe_ok"] = bool(ok)

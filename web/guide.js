@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      "own.sectxt": "security.txt (RFC 9116)", "sov.registrar": "Registrar-Domizil", "sec.hsts": "HSTS und keine Klartext-Verbindung", "src_web": "Abruf über HTTP/HTTPS",
       "m_ml": "Mail", "m_ml_d": "Wie gut die Mail-Domains geschützt sind: wo die Mailserver laufen, verschlüsselte Zustellung, Schutz vor gefälschten Absendern.", "mail_title": "Mail", "mail_none": "Keine der Domains nimmt Mail an, oder es liess sich nichts prüfen.", "mail_domains": "{n} Mail-Domains bewertet", "mail_share": "Anteil der Domains, die die Prüfung erfüllen", "mail_show": "Mail-Details anzeigen", "mail_mx": "Mailserver", "mail_invalid": "Zertifikat ungültig", "mail_nomx": "Keine Mailserver (MX) eingetragen.", "mail_nullmx": "Nimmt ausdrücklich keine Mail an (Null-MX).", "mail_unrated": "Ohne Mailserver, nicht bewertet", "mail_intro": "Mail wird getrennt von der Website bewertet, pro Domain mit sechs Prüfungen. Der Wert erscheint auf der Karte unter «Mail», nicht in der Gesamtbewertung.", "sec_mail": "Mail", "mail.mx": "Mailserver-Domizil", "mail.starttls": "STARTTLS (TLS-Version, Zertifikat)", "mail.transport": "Erzwungene Verschlüsselung (DANE / MTA-STS)", "mail.tlsrpt": "TLS-Berichte (TLS-RPT)", "mail.dmarc": "DMARC-Richtlinie", "mail.spf": "SPF-Richtlinie",
       ur_tag: "nicht erreichbar", ur_title: "Löst im DNS auf, hat bei der Messung aber an keiner Adresse über HTTPS geantwortet. Die Bewertung beruht nur auf den Prüfungen aus dem DNS.", ur_note: "Der Host löst im DNS auf, hat bei der Messung aber an keiner Adresse über HTTPS geantwortet. Die Prüfungen, die eine Verbindung brauchen (Zertifikat, Sperrstatus, TLS, PQC), sind nicht beurteilt; die Bewertung beruht nur auf den Prüfungen aus dem DNS. Möglich sind ein abgeschalteter oder nur intern erreichbarer Dienst oder eine Sperre gegen unseren Messpunkt.",
       total_before_ko: "Summe vor K.-o.", ko_row: "K.-o.: ungültiges oder gesperrtes Zertifikat, der Host zählt mit 0",
@@ -39,7 +40,7 @@ window.GUIDE = {
       units_by_light: "{units} nach Ampel", more_metrics: "Weitere Kennzahlen (Zertifikate)", who_behind: "Bei wem die Dienste liegen",
       w_cert: "Zertifikate von", w_server: "Server in", w_dns: "Adressbuch (DNS) bei", w_tld: "Adressendung",
       why: "Warum wichtig", how_measured: "Wie gemessen", criteria: "Bewertung", cat_col: "Bereich",
-      sec_what: "Was die Karte zeigt", sec_lights: "Die Ampel", sec_cats: "Die vier Bereiche", sec_checks: "Die zwölf Prüfungen",
+      sec_what: "Was die Karte zeigt", sec_lights: "Die Ampel", sec_cats: "Die vier Bereiche", sec_checks: "Die fünfzehn Prüfungen",
       sec_crit: "Kritische Dienste", sec_data: "Daten und Aktualisierung", sec_limits: "Was die Bewertung nicht sagt",
       intro_simple: "Die Karte zeigt, wie gut die Online-Dienste von Kantonen, Gemeinden und Bund geschützt sind und wie stark sie von ausländischen Anbietern abhängen. Klicken Sie auf einen Kanton oder eine Gemeinde.",
       to_help: "Alles erklärt", view_hint: "Einfach: Erklärungen ohne Vorwissen. Fachlich: alle Kennzahlen, Formeln und Rohwerte.",
@@ -47,6 +48,7 @@ window.GUIDE = {
       orgs_simple: "Kreise auf der Karte: Organisationen der Liste kritischer Dienste, gruppiert nach Ort. Die Farben zeigen den Anteil grün, gelb und rot.",
     },
     s: {
+      "own.sectxt": "Kontakt für Sicherheitsmeldungen", "sov.registrar": "Domain bei Schweizer Registrar", "sec.hsts": "Nur verschlüsselte Verbindung möglich",
       "mail.mx": "Mailserver in der Schweiz oder im eigenen Netz", "mail.starttls": "Mail wird verschlüsselt übertragen", "mail.transport": "Verschlüsselung wird erzwungen", "mail.tlsrpt": "Fehler bei der Verschlüsselung werden gemeldet", "mail.dmarc": "Gefälschte Absender werden abgewiesen", "mail.spf": "Erlaubte Absender sind festgelegt",
       m_tm: "Gesamtbewertung", m_tm_d: "Wie gut die Dienste geschützt und unabhängig sind, von 0 bis 100.",
       m_tm_own: "Echtheit und Schutz", m_tm_own_d: "Ist nachweisbar, wer den Dienst betreibt, und ist er gegen Fälschung und Umleitung geschützt?",
@@ -86,6 +88,9 @@ window.GUIDE = {
       privacy: { s: "Bleibt verborgen, welche Website jemand besucht?", x: "Encrypted Client Hello: gültige ECHConfigList im HTTPS-Eintrag (Typ 65)." },
     },
     checks: {
+      "own.sectxt": { s: "Auf der Website steht eine Kontaktstelle für Sicherheitslücken. Wer eine Schwachstelle findet, weiss, wem er sie melden kann.", x: "/.well-known/security.txt auf der Domain oder www.<domain>, mit Contact. Contact und gültiges Expires = erfüllt; abgelaufen oder ohne Expires = teilweise; keine Datei = nicht erfüllt. Geprüft pro Domain, gilt für ihre Hosts." },
+      "sov.registrar": { s: "Die Domain ist bei einem Registrar in der Schweiz registriert. Wer die Domain verwaltet, kann sie umleiten oder sperren lassen.", x: "Registrar aus RDAP (rdap.nic.ch für .ch, IANA-Bootstrap sonst; bei .com das Land aus dem RDAP des Registrars oder einer Tabelle). CH = erfüllt, EWR = teilweise, sonst nicht erfüllt; Land unbekannt = nicht beurteilt." },
+      "sec.hsts": { s: "Der Browser darf den Dienst nur verschlüsselt aufrufen, und eine unverschlüsselte Verbindung wird nicht angeboten. So kann niemand Besucher auf eine unverschlüsselte Fassung umlenken.", x: "HSTS-Header auf HTTPS mit max-age ≥ 180 Tage, und auf Port 80 Umleitung auf https:// oder Port geschlossen = erfüllt; nur eines davon = teilweise; keines = nicht erfüllt. Einmal pro Host an der ersten erreichbaren Adresse." },
       "mail.mx": { s: "Die Server, die Mail für die Domain annehmen, stehen in der Schweiz oder im eigenen Netz der Organisation. Wer die Mailserver betreibt, kann Mails lesen oder zurückhalten.", x: "Netz (AS) und Land aller MX-Server (Team Cymru); eigenes Netz zählt mit dem Sitz. Alle lokal = erfüllt, lokal oder EWR = teilweise, sonst nicht erfüllt." },
       "mail.starttls": { s: "Mail wird zwischen Servern verschlüsselt übertragen, mit aktueller Verschlüsselung und einem Zertifikat, das zum Server passt.", x: "STARTTLS-Handshake auf Port 25 je MX. Alle TLS 1.3 mit gültigem Zertifikat = erfüllt; TLS 1.2 oder einzelne = teilweise; kein STARTTLS = nicht erfüllt. Ohne Antwort auf Port 25 = nicht beurteilt." },
       "mail.transport": { s: "Die Domain verlangt von sendenden Servern, nur verschlüsselt zuzustellen. Ohne diese Vorgabe kann ein Angreifer die Verschlüsselung unterdrücken und Mails mitlesen.", x: "DANE (TLSA-Einträge, DNSSEC-validiert) auf allen MX oder MTA-STS im Modus enforce = erfüllt; MTA-STS testing oder DANE auf einzelnen MX = teilweise; nichts = nicht erfüllt." },
@@ -109,9 +114,9 @@ window.GUIDE = {
       mail: { s: ["Neben den Websites prüfen wir die Mail jeder Domain: wo die Mailserver laufen, ob Mail verschlüsselt und mit erzwungener Verschlüsselung zugestellt wird, und ob gefälschte Absender abgewiesen werden.", "Mail hat einen eigenen Wert von 0 bis 100. Er erscheint auf der Karte unter «Mail» und fliesst nicht in die Gesamtbewertung ein."], x: ["Pro Mail-Domain (Domains mit MX; Gemeinden mit nur geteilter Domain ausgenommen) sechs Prüfungen mit Gewicht: Mailserver-Domizil 2, STARTTLS 2, DANE/MTA-STS 2, TLS-RPT 1, DMARC 2, SPF 1. Punkte wie im Web-Rating. Einheit = Mittel ihrer Mail-Domains.", "Quellen: DNS über DoH (MX, TLSA mit AD-Flag, TXT für SPF, DMARC, TLS-RPT, MTA-STS), MTA-STS-Policy über HTTPS, Team Cymru, ein STARTTLS-Handshake je MX auf Port 25 vom GitHub-Runner."] },
       what: {
         s: ["Die Karte zeigt, wie gut die Websites, Portale und Mail-Server von Kantonen, Gemeinden und wichtigen Organisationen geschützt sind und wie stark sie von ausländischen Anbietern abhängen.",
-            "Gemessen wird von aussen, so wie ein Besucher den Dienst sieht. Jeder Dienst wird mit zwölf Prüfungen in vier Bereichen bewertet. Daraus entsteht eine Zahl von 0 bis 100 und eine Ampelfarbe.",
+            "Gemessen wird von aussen, so wie ein Besucher den Dienst sieht. Jeder Dienst wird mit fünfzehn Prüfungen in vier Bereichen bewertet. Daraus entsteht eine Zahl von 0 bis 100 und eine Ampelfarbe.",
             "Der Bund hat keine eigene Fläche auf der Karte. Er erscheint als Kästchen oben rechts, aufgeteilt nach Departementen. In der Suche lassen sich auch einzelne Domains und Hosts finden."],
-        x: ["Ressourcen = Hostnamen in Betrieb (lösen im DNS auf), gefunden über Certificate Transparency unter den Domains der Einheit. Pro Ressource zwölf Prüfungen (Trust Posture, Entwurf v0.1), live über alle A/AAAA-Endpunkte mit SNI.",
+        x: ["Ressourcen = Hostnamen in Betrieb (lösen im DNS auf), gefunden über Certificate Transparency unter den Domains der Einheit. Pro Ressource fünfzehn Prüfungen (Trust Posture, Entwurf v0.1), live über alle A/AAAA-Endpunkte mit SNI.",
             "Ebenen: Kantone, Gemeinden, Bund; dazu die Liste kritischer Dienste, nur als Aggregat. Unter «Weitere Kennzahlen» stehen die zertifikatsbezogenen Werte des ursprünglichen Modells (Souveränität, Identitätsprüfung, CAA, gute Praxis).",
             "Der Bund hat keine eigene Fläche auf der Karte. Er erscheint als Kästchen oben rechts, aufgeteilt nach Departementen. In der Suche lassen sich auch einzelne Domains und Hosts finden."],
       },
@@ -145,6 +150,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      "own.sectxt": "security.txt (RFC 9116)", "sov.registrar": "Domicile du registraire", "sec.hsts": "HSTS et pas de connexion en clair", "src_web": "requête HTTP/HTTPS",
       "m_ml": "Messagerie", "m_ml_d": "Protection des domaines de messagerie : où tournent les serveurs, distribution chiffrée, protection contre les expéditeurs falsifiés.", "mail_title": "Messagerie", "mail_none": "Aucun des domaines ne reçoit de courriel, ou rien n’a pu être contrôlé.", "mail_domains": "{n} domaines de messagerie évalués", "mail_share": "part des domaines qui remplissent le contrôle", "mail_show": "Afficher les détails de la messagerie", "mail_mx": "Serveur de messagerie", "mail_invalid": "certificat invalide", "mail_nomx": "Aucun serveur de messagerie (MX) enregistré.", "mail_nullmx": "N’accepte explicitement aucun courriel (MX nul).", "mail_unrated": "Sans serveur de messagerie, non évalué", "mail_intro": "La messagerie est évaluée séparément du site web, par domaine avec six contrôles. La valeur apparaît sur la carte sous « Messagerie », pas dans l’évaluation globale.", "sec_mail": "Messagerie", "mail.mx": "Domicile des serveurs de messagerie", "mail.starttls": "STARTTLS (version TLS, certificat)", "mail.transport": "Chiffrement imposé (DANE / MTA-STS)", "mail.tlsrpt": "Rapports TLS (TLS-RPT)", "mail.dmarc": "Politique DMARC", "mail.spf": "Politique SPF",
       ur_tag: "injoignable", ur_title: "Résolu dans le DNS, mais aucune adresse n’a répondu en HTTPS lors de la mesure. L’évaluation ne repose que sur les contrôles DNS.", ur_note: "L’hôte est résolu dans le DNS, mais aucune adresse n’a répondu en HTTPS lors de la mesure. Les contrôles qui exigent une connexion (certificat, révocation, TLS, PQC) ne sont pas évalués ; l’évaluation ne repose que sur les contrôles DNS. Causes possibles : service arrêté ou seulement interne, ou blocage de notre point de mesure.",
       total_before_ko: "Somme avant élimination", ko_row: "Élimination : certificat invalide ou révoqué, l’hôte compte 0",
@@ -178,7 +184,7 @@ window.GUIDE = {
       units_by_light: "{units} par couleur", more_metrics: "Autres indicateurs (certificats)", who_behind: "Chez qui se trouvent les services",
       w_cert: "Certificats de", w_server: "Serveurs en", w_dns: "Annuaire (DNS) chez", w_tld: "Terminaison",
       why: "Pourquoi c’est important", how_measured: "Comment c’est mesuré", criteria: "Évaluation", cat_col: "Domaine",
-      sec_what: "Ce que montre la carte", sec_lights: "Les feux", sec_cats: "Les quatre domaines", sec_checks: "Les douze contrôles",
+      sec_what: "Ce que montre la carte", sec_lights: "Les feux", sec_cats: "Les quatre domaines", sec_checks: "Les quinze contrôles",
       sec_crit: "Services critiques", sec_data: "Données et mise à jour", sec_limits: "Ce que l’évaluation ne dit pas",
       intro_simple: "La carte montre la protection des services en ligne des cantons, des communes et de la Confédération et leur dépendance envers des fournisseurs étrangers. Cliquez sur un canton ou une commune.",
       to_help: "Tout est expliqué", view_hint: "Simple : explications sans connaissances préalables. Expert : tous les indicateurs, formules et valeurs brutes.",
@@ -186,6 +192,7 @@ window.GUIDE = {
       orgs_simple: "Cercles sur la carte : organisations de la liste des services critiques, regroupées par lieu. Les couleurs montrent la part de vert, jaune et rouge.",
     },
     s: {
+      "own.sectxt": "Contact pour les signalements de sécurité", "sov.registrar": "Domaine chez un registraire suisse", "sec.hsts": "Seule une connexion chiffrée est possible",
       "mail.mx": "Serveurs de messagerie en Suisse ou dans le propre réseau", "mail.starttls": "Le courriel est transmis chiffré", "mail.transport": "Le chiffrement est imposé", "mail.tlsrpt": "Les erreurs de chiffrement sont signalées", "mail.dmarc": "Les expéditeurs falsifiés sont rejetés", "mail.spf": "Les expéditeurs autorisés sont définis",
       m_tm: "Évaluation globale", m_tm_d: "Niveau de protection et d’indépendance des services, de 0 à 100.",
       m_tm_own: "Authenticité et protection", m_tm_own_d: "Peut-on prouver qui exploite le service, et est-il protégé contre la falsification et la redirection ?",
@@ -225,6 +232,9 @@ window.GUIDE = {
       privacy: { s: "Le site visité reste-t-il caché ?", x: "Encrypted Client Hello : ECHConfigList valide dans l’enregistrement HTTPS (type 65)." },
     },
     checks: {
+      "own.sectxt": { s: "Le site indique un contact pour les failles de sécurité. Qui trouve une vulnérabilité sait à qui la signaler.", x: "/.well-known/security.txt sur le domaine ou www.<domaine>, avec Contact. Contact et Expires valide = rempli ; expiré ou sans Expires = partiel ; pas de fichier = non rempli. Contrôlé par domaine, vaut pour ses hôtes." },
+      "sov.registrar": { s: "Le domaine est enregistré chez un registraire en Suisse. Qui gère le domaine peut le faire rediriger ou bloquer.", x: "Registraire selon RDAP (rdap.nic.ch pour .ch, bootstrap IANA sinon ; pour .com le pays selon le RDAP du registraire ou une table). CH = rempli, EEE = partiel, sinon non rempli ; pays inconnu = non évalué." },
+      "sec.hsts": { s: "Le navigateur ne peut appeler le service que chiffré, et aucune connexion non chiffrée n’est proposée. Personne ne peut ainsi détourner les visiteurs vers une version non chiffrée.", x: "En-tête HSTS en HTTPS avec max-age ≥ 180 jours, et redirection vers https:// sur le port 80 ou port fermé = rempli ; un seul des deux = partiel ; aucun = non rempli. Une fois par hôte, sur la première adresse joignable." },
       "mail.mx": { s: "Les serveurs qui reçoivent le courriel du domaine sont en Suisse ou dans le propre réseau de l’organisation. Qui exploite les serveurs peut lire ou retenir les messages.", x: "Réseau (AS) et pays de tous les serveurs MX (Team Cymru) ; le réseau propre compte avec le siège. Tous locaux = rempli, locaux ou EEE = partiel, sinon non rempli." },
       "mail.starttls": { s: "Le courriel est transmis chiffré entre serveurs, avec un chiffrement actuel et un certificat valable pour le serveur.", x: "Handshake STARTTLS sur le port 25 par MX. Tous TLS 1.3 avec certificat valide = rempli ; TLS 1.2 ou certains = partiel ; pas de STARTTLS = non rempli. Sans réponse sur le port 25 = non évalué." },
       "mail.transport": { s: "Le domaine exige des serveurs expéditeurs une distribution chiffrée. Sans cette exigence, un attaquant peut supprimer le chiffrement et lire les messages.", x: "DANE (TLSA, validé DNSSEC) sur tous les MX ou MTA-STS en mode enforce = rempli ; MTA-STS testing ou DANE sur certains MX = partiel ; rien = non rempli." },
@@ -248,7 +258,7 @@ window.GUIDE = {
       mail: { s: ["En plus des sites web, nous contrôlons la messagerie de chaque domaine : où tournent les serveurs, si le courriel est transmis chiffré avec chiffrement imposé, et si les expéditeurs falsifiés sont rejetés.", "La messagerie a sa propre valeur de 0 à 100. Elle apparaît sur la carte sous « Messagerie » et n’entre pas dans l’évaluation globale."], x: ["Par domaine de messagerie (domaines avec MX ; communes avec domaine partagé exclues), six contrôles pondérés : domicile des serveurs 2, STARTTLS 2, DANE/MTA-STS 2, TLS-RPT 1, DMARC 2, SPF 1. Points comme pour le web. Unité = moyenne de ses domaines.", "Sources : DNS via DoH (MX, TLSA avec drapeau AD, TXT pour SPF, DMARC, TLS-RPT, MTA-STS), politique MTA-STS via HTTPS, Team Cymru, un handshake STARTTLS par MX sur le port 25 depuis le runner GitHub."] },
       what: {
         s: ["La carte montre la protection des sites, portails et serveurs de messagerie des cantons, des communes et d’organisations importantes, et leur dépendance envers des fournisseurs étrangers.",
-            "La mesure se fait de l’extérieur, comme un visiteur voit le service. Chaque service est évalué par douze contrôles dans quatre domaines, ce qui donne un chiffre de 0 à 100 et une couleur.",
+            "La mesure se fait de l’extérieur, comme un visiteur voit le service. Chaque service est évalué par quinze contrôles dans quatre domaines, ce qui donne un chiffre de 0 à 100 et une couleur.",
             "La Confédération n’a pas de surface propre sur la carte. Elle apparaît dans un encadré en haut à droite, répartie par département. La recherche trouve aussi des domaines et des hôtes."],
         x: ["Ressources = noms d’hôte en service (résolus dans le DNS), trouvés via Certificate Transparency sous les domaines de l’entité. Douze contrôles par ressource (Trust Posture, projet v0.1), en direct sur tous les points A/AAAA avec SNI.",
             "Niveaux : cantons, communes, Confédération ; plus la liste des services critiques, uniquement en agrégat. « Autres indicateurs » contient les valeurs liées aux certificats du modèle initial (souveraineté, vérification d’identité, CAA, bonnes pratiques).",
@@ -284,6 +294,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      "own.sectxt": "security.txt (RFC 9116)", "sov.registrar": "Domicilio del registrar", "sec.hsts": "HSTS e nessuna connessione in chiaro", "src_web": "richiesta HTTP/HTTPS",
       "m_ml": "Posta", "m_ml_d": "Protezione dei domini di posta: dove girano i server, consegna cifrata, protezione da mittenti falsificati.", "mail_title": "Posta", "mail_none": "Nessuno dei domini riceve posta, o non è stato possibile verificare nulla.", "mail_domains": "{n} domini di posta valutati", "mail_share": "quota dei domini che soddisfano il controllo", "mail_show": "Mostra i dettagli della posta", "mail_mx": "Server di posta", "mail_invalid": "certificato non valido", "mail_nomx": "Nessun server di posta (MX) registrato.", "mail_nullmx": "Non accetta esplicitamente posta (MX nullo).", "mail_unrated": "Senza server di posta, non valutato", "mail_intro": "La posta è valutata separatamente dal sito web, per dominio con sei controlli. Il valore compare sulla carta sotto «Posta», non nella valutazione complessiva.", "sec_mail": "Posta", "mail.mx": "Domicilio dei server di posta", "mail.starttls": "STARTTLS (versione TLS, certificato)", "mail.transport": "Cifratura imposta (DANE / MTA-STS)", "mail.tlsrpt": "Rapporti TLS (TLS-RPT)", "mail.dmarc": "Politica DMARC", "mail.spf": "Politica SPF",
       ur_tag: "non raggiungibile", ur_title: "Si risolve nel DNS, ma nessun indirizzo ha risposto in HTTPS durante la misura. La valutazione si basa solo sui controlli DNS.", ur_note: "L’host si risolve nel DNS, ma nessun indirizzo ha risposto in HTTPS durante la misura. I controlli che richiedono una connessione (certificato, revoca, TLS, PQC) non sono valutati; la valutazione si basa solo sui controlli DNS. Possibili cause: servizio spento o solo interno, o blocco del nostro punto di misura.",
       total_before_ko: "Somma prima dell’eliminazione", ko_row: "Eliminazione: certificato non valido o revocato, l’host conta 0",
@@ -317,7 +328,7 @@ window.GUIDE = {
       units_by_light: "{units} per colore", more_metrics: "Altri indicatori (certificati)", who_behind: "Presso chi si trovano i servizi",
       w_cert: "Certificati di", w_server: "Server in", w_dns: "Rubrica (DNS) presso", w_tld: "Desinenza",
       why: "Perché è importante", how_measured: "Come si misura", criteria: "Valutazione", cat_col: "Ambito",
-      sec_what: "Cosa mostra la carta", sec_lights: "Il semaforo", sec_cats: "I quattro ambiti", sec_checks: "I dodici controlli",
+      sec_what: "Cosa mostra la carta", sec_lights: "Il semaforo", sec_cats: "I quattro ambiti", sec_checks: "I quindici controlli",
       sec_crit: "Servizi critici", sec_data: "Dati e aggiornamento", sec_limits: "Cosa la valutazione non dice",
       intro_simple: "La carta mostra quanto sono protetti i servizi online di cantoni, comuni e Confederazione e quanto dipendono da fornitori esteri. Cliccare su un cantone o un comune.",
       to_help: "Tutto spiegato", view_hint: "Semplice: spiegazioni senza conoscenze preliminari. Esperto: tutti gli indicatori, formule e valori grezzi.",
@@ -325,6 +336,7 @@ window.GUIDE = {
       orgs_simple: "Cerchi sulla carta: organizzazioni dell’elenco dei servizi critici, raggruppate per luogo. I colori mostrano la quota di verde, giallo e rosso.",
     },
     s: {
+      "own.sectxt": "Contatto per segnalazioni di sicurezza", "sov.registrar": "Dominio presso un registrar svizzero", "sec.hsts": "Possibile solo una connessione cifrata",
       "mail.mx": "Server di posta in Svizzera o nella propria rete", "mail.starttls": "La posta è trasmessa cifrata", "mail.transport": "La cifratura è imposta", "mail.tlsrpt": "Gli errori di cifratura sono segnalati", "mail.dmarc": "I mittenti falsificati sono respinti", "mail.spf": "I mittenti autorizzati sono definiti",
       m_tm: "Valutazione complessiva", m_tm_d: "Quanto i servizi sono protetti e indipendenti, da 0 a 100.",
       m_tm_own: "Autenticità e protezione", m_tm_own_d: "Si può dimostrare chi gestisce il servizio, ed è protetto da falsificazioni e reindirizzamenti?",
@@ -364,6 +376,9 @@ window.GUIDE = {
       privacy: { s: "Resta nascosto quale sito si visita?", x: "Encrypted Client Hello: ECHConfigList valida nel record HTTPS (tipo 65)." },
     },
     checks: {
+      "own.sectxt": { s: "Il sito indica un contatto per le falle di sicurezza. Chi trova una vulnerabilità sa a chi segnalarla.", x: "/.well-known/security.txt sul dominio o su www.<dominio>, con Contact. Contact ed Expires valido = soddisfatto; scaduto o senza Expires = parziale; nessun file = non soddisfatto. Verificato per dominio, vale per i suoi host." },
+      "sov.registrar": { s: "Il dominio è registrato presso un registrar in Svizzera. Chi gestisce il dominio può farlo reindirizzare o bloccare.", x: "Registrar da RDAP (rdap.nic.ch per .ch, bootstrap IANA altrimenti; per .com il paese dal RDAP del registrar o da una tabella). CH = soddisfatto, SEE = parziale, altrimenti non soddisfatto; paese sconosciuto = non valutato." },
+      "sec.hsts": { s: "Il browser può chiamare il servizio solo in forma cifrata e non viene offerta alcuna connessione non cifrata. Nessuno può così deviare i visitatori verso una versione non cifrata.", x: "Header HSTS su HTTPS con max-age ≥ 180 giorni, e reindirizzamento a https:// sulla porta 80 o porta chiusa = soddisfatto; solo uno dei due = parziale; nessuno = non soddisfatto. Una volta per host sul primo indirizzo raggiungibile." },
       "mail.mx": { s: "I server che ricevono la posta del dominio sono in Svizzera o nella rete propria dell’organizzazione. Chi gestisce i server può leggere o trattenere i messaggi.", x: "Rete (AS) e paese di tutti i server MX (Team Cymru); la rete propria conta con la sede. Tutti locali = soddisfatto, locali o SEE = parziale, altrimenti non soddisfatto." },
       "mail.starttls": { s: "La posta è trasmessa cifrata tra server, con cifratura attuale e un certificato valido per il server.", x: "Handshake STARTTLS sulla porta 25 per MX. Tutti TLS 1.3 con certificato valido = soddisfatto; TLS 1.2 o solo alcuni = parziale; nessun STARTTLS = non soddisfatto. Senza risposta sulla porta 25 = non valutato." },
       "mail.transport": { s: "Il dominio richiede ai server mittenti di consegnare solo in forma cifrata. Senza questa richiesta un attaccante può sopprimere la cifratura e leggere i messaggi.", x: "DANE (TLSA, validato DNSSEC) su tutti gli MX o MTA-STS in modalità enforce = soddisfatto; MTA-STS testing o DANE su alcuni MX = parziale; niente = non soddisfatto." },
@@ -387,7 +402,7 @@ window.GUIDE = {
       mail: { s: ["Oltre ai siti web controlliamo la posta di ogni dominio: dove girano i server, se la posta è trasmessa cifrata con cifratura imposta e se i mittenti falsificati vengono respinti.", "La posta ha un proprio valore da 0 a 100. Compare sulla carta sotto «Posta» e non entra nella valutazione complessiva."], x: ["Per dominio di posta (domini con MX; comuni con dominio condiviso esclusi) sei controlli ponderati: domicilio dei server 2, STARTTLS 2, DANE/MTA-STS 2, TLS-RPT 1, DMARC 2, SPF 1. Punti come per il web. Unità = media dei suoi domini.", "Fonti: DNS via DoH (MX, TLSA con flag AD, TXT per SPF, DMARC, TLS-RPT, MTA-STS), policy MTA-STS via HTTPS, Team Cymru, un handshake STARTTLS per MX sulla porta 25 dal runner GitHub."] },
       what: {
         s: ["La carta mostra quanto sono protetti siti, portali e server di posta di cantoni, comuni e organizzazioni importanti e quanto dipendono da fornitori esteri.",
-            "La misura avviene dall’esterno, come un visitatore vede il servizio. Ogni servizio è valutato con dodici controlli in quattro ambiti; ne risultano un numero da 0 a 100 e un colore.",
+            "La misura avviene dall’esterno, come un visitatore vede il servizio. Ogni servizio è valutato con quindici controlli in quattro ambiti; ne risultano un numero da 0 a 100 e un colore.",
             "La Confederazione non ha una superficie propria sulla carta. Compare in un riquadro in alto a destra, suddivisa per dipartimento. La ricerca trova anche singoli domini e host."],
         x: ["Risorse = nomi host in servizio (risolti nel DNS), trovati tramite Certificate Transparency sotto i domini dell’unità. Dodici controlli per risorsa (Trust Posture, bozza v0.1), in tempo reale su tutti gli endpoint A/AAAA con SNI.",
             "Livelli: cantoni, comuni, Confederazione; inoltre l’elenco dei servizi critici, solo come aggregato. «Altri indicatori» contiene i valori legati ai certificati del modello originale (sovranità, verifica d’identità, CAA, buone pratiche).",
@@ -423,6 +438,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      "own.sectxt": "security.txt (RFC 9116)", "sov.registrar": "Registrar domicile", "sec.hsts": "HSTS and no plain-text connection", "src_web": "HTTP/HTTPS request",
       "m_ml": "Mail", "m_ml_d": "How well the mail domains are protected: where the mail servers run, encrypted delivery, protection against forged senders.", "mail_title": "Mail", "mail_none": "None of the domains receives mail, or nothing could be checked.", "mail_domains": "{n} mail domains rated", "mail_share": "share of domains meeting the check", "mail_show": "Show mail details", "mail_mx": "Mail server", "mail_invalid": "invalid certificate", "mail_nomx": "No mail servers (MX) listed.", "mail_nullmx": "Explicitly accepts no mail (null MX).", "mail_unrated": "Without mail servers, not rated", "mail_intro": "Mail is rated separately from the website, per domain with six checks. The value appears on the map under 'Mail', not in the overall rating.", "sec_mail": "Mail", "mail.mx": "Mail server domicile", "mail.starttls": "STARTTLS (TLS version, certificate)", "mail.transport": "Enforced encryption (DANE / MTA-STS)", "mail.tlsrpt": "TLS reports (TLS-RPT)", "mail.dmarc": "DMARC policy", "mail.spf": "SPF policy",
       ur_tag: "not reachable", ur_title: "Resolves in DNS, but no address answered over HTTPS during the measurement. The rating rests on the DNS checks only.", ur_note: "The host resolves in DNS, but no address answered over HTTPS during the measurement. Checks that need a connection (certificate, revocation, TLS, PQC) are not assessed; the rating rests on the DNS checks only. Possible causes: a service switched off or internal only, or a block against our vantage point.",
       total_before_ko: "Sum before knock-out", ko_row: "Knock-out: invalid or revoked certificate, the host counts as 0",
@@ -456,7 +472,7 @@ window.GUIDE = {
       units_by_light: "{units} by colour", more_metrics: "More indicators (certificates)", who_behind: "Where the services sit",
       w_cert: "Certificates from", w_server: "Servers in", w_dns: "Address book (DNS) at", w_tld: "Address ending",
       why: "Why it matters", how_measured: "How it is measured", criteria: "Rating", cat_col: "Area",
-      sec_what: "What the map shows", sec_lights: "The traffic light", sec_cats: "The four areas", sec_checks: "The twelve checks",
+      sec_what: "What the map shows", sec_lights: "The traffic light", sec_cats: "The four areas", sec_checks: "The fifteen checks",
       sec_crit: "Critical services", sec_data: "Data and updates", sec_limits: "What the rating does not say",
       intro_simple: "The map shows how well the online services of cantons, municipalities and the federal administration are protected and how much they depend on foreign providers. Click a canton or municipality.",
       to_help: "Everything explained", view_hint: "Simple: explanations without prior knowledge. Expert: all indicators, formulas and raw values.",
@@ -464,6 +480,7 @@ window.GUIDE = {
       orgs_simple: "Circles on the map: organisations on the critical-services list, grouped by place. The colours show the share of green, yellow and red.",
     },
     s: {
+      "own.sectxt": "Contact for security reports", "sov.registrar": "Domain with a Swiss registrar", "sec.hsts": "Only encrypted connections possible",
       "mail.mx": "Mail servers in Switzerland or own network", "mail.starttls": "Mail is sent encrypted", "mail.transport": "Encryption is enforced", "mail.tlsrpt": "Encryption failures are reported", "mail.dmarc": "Forged senders are rejected", "mail.spf": "Allowed senders are defined",
       m_tm: "Overall rating", m_tm_d: "How well the services are protected and independent, from 0 to 100.",
       m_tm_own: "Authenticity and protection", m_tm_own_d: "Can you tell who runs the service, and is it protected against forgery and redirection?",
@@ -503,6 +520,9 @@ window.GUIDE = {
       privacy: { s: "Does it stay hidden which website someone visits?", x: "Encrypted Client Hello: valid ECHConfigList in the HTTPS record (type 65)." },
     },
     checks: {
+      "own.sectxt": { s: "The website names a contact for security vulnerabilities, so whoever finds one knows whom to tell.", x: "/.well-known/security.txt on the domain or www.<domain>, with Contact. Contact and valid Expires = pass; expired or no Expires = partial; no file = fail. Checked per domain and applied to its hosts." },
+      "sov.registrar": { s: "The domain is registered with a registrar in Switzerland. Whoever manages the domain can have it redirected or blocked.", x: "Registrar from RDAP (rdap.nic.ch for .ch, IANA bootstrap otherwise; for .com the country from the registrar's RDAP or a table). CH = pass, EEA = partial, otherwise fail; unknown country = not assessed." },
+      "sec.hsts": { s: "Browsers may only open the service encrypted, and no unencrypted connection is offered, so nobody can steer visitors to an unencrypted version.", x: "HSTS header on HTTPS with max-age ≥ 180 days, and on port 80 a redirect to https:// or the port closed = pass; only one of them = partial; neither = fail. Once per host on the first address that answered." },
       "mail.mx": { s: "The servers that receive mail for the domain are in Switzerland or in the organisation's own network. Whoever runs the mail servers can read or hold back messages.", x: "Network (AS) and country of all MX servers (Team Cymru); own network counts with the seat. All local = pass, local or EEA = partial, otherwise fail." },
       "mail.starttls": { s: "Mail travels encrypted between servers, with current encryption and a certificate valid for the server.", x: "STARTTLS handshake on port 25 per MX. All TLS 1.3 with valid certificate = pass; TLS 1.2 or only some = partial; no STARTTLS = fail. No answer on port 25 = not assessed." },
       "mail.transport": { s: "The domain requires sending servers to deliver encrypted only. Without this, an attacker can strip the encryption and read the mail.", x: "DANE (TLSA, DNSSEC-validated) on all MX or MTA-STS in enforce mode = pass; MTA-STS testing or DANE on some MX = partial; none = fail." },
@@ -526,7 +546,7 @@ window.GUIDE = {
       mail: { s: ["Besides the websites, we check the mail of every domain: where the mail servers run, whether mail is sent encrypted with enforced encryption, and whether forged senders are rejected.", "Mail has its own value from 0 to 100. It appears on the map under 'Mail' and does not enter the overall rating."], x: ["Per mail domain (domains with MX; municipalities with a shared domain only are left out) six weighted checks: mail server domicile 2, STARTTLS 2, DANE/MTA-STS 2, TLS-RPT 1, DMARC 2, SPF 1. Points as in the web rating. Unit = mean of its mail domains.", "Sources: DNS over HTTPS (MX, TLSA with AD flag, TXT for SPF, DMARC, TLS-RPT, MTA-STS), MTA-STS policy over HTTPS, Team Cymru, one STARTTLS handshake per MX on port 25 from the GitHub runner."] },
       what: {
         s: ["The map shows how well the websites, portals and mail servers of cantons, municipalities and important organisations are protected, and how much they depend on foreign providers.",
-            "Everything is measured from outside, the way a visitor sees the service. Each service gets twelve checks in four areas, which add up to a number from 0 to 100 and a colour.",
+            "Everything is measured from outside, the way a visitor sees the service. Each service gets fifteen checks in four areas, which add up to a number from 0 to 100 and a colour.",
             "The federal administration has no area of its own on the map. It appears in a box at the top right, split by department. The search also finds single domains and hosts."],
         x: ["Resources = hostnames in use (resolving in DNS), found via Certificate Transparency under the entity's domains. Twelve checks per resource (Trust Posture, draft v0.1), live over all A/AAAA endpoints with SNI.",
             "Levels: cantons, municipalities, federal; plus the critical-services list, as aggregates only. 'More indicators' holds the certificate metrics of the original model (sovereignty, identity validation, CAA, good practice).",

@@ -148,6 +148,7 @@ critical_resource_weight = 3
 swiss_tlds = ["ch", "swiss"]
 # Minimum embedded SCTs for the CT check (browsers require 2 to 3).
 min_scts = 2
+hsts_min_age = 15552000      # 180 days
 # Sector aggregates are only published from this many organisations on, so
 # that no single organisation's result can be read from a small sector.
 min_orgs_per_sector = 5
@@ -160,12 +161,15 @@ min_orgs_per_sector = 5
 "own.caa" = 1           # CAA record restricts issuance
 "own.ct" = 1            # certificate carries embedded SCTs
 "sov.ca" = 3            # domicile of the CA, defined by the root
-"sov.dns" = 2           # domicile of the DNS provider (name server network)
+"sov.dns" = 2           # control and spread of the DNS operation (name servers)
 "sov.hosting" = 2       # domicile of the hosting network (AS) of every endpoint
 "sov.tld" = 1           # Swiss top-level domain
 "sec.tls13" = 1         # TLS 1.3 on every endpoint
 "sec.pqc" = 1           # post-quantum hybrid key exchange enabled and preferred
 "prv.ech" = 1           # Encrypted Client Hello published in DNS
+"own.sectxt" = 1        # security.txt with contact and valid Expires (RFC 9116)
+"sov.registrar" = 1     # domicile of the registrar (RDAP)
+"sec.hsts" = 1          # HSTS of at least 180 days and no plain HTTP
 
 # Mail per domain: own checks, reported next to the web Trust Posture.
 [mail]
