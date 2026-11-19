@@ -131,9 +131,9 @@ canaries = ["letsencrypt.org", "www.swisssign.com", "www.digicert.com"]
 timeout_seconds = 8
 
 # ---------------------------------------------------------------------------
-# TrustMark CH rating (draft v0.1, see docs/RATING.md). Every value here is a
+# Trust Posture rating (draft v0.1, see docs/RATING.md). Every value here is a
 # proposal for the standard's governance body to confirm or change.
-[trustmark]
+[trust_posture]
 # Weight of each category in the overall score (normalised over the
 # categories that could be assessed).
 category_weights = { ownership = 0.30, sovereignty = 0.30, security = 0.25, privacy = 0.15 }
@@ -153,7 +153,7 @@ min_scts = 2
 min_orgs_per_sector = 5
 
 # Weight of each check inside its category.
-[trustmark.checks]
+[trust_posture.checks]
 "own.identity" = 3      # OV/EV certificate on every endpoint
 "own.revocation" = 2    # live OCSP/CRL status good
 "own.dnssec" = 2        # A/AAAA answer validated by DNSSEC

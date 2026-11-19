@@ -17,7 +17,7 @@ from .ct import CTClient, current_certs, _parse_iso
 from .dnscheck import CAA_DOMAINS, DoH, platform_for
 from .http import Http
 from .registry import Registry
-from . import trustmark
+from . import posture
 from .scoring import compile_critical, is_critical, score_entity
 
 log = logging.getLogger("tlsmap")
@@ -236,8 +236,8 @@ class Pipeline:
             else:
                 log.warning(probe_note)
 
-        # TrustMark rating per resource
-        tm_cfg = self.s["trustmark"]
+        # Trust Posture rating per resource
+        tm_cfg = self.s["trust_posture"]
         checklog = []
         for r in resources:
             dom = dom_of.get((r["entity"], r["hostname"]), "")
@@ -245,12 +245,12 @@ class Pipeline:
             ctx = {"ns_zones": [p["zone"] for p in z.get("providers", [])], "ns_domain": dom,
                    "ns": [[p["ns"], p.get("asn", ""), p["as_name"], p["country"]] for p in z.get("providers", [])],
                    "ns_providers": sorted({f"{p['as_name']} ({p['country']})" for p in z.get("providers", [])})}
-            results = trustmark.evaluate(r, ctx, tm_cfg)
-            ko = trustmark.knockout(r)
-            sc = trustmark.score(results, tm_cfg)
+            results = posture.evaluate(r, ctx, tm_cfg)
+            ko = posture.knockout(r)
+            sc = posture.score(results, tm_cfg)
             if ko:
                 sc["overall"] = 0
-            r["tm"], r["tm_checks"], r["tm_knockout"] = sc, results, ko
+            r["tm"], r["tm_checks"], r["posture_knockout"] = sc, results, ko
             ts = max((e.get("checked_at", "") for e in r.get("endpoints") or []), default="") or self.now.strftime("%Y-%m-%dT%H:%M:%SZ")
             for x in results:
                 checklog.append({"ts": ts, "entity": r["entity"], "hostname": r["hostname"], **x})
@@ -266,7 +266,7 @@ class Pipeline:
             ecaa = caa.get(e.domains[0]) if e.domains else None
             metrics = score_entity(hosts, ecaa, self.s.raw, self.now, self.ct_lag_days)
             res_e = [r for r in hosts if r.get("tm")]
-            metrics["trustmark"] = trustmark.aggregate(res_e, self.s["trustmark"])
+            metrics["posture"] = posture.aggregate(res_e, self.s["trust_posture"])
             metrics["zone"] = {d: zones.get(d, {}) for d in e.domains}
             disc_info = [x for x in self.discovery_log if x["domain"] in e.domains]
             entities_out.append({
@@ -279,7 +279,7 @@ class Pipeline:
             })
         return {"generated": self.now.strftime("%Y-%m-%dT%H:%M:%SZ"), "entities": entities_out,
                 "hostnames": rows, "discovery": self.discovery_log, "probe": probe_note,
-                "checklog": checklog, "probe_caps": self.probe_caps, "tm_cfg": dict(self.s["trustmark"]),
+                "checklog": checklog, "probe_caps": self.probe_caps, "tm_cfg": dict(self.s["trust_posture"]),
                 "ct_lag_days": self.ct_lag_days,
                 "http_stats": self.http.stats,
                 "ccadb_fetched": self.reg.ccadb.fetched if self.reg.ccadb else None}

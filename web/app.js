@@ -196,8 +196,158 @@
       .map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + '<span class="src">' + esc(o.sec) +
         (o.sub ? " · " + esc(o.sub) : "") + '</span></td><td class="num">' + fmt(value(o, "tm")) + "</td><td>" + chip(lightOf(value(o, "tm")), " ") + "</td></tr>").join("");
     document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(place) + '</h2><p class="sub">' +
-      ids.length + " " + esc(t("n_orgs")) + '</p><table><thead><tr><th>' + esc(t("orgs_here")) + '</th><th class="num">TM</th><th></th></tr></thead><tbody>' +
+      ids.length + " " + esc(t("n_orgs")) + '</p><table><thead><tr><th>' + esc(t("orgs_here")) + '</th><th class="num">TP</th><th></th></tr></thead><tbody>' +
       rows + "</tbody></table>";
+  }
+
+  /* ---- explanations: every traffic light can be traced back ---------------- */
+  const CAT_CHECKS = { ownership: ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct"],
+    sovereignty: ["sov.ca", "sov.dns", "sov.hosting", "sov.tld"], security: ["sec.tls13", "sec.pqc"], privacy: ["prv.ech"] };
+  const CAT_LABEL = { ownership: "tm_own", sovereignty: "tm_sov", security: "tm_sec", privacy: "tm_prv" };
+  const PTS = { pass: 1, partial: 0.5, fail: 0 };
+  function cfg() {
+    const c = state.data.cfg || {};
+    return { cw: c.category_weights || { ownership: 0.3, sovereignty: 0.3, security: 0.25, privacy: 0.15 },
+      w: c.checks || {}, g: c.green || 80, y: c.yellow || 50, crit: c.critical_resource_weight || 3 };
+  }
+  const stTag = (st) => '<span class="st ' + (st === "pass" ? "pass" : st === "fail" ? "fail" : "na") + '">' + esc(t("status_" + st)) + "</span>";
+  function wmean(list, fn, crit) {
+    let a = 0, b = 0;
+    for (const r of list) { const v = fn(r); if (v === null || v === undefined) continue; const w = r.crit ? crit : 1; a += w * v; b += w; }
+    return b ? Math.round(a / b) : null;
+  }
+  function head(title, value) {
+    return '<h3>' + esc(t("how")) + "</h3><h2>" + esc(title) + '</h2><div class="tmhead"><span class="v">' + fmt(value) + "</span>" + chip(lightOf(value)) + "</div>";
+  }
+  function thresholdsNote() { const c = cfg(); return '<p class="src">' + esc(t("thresholds").replace("{g}", c.g).replace("{y}", c.y)) + "</p>"; }
+  function resRow(level, id, i, r, valueHtml) {
+    return '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) + (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") +
+      (r.ko ? ' <span class="chip">K.-o.</span>' : "") + "</td>" + valueHtml + "</tr>";
+  }
+  function explain(spec) {
+    const p = spec.split("|");
+    if (p[0] === "e") return explainEntity(p[1], p[2], p[3], p[4]);
+    if (p[0] === "r") return explainResource(p[1], p[2], Number(p[3]), p[4], p[5]);
+    if (p[0] === "s") return explainSector(p[1], p[2], p[3]);
+  }
+  function backTo(level, id) { return '<button class="close" data-sel="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>"; }
+
+  function explainEntity(level, id, kind, arg) {
+    const e = state.data.entities[level][id];
+    const panel = document.getElementById("panel");
+    panel.innerHTML = '<p class="muted">' + esc(t("loading")) + "</p>";
+    loadResources(level, id).then((list) => {
+      const c = cfg();
+      const idx = list.map((r, i) => [r, i]);
+      let html = backTo(level, id);
+      if (kind === "overall") {
+        const rows = Object.keys(CAT_CHECKS).map((k) => {
+          const v = e.tm.c ? e.tm.c[k] : null;
+          return "<tr><td>" + esc(t("m_" + CAT_LABEL[k])) + '</td><td class="num">' + fmt(v) + '</td><td class="num">' + Math.round(100 * c.cw[k]) +
+            " %</td><td>" + chip(lightOf(v), " ", v === null || v === undefined ? null : ["e", level, id, "cat", k].join("|")) + "</td></tr>";
+        }).join("");
+        const re = wmean(list, (r) => r.o, c.crit);
+        html += head(e.n + " · " + t("m_tm"), e.tm.o) + '<p class="sub">' + esc(t("f_ent_overall").replace("{cw}", c.crit)) + "</p>" + thresholdsNote() +
+          '<table><thead><tr><th></th><th class="num">' + esc(t("rating")) + '</th><th class="num">' + esc(t("weight")) + "</th><th></th></tr></thead><tbody>" + rows + "</tbody></table>" +
+          '<p class="src">' + esc(t("recomputed").replace("{n}", list.length).replace("{v}", fmt(re))) + (e.tm.ko ? " · " + esc(t("ko_note")) : "") + "</p>" +
+          "<h3>" + esc(t("weakest_first")) + '</h3><table><tbody>' +
+          idx.slice().sort((a, b) => (a[0].o ?? 999) - (b[0].o ?? 999)).map(([r, i]) => resRow(level, id, i, r, '<td class="num">' + fmt(r.o) + "</td><td>" + chip(lightOf(r.o), " ") + "</td>")).join("") + "</tbody></table>";
+      } else if (kind === "cat") {
+        const v = e.tm.c ? e.tm.c[arg] : null;
+        const k = e.tm.k || {};
+        const rows = CAT_CHECKS[arg].map((cid) => {
+          const x = k[cid];
+          const sh = x ? Math.round(100 * (x.pass + 0.5 * x.partial) / x.assessed) : null;
+          return '<tr class="click" data-explain="' + ["e", level, id, "chk", cid].join("|") + '"><td>' + esc(t(cid)) + '</td><td class="num">' + (c.w[cid] ?? 1) +
+            '</td><td class="num">' + (x ? x.pass + " / " + x.partial + " / " + x.fail : "–") + '</td><td class="num">' + fmt(sh) + "</td><td>" + chip(lightOf(sh), " ") + "</td></tr>";
+        }).join("");
+        const re = wmean(list, (r) => (r.c ? r.c[arg] : null), c.crit);
+        html += head(e.n + " · " + t("m_" + CAT_LABEL[arg]), v) + '<p class="sub">' + esc(t("f_ent_cat").replace("{cw}", c.crit)) + "</p>" + thresholdsNote() +
+          '<table><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("weight")) + '</th><th class="num">✓ / ½ / ✗</th><th class="num">%</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>" +
+          '<p class="src">' + esc(t("recomputed").replace("{n}", list.length).replace("{v}", fmt(re))) + "</p>" +
+          "<h3>" + esc(t("weakest_first")) + "</h3><table><tbody>" +
+          idx.filter(([r]) => r.c && r.c[arg] !== null && r.c[arg] !== undefined).sort((a, b) => a[0].c[arg] - b[0].c[arg])
+            .map(([r, i]) => resRow(level, id, i, r, '<td class="num">' + r.c[arg] + "</td><td>" + chip(lightOf(r.c[arg]), " ") + "</td>")).join("") + "</tbody></table>";
+      } else if (kind === "chk") {
+        const order = { fail: 0, partial: 1, pass: 2, "n/a": 3 };
+        const rows = idx.map(([r, i]) => [r, i, (r.chk || []).find((x) => x[0] === arg)]).filter(([, , x]) => x)
+          .sort((a, b) => order[a[2][1]] - order[b[2][1]]);
+        const x = (e.tm.k || {})[arg] || { pass: 0, partial: 0, fail: 0, assessed: 0 };
+        const sh = x.assessed ? Math.round(100 * (x.pass + 0.5 * x.partial) / x.assessed) : null;
+        const dom = (r) => (e.d || []).find((d) => r.h === d || r.h.endsWith("." + d)) || "";
+        html += head(e.n + " · " + t(arg), sh) + '<p class="sub">' + esc(t("f_chk")) + "</p>" + thresholdsNote() +
+          '<p class="sub">' + stTag("pass") + " " + x.pass + " · " + stTag("partial") + " " + x.partial + " · " + stTag("fail") + " " + x.fail +
+          " · " + esc(t("source_col")) + ": " + src(arg) + "</p><table><tbody>" +
+          rows.map(([r, i, y]) => resRow(level, id, i, r, "<td>" + stTag(y[1]) + '</td><td class="ev">' + esc(String(y[2] ?? "")) +
+            (y[4] ? '<span class="src">' + esc(y[4]) + "</span>" : "") + '</td><td class="srccell">' + checkLinks(arg, r, dom(r)).filter(Boolean).join(" · ") + "</td>")).join("") +
+          "</tbody></table>";
+      }
+      panel.innerHTML = html;
+    });
+  }
+
+  function explainResource(level, id, idx, kind, arg) {
+    const r = cache[level + "-" + id][idx];
+    const c = cfg();
+    let html = '<button class="close" data-rdetail="' + level + ":" + id + ":" + idx + '">← ' + esc(t("back")) + "</button>";
+    if (kind === "overall") {
+      let a = 0, b = 0;
+      const rows = Object.keys(CAT_CHECKS).map((k) => {
+        const v = r.c ? r.c[k] : null;
+        if (v !== null && v !== undefined) { a += v * c.cw[k]; b += c.cw[k]; }
+        return "<tr><td>" + esc(t("m_" + CAT_LABEL[k])) + '</td><td class="num">' + fmt(v) + '</td><td class="num">' + Math.round(100 * c.cw[k]) + ' %</td><td class="num">' +
+          (v === null || v === undefined ? "–" : (v * c.cw[k]).toFixed(1)) + "</td><td>" + chip(lightOf(v), " ", v === null || v === undefined ? null : ["r", level, id, idx, "cat", k].join("|")) + "</td></tr>";
+      }).join("");
+      html += head(r.h + " · " + t("m_tm"), r.o) + '<p class="sub">' + esc(t("f_res_overall")) + "</p>" + thresholdsNote() +
+        (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + " · " + esc(t("ko_note")) + "</p>" : "") +
+        '<table><thead><tr><th></th><th class="num">' + esc(t("rating")) + '</th><th class="num">' + esc(t("weight")) + '</th><th class="num">' + esc(t("contribution")) +
+        "</th><th></th></tr></thead><tbody>" + rows + '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + Math.round(100 * b) + ' %</td><td class="num"><b>' +
+        (b ? (a / b).toFixed(1) : "–") + "</b></td><td></td></tr></tbody></table>";
+    } else {
+      let a = 0, b = 0;
+      const rows = CAT_CHECKS[arg].map((cid) => {
+        const x = (r.chk || []).find((y) => y[0] === cid) || [cid, "n/a", "", "", ""];
+        const w = c.w[cid] ?? 1;
+        const pt = PTS[x[1]];
+        if (pt !== undefined) { a += w * pt; b += w; }
+        return "<tr><td>" + esc(t(cid)) + '<span class="src">' + esc(String(x[2] ?? "")) + "</span></td><td>" + stTag(x[1]) + '</td><td class="num">' + w +
+          '</td><td class="num">' + (pt === undefined ? "–" : pt) + '</td><td class="num">' + (pt === undefined ? "–" : (w * pt).toFixed(1)) + "</td></tr>";
+      }).join("");
+      html += head(r.h + " · " + t("m_" + CAT_LABEL[arg]), r.c ? r.c[arg] : null) + '<p class="sub">' + esc(t("f_res_cat")) + "</p>" + thresholdsNote() +
+        '<table><thead><tr><th>' + esc(t("check_col")) + "</th><th></th><th class=\"num\">" + esc(t("weight")) + '</th><th class="num">' + esc(t("points")) +
+        '</th><th class="num">' + esc(t("contribution")) + "</th></tr></thead><tbody>" + rows + '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + b +
+        '</td><td></td><td class="num"><b>' + a.toFixed(1) + "</b></td></tr></tbody></table>" +
+        '<p class="sub">' + a.toFixed(1) + " ÷ " + b + " × 100 = <b>" + (b ? Math.round(100 * a / b) : "–") + "</b></p>";
+    }
+    document.getElementById("panel").innerHTML = html;
+  }
+
+  function explainSector(key, pname, col) {
+    const d = (state.data.sectors || {})[key];
+    const part = d && d[pname];
+    if (!part || part.suppressed) return;
+    const c = cfg();
+    const isB = key.startsWith("@");
+    const lvl = { "@Kantone": "canton", "@Gemeinden": "municipality", "@Bund": "federal" }[key];
+    const title = (isB ? t({ "@Kantone": "bench_canton", "@Gemeinden": "bench_municipality", "@Bund": "bench_federal" }[key]) : key) +
+      " · " + t(pname === "krit" ? "m_krit" : pname === "other" ? "m_other" : "m_all");
+    let html = '<button class="close" data-close>✕</button>';
+    let value, note, getv;
+    if (col === "o") { value = part.o; note = t("f_ent_overall").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => e.tm && e.tm.o; }
+    else if (col.startsWith("cat:")) { const k = col.slice(4); value = part.c ? part.c[k] : null; note = t("f_ent_cat").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => (e.tm && e.tm.c ? e.tm.c[k] : null); }
+    else { const k = col.slice(4); const x = (part.k || {})[k]; value = share(x); note = t("f_chk"); getv = (e) => share(e.tm && e.tm.k ? e.tm.k[k] : null);
+      if (x) note += " " + t("status_pass") + " " + x.pass + " · " + t("status_partial") + " " + x.partial + " · " + t("status_fail") + " " + x.fail; }
+    const colLabel = col === "o" ? t("m_tm") : col.startsWith("cat:") ? t("m_" + CAT_LABEL[col.slice(4)]) : t(col.slice(4));
+    html += head(title + " · " + colLabel, value) + '<p class="sub">' + esc(note) + "</p>" + thresholdsNote() +
+      '<p class="src">n = ' + part.n + (part.d ? " · " + (part.d.green || 0) + " " + esc(t("light_green")) + " · " + (part.d.yellow || 0) + " " + esc(t("light_yellow")) +
+      " · " + (part.d.red || 0) + " " + esc(t("light_red")) : "") + "</p>";
+    const ents = isB ? Object.entries(state.data.entities[lvl] || {}) : Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key);
+    const elvl = isB ? lvl : "organisation";
+    const rows = ents.map(([id, e]) => [id, e, getv(e)]).filter(([, , v]) => v !== null && v !== undefined).sort((a, b) => a[2] - b[2])
+      .map(([id, e, v]) => '<tr class="click" data-sel="' + elvl + ":" + id + '"><td>' + esc(e.n) + '</td><td class="num">' + v + "</td><td>" + chip(lightOf(v), " ") + "</td></tr>").join("");
+    html += "<h3>" + esc(isB ? t("units") : t("sector_list")) + "</h3>" + (rows ? "<table><tbody>" + rows + "</tbody></table>" : "") +
+      (!isB && d.orgs > ents.length ? '<p class="note">' + esc(t("agg_note").replace("{n}", d.orgs - ents.length)) + "</p>" : "");
+    document.getElementById("panel").innerHTML = html;
   }
 
   /* ---- sector matrix ------------------------------------------------------- */
@@ -206,19 +356,21 @@
     "sov.ca": "CA", "sov.dns": "DNS", "sov.hosting": "Host", "sov.tld": "TLD", "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "prv.ech": "ECH" };
   const CATS = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
   function share(k) { return k && k.assessed ? Math.round(100 * (k.pass + 0.5 * k.partial) / k.assessed) : null; }
-  function cell(v, title) {
+  function cell(v, title, explain) {
     if (v === null || v === undefined) return '<td class="cell sup">–</td>';
     const l = lightOf(v);
     const col = css(LIGHT_COLORS[l]);
-    return '<td class="cell" title="' + esc(title || "") + '" style="background:' + col + "22;box-shadow:inset 3px 0 " + col + '">' + v + "</td>";
+    return '<td class="cell click" data-explain="' + esc(explain || "") + '" title="' + esc((title || "") + " · " + t("how")) +
+      '" style="background:' + col + "22;box-shadow:inset 3px 0 " + col + '">' + v + "</td>";
   }
-  function matrixRow(cls, label, part, key) {
+  function matrixRow(cls, label, part, key, pname) {
     if (!part) return "";
     if (part.suppressed) return '<tr class="' + cls + '" data-sector="' + esc(key) + '"><td class="name">' + label + '</td><td class="sup" colspan="' +
       (5 + CHECK_IDS.length) + '">' + esc(t("suppressed")) + " (n = " + part.n + ")</td></tr>";
-    return '<tr class="' + cls + ' click" data-sector="' + esc(key) + '"><td class="name">' + label + '<span class="src">n = ' + part.n + "</span></td>" +
-      cell(part.o, t("m_tm")) + CATS.map(([c, m]) => cell(part.c ? part.c[c] : null, t("m_" + m))).join("") +
-      CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id))).join("") + "</tr>";
+    const ex = (col) => ["s", key, pname, col].join("|");
+    return '<tr class="' + cls + '"><td class="name click" data-sector="' + esc(key) + '">' + label + '<span class="src">n = ' + part.n + "</span></td>" +
+      cell(part.o, t("m_tm"), ex("o")) + CATS.map(([c, m]) => cell(part.c ? part.c[c] : null, t("m_" + m), ex("cat:" + c))).join("") +
+      CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id), ex("chk:" + id))).join("") + "</tr>";
   }
   function renderMatrix() {
     const sec = state.data.sectors || {};
@@ -230,11 +382,11 @@
       const d = sec[k];
       const isB = k.startsWith("@");
       const label = isB ? esc(t(benchLabel[k])) : esc(k) + '<span class="src">' + d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</span>";
-      rows += matrixRow("sec" + (isB ? " bench" : ""), label, d.all, k);
-      rows += matrixRow("sub", esc(t("m_krit")), d.krit, k) + matrixRow("sub", esc(t("m_other")), d.other, k);
+      rows += matrixRow("sec" + (isB ? " bench" : ""), label, d.all, k, "all");
+      rows += matrixRow("sub", esc(t("m_krit")), d.krit, k, "krit") + matrixRow("sub", esc(t("m_other")), d.other, k, "other");
     }
     const CS = { tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" };
-    const head = "<th></th><th>TM</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(t(CS[m])) + "</th>").join("") +
+    const head = "<th></th><th>TP</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(t(CS[m])) + "</th>").join("") +
       CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + " · " + esc(t("source_col")) + ": " + esc((SRC[id] || []).join(", ")) + '">' + CHECK_SHORT[id] + "</th>").join("");
     document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + "</p>" +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
@@ -303,7 +455,7 @@
       (level === "organisation" ? '<p class="sub">' + esc(t("sector")) + ": " + esc(e.sec || "–") + (e.sub ? " · " + esc(e.sub) : "") +
         "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + esc(e.uid) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
-      tmSection(e) + stackSection(e) +
+      tmSection(e, level, id) + stackSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
         esc(t("res_show")) + " (" + e.tm.n + ")</button></p>" : "") +
       "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
@@ -344,26 +496,32 @@
   const src = (k) => (SRC[k] || []).map((x) => SRCL[x]()).join(", ");
   const srcSpan = (k) => (SRC[k] ? '<span class="src">' + esc(t("source_col")) + ": " + src(k) + "</span>" : "");
 
-  function chip(l, text) {
+  function chip(l, text, explain) {
     const col = l === "none" ? css("--nodata") : css(LIGHT_COLORS[l]);
-    return '<span class="chip"><i style="background:' + col + '"></i>' + esc(text || t(l === "none" ? "not_assessed" : "light_" + l)) + "</span>";
+    const inner = '<i style="background:' + col + '"></i>' + esc(text || t(l === "none" ? "not_assessed" : "light_" + l));
+    return explain ? '<button class="chip clickable" title="' + esc(t("how")) + '" data-explain="' + esc(explain) + '">' + inner + " ⓘ</button>"
+                   : '<span class="chip">' + inner + "</span>";
   }
-  function tmSection(e) {
+  function tmSection(e, level, id) {
     const tm = e.tm || {};
     if (tm.o === undefined || tm.o === null) return "";
     const cats = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
     const rows = cats.map(([c, m]) => {
       const v = tm.c ? tm.c[c] : null;
-      return '<div class="cat"><span>' + esc(t("m_" + m)) + srcSpan(m) + '</span><span class="num">' + fmt(v) + "</span>" + chip(lightOf(v)) + "</div>";
+      return '<div class="cat"><span>' + esc(t("m_" + m)) + srcSpan(m) + '</span><span class="num">' + fmt(v) + "</span>" +
+        chip(lightOf(v), null, v === null || v === undefined ? null : ["e", level, id, "cat", c].join("|")) + "</div>";
     }).join("");
-    const checks = Object.entries(tm.k || {}).map(([id, c]) =>
-      "<tr><td>" + esc(t(id)) + '</td><td class="num">' + Math.round(100 * (c.pass + 0.5 * c.partial) / c.assessed) + ' %</td><td class="num">' + c.assessed +
-      '</td><td class="srccell">' + src(id) + "</td></tr>").join("");
-    return "<h3>" + esc(t("trustmark")) + '</h3><div class="tmhead"><span class="v">' + fmt(tm.o) + "</span>" + chip(lightOf(tm.o)) +
+    const checks = Object.entries(tm.k || {}).map(([cid, c]) => {
+      const sh = Math.round(100 * (c.pass + 0.5 * c.partial) / c.assessed);
+      return '<tr class="click" data-explain="' + ["e", level, id, "chk", cid].join("|") + '"><td>' + esc(t(cid)) + '</td><td class="num">' + sh +
+        ' %</td><td>' + chip(lightOf(sh), " ") + '</td><td class="num">' + c.assessed + '</td><td class="srccell">' + src(cid) + "</td></tr>";
+    }).join("");
+    return "<h3>" + esc(t("posture")) + '</h3><div class="tmhead"><span class="v">' + fmt(tm.o) + "</span>" + chip(lightOf(tm.o), null, ["e", level, id, "overall"].join("|")) +
       (tm.el ? chip("green", t("eligible")) : "") + '</div><p class="sub">' + (tm.n || 0) + " " + esc(t("resources")) +
       (tm.ko ? " · " + tm.ko + " " + esc(t("knockouts")) : "") + "</p>" + rows +
+      '<p class="src">' + esc(t("click_light")) + "</p>" +
       '<table style="margin-top:8px"><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("pass_col")) +
-      '</th><th class="num">n</th><th>' + esc(t("source_col")) + '</th></tr></thead><tbody>' + checks + "</tbody></table>";
+      '</th><th></th><th class="num">n</th><th>' + esc(t("source_col")) + '</th></tr></thead><tbody>' + checks + "</tbody></table>";
   }
   function stackSection(e) {
     const st = e.stack;
@@ -419,7 +577,7 @@
         '</td><td class="num">' + fmt(r.o) + "</td><td>" + chip(lightOf(r.o), " ") + "</td></tr>").join("");
       panel.innerHTML = '<button class="close" data-sel="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
         "<h2>" + esc(e.n) + '</h2><p class="sub">' + esc(t("res_title")) + ": " + list.length + "</p>" +
-        '<table><thead><tr><th>Hostname</th><th class="num">TM</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>";
+        '<table><thead><tr><th>Hostname</th><th class="num">TP</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>";
     });
   }
   function resourceDetail(level, id, idx) {
@@ -442,9 +600,12 @@
     panel.innerHTML = '<button class="close" data-res="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
       "<h2>" + esc(r.h) + '</h2><p class="sub">' + esc(e.n) + (r.crit ? " · " + esc(t("crit_tag")) : "") + "</p>" +
       (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + "</p>" : "") +
-      '<div class="tmhead"><span class="v">' + fmt(r.o) + "</span>" + chip(lightOf(r.o)) + "</div>" +
-      [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]].map(([k, m]) =>
-        '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(r.c ? r.c[k] : null) + "</span>" + chip(lightOf(r.c ? r.c[k] : null)) + "</div>").join("") +
+      '<div class="tmhead"><span class="v">' + fmt(r.o) + "</span>" + chip(lightOf(r.o), null, ["r", level, id, idx, "overall"].join("|")) + "</div>" +
+      [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]].map(([k, m]) => {
+        const v = r.c ? r.c[k] : null;
+        return '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(v) + "</span>" +
+          chip(lightOf(v), null, v === null || v === undefined ? null : ["r", level, id, idx, "cat", k].join("|")) + "</div>";
+      }).join("") +
       "<h3>" + esc(t("checks")) + '</h3><table class="checks-t"><thead><tr><th>' + esc(t("check_col")) + "</th><th>" + esc(t("value_col")) +
       "</th><th>" + esc(t("verify_at")) + "</th></tr></thead><tbody>" + chk + "</tbody></table>" +
       "<h3>" + esc(t("cert")) + '</h3><p class="sub">' + esc(c.val) + " · " + esc(c.org) + " · " + esc(c.iss) + " · " + esc((c.exp || "").slice(0, 10)) +
@@ -476,7 +637,7 @@
     panel.innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("overview_text")) + "</p>" +
       "<h3>" + esc(t("national")) + ' · ' + esc(t(lvlForStats === "canton" ? "level_canton" : "level_municipality")) + "</h3>" +
       '<p class="sub">' + esc(t("total_hosts")) + ": <b>" + hosts + "</b></p>" + zoneBar(zsum) +
-      (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("tm", "TM", 1) + th("s", t("s_short"), 1) +
+      (cantons.length ? "<h3>" + esc(t("ranking")) + "</h3><table><thead><tr>" + th("n", t("rank_name")) + th("tm", "TP", 1) + th("s", t("s_short"), 1) +
         th("a", t("a_short"), 1) + th("h", t("h_short"), 1) + "</tr></thead><tbody>" + rows + "</tbody></table>" : "");
   }
 
@@ -501,6 +662,8 @@
       applyI18n(); legend(); refreshPanel(); if (state.data) fillSectors(); if (state.level === "sector") renderMatrix(); return; }
     const lvl = ev.target.closest("[data-level]");
     if (lvl) { state.level = lvl.dataset.level; applyI18n(); draw(); refreshPanel(); fillSearch(); return; }
+    const exb = ev.target.closest("[data-explain]");
+    if (exb && exb.dataset.explain) { explain(exb.dataset.explain); return; }
     if (ev.target.closest("[data-close]")) { select(null, null); return; }
     const res = ev.target.closest("[data-res]");
     if (res) { const [l, i] = res.dataset.res.split(":"); resourceList(l, i); return; }

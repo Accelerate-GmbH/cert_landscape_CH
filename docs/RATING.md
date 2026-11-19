@@ -1,13 +1,13 @@
-# TrustMark CH rating – proposal v0.1 (draft for discussion)
+# Trust Posture rating – proposal v0.1 (draft for discussion)
 
-This document proposes how the TrustMark CH checks are combined into a
-rating. It implements the four check categories of the TrustMark CH concept
+This document proposes how the Trust Posture checks are combined into a
+rating. It implements the four check categories of the Trust Posture concept
 (V 0.3, August 2026) and the requirements stated there: checks are automated,
 run by a party external to the checked resource, combine into a weighted
 compound score, and every check execution is logged.
 
 All weights and thresholds below are parameters in `config/settings.toml`
-(`[trustmark]`). They are proposals for the body that will own the standard
+(`[trust_posture]`). They are proposals for the body that will own the standard
 to confirm or change.
 
 ## 1. What is rated
@@ -108,7 +108,7 @@ resources counting **three times**. The rating also reports, per check, how
 many resources passed, partly passed and failed, the distribution of green,
 yellow and red resources, and the number of knock-outs.
 
-**TrustMark eligible** (proposal for the later signal): no knock-out and all
+**Trust Posture eligible** (proposal for the later signal): no knock-out and all
 four categories green.
 
 ## 5. Sectors and critical services

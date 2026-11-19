@@ -7,7 +7,7 @@ import threading
 
 import pytest
 
-from tlsmap import probe, trustmark
+from tlsmap import posture, probe
 from tlsmap.config import load_settings
 
 PQ = probe.pq_method() == "python"
@@ -60,7 +60,7 @@ def test_untrusted_certificate_is_read_and_flagged(certfile):
     ep = _endpoint(_serve(certfile))
     assert ep["ok"] and ep["valid"] is False and ep["cert"]["subject_cn"] == "localhost"
     assert ep["tls_version"] == "TLSv1.3"
-    assert trustmark.knockout({"endpoints": [ep]}).startswith("invalid certificate")
+    assert posture.knockout({"endpoints": [ep]}).startswith("invalid certificate")
 
 
 def test_tls12_only(certfile):
@@ -80,13 +80,13 @@ def test_post_quantum_preference(certfile, groups, expected):
 
 
 def test_resource_rating_from_endpoints():
-    cfg = load_settings().raw["trustmark"]
+    cfg = load_settings().raw["trust_posture"]
     ep = {"ok": True, "valid": True, "tls_version": "TLSv1.3", "pq": "enabled", "scts": ["a", "b"],
           "cert": {"validation": "OV"}, "revocation": {"status": "good", "method": "ocsp"}}
     r = {"endpoints": [ep], "dnssec": True, "caa_found_at": "zg.ch", "caa_issue": ["swisssign.com"],
          "root_zone": "ch", "root_owner": "SwissSign AG", "root_country": "CH", "hosting_zones": ["ch"],
          "tld": "ch", "ech": "none"}
-    res = trustmark.evaluate(r, {"ns_zones": ["ch"], "ns_providers": ["Swisscom (CH)"]}, cfg)
-    sc = trustmark.score(res, cfg)
+    res = posture.evaluate(r, {"ns_zones": ["ch"], "ns_providers": ["Swisscom (CH)"]}, cfg)
+    sc = posture.score(res, cfg)
     assert sc["categories"] == {"ownership": 100, "sovereignty": 100, "security": 75, "privacy": 0}
     assert sc["overall"] == 79  # the worked example in docs/RATING.md

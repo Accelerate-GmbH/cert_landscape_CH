@@ -15,7 +15,7 @@ HOST_COLUMNS = [
     "days_left", "key_type", "key_bits", "signature_hash", "subject_org", "platform", "cnames", "ip",
     "asn", "as_name", "net_country", "ips", "hosting_as", "tld", "dnssec", "caa_found_at", "caa_issue", "ech",
     "root_name", "root_owner", "root_country", "root_zone", "endpoints_consistent",
-    "tm_overall", "tm_ownership", "tm_sovereignty", "tm_security", "tm_privacy", "tm_knockout", "other_issuers", "valid_cert_count", "source", "cert_id",
+    "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy", "posture_knockout", "other_issuers", "valid_cert_count", "source", "cert_id",
     "cert_sha256", "probe_ok", "probe_verified", "probe_tls_version", "served_issuer_org",
     "served_matches_ct", "probe_error",
 ]
@@ -26,8 +26,8 @@ ENTITY_COLUMNS = [
     "critical_assurance_score", "share_ch", "share_eea", "share_third", "share_unknown",
     "DV", "OV", "IV", "EV", "unknown_validation", "top_ca", "top_ca_share", "automated_share",
     "expiring_soon", "weak_crypto", "crypto_coverage", "multi_ca_hosts", "caa", "checks_passed",
-    "checks_failed", "tm_overall", "tm_ownership", "tm_sovereignty", "tm_security", "tm_privacy",
-    "tm_light", "tm_eligible", "tm_resources", "tm_knockouts", "dnssec_signed", "dns_providers",
+    "checks_failed", "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy",
+    "posture_light", "posture_eligible", "posture_resources", "posture_knockouts", "dnssec_signed", "dns_providers",
     "ct_source", "ct_newest_entry",
 ]
 
@@ -66,7 +66,7 @@ def resource_entry(r: dict) -> dict:
     tm = r.get("tm") or {}
     return {
         "h": r["hostname"], "crit": r.get("critical", False), "o": tm.get("overall"), "c": tm.get("categories"),
-        "ko": r.get("tm_knockout", ""),
+        "ko": r.get("posture_knockout", ""),
         "cert": {"src": r.get("source", ""), "id": r.get("cert_id", ""), "sha": r.get("cert_sha256") or "",
                  "iss": r.get("issuer_cn", ""), "org": r.get("issuer_org", ""), "val": r.get("validation", ""),
                  "basis": r.get("validation_basis", ""), "exp": r.get("not_after", "")},
@@ -81,21 +81,21 @@ def host_row(r: dict) -> dict:
     tm = r.get("tm") or {}
     cats = tm.get("categories") or {}
     row = {k: r.get(k) for k in HOST_COLUMNS}
-    row.update({"tm_overall": tm.get("overall"), "tm_knockout": r.get("tm_knockout", ""),
-                **{f"tm_{c}": cats.get(c) for c in ("ownership", "sovereignty", "security", "privacy")}})
+    row.update({"posture_overall": tm.get("overall"), "posture_knockout": r.get("posture_knockout", ""),
+                **{f"posture_{c}": cats.get(c) for c in ("ownership", "sovereignty", "security", "privacy")}})
     return row
 
 
 def entity_row(e: dict) -> dict:
     caa_txt = "; ".join(f"{d}: {', '.join(c.get('issue') or []) or 'none'}" for d, c in e.get("caa", {}).items())
     disc = e.get("discovery", [])
-    tm = e.get("trustmark") or {}
+    tm = e.get("posture") or {}
     cats = tm.get("categories") or {}
     zone = e.get("zone") or {}
     return {
-        "tm_overall": tm.get("overall"), **{f"tm_{c}": cats.get(c) for c in ("ownership", "sovereignty", "security", "privacy")},
-        "tm_light": (tm.get("lights") or {}).get("overall", ""), "tm_eligible": tm.get("eligible", False),
-        "tm_resources": tm.get("resources", 0), "tm_knockouts": tm.get("knockouts", 0),
+        "posture_overall": tm.get("overall"), **{f"posture_{c}": cats.get(c) for c in ("ownership", "sovereignty", "security", "privacy")},
+        "posture_light": (tm.get("lights") or {}).get("overall", ""), "posture_eligible": tm.get("eligible", False),
+        "posture_resources": tm.get("resources", 0), "posture_knockouts": tm.get("knockouts", 0),
         "dnssec_signed": "; ".join(f"{d}: {'yes' if z.get('dnssec_signed') else 'no'}" for d, z in zone.items()),
         "dns_providers": "; ".join(sorted({f"{p['as_name']} ({p['country']})" for z in zone.values() for p in z.get("providers", [])})),
         "key": e["key"], "kind": e["kind"], "id": e["id"], "name": e["name"], "code": e.get("code", ""),
@@ -177,9 +177,9 @@ def _bfs_lookup() -> dict:
 
 def sector_json(result: dict) -> dict:
     """Sector matrix: per sector, critical and other resources, with administrations as benchmark."""
-    from . import trustmark
+    from . import posture
     from .config import load_settings
-    cfg = result.get("tm_cfg") or load_settings().raw["trustmark"]
+    cfg = result.get("tm_cfg") or load_settings().raw["trust_posture"]
     vis = {e["key"]: e for e in result["entities"]}
     groups: dict[tuple, list] = {}
     for r in result["hostnames"]:
@@ -195,7 +195,7 @@ def sector_json(result: dict) -> dict:
         groups.setdefault((sec, "krit" if r["critical"] else "other"), []).append(r)
     sectors: dict[str, dict] = {}
     for (sec, part), rows in groups.items():
-        agg = trustmark.aggregate(rows, {**cfg, "critical_resource_weight": 1})
+        agg = posture.aggregate(rows, {**cfg, "critical_resource_weight": 1})
         d = sectors.setdefault(sec, {"orgs": set(), "hosts": 0, "subs": {}})
         d[part] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
                    "d": agg["distribution"], "ko": agg["knockouts"]}
@@ -207,7 +207,7 @@ def sector_json(result: dict) -> dict:
                 d["subs"][sub] = d["subs"].get(sub, 0) + 1
     for sec, d in sectors.items():
         rows = [r for (s2, _), rs in groups.items() if s2 == sec for r in rs]
-        agg = trustmark.aggregate(rows, cfg)
+        agg = posture.aggregate(rows, cfg)
         d["all"] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
                     "d": agg["distribution"], "ko": agg["knockouts"]}
         d["orgs"] = len(d["orgs"])
@@ -248,7 +248,7 @@ def map_json(result: dict, meta: dict) -> dict:
             "chk": checks,
             "gp": round(100 * sum(1 for s in applicable if s == "pass") / len(applicable)) if applicable else None,
             "auto": e["automated_share"], "plat": e["platforms"], "net": e["network_countries"],
-            "tm": _tm_compact(e.get("trustmark") or {}),
+            "tm": _tm_compact(e.get("posture") or {}),
             "stack": _stack(e),
         }
         if e["kind"] == "organisation":
@@ -353,6 +353,9 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
     p = out_dir / "map.json"
     mj = map_json(result, run_meta)
     mj["sectors"] = sector_json(sectors_from)
+    c = result.get("tm_cfg") or {}
+    mj["cfg"] = {k: c.get(k) for k in ("category_weights", "checks", "points", "green", "yellow",
+                                         "critical_resource_weight", "min_orgs_per_sector")}
     p.write_text(json.dumps(mj, ensure_ascii=False, separators=(",", ":")))
     paths["webmap"] = p
 

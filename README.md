@@ -13,9 +13,9 @@ today, checks the hostname in DNS, and attributes every certificate to the
 company that controls the issuing CA. All rules and weights are in
 `config/` and documented in [METHOD.md](METHOD.md).
 
-## TrustMark CH checks
+## Trust Posture checks
 
-The pipeline runs the checks of the TrustMark CH concept for every hostname
+The pipeline runs the checks of the Trust Posture concept for every hostname
 in use, against every address (A and AAAA) with SNI:
 
 | Category | Checks |
@@ -109,7 +109,7 @@ Each run writes `output/<date>/` and copies it to `output/latest/`:
 |---|---|
 | `entities.csv` | one row per canton / municipality with scores and checks |
 | `hostnames.csv` | one row per hostname: certificate, CA, owner, DNS, platform |
-| `results.json` | everything above plus CAA records, zones, TrustMark ratings |
+| `results.json` | everything above plus CAA records, zones, Trust Posture ratings |
 | `endpoints.csv` | one row per address probed: TLS version, group, PQ, certificate, SCTs, revocation |
 | `checks.jsonl` | log of every check execution: time, resource, check, result, method, evidence |
 | `export.xlsx` | the same as a workbook, including the CA registry and run metadata |

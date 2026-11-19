@@ -1,4 +1,4 @@
-"""TrustMark CH rating (draft v0.1, documented in docs/RATING.md).
+"""Trust Posture rating (draft v0.1, documented in docs/RATING.md).
 
 A *resource* is a hostname in use (it resolves in public DNS). Each resource
 gets twelve checks in four categories; check results become category scores,
@@ -173,7 +173,7 @@ def aggregate(resources: list[dict], cfg: dict) -> dict:
     dist = {"green": 0, "yellow": 0, "red": 0, "none": 0}
     for r in resources:
         dist[light(r["tm"]["overall"], cfg)] += 1
-    kos = sum(1 for r in resources if r.get("tm_knockout"))
+    kos = sum(1 for r in resources if r.get("posture_knockout"))
     lights = {c: light(cats[c], cfg) for c in CATEGORIES}
     lights["overall"] = light(overall, cfg)
     eligible = kos == 0 and all(lights[c] == "green" for c in CATEGORIES)

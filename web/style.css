@@ -134,3 +134,8 @@ td.ev { overflow-wrap: anywhere; }
 .orgicon { display: flex; align-items: center; justify-content: center; }
 .orgicon svg { overflow: visible; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
 #matrix td.name { min-width: 190px; }
+button.chip.clickable { font: inherit; font-size: 12px; cursor: pointer; background: var(--surface-1); }
+button.chip.clickable:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+td.cell.click { cursor: pointer; }
+td.cell.click:hover { outline: 2px solid var(--text-secondary); outline-offset: -2px; }
+td.name.click { cursor: pointer; }
