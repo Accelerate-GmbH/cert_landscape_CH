@@ -1,4 +1,4 @@
-/* Swiss certificate landscape: choropleth of cantons and municipalities. */
+/* Trust Posture Switzerland: map and tables for cantons, municipalities, federal administration and critical services. */
 (function () {
   "use strict";
 

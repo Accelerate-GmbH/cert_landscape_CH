@@ -1,7 +1,10 @@
-# cert_landscape_CH
+# Trust Posture Switzerland (cert_landscape_CH)
 
-Which certificate authorities do Swiss public administrations depend on, and
-how well are their online services protected?
+How well are the online services of the federal administration, cantons,
+municipalities and critical infrastructure protected, and who controls them?
+The project started as a map of the certificate landscape; it now rates
+each service with twelve checks on ownership, sovereignty, security and
+privacy (Trust Posture).
 
 **Map: https://accelerate-gmbh.github.io/cert_landscape_CH/** (German, French,
 Italian, English)
