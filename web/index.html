@@ -42,8 +42,10 @@
       <label><input type="checkbox" id="showorgs" checked> <span data-i18n="orgs_layer"></span></label>
       <select id="sectorfilter" aria-label="sector"><option value="" data-i18n="all_sectors"></option></select>
     </div>
-    <input id="search" type="search" list="names" autocomplete="off" data-i18n-ph="search">
-    <datalist id="names"></datalist>
+    <div class="searchwrap">
+      <input id="search" type="search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false" data-i18n-ph="search">
+      <ul id="suggest" role="listbox" hidden></ul>
+    </div>
   </div>
 
   <main>

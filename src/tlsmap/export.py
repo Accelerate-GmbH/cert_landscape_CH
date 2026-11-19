@@ -392,6 +392,19 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
         (rdir / (key.replace(":", "-") + ".json")).write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")))
     paths["resources"] = rdir
 
+    # Search index for the map: hostnames of administrations, grouped by
+    # entity. Organisations are left out unless public (aggregate-only rows
+    # must not be findable by hostname).
+    public_orgs = {e["key"] for e in result["entities"] if e["kind"] == "organisation" and is_public(e)}
+    idx: dict[str, list] = {}
+    for key, items in by_entity.items():
+        if key.startswith("organisation:") and key not in public_orgs:
+            continue
+        idx[key] = sorted({x["h"] for x in items})
+    p = out_dir / "search.json"
+    p.write_text(json.dumps({"v": 1, "h": idx}, ensure_ascii=False, separators=(",", ":")))
+    paths["search"] = p
+
     p = out_dir / "run.json"
     p.write_text(json.dumps(run_meta, ensure_ascii=False, indent=1))
     paths["run"] = p

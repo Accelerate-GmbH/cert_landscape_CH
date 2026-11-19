@@ -178,6 +178,69 @@
     if (state.lakes) state.lakes.bringToFront();
     legend();
     drawOrgs();
+    drawFederal();
+  }
+
+  /* ---- federal administration: no area of its own, shown as a box ------- */
+  const fedBox = L.control({ position: "topright" });
+  fedBox.onAdd = () => { const d = L.DomUtil.create("div", "fedbox"); L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d; };
+  fedBox.addTo(map);
+  function drawFederal() {
+    const el = document.querySelector(".fedbox");
+    const fed = Object.entries((state.data && state.data.entities.federal) || {});
+    el.hidden = !fed.length;
+    if (!fed.length) return;
+    let sw = 0, sv = 0;
+    fed.forEach(([, e]) => { const v = value(e); const w = (e.tm && e.tm.n) || e.h || 1; if (v !== null) { sw += w; sv += w * v; } });
+    const total = sw ? Math.round(sv / sw) : null;
+    const show = (v) => (isTM(state.metric) ? fmt(v) : valueText({ [state.metric]: v }) || fmt(v));
+    const lightChip = (v) => (isTM(state.metric) ? chip(lightOf(v), " ") : "");
+    el.innerHTML = '<button class="fedhead" data-fedtoggle aria-expanded="' + !!state.fedOpen + '"><span class="ft">' + esc(t("fed_title")) + "</span>" +
+      '<span class="num">' + (total === null ? "–" : (isTM(state.metric) ? total : fmt(total))) + "</span>" + lightChip(total) + '<span class="caret">' + (state.fedOpen ? "▴" : "▾") + "</span></button>" +
+      (state.fedOpen ? '<div class="fedlist"><p class="src">' + esc(t("fed_note")) + "</p>" + fed.sort((a, b) => (value(b[1]) ?? -1) - (value(a[1]) ?? -1)).map(([id, e]) =>
+        '<button class="fedrow" data-sel="federal:' + esc(id) + '" title="' + esc(e.n) + '"><span>' + esc(e.c || e.n) + '</span><span class="num">' +
+        esc(value(e) === null ? "–" : String(isTM(state.metric) ? value(e) : valueText(e))) + "</span>" + lightChip(value(e)) + "</button>").join("") + "</div>" : "");
+  }
+
+  /* ---- search with suggestions ----------------------------------------- */
+  let hostIndex = null, hostIndexLoading = null;
+  function loadHostIndex() {
+    if (hostIndex || hostIndexLoading) return hostIndexLoading;
+    const url = DATA_URL.replace(/map\.json(\?.*)?$/, "search.json");
+    hostIndexLoading = fetch(url).then((r) => (r.ok ? r.json() : { h: {} })).catch(() => ({ h: {} })).then((j) => {
+      hostIndex = [];
+      for (const [key, hosts] of Object.entries(j.h || {})) hosts.forEach((h) => hostIndex.push([h, key]));
+      return hostIndex;
+    });
+    return hostIndexLoading;
+  }
+  const KIND_LABEL = { canton: "t_canton", municipality: "t_municipality", federal: "t_federal", organisation: "t_organisation" };
+  function entityByKey(key) { const [l, ...rest] = key.split(":"); const id = rest.join(":"); return [l, id, ((state.data.entities[l] || {})[id])]; }
+  function suggestions(q) {
+    q = q.trim().toLowerCase();
+    if (q.length < 2 || !state.data) return [];
+    const out = [];
+    const score = (text) => { const i = text.toLowerCase().indexOf(q); return i < 0 ? -1 : (i === 0 ? 0 : (text[i - 1] === "." || text[i - 1] === " " ? 1 : 2)); };
+    for (const lvl of ["canton", "federal", "municipality", "organisation"]) {
+      for (const [id, e] of Object.entries(state.data.entities[lvl] || {})) {
+        const sc = Math.min(...[score(e.n), e.c ? score(e.c) : -1].filter((x) => x >= 0).concat([99]));
+        if (sc < 99) out.push({ kind: "entity", lvl, id, label: e.n, sub: t(KIND_LABEL[lvl]) + (lvl === "federal" && e.c ? " · " + e.c : ""), rank: sc * 10 });
+        if (lvl === "organisation") continue;
+        (e.d || []).forEach((d) => {
+          const s2 = score(d);
+          if (s2 >= 0) out.push({ kind: "domain", lvl, id, label: d, sub: t("t_domain") + " · " + e.n, rank: s2 * 10 + 1 });
+          else if (q.endsWith("." + d.toLowerCase())) out.push({ kind: "domain", lvl, id, label: d, sub: t("t_domain") + " · " + e.n, rank: 25 });
+        });
+      }
+    }
+    (hostIndex || []).forEach(([h, key]) => {
+      const s2 = score(h); if (s2 < 0) return;
+      const [l, id, e] = entityByKey(key);
+      if (e) out.push({ kind: "host", lvl: l, id, label: h, sub: t("t_host") + " · " + e.n, rank: s2 * 10 + 2 });
+    });
+    const seen = new Set();
+    return out.sort((a, b) => a.rank - b.rank || a.label.length - b.label.length || a.label.localeCompare(b.label))
+      .filter((x) => { const k = x.kind + x.lvl + x.id + x.label; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 12);
   }
 
   /* ---- organisations: grouped per canton (zoomed out) or place ---------- */
@@ -875,6 +938,8 @@
     if (vw) { state.view = vw.dataset.view; try { localStorage.setItem("view", state.view); } catch (e) { /* ignore */ }
       try { const u = new URL(location.href); u.searchParams.set("view", state.view); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
       applyI18n(); draw(); if (state.help) helpPanel(state.help); else refreshPanel(); return; }
+    const ft = ev.target.closest("[data-fedtoggle]");
+    if (ft) { state.fedOpen = !state.fedOpen; drawFederal(); return; }
     const hp = ev.target.closest("[data-help]");
     if (hp) { helpPanel(hp.dataset.help); return; }
     const lvl = ev.target.closest("[data-level]");
@@ -911,36 +976,54 @@
     sel.hidden = !hasOrgs && !secs.size;
   }
   const search = document.getElementById("search");
-  function fillSearch() {
-    const dl = document.getElementById("names");
-    const opts = [];
-    for (const lvl of ["canton", "municipality", "organisation"]) {
-      for (const [id, e] of Object.entries((state.data && state.data.entities[lvl]) || {})) opts.push(e.n);
-    }
-    dl.innerHTML = opts.sort().map((n) => '<option value="' + esc(n) + '">').join("");
+  const sugBox = document.getElementById("suggest");
+  let sugItems = [], sugPos = -1;
+  function fillSearch() { /* suggestions are built while typing */ }
+  function renderSuggest() {
+    if (!search.value.trim() || search.value.trim().length < 2) { sugBox.hidden = true; search.setAttribute("aria-expanded", "false"); return; }
+    sugBox.innerHTML = sugItems.length ? sugItems.map((x, i) => '<li role="option" id="sug-' + i + '" data-sug="' + i + '"' + (i === sugPos ? ' aria-selected="true"' : "") +
+      '><span class="sl">' + esc(x.label) + '</span><span class="ss">' + esc(x.sub) + "</span></li>").join("") :
+      '<li class="none">' + esc(hostIndex ? t("no_match") : t("searching")) + "</li>";
+    sugBox.hidden = false; search.setAttribute("aria-expanded", "true");
+    if (sugPos >= 0) search.setAttribute("aria-activedescendant", "sug-" + sugPos); else search.removeAttribute("aria-activedescendant");
   }
-  search.addEventListener("change", () => {
-    const q = search.value.trim().toLowerCase();
-    for (const [id, o] of Object.entries(state.data.entities.organisation || {})) {
-      if (o.n.toLowerCase() === q) {
-        if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
-        select("organisation", id);
-        const c = (o.bfs && centers.municipality[o.bfs]) || centers.canton[String(CANTON_CODES.indexOf(o.kt) + 1)];
-        if (c) map.setView(c, 11);
-        return;
-      }
+  function updateSuggest() {
+    sugItems = suggestions(search.value); sugPos = -1; renderSuggest();
+    if (!hostIndex) loadHostIndex().then(() => { if (document.activeElement === search) { sugItems = suggestions(search.value); renderSuggest(); } });
+  }
+  function goTo(x) {
+    sugBox.hidden = true; search.value = x.label; search.blur();
+    const { lvl, id } = x;
+    if (lvl === "organisation") {
+      const o = state.data.entities.organisation[id];
+      if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
+      select("organisation", id);
+      const c = (o.bfs && centers.municipality[o.bfs]) || centers.canton[String(CANTON_CODES.indexOf(o.kt) + 1)];
+      if (c) map.setView(c, 11);
+      return;
     }
-    for (const lvl of ["canton", "municipality"]) {
-      for (const [id, e] of Object.entries(state.data.entities[lvl] || {})) {
-        if (e.n.toLowerCase() === q) {
-          if (state.level !== lvl) { state.level = lvl; applyI18n(); draw(); }
-          select(lvl, id);
-          state.layer.eachLayer((l) => { if (String(l.feature.id) === id) map.fitBounds(l.getBounds(), { maxZoom: 11 }); });
-          return;
-        }
-      }
+    if (lvl === "federal") {
+      if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
+    } else {
+      if (state.level !== lvl) { state.level = lvl; applyI18n(); draw(); }
+      state.layer.eachLayer((l) => { if (String(l.feature.id) === id) map.fitBounds(l.getBounds(), { maxZoom: 11 }); });
     }
+    select(lvl, id);
+    if (x.kind === "host") {
+      loadResources(lvl, id).then((list) => { const i = (list || []).findIndex((r) => r.h === x.label); if (i >= 0) resourceDetail(lvl, id, i); });
+    }
+  }
+  search.addEventListener("input", updateSuggest);
+  search.addEventListener("focus", () => { loadHostIndex(); if (search.value.trim().length >= 2) updateSuggest(); });
+  search.addEventListener("keydown", (ev) => {
+    if (sugBox.hidden && ev.key !== "Enter") return;
+    if (ev.key === "ArrowDown") { sugPos = Math.min(sugPos + 1, sugItems.length - 1); renderSuggest(); ev.preventDefault(); }
+    else if (ev.key === "ArrowUp") { sugPos = Math.max(sugPos - 1, -1); renderSuggest(); ev.preventDefault(); }
+    else if (ev.key === "Enter") { const x = sugItems[sugPos >= 0 ? sugPos : 0]; if (x) { goTo(x); ev.preventDefault(); } }
+    else if (ev.key === "Escape") { sugBox.hidden = true; }
   });
+  sugBox.addEventListener("mousedown", (ev) => { const li = ev.target.closest("[data-sug]"); if (li) { ev.preventDefault(); goTo(sugItems[+li.dataset.sug]); } });
+  search.addEventListener("blur", () => setTimeout(() => { sugBox.hidden = true; }, 150));
 
   /* ---- load ------------------------------------------------------------- */
   applyI18n();
