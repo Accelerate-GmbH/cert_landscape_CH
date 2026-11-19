@@ -23,7 +23,7 @@ def security_txt(http, domain: str, now: datetime | None = None) -> dict:
         url = f"https://{host}/.well-known/security.txt"
         try:
             body = http.get(url, headers={"Accept": "text/plain, */*"}, namespace="sectxt", ttl_hours=72)
-        except (HttpError, OSError, ValueError):
+        except Exception:  # noqa: BLE001 - missing, blocked or broken: try the next host
             continue
         text = body[:65536].decode("utf-8", "replace")
         if "<html" in text.lower()[:500] or not re.search(r"(?im)^\s*contact\s*:", text):
@@ -74,7 +74,7 @@ def http_security(host: str, ip: str, timeout: float = 8) -> dict:
             out["hsts_preload"] = "preload" in m.group(1).lower()
         else:
             out["hsts"] = None
-    except (OSError, ssl.SSLError) as e:
+    except Exception as e:  # noqa: BLE001 - a broken server must not stop the batch
         out["https_error"] = f"{type(e).__name__}"
     try:
         head = _raw_request(ip, 80, host, timeout, False)
@@ -83,7 +83,7 @@ def http_security(host: str, ip: str, timeout: float = 8) -> dict:
         code = int(status.group(1)) if status else 0
         out["http_status"] = code
         out["http_redirect_https"] = bool(code in (301, 302, 303, 307, 308) and loc and loc.group(1).lower().startswith("https://"))
-    except (OSError, socket.timeout):
+    except Exception:  # noqa: BLE001
         out["http_status"] = None          # port 80 closed: no plain-text access
         out["http_redirect_https"] = None
     return out

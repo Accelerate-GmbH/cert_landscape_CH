@@ -122,51 +122,50 @@ class MailCheck:
         return out
 
     # -- STARTTLS -------------------------------------------------------------
+    def _smtp(self, host: str, ip: str) -> smtplib.SMTP:
+        s = smtplib.SMTP(timeout=self.timeout)
+        code, _ = s.connect(ip, 25)
+        s._host = host            # name for SNI and certificate check (connect() stores the IP)
+        if code != 220:
+            s.close()
+            raise smtplib.SMTPConnectError(code, "banner")
+        s.ehlo("tlsmap.invalid")
+        return s
+
     def starttls(self, host: str, ip: str) -> dict:
-        res = {"ok": False}
+        """STARTTLS on port 25: TLS version and whether the certificate is valid
+        for the server name. Never raises."""
         try:
-            with socket.create_connection((ip, 25), timeout=self.timeout) as sock:
-                s = smtplib.SMTP(timeout=self.timeout)
-                s.sock = sock
-                s.file = None
-                code, _ = s.getreply()
-                if code != 220:
-                    return {"ok": False, "error": f"banner {code}"}
-                s.ehlo("tlsmap.invalid")
-                if not s.has_extn("starttls"):
-                    s.quit()
-                    return {"ok": True, "starttls": False}
-                ctx = ssl.create_default_context()
-                ctx.check_hostname = True
-                valid, err = True, ""
-                try:
-                    s.starttls(context=ctx)
-                except ssl.SSLCertVerificationError as e:
-                    valid, err = False, (e.verify_message or str(e))[:160]
-                    # retry without verification to read the TLS version
-                    s.close()
-                    return self._starttls_unverified(host, ip) | {"valid": False, "verify_error": err}
-                ver = s.sock.version()
-                s.quit()
-                return {"ok": True, "starttls": True, "tls": ver, "valid": valid}
-        except (OSError, smtplib.SMTPException, ssl.SSLError) as e:
-            res["error"] = f"{type(e).__name__}: {str(e)[:120]}"
-        return res
+            s = self._smtp(host, ip)
+        except Exception as e:  # noqa: BLE001
+            return {"ok": False, "error": f"{type(e).__name__}: {str(e)[:120]}"}
+        try:
+            if not s.has_extn("starttls"):
+                return {"ok": True, "starttls": False}
+            try:
+                s.starttls(context=ssl.create_default_context())
+                return {"ok": True, "starttls": True, "tls": s.sock.version(), "valid": True}
+            except ssl.SSLCertVerificationError as e:
+                return {**self._starttls_unverified(host, ip), "valid": False,
+                        "verify_error": (getattr(e, "verify_message", "") or str(e))[:160]}
+        except Exception as e:  # noqa: BLE001
+            return {"ok": True, "starttls": True, "tls": "", "error": f"{type(e).__name__}: {str(e)[:120]}"}
+        finally:
+            try:
+                s.close()
+            except Exception:  # noqa: BLE001
+                pass
 
     def _starttls_unverified(self, host: str, ip: str) -> dict:
         try:
-            with socket.create_connection((ip, 25), timeout=self.timeout) as sock:
-                s = smtplib.SMTP(timeout=self.timeout)
-                s.sock, s.file = sock, None
-                s.getreply()
-                s.ehlo("tlsmap.invalid")
-                ctx = ssl.create_default_context()
-                ctx.check_hostname, ctx.verify_mode = False, ssl.CERT_NONE
-                s.starttls(context=ctx)
-                ver = s.sock.version()
-                s.quit()
-                return {"ok": True, "starttls": True, "tls": ver}
-        except (OSError, smtplib.SMTPException, ssl.SSLError) as e:
+            s = self._smtp(host, ip)
+            ctx = ssl.create_default_context()
+            ctx.check_hostname, ctx.verify_mode = False, ssl.CERT_NONE
+            s.starttls(context=ctx)
+            ver = s.sock.version()
+            s.close()
+            return {"ok": True, "starttls": True, "tls": ver}
+        except Exception as e:  # noqa: BLE001
             return {"ok": True, "starttls": True, "tls": "", "error": f"{type(e).__name__}: {str(e)[:120]}"}
 
     def run(self, domains: list[str]) -> dict[str, dict]:
