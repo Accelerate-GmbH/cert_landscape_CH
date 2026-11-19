@@ -22,7 +22,7 @@ on:
         type: boolean
         default: true
       reuse_run:
-        description: "Run ID whose batches to keep (rerun single cantons on top of an earlier run)"
+        description: "Run IDs (comma-separated, oldest first) whose batches to keep when rerunning single cantons"
         required: false
 
 permissions:
@@ -197,24 +197,23 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -e .
-      - name: Batches of the earlier run (overwritten by this run's batches)
+      - name: Batches of earlier runs (oldest first; this run's batches win)
         if: github.event.inputs.reuse_run != '' && github.event.inputs.reuse_run != null
-        uses: actions/download-artifact@v4
-        with:
-          run-id: ${{ github.event.inputs.reuse_run }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: raw-*
-          path: raw
-          merge-multiple: true
-      - name: List check of the earlier run
-        if: github.event.inputs.reuse_run != '' && github.event.inputs.reuse_run != null && github.event.inputs.list == 'false'
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          run-id: ${{ github.event.inputs.reuse_run }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          name: verification
-          path: data/critical_services
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUNS: ${{ github.event.inputs.reuse_run }}
+        run: |
+          mkdir -p raw
+          for id in $(echo "$RUNS" | tr ',' ' '); do
+            rm -rf prev && mkdir prev
+            gh run download "$id" -R "$GITHUB_REPOSITORY" -p 'raw-*' -D prev
+            find prev -name '*.json.gz' -exec cp {} raw/ \;
+            if [ "${{ github.event.inputs.list }}" = "false" ]; then
+              rm -rf prevv && gh run download "$id" -R "$GITHUB_REPOSITORY" -n verification -D prevv 2>/dev/null \
+                && cp prevv/verification.* data/critical_services/ || true
+            fi
+          done
+          ls raw
       - uses: actions/download-artifact@v4
         with:
           pattern: raw-*
@@ -229,6 +228,12 @@ jobs:
         run: |
           ls raw
           tlsmap merge raw/*.json.gz
+      - name: Keep all batches of this snapshot (for single reruns)
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-all
+          path: raw/
+          retention-days: 35
       - name: Keep non-public results as a workflow artifact (not committed)
         uses: actions/upload-artifact@v4
         with:
