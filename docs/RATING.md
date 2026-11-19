@@ -41,13 +41,15 @@ Each check gives **pass** (1 point), **partial** (0.5), **fail** (0) or
 ### B. Technology sovereignty
 
 Domicile means the country of the company that controls the service. Swiss
-earns a pass; EU/EEA earns a partial; any other country a fail.
+earns a pass; EU/EEA earns a partial; any other country a fail. The DNS
+check also counts how the zone is spread over independent operators (rule
+below).
 
 | ID | Check | Basis | Weight |
 |---|---|---|---|
 | sov.ca | Domicile of the issuing CA, defined by the root of the chain | CA owner of the root certificate in the CCADB, plus sourced parent companies | 3 |
-| sov.dns | Domicile of the DNS provider | network (AS) of the entity domain's authoritative name servers | 2 |
-| sov.hosting | Domicile of the hosting provider | network (AS) of every endpoint address | 2 |
+| sov.dns | Control and spread of the DNS operation (rule below) | operator and network (AS) of the entity domain's authoritative name servers | 2 |
+| sov.hosting | Domicile of the hosting provider; the organisation's own network counts with its seat | network (AS) of every endpoint address | 2 |
 | sov.tld | Swiss top-level domain | `.ch` or `.swiss` pass, anything else fails | 1 |
 
 Network domicile comes from the registration country of the autonomous
