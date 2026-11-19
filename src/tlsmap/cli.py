@@ -24,6 +24,9 @@ def cmd_run(a) -> int:
     registry = Registry(Path(a.registry) if a.registry else None)
     kinds = [k.strip() for k in a.entities.split(",")]
     ents = load_entities(kinds, canton_filter=a.canton, hosts_path=a.hosts)
+    if a.only:
+        wanted = {x.strip() for x in a.only.split(",") if x.strip()}
+        ents = [e for e in ents if e.id in wanted or e.key in wanted]
     if a.limit:
         ents = ents[: a.limit]
     if not ents:
@@ -179,6 +182,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="comma list of cantons, municipalities, organisations, federal")
     r.add_argument("--hosts", help="host list CSV for organisations (default data/hosts_ch.csv)")
     r.add_argument("--canton", help="only this canton and its municipalities (code, e.g. ZG)")
+    r.add_argument("--only", help="comma list of entity ids or keys, e.g. EDA,EFD (splits large batches)")
     r.add_argument("--limit", type=int, help="only the first N entities (testing)")
     r.add_argument("--cert-detail", choices=["none", "auto", "all"], default="auto",
                    help="download certificates: auto = only when DV/OV/EV can't be read from the issuer")
