@@ -136,7 +136,8 @@ timeout_seconds = 8
 [trust_posture]
 # Weight of each category in the overall score (normalised over the
 # categories that could be assessed).
-category_weights = { ownership = 0.30, sovereignty = 0.30, security = 0.25, privacy = 0.15 }
+# Since 19 November 2026: privacy (ECH) 0.10 instead of 0.15, security 0.30 instead of 0.25.
+category_weights = { ownership = 0.30, sovereignty = 0.30, security = 0.30, privacy = 0.10 }
 # Points for a check result.
 points = { pass = 1.0, partial = 0.5, fail = 0.0 }
 # Traffic light per category and overall: score >= green -> green, >= yellow -> yellow.

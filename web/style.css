@@ -234,3 +234,5 @@ table.hosts td { vertical-align: middle; }
 .maildom { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
 .maildom .tmhead { display: flex; gap: 8px; align-items: center; }
 .maildom .tmhead b { flex: 1; }
+#orgmode { max-width: 150px; }
+#sectorfilter { max-width: 140px; }
