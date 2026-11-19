@@ -185,8 +185,10 @@ not that none exists.
 
 ### Visibility, confidence, remarks
 
-- `sichtbarkeit` is `aggregat` for all rows for now: results are to be
-  published per sector and type, not per hostname.
+- `sichtbarkeit` is `oeffentlich` for all rows (until 19 November 2026 it
+  was `aggregat`): results are published per sector and type and down to the
+  single hostname. The merge step reads the visibility from the list, so a
+  change applies at the next merge.
 - `sicherheit = hoch` when operator (with UID), sector and service type are
   all established as described above; otherwise `tief`. A missing source URL
   does not lower confidence.
@@ -232,9 +234,11 @@ Low confidence per block of 100 rows (`quality_by_block.json`):
   CAA) come from its registrable domain. Other subdomains are not rated.
 - Hosts that belong to cantons or municipalities already on the map are
   measured once, with the administration, and linked (`linked_to`).
-- Results are published only as aggregates per sector, sub-sector, service
-  type and canton of seat, from five organisations per group, with the share
-  of low-confidence rows next to each value.
+- Results are published per sector, sub-sector, service type and canton of
+  seat, each with its list of hosts and a drill-down to every check. Group
+  values appear from five organisations, with the share of low-confidence
+  rows next to each value. Rows set to `aggregat` would only count in the
+  group values; `intern` rows are never published.
 - `tlsmap verify-list` runs every month: DNS resolution, HTTPS answer and
   whether `quelle_url` still links the host. The report
   (`verification.md`) lists hosts failing in two consecutive checks for
