@@ -2,13 +2,14 @@
  "meta": {
   "tool": "tlsmap",
   "version": "0.1.0",
-  "started": "2026-11-18T23:40:59Z",
-  "finished": "2026-11-18T23:41:39Z",
+  "started": "2026-11-19T00:41:08Z",
+  "finished": "2026-11-19T00:41:50Z",
   "entities": {
    "canton": 1,
    "municipality": 11
   },
   "canton_filter": "ZG",
+  "listed_hosts": 0,
   "ct_sources_used": {
    "crtsh": 12
   },
@@ -17,18 +18,18 @@
   "cert_detail": "auto",
   "probe": true,
   "probe_note": "letsencrypt.org: Let's Encrypt; www.swisssign.com: SwissSign AG; www.digicert.com: DigiCert Inc",
-  "settings_sha256": "d80a1cefd7a64b1b",
+  "settings_sha256": "33b243815a350cab",
   "registry_sha256": "c74d9b5cdda54882",
   "municipality_list_sha256": "8b819be63e0966e4",
-  "ccadb_fetched": "2026-11-18T23:40:59Z",
+  "ccadb_fetched": "2026-11-19T00:41:08Z",
   "python": "3.15.2",
   "http": {
    "requests": 32,
-   "cache_hits": 2251,
-   "errors": 1
+   "cache_hits": 2250,
+   "errors": 0
   }
  },
- "generated": "2026-11-18T23:40:59Z",
+ "generated": "2026-11-19T00:41:08Z",
  "entities": [
   {
    "key": "canton:9",
@@ -132,9 +133,9 @@
    ],
    "top_ca_share": 0.7377,
    "automated_share": 0.2623,
-   "expiring_soon": 3,
+   "expiring_soon": 2,
    "weak_crypto": 0,
-   "crypto_coverage": 0.7541,
+   "crypto_coverage": 0.7596,
    "multi_ca_hosts": 2,
    "platforms": {
     "Fastly": 3,
@@ -180,20 +181,20 @@
      "id": "no_expiring",
      "label": "No certificate expiring without renewal",
      "status": "fail",
-     "detail": "3 hostnames within 14 days"
+     "detail": "2 hostnames within 14 days"
     },
     {
      "id": "no_weak_crypto",
      "label": "No weak keys or SHA-1 signatures",
      "status": "pass",
-     "detail": "0 of 138 checked"
+     "detail": "0 of 139 checked"
     }
    ],
-   "trustmark": {
-    "overall": 55,
+   "posture": {
+    "overall": 56,
     "categories": {
      "ownership": 62,
-     "sovereignty": 74,
+     "sovereignty": 75,
      "security": 60,
      "privacy": 0
     },
@@ -212,10 +213,10 @@
       "assessed": 180
      },
      "own.revocation": {
-      "pass": 136,
+      "pass": 137,
       "partial": 0,
       "fail": 0,
-      "assessed": 136
+      "assessed": 137
      },
      "own.dnssec": {
       "pass": 170,
@@ -230,16 +231,16 @@
       "assessed": 180
      },
      "own.ct": {
-      "pass": 136,
+      "pass": 137,
       "partial": 0,
       "fail": 2,
-      "assessed": 138
+      "assessed": 139
      },
      "sov.ca": {
       "pass": 132,
       "partial": 0,
-      "fail": 48,
-      "assessed": 180
+      "fail": 46,
+      "assessed": 178
      },
      "sov.dns": {
       "pass": 0,
@@ -260,16 +261,16 @@
       "assessed": 180
      },
      "sec.tls13": {
-      "pass": 133,
+      "pass": 134,
       "partial": 0,
       "fail": 5,
-      "assessed": 138
+      "assessed": 139
      },
      "sec.pqc": {
       "pass": 31,
       "partial": 9,
-      "fail": 98,
-      "assessed": 138
+      "fail": 99,
+      "assessed": 139
      },
      "prv.ech": {
       "pass": 0,
@@ -451,7 +452,7 @@
      "detail": "0 of 7 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 49,
     "categories": {
      "ownership": 43,
@@ -705,7 +706,7 @@
      "detail": "0 of 6 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 44,
     "categories": {
      "ownership": 48,
@@ -975,7 +976,7 @@
      "detail": "0 of 23 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 42,
     "categories": {
      "ownership": 49,
@@ -1237,7 +1238,7 @@
      "detail": "0 of 7 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 40,
     "categories": {
      "ownership": 42,
@@ -1491,7 +1492,7 @@
      "detail": "0 of 5 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 47,
     "categories": {
      "ownership": 50,
@@ -1745,7 +1746,7 @@
      "detail": "0 of 7 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 40,
     "categories": {
      "ownership": 26,
@@ -1999,7 +2000,7 @@
      "detail": "0 of 5 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 45,
     "categories": {
      "ownership": 44,
@@ -2254,7 +2255,7 @@
      "detail": "0 of 13 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 40,
     "categories": {
      "ownership": 39,
@@ -2508,7 +2509,7 @@
      "detail": "0 of 2 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 41,
     "categories": {
      "ownership": 33,
@@ -2754,7 +2755,7 @@
      "detail": "0 of 3 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 45,
     "categories": {
      "ownership": 33,
@@ -3039,7 +3040,7 @@
      "detail": "0 of 22 checked"
     }
    ],
-   "trustmark": {
+   "posture": {
     "overall": 37,
     "categories": {
      "ownership": 46,
@@ -3267,8 +3268,8 @@
  "ct_lag_days": 38.3,
  "http_stats": {
   "requests": 32,
-  "cache_hits": 2251,
-  "errors": 1
+  "cache_hits": 2250,
+  "errors": 0
  },
- "ccadb_fetched": "2026-11-18T23:40:59Z"
+ "ccadb_fetched": "2026-11-19T00:41:08Z"
 }
