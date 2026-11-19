@@ -231,3 +231,6 @@ table.hosts td.stc { text-align: center; font-size: 12px; }
 table.hosts td { vertical-align: middle; }
 .kotag { font-size: 10px; font-weight: 600; color: var(--critical); border: 1px solid var(--critical); border-radius: 4px; padding: 0 3px; margin-left: 2px; }
 .urtag { font-size: 10px; font-weight: 600; color: var(--text-secondary); border: 1px dashed var(--text-muted); border-radius: 4px; padding: 0 4px; margin-left: 2px; white-space: nowrap; }
+.maildom { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
+.maildom .tmhead { display: flex; gap: 8px; align-items: center; }
+.maildom .tmhead b { flex: 1; }

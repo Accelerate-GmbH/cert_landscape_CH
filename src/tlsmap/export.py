@@ -28,7 +28,7 @@ ENTITY_COLUMNS = [
     "expiring_soon", "weak_crypto", "crypto_coverage", "multi_ca_hosts", "caa", "checks_passed",
     "checks_failed", "posture_overall", "posture_ownership", "posture_sovereignty", "posture_security", "posture_privacy",
     "posture_light", "posture_eligible", "posture_resources", "posture_knockouts", "dnssec_signed", "dns_providers",
-    "ct_source", "ct_newest_entry", "no_data_reason",
+    "ct_source", "ct_newest_entry", "no_data_reason", "mail_overall", "mail_domains_rated",
 ]
 
 ENDPOINT_COLUMNS = ["entity", "hostname", "ip", "family", "checked_at", "ok", "valid", "verify_error", "error",
@@ -143,6 +143,7 @@ def entity_row(e: dict) -> dict:
         "ct_source": "; ".join(sorted({d["source"] for d in disc})),
         "ct_newest_entry": max((d["newest_not_before"] or "" for d in disc), default=""),
         "no_data_reason": no_data_reason(e) or "",
+        "mail_overall": (e.get("mail") or {}).get("overall"), "mail_domains_rated": (e.get("mail") or {}).get("rated", 0),
     }
 
 
@@ -313,6 +314,7 @@ def map_json(result: dict, meta: dict) -> dict:
             "auto": e["automated_share"], "plat": e["platforms"], "net": e["network_countries"],
             "tm": _tm_compact(e.get("posture") or {}),
             "stack": _stack(e),
+            **({"ml": {"o": e["mail"]["overall"], "k": e["mail"]["checks"], "n": e["mail"]["rated"]}} if e.get("mail") else {}),
         }
         if e["kind"] == "organisation":
             pl = e.get("place") or {}
@@ -454,6 +456,18 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
     for key, items in by_entity.items():
         items.sort(key=lambda x: (x["o"] if x["o"] is not None else -1))
         (rdir / (key.replace(":", "-") + ".json")).write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")))
+    # mail details per entity (domains, mail servers, checks), loaded on demand
+    for e in result["entities"]:
+        m = e.get("mail")
+        if not m or not m.get("domains") or (e["kind"] == "organisation" and not is_public(e)):
+            continue
+        doms = [{"d": x["domain"], "o": x["overall"], "null": x.get("null_mx", False),
+                 "c": [[c["check"], c["status"], c["value"], c["method"], c["evidence"]] for c in x["checks"]],
+                 "mx": [[h["host"], h["pref"], sorted({f"{n} ({cc})" for n, cc in (h.get("nets") or [])}), bool(h.get("dane")),
+                         (h.get("tls") or {}).get("tls", "") if (h.get("tls") or {}).get("ok") else ("" if not h.get("tls") else "no answer"),
+                         (h.get("tls") or {}).get("valid", None)] for h in x["mx"]]}
+                for x in m["domains"]]
+        (rdir / ("mail-" + e["key"].replace(":", "-") + ".json")).write_text(json.dumps(doms, ensure_ascii=False, separators=(",", ":")))
     paths["resources"] = rdir
 
     # Search index for the map: every hostname found, per entity. "h" holds
