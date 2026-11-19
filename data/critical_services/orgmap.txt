@@ -1,0 +1,422 @@
+# label|UID-Suchname|Sektor|Teilsektor|Hinweis (wird bemerkung, wenn gesetzt)
+20 Minuten|20 Minuten|I|MED|
+AET|Azienda elettrica ticinese|E|STROM|
+AEW Energie|AEW Energie AG|E|STROM|
+AHV/IV Informationsstelle|Informationsstelle AHV/IV|B|PRJV|Betreiber laut Impressum Informationsstelle AHV/IV (Konferenz der Ausgleichskassen); Zuordnung geschätzt
+AIL|Aziende Industriali di Lugano|E|STROM|
+ARE|Bundesamt für Raumentwicklung|B|PRJV|
+ASTRA|Bundesamt für Strassen|B|PRJV|
+AXA Schweiz|AXA Versicherungen AG|F|VD|
+Aargauische Kantonalbank|Aargauische Kantonalbank|F|FD|
+Abacus|Abacus Research AG|I|IT|
+Abraxas Informatik|Abraxas Informatik AG|I|IT|
+AdNovum|Adnovum AG|I|IT|
+Agrola|AGROLA AG|E|OEL|
+Aldi Suisse|ALDI SUISSE AG|N|LM|
+Allianz Suisse|Allianz Suisse Versicherungs-Gesellschaft AG|F|VD|
+Alpiq|Alpiq AG|E|STROM|
+Amedis-UE|Amedis|G|CH|
+Appenzeller Kantonalbank|Appenzeller Kantonalbank|F|FD|
+Armee|Schweizer Armee|S|ARM|
+Assura|Assura-Basis SA|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Avaloq|Avaloq Group AG|I|IT|
+Axpo|Axpo Holding AG|E|STROM|
+Axsana (EPD)|Axsana|G|MV|
+BABS|Bundesamt für Bevölkerungsschutz|S|ZS|
+BABS Alertswiss|Bundesamt für Bevölkerungsschutz|S|ZS|
+BACS (Bundesamt für Cybersicherheit)|Bundesamt für Cybersicherheit|B|PRJV|
+BAFU|Bundesamt für Umwelt|B|PRJV|
+BAFU Hydrologie|Bundesamt für Umwelt|B|PRJV|
+BAG|Bundesamt für Gesundheit|B|PRJV|
+BAG Gesundheitsberuferegister|Bundesamt für Gesundheit|B|PRJV|
+BAG Priminfo|Bundesamt für Gesundheit|B|PRJV|
+BAK|Bundesamt für Kultur|B|KG|
+BAKOM|Bundesamt für Kommunikation|B|PRJV|
+BAV|Bundesamt für Verkehr|B|PRJV|
+BAZG|Bundesamt für Zoll und Grenzsicherheit|B|PRJV|
+BAZG E-Vignette|Bundesamt für Zoll und Grenzsicherheit|B|PRJV|
+BAZG Passar|Bundesamt für Zoll und Grenzsicherheit|B|PRJV|
+BAZG Via|Bundesamt für Zoll und Grenzsicherheit|B|PRJV|
+BAZG e-dec|Bundesamt für Zoll und Grenzsicherheit|B|PRJV|
+BAZL|Bundesamt für Zivilluftfahrt|B|PRJV|
+BBL|Bundesamt für Bauten und Logistik|B|PRJV|
+BFE|Bundesamt für Energie|B|PRJV|
+BFS|Bundesamt für Statistik|B|PRJV|
+BFS I14Y|Bundesamt für Statistik|B|PRJV|
+BFS UID-Register|Bundesamt für Statistik|B|PRJV|
+BFS sedex|Bundesamt für Statistik|B|PRJV|
+BIT|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+BIT AGOV|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+BIT eIAM|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+BIT eIAM FED-LOGIN|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+BIT ePortal|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+BIZ (Basel)|Bank für Internationalen Zahlungsausgleich|F|FD|Internationale Organisation; UID-Eintrag fraglich
+BJ/BIT E-ID|Bundesamt für Informatik und Telekommunikation|B|PRJV|E-ID: Ausstellung fedpol/BJ, Betrieb BIT; als Betreiber BIT gesetzt
+BKW|BKW Energie AG|E|STROM|
+BLS|BLS AG|V|BAHN|
+BLV|Bundesamt für Lebensmittelsicherheit und Veterinärwesen|B|PRJV|
+BLW|Bundesamt für Landwirtschaft|B|PRJV|
+BSV|Bundesamt für Sozialversicherungen|B|PRJV|
+BVB|Basler Verkehrs-Betriebe|V|BAHN|Tram- und Busbetrieb; Teilsektor Schienenverkehr gewählt
+BVK|BVK Personalvorsorge des Kantons Zürich|F|VD|
+BWL|Bundesamt für wirtschaftliche Landesversorgung|B|PRJV|
+BWO|Bundesamt für Wohnungswesen|B|PRJV|
+Baloise|Baloise Versicherung AG|F|VD|
+Banca dello Stato del Cantone Ticino|Banca dello Stato del Cantone Ticino|F|FD|
+Bank Cler|Bank Cler AG|F|FD|
+Banque Cantonale Neuchâteloise|Banque Cantonale Neuchâteloise|F|FD|
+Banque Cantonale Vaudoise|Banque Cantonale Vaudoise|F|FD|
+Banque Cantonale de Fribourg|Banque Cantonale de Fribourg|F|FD|
+Banque Cantonale de Genève|Banque Cantonale de Genève|F|FD|
+Banque Cantonale du Jura|Banque Cantonale du Jura SA|F|FD|
+Banque Cantonale du Valais|Banque Cantonale du Valais|F|FD|
+Basellandschaftliche Kantonalbank|Basellandschaftliche Kantonalbank|F|FD|
+Basler Kantonalbank|Basler Kantonalbank|F|FD|
+Bedag Informatik|Bedag Informatik AG|I|IT|
+Bell Food Group|Bell Food Group AG|N|LM|
+Berner Kantonalbank|Berner Kantonalbank AG|F|FD|
+Bernmobil|Städtische Verkehrsbetriebe Bern|V|BAHN|Tram- und Busbetrieb; Teilsektor Schienenverkehr gewählt
+Blick|Ringier Medien Schweiz|I|MED|
+Blutspende SRK Schweiz|Blutspende SRK Schweiz AG|G|MV|
+Brack.ch|BRACK.CH AG|X||Onlinehandel ohne passenden SKI-Teilsektor
+Bundesamt für Justiz|Bundesamt für Justiz|B|PRJV|
+Bundesarchiv|Schweizerisches Bundesarchiv|B|KG|
+Bundesgericht|Schweizerisches Bundesgericht|B|PRJV|
+Bundeskanzlei|Schweizerische Bundeskanzlei|B|PRJV|
+Bundeskanzlei (ch.ch)|Schweizerische Bundeskanzlei|B|PRJV|
+Bundeskanzlei Fedlex|Schweizerische Bundeskanzlei|B|PRJV|
+Bundesstrafgericht|Tribunale penale federale (TPF)|B|PRJV|
+Bundesverwaltung|Schweizerische Bundeskanzlei|B|PRJV|Betreiber von www.admin.ch als Bundeskanzlei angenommen; nicht belegt
+Bundesverwaltungsgericht|Bundesverwaltungsgericht|B|PRJV|
+CARA (EPD-Gemeinschaft)|CARA|G|MV|
+CERN|CERN Organisation Européenne pour la Recherche Nucléaire|B|FL|Internationale Organisation; UID-Eintrag fraglich
+CHUV|Centre hospitalier universitaire vaudois|G|MV|
+CKW|CKW AG|E|STROM|
+CSCS|ETH Zürich|B|FL|CSCS ist Einheit der ETH Zürich
+CSS|CSS Kranken-Versicherung AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Canton de Vaud|Canton de Vaud|B|PRJV|
+Carbura|CARBURA, Schweizerische Pflichtlagerorganisation für flüssige Treib- und Brennstoffe|E|OEL|
+Cembra Money Bank|Cembra Money Bank AG|F|FD|
+Città di Bellinzona|Città di Bellinzona|B|PRJV|
+Città di Lugano|Città di Lugano|B|PRJV|
+ComCom|Kommunikationskommission|B|PRJV|
+Compendium|HCI Solutions AG|G|CH|
+Concordia|CONCORDIA Schweizerische Kranken- und Unfallversicherung AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Coop|Coop Genossenschaft|N|LM|
+Credit Suisse (UBS)|UBS AG|F|FD|Credit Suisse ist in der UBS AG aufgegangen
+Datatrans|Datatrans AG|F|FD|
+Denner|Denner AG|N|LM|
+Die Mobiliar|Schweizerische Mobiliar Versicherungsgesellschaft AG|F|VD|
+Die Post|Die Schweizerische Post AG|I|POST|
+Digitale Verwaltung Schweiz|Digitale Verwaltung Schweiz DVS|B|PRJV|
+Digitale Verwaltung Schweiz (DVS)|Digitale Verwaltung Schweiz DVS|B|PRJV|
+Digitec|Digitec Galaxus AG|X||Onlinehandel ohne passenden SKI-Teilsektor
+Digitec Galaxus|Digitec Galaxus AG|X||Onlinehandel ohne passenden SKI-Teilsektor
+EDA|Eidgenössisches Departement für auswärtige Angelegenheiten|B|PRJV|
+EDA Ordipro|Eidgenössisches Departement für auswärtige Angelegenheiten|B|PRJV|
+EDI|Eidgenössisches Departement des Innern|B|PRJV|
+EDÖB|Datenschutz- und Öffentlichkeitsbeauftragter|B|PRJV|
+EFD|Eidgenössisches Finanzdepartement|B|PRJV|
+EHRA Zefix|Bundesamt für Justiz|B|PRJV|
+EJPD|Eidgenössisches Justiz- und Polizeidepartement|B|PRJV|
+EKZ|Elektrizitätswerke des Kantons Zürich|E|STROM|
+ELCA|ELCA Informatique SA|I|IT|
+ENSI|Eidgenössisches Nuklearsicherheitsinspektorat|B|PRJV|
+EPFL|École polytechnique fédérale de Lausanne|B|FL|
+ESBK|Eidgenössische Spielbankenkommission|B|PRJV|
+ESTV|Eidgenössische Steuerverwaltung|B|PRJV|
+ETH Zürich|ETH Zürich|B|FL|
+Eidg. Finanzkontrolle|Eidgenössische Finanzkontrolle|B|PRJV|
+Eidg. Finanzverwaltung|Eidgenössische Finanzverwaltung|B|PRJV|
+ElCom|Eidgenössische Elektrizitätskommission|B|PRJV|
+Emmi|Emmi Schweiz AG|N|LM|
+Energie 360°|Energie 360 Grad AG|E|GAS|
+Ente Ospedaliero Cantonale|Ente Ospedaliero Cantonale|G|MV|
+Entris Banking|Entris Banking AG|F|FD|
+Equinix Schweiz|Equinix (Switzerland) GmbH|I|IT|
+EuroAirport Basel-Mulhouse|EuroAirport|V|LUFT|Binationale öffentlich-rechtliche Anstalt mit Sitz in Frankreich
+FINMA|Eidgenössische Finanzmarktaufsicht FINMA|B|PRJV|
+Finnova|finnova AG Bankware|I|IT|
+Flughafen Zürich|Flughafen Zürich AG|V|LUFT|
+Galenica|Galenica AG|G|CH|
+Galexis|Galexis AG|G|CH|
+Gaznat|Gaznat|E|GAS|
+Gemeinde Köniz|Gemeinde Köniz|B|PRJV|
+Generali Schweiz|GENERALI Assurances Générales SA|F|VD|
+Genève Aéroport|Aéroport International de Genève|V|LUFT|
+GeoAdmin|Bundesamt für Landestopografie|B|PRJV|
+Glarner Kantonalbank|Glarner Kantonalbank|F|FD|
+Graubündner Kantonalbank|Graubündner Kantonalbank|F|FD|
+Groupe E|Groupe E SA|E|STROM|
+Groupe Mutuel|Groupe Mutuel Holding SA|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+HCI Solutions|HCI Solutions AG|G|CH|
+HFR Hôpital fribourgeois|Hôpital fribourgeois|G|MV|
+HIN|Health Info Net AG|G|MV|
+HUG|Les hôpitaux universitaires de Genève|G|MV|
+Helsana|Helsana Versicherungen AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Helvetia|Helvetia Schweizerische Versicherungsgesellschaft AG|F|VD|
+Hirslanden|Hirslanden|G|MV|
+Hostpoint|Hostpoint AG|I|IT|
+Hupac|HUPAC INTERMODAL SA|V|BAHN|
+Hypothekarbank Lenzburg|Hypothekarbank Lenzburg AG|F|FD|
+Hôpital du Valais|Hôpital du Valais|G|MV|
+IKRK|Le Comité international de la Croix-Rouge (CICR)|X||Internationale Organisation; Teilsektor «Diplomatische Vertretungen und Sitze internationaler Organisationen» ist in der SKI-Strategie 2023 nicht mehr aufgeführt
+ITU|Union Internationale des Télécommunications (UIT)|X||Internationale Organisation; kein Teilsektor in der SKI-Strategie 2023
+IWB|IWB Industrielle Werke Basel|E|STROM|
+Infomaniak|Infomaniak Network SA|I|IT|
+Init7|Init7 (Schweiz) AG|I|TK|
+Insel Gruppe|Insel Gruppe AG|G|MV|
+Interdiscount|Coop Genossenschaft|X||Elektronikhandel ohne passenden SKI-Teilsektor
+Inventx|Inventx AG|I|IT|
+Julius Bär|Bank Julius Bär & Co. AG|F|FD|
+Kanton Aargau|Kanton Aargau|B|PRJV|
+Kanton Appenzell Ausserrhoden|Kanton Appenzell Ausserrhoden|B|PRJV|
+Kanton Appenzell Innerrhoden|Kanton Appenzell Innerrhoden|B|PRJV|
+Kanton Basel-Landschaft|Kanton Basel-Landschaft|B|PRJV|
+Kanton Basel-Stadt|Kanton Basel-Stadt|B|PRJV|
+Kanton Bern|Kanton Bern|B|PRJV|
+Kanton Glarus|Kanton Glarus|B|PRJV|
+Kanton Graubünden|Kanton Graubünden|B|PRJV|
+Kanton Luzern|Kanton Luzern|B|PRJV|
+Kanton Nidwalden|Kanton Nidwalden|B|PRJV|
+Kanton Obwalden|Kanton Obwalden|B|PRJV|
+Kanton Schaffhausen|Kanton Schaffhausen|B|PRJV|
+Kanton Schwyz|Kanton Schwyz|B|PRJV|
+Kanton Solothurn|Kanton Solothurn|B|PRJV|
+Kanton St. Gallen|Kanton St. Gallen|B|PRJV|
+Kanton Thurgau|Kanton Thurgau|B|PRJV|
+Kanton Uri|Kanton Uri|B|PRJV|
+Kanton Zug|Kanton Zug|B|PRJV|
+Kanton Zürich|Kanton Zürich|B|PRJV|
+Kantonspolizei Bern|Kantonspolizei Bern|S|BLAU|
+Kantonspolizei Zürich|Kantonspolizei Zürich|S|BLAU|
+Kantonsspital Aarau|Kantonsspital Aarau AG|G|MV|
+Kantonsspital Baselland|Kantonsspital Baselland|G|MV|
+Kantonsspital Graubünden|Stiftung Kantonsspital Graubünden|G|MV|
+Kantonsspital St. Gallen|Kantonsspital St.Gallen|G|MV|
+Kantonsspital Winterthur|Kantonsspital Winterthur|G|MV|
+Kernkraftwerk Gösgen|Kernkraftwerk Gösgen-Däniken AG|E|STROM|
+Kernkraftwerk Leibstadt|Kernkraftwerk Leibstadt|E|STROM|
+Keystone-SDA|Keystone-SDA-ATS AG|I|MED|
+Landi|LANDI Schweiz AG|N|LM|
+Lidl Schweiz|Lidl Schweiz AG|N|LM|
+Lombard Odier|Banque Lombard Odier & Cie SA|F|FD|
+Lonza|Lonza AG|G|CH|
+Luzerner Kantonalbank|Luzerner Kantonalbank AG|F|FD|
+Luzerner Kantonsspital|Luzerner Kantonsspital|G|MV|
+METAS|Eidgenössisches Institut für Metrologie|B|PRJV|
+Manor|Manor AG|X||Warenhaus; Lebensmittelanteil gering, kein eindeutiger SKI-Teilsektor
+Medbase|Medbase AG|G|MV|
+Medgate|Medgate AG|G|MV|
+MediData|MediData AG|G|MV|
+MeteoSchweiz|Bundesamt für Meteorologie und Klimatologie|B|PRJV|
+Migrol|Migrol AG|E|OEL|
+Migros|Migros-Genossenschafts-Bund|N|LM|
+Migros Bank|Migros Bank AG|F|FD|
+NZZ|Neue Zürcher Zeitung AG|I|MED|
+Nationalbibliothek|Nationalbibliothek|B|KG|
+Naturgefahrenportal|Bundesamt für Umwelt|B|PRJV|Portal mehrerer Fachstellen; als Betreiber BAFU angenommen
+Nestlé|Nestlé Suisse S.A.|N|LM|
+Nevis Security|Nevis Security AG|I|IT|
+Nidwaldner Kantonalbank|Nidwaldner Kantonalbank|F|FD|
+Novartis|Novartis Pharma AG|G|CH|
+OFAC|OFAC|G|CH|
+OSTRAL|Verband Schweizerischer Elektrizitätsunternehmen VSE|E|STROM|OSTRAL ist beim VSE angesiedelt
+Obwaldner Kantonalbank|Obwaldner Kantonalbank|F|FD|
+Open Transport Data|Schweizerische Bundesbahnen SBB|V|BAHN|Plattform im Auftrag des BAV, betrieben durch SBB (Systemaufgaben Kundeninformation)
+PSI|Paul Scherrer Institut|B|FL|
+PUBLICA|Pensionskasse des Bundes PUBLICA|F|VD|
+Parlamentsdienste|Parlamentsdienste|B|PRJV|
+Pictet|Banque Pictet & Cie SA|F|FD|
+Planzer|Planzer Transport AG|V|STR|
+Polizei (Portal)||S|BLAU|Betreiber von polizei.ch nicht ermittelt
+PostAuto|PostAuto AG|V|STR|
+PostCom|Postkommission|B|PRJV|
+PostFinance|PostFinance AG|F|FD|
+Primeo Energie|Primeo Energie Genossenschaft|E|STROM|
+Prodega|Transgourmet Schweiz AG|N|LM|
+Proton|Proton AG|I|IT|
+Quickline|Quickline AG|I|TK|
+QuoVadis (DigiCert)|QuoVadis Trustlink|I|IT|
+RSI|RSI Radiotelevisione svizzera di lingua italiana, succursale della Società svizzera di radiotelevisione|I|MED|
+RTS|RTS Radio Télévision Suisse|I|MED|
+RUAG|RUAG AG|S|ARM|
+Raiffeisen Schweiz|Raiffeisen Schweiz Genossenschaft|F|FD|
+Refdata|Stiftung Refdata|G|CH|
+Rega|Schweizerische Rettungsflugwacht|S|BLAU|Luftrettung; als Blaulichtorganisation (Sanität) eingeordnet
+Repower|Repower AG|E|STROM|
+Repubblica e Cantone Ticino|Repubblica e Cantone Ticino|B|PRJV|
+Rhätische Bahn|Rhätische Bahn AG|V|BAHN|
+Ricardo|Ricardo AG|X||Online-Marktplatz ohne passenden SKI-Teilsektor
+Roche|F. Hoffmann-La Roche AG|G|CH|
+Romande Energie|Romande Energie SA|E|STROM|
+République et canton de Genève|République et canton de Genève|B|PRJV|
+République et canton de Neuchâtel|République et canton de Neuchâtel|B|PRJV|
+République et canton du Jura|République et canton du Jura|B|PRJV|
+Réseau hospitalier neuchâtelois|Réseau hospitalier neuchâtelois|G|MV|
+SASIS|SASIS AG|F|VD|
+SBB|Schweizerische Bundesbahnen SBB|V|BAHN|
+SBB Cargo|Schweizerische Bundesbahnen SBB Cargo AG|V|BAHN|
+SBFI|Staatssekretariat für Bildung, Forschung und Innovation|B|PRJV|
+SECO|Staatssekretariat für Wirtschaft|B|PRJV|
+SECO ALV|Staatssekretariat für Wirtschaft|B|PRJV|
+SECO Amtsblattportal (SHAB)|Staatssekretariat für Wirtschaft|B|PRJV|
+SECO Arbeitsmarkt (Job-Room)|Staatssekretariat für Wirtschaft|B|PRJV|
+SECO EasyGov|Staatssekretariat für Wirtschaft|B|PRJV|
+SEM|Staatssekretariat für Migration|B|PRJV|
+SEPOS|Staatsekretariat für Sicherheitspolitik (SEPOS)|B|PRJV|
+SIF|Staatssekretariat für internationale Finanzfragen|B|PRJV|
+SIG|Services Industriels de Genève|E|STROM|
+SIX Group|SIX Group AG|F|FD|
+SIX Payment Standards|SIX Group AG|F|FD|
+SIX Securities Services|SIX SIS AG|F|FD|
+SIX Swiss Exchange|SIX Swiss Exchange AG|F|FD|
+SIX Terravis|SIX Terravis AG|F|FD|
+SRF|SRF Schweizer Radio und Fernsehen|I|MED|
+SRG SSR|Schweizerische Radio- und Fernsehgesellschaft|I|MED|
+SVA Zürich|Sozialversicherungsanstalt des Kantons Zürich|F|VD|
+SVGW|SVGW|N|WV|
+SWI swissinfo.ch|Schweizerische Radio- und Fernsehgesellschaft|I|MED|
+SWICA|SWICA Krankenversicherung AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+SWISS|Swiss International Air Lines AG|V|LUFT|
+SWITCH|SWITCH|I|IT|
+SWITCH Registry|SWITCH|I|IT|
+SWITCH edu-ID|SWITCH|I|IT|
+Salt|Salt Mobile SA|I|TK|
+Sanitas|Sanitas Grundversicherungen AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Sanitätsnotruf 144||S|BLAU|Betreiber von 144.ch nicht ermittelt
+Saviva|Saviva|N|LM|
+Schaffhauser Kantonalbank|Schaffhauser Kantonalbank|F|FD|
+Schweizer Paraplegiker-Gruppe|Schweizer Paraplegiker-Stiftung|G|MV|
+Schweizerische Bankiervereinigung|Schweizerische Bankiervereinigung|F|FD|
+Schweizerische Nationalbank|Schweizerische Nationalbank|F|FD|
+Schweizerische Rheinhäfen|Schweizerische Rheinhäfen|V|SCHIFF|
+Schweizerischer Erdbebendienst|ETH Zürich|B|PRJV|Erdbebendienst ist Einheit der ETH Zürich
+Schweizerisches Rotes Kreuz|Schweizerisches Rotes Kreuz SRK|G|MV|
+Schwyzer Kantonalbank|Schwyzer Kantonalbank|F|FD|
+Securitas|Securitas AG Schweizerische Bewachungsgesellschaft|S||Privater Sicherheitsdienst; kein passender Teilsektor
+Sicherheitsfonds BVG|Sicherheitsfonds BVG|F|VD|
+Skribble|Skribble AG|I|IT|
+Skyguide|Skyguide|V|LUFT|
+Solothurner Spitäler|Solothurner Spitäler AG|G|MV|
+Spital Thurgau|Spital Thurgau AG|G|MV|
+St.Galler Kantonalbank|St.Galler Kantonalbank AG|F|FD|
+St.Galler Stadtwerke|St. Galler Stadtwerke|E|STROM|
+Stadt Bern|Stadt Bern|B|PRJV|
+Stadt Biel/Bienne|Stadt Biel|B|PRJV|
+Stadt Chur|Stadt Chur|B|PRJV|
+Stadt Luzern|Stadt Luzern|B|PRJV|
+Stadt Schaffhausen|Stadt Schaffhausen|B|PRJV|
+Stadt St. Gallen|Stadt St. Gallen|B|PRJV|
+Stadt Thun|Stadt Thun|B|PRJV|
+Stadt Uster|Stadt Uster|B|PRJV|
+Stadt Winterthur|Stadt Winterthur|B|PRJV|
+Stadt Zug|Stadt Zug|B|PRJV|
+Stadt Zürich|Stadt Zürich|B|PRJV|
+Stadtwerk Winterthur|Stadt Winterthur|E|STROM|Stadtwerk ist Dienstabteilung der Stadt Winterthur
+Stiftung Auffangeinrichtung BVG|Stiftung Auffangeinrichtung BVG|F|VD|
+Suisse ePolice|Konferenz der Kantonalen Polizeikommandanten|S|BLAU|Betreiber geschätzt (KKPKS); nicht belegt
+Sunrise|Sunrise GmbH|I|TK|
+Suva|Schweizerische Unfallversicherungsanstalt|F|VD|
+Swiss Government PKI|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+Swiss Life|Swiss Life AG|F|VD|
+Swiss Medical Network|Swiss Medical Network SA|G|MV|
+Swiss Re|Schweizerische Rückversicherungs-Gesellschaft AG|F|VD|
+SwissID|SwissSign AG|I|IT|
+SwissIX|SwissIX Internet Exchange|I|TK|
+SwissPass (Alliance SwissPass)|Schweizerische Bundesbahnen SBB|V|BAHN|Alliance SwissPass ist Branchenorganisation; technischer Betrieb durch SBB angenommen
+SwissSign|SwissSign AG|I|IT|
+Swisscard|Swisscard AECS GmbH|F|FD|
+Swisscom|Swisscom (Schweiz) AG|I|TK|
+Swisscom Bluewin|Swisscom (Schweiz) AG|I|TK|
+Swissdec|Verein Swissdec|I|IT|
+Swissgas|Swissgas AG|E|GAS|
+Swissgrid|Swissgrid AG|E|STROM|
+Swissmedic|Swissmedic, Schweizerisches Heilmittelinstitut|B|PRJV|
+Swissport|Swissport International AG|V|LUFT|
+Swissquote|Swissquote Bank SA|F|FD|
+Swisstransplant|Swisstransplant|G|MV|
+Südostbahn|Schweizerische Südostbahn AG|V|BAHN|
+TCS|TOURING CLUB SUISSE|V|STR|
+TL|Transports publics de la région lausannoise SA|V|BAHN|Metro, Tram und Bus; Teilsektor Schienenverkehr gewählt
+TPG|Transports publics genevois|V|BAHN|Tram und Bus; Teilsektor Schienenverkehr gewählt
+TWINT|TWINT AG|F|FD|
+Tages-Anzeiger|Tamedia Publikationen Deutschschweiz AG|I|MED|
+Threema|Threema AG|I|IT|
+Thurgauer Kantonalbank|Thurgauer Kantonalbank|F|FD|
+Tox Info Suisse|Stiftung Tox Info Suisse|G|MV|
+Transgourmet|Transgourmet Schweiz AG|N|LM|
+Transitgas|Transitgas AG|E|GAS|
+UBS|UBS AG|F|FD|
+UNO Genf|Office des Nations Unies|X||Internationale Organisation; kein Teilsektor in der SKI-Strategie 2023
+UVEK|Eidgenössisches Departement für Umwelt, Verkehr, Energie und Kommunikation|B|PRJV|
+Unilabs|Unilabs|G|LAB|
+Universität Basel|Universität Basel|B|FL|
+Universität Bern|Universität Bern|B|FL|
+Universität Zürich|Universität Zürich|B|FL|
+Universitäts-Kinderspital Zürich|Universitäts-Kinderspital Zürich|G|MV|
+Universitäts-Kinderspital beider Basel|Universitäts-Kinderspital beider Basel|G|MV|
+Universitätsspital Basel|Universitätsspital Basel|G|MV|
+Universitätsspital Zürich|Universitätsspital Zürich|G|MV|
+Université de Genève|Université de Genève|B|FL|
+Université de Lausanne|Universite de Lausanne|B|FL|
+Urner Kantonalbank|Urner Kantonalbank|F|FD|
+VBS|Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport|B|PRJV|
+VBZ|Verkehrsbetriebe Zürich|V|BAHN|Tram und Bus; Teilsektor Schienenverkehr gewählt
+VRSG|VRSG|I|IT|
+Valiant|Valiant Bank AG|F|FD|
+Verein eCH|Verein eCH|B|PRJV|
+Viasuisse|Viasuisse AG|V|STR|
+Ville de Fribourg|Ville de Fribourg|B|PRJV|
+Ville de Genève|Ville de Genève|B|PRJV|
+Ville de La Chaux-de-Fonds|Ville de La Chaux-de-Fonds|B|PRJV|
+Ville de Lancy|Ville de Lancy|B|PRJV|
+Ville de Lausanne|Ville de Lausanne|B|PRJV|
+Ville de Neuchâtel|Ville de Neuchâtel|B|PRJV|
+Ville de Sion|Ville de Sion|B|PRJV|
+Ville de Vernier|Ville de Vernier|B|PRJV|
+Viollier|Viollier AG|G|LAB|
+Visana|Visana Versicherungen AG|F|VD|Krankenversicherer: SKI ordnet Versicherungen dem Sektor Finanzen zu
+Viseca|Viseca Payment Services AG|F|FD|
+Viteos|Viteos SA|E|STROM|
+Volg|Volg Konsumwaren AG|N|LM|
+Vontobel|Bank Vontobel AG|F|FD|
+WBF|Eidgenössisches Departement für Wirtschaft, Bildung und Forschung|B|PRJV|
+WEKO|Wettbewerbskommission|B|PRJV|
+WHO|Organisation Mondiale de la Santé (OMS)|X||Internationale Organisation; kein Teilsektor in der SKI-Strategie 2023
+WIPO|Organisation Mondiale de la Propriété Intellectuelle (OMPI )|X||Internationale Organisation; kein Teilsektor in der SKI-Strategie 2023
+WSL|Eidgenössische Forschungsanstalt für Wald, Schnee und Landschaft|B|FL|
+WSL-Institut SLF|Eidgenössische Forschungsanstalt für Wald, Schnee und Landschaft|B|FL|SLF ist Institut der WSL
+WTO|Organisation Mondiale du Commerce - OMC|X||Internationale Organisation; kein Teilsektor in der SKI-Strategie 2023
+Worldline|Worldline Schweiz AG|F|FD|
+Yuh (Swissquote/PostFinance)|Swissquote Bank SA|F|FD|Yuh ist Joint Venture von Swissquote und PostFinance; Bankkonto bei Swissquote Bank AG
+ZAS|Centrale de compensation (CdC)|B|PRJV|
+ZEK|Verein zur Führung einer Zentralstelle für Kreditinformation|F|FD|
+ZVV|Zürcher Verkehrsverbund|V|BAHN|Verkehrsverbund (Bahn, Tram, Bus); Teilsektor Schienenverkehr gewählt
+Zuger Kantonalbank|Zuger Kantonalbank|F|FD|
+Zur Rose|Zur Rose Suisse|G|CH|
+Zurich Versicherung|Zürich Versicherungs-Gesellschaft AG|F|VD|
+Zürcher Kantonalbank|Zürcher Kantonalbank|F|FD|
+armasuisse|armasuisse|S|ARM|
+bexio|bexio AG|I|IT|
+compenswiss (AHV-Ausgleichsfonds)|compenswiss|F|FD|
+eBill (SIX)|SIX Group AG|F|FD|
+eHealth Suisse|eHealth Suisse Kompetenz|G|MV|
+eUmzugCH|eOperations Schweiz AG|B|PRJV|Betrieb eUmzugCH durch eOperations Schweiz angenommen; nicht belegt
+edulog|educa|B|FL|
+esisuisse|esisuisse|F|FD|
+ewb|Energie Wasser Bern|E|STROM|
+ewl|ewl energie wasser luzern holding ag|E|STROM|
+ewz|Stadt Zürich|E|STROM|ewz ist Dienstabteilung der Stadt Zürich
+fedpol|Bundesamt für Polizei|S|BLAU|
+fenaco|fenaco Genossenschaft|N|LM|
+green.ch|green.ch AG|I|TK|
+swisstopo|Bundesamt für Landestopografie|B|PRJV|
+swisstopo GeoAdmin|Bundesamt für Landestopografie|B|PRJV|
+swiyu|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+swiyu Basisregister|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+swiyu Statusregister|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+swiyu Vertrauensinfrastruktur|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+swiyu Vertrauensregister|Bundesamt für Informatik und Telekommunikation|B|PRJV|
+État de Fribourg|Etat de Fribourg|B|PRJV|
+État du Valais|Canton du Valais|B|PRJV|

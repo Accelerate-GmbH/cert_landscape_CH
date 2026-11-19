@@ -59,7 +59,7 @@ window.I18N = {
     national: "Alle gezeigten Einheiten", total_hosts: "Hostnamen in Betrieb",
     data_note: "Daten: Certificate Transparency, CCADB, DNS, TLS-Prüfungen. Stand {date}.",
     lag_note: "Die CT-Quelle lag {lag} Tage hinter den Logs.",
-    method: "Methode", rating_doc: "Bewertung", source: "Quellcode und Daten", close: "Schliessen", table: "Tabelle",
+    method: "Methode", rating_doc: "Bewertung", data_link: "Daten zum Herunterladen (GitHub, output/latest)", critical_list: "Kritische Dienste: Liste und Methode", source: "Quellcode", close: "Schliessen", table: "Tabelle",
   },
   fr: {
     how: "Comment cette valeur est calculée", weight: "Poids", contribution: "Contribution", points: "Points", status_col: "Résultat", count_col: "Nombre",
@@ -120,7 +120,7 @@ window.I18N = {
     national: "Toutes les entités affichées", total_hosts: "Noms d’hôte en service",
     data_note: "Données : Certificate Transparency, CCADB, DNS, contrôles TLS. État au {date}.",
     lag_note: "La source CT avait {lag} jours de retard sur les journaux.",
-    method: "Méthode", rating_doc: "Évaluation", source: "Code source et données", close: "Fermer", table: "Tableau",
+    method: "Méthode", rating_doc: "Évaluation", data_link: "Données à télécharger (GitHub, output/latest)", critical_list: "Services critiques : liste et méthode", source: "Code source", close: "Fermer", table: "Tableau",
   },
   it: {
     how: "Come si ottiene questo valore", weight: "Peso", contribution: "Contributo", points: "Punti", status_col: "Risultato", count_col: "Numero",
@@ -181,7 +181,7 @@ window.I18N = {
     national: "Tutte le unità mostrate", total_hosts: "Nomi host in uso",
     data_note: "Dati: Certificate Transparency, CCADB, DNS, controlli TLS. Stato al {date}.",
     lag_note: "La fonte CT era in ritardo di {lag} giorni rispetto ai log.",
-    method: "Metodo", rating_doc: "Valutazione", source: "Codice sorgente e dati", close: "Chiudi", table: "Tabella",
+    method: "Metodo", rating_doc: "Valutazione", data_link: "Dati da scaricare (GitHub, output/latest)", critical_list: "Servizi critici: elenco e metodo", source: "Codice sorgente", close: "Chiudi", table: "Tabella",
   },
   en: {
     how: "How this value is derived", weight: "Weight", contribution: "Contribution", points: "Points", status_col: "Result", count_col: "Count",
@@ -242,6 +242,6 @@ window.I18N = {
     national: "All entities shown", total_hosts: "Hostnames in use",
     data_note: "Data: Certificate Transparency, CCADB, DNS, TLS checks. As of {date}.",
     lag_note: "The CT source lagged the logs by {lag} days.",
-    method: "Method", rating_doc: "Rating", source: "Source code and data", close: "Close", table: "Table",
+    method: "Method", rating_doc: "Rating", data_link: "Download the data (GitHub, output/latest)", critical_list: "Critical services: list and method", source: "Source code", close: "Close", table: "Table",
   },
 };
