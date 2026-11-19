@@ -13,6 +13,7 @@ from __future__ import annotations
 import re
 import shutil
 import socket
+import binascii
 import ssl
 import subprocess
 from datetime import datetime, timezone
@@ -131,8 +132,25 @@ def scts(cert: x509.Certificate) -> list[str]:
         return []
 
 
+def _safe_cert(data):
+    """Parse a certificate a server sent; None if it is malformed."""
+    try:
+        return load_cert(data)
+    except (ValueError, TypeError, binascii.Error):
+        return None
+
+
 def endpoint(hostname: str, ip: str, timeout: float = 8, pq: str = "") -> dict:
-    """All live checks for one address of one hostname."""
+    """All live checks for one address of one hostname. Never raises: a
+    server sending something unexpected is recorded, not fatal for the run."""
+    try:
+        return _endpoint(hostname, ip, timeout, pq)
+    except Exception as e:  # noqa: BLE001
+        return {"ip": ip, "family": 6 if ":" in ip else 4, "checked_at": _now(), "ok": False,
+                "error": f"{type(e).__name__}: {str(e)[:160]}"}
+
+
+def _endpoint(hostname: str, ip: str, timeout: float, pq: str) -> dict:
     out: dict = {"ip": ip, "family": 6 if ":" in ip else 4, "checked_at": _now(), "ok": False}
     try:
         r = _handshake(ip, hostname, timeout, True)
@@ -149,12 +167,17 @@ def endpoint(hostname: str, ip: str, timeout: float = 8, pq: str = "") -> dict:
         out["error"] = f"{type(e).__name__}: {str(e)[:160]}"
         return out
     out.update(tls_version=r["tls_version"], cipher=r["cipher"], group=r["group"])
-    if r["chain"]:
-        leaf = load_cert(r["chain"][0])
+    certs = [_safe_cert(c) for c in r["chain"]]
+    if certs and certs[0] is not None:
+        leaf = certs[0]
         out["cert"] = describe(leaf)
         out["scts"] = scts(leaf)
-        out["chain_issuers"] = [describe(load_cert(c))["subject_cn"] for c in r["chain"][1:]]
-        out["_chain"] = r["chain"]          # kept in memory for revocation, not exported
+        out["chain_issuers"] = [describe(c)["subject_cn"] for c in certs[1:] if c is not None]
+        if any(c is None for c in certs[1:]):
+            out["chain_error"] = "malformed certificate in chain"
+        out["_chain"] = [d for d, c in zip(r["chain"], certs) if c is not None]   # for revocation, not exported
+    elif certs:
+        out["chain_error"] = "malformed leaf certificate"
     out.update(pq_test(ip, hostname, pq, timeout))
     return out
 
@@ -164,8 +187,10 @@ def revocation(chain: list[bytes], http: Http, timeout: float = 10) -> dict:
     """OCSP if the certificate names a responder, otherwise its CRL."""
     if not chain:
         return {"status": "unknown", "method": "none"}
-    leaf = load_cert(chain[0])
-    issuer = load_cert(chain[1]) if len(chain) > 1 else None
+    leaf = _safe_cert(chain[0])
+    if leaf is None:
+        return {"status": "unknown", "method": "none"}
+    issuer = _safe_cert(chain[1]) if len(chain) > 1 else None
     try:
         aia = leaf.extensions.get_extension_for_oid(ExtensionOID.AUTHORITY_INFORMATION_ACCESS).value
         ocsp_urls = [d.access_location.value for d in aia if d.access_method == AuthorityInformationAccessOID.OCSP]
