@@ -1,13 +1,13 @@
 # Verification of the critical-services list
 
-Checked: 2026-11-19T09:07:24Z · list: `/home/runner/work/cert_landscape_CH/cert_landscape_CH/data/critical_services/critical_services_ch.csv`
+Checked: 2026-11-19T21:16:16Z · list: `/home/runner/work/cert_landscape_CH/cert_landscape_CH/data/critical_services/critical_services_ch.csv`
 
 | | Hosts |
 |---|---|
 | listed | 1000 |
-| resolve in public DNS | 997 |
-| answer over HTTPS | 837 |
-| source page still links the host | 363 of 374 |
+| resolve in public DNS | 1000 |
+| answer over HTTPS | 834 |
+| source page still links the host | 364 of 374 |
 
 ## Failing in two or more consecutive checks (review)
 
@@ -171,10 +171,8 @@ Checked: 2026-11-19T09:07:24Z · list: `/home/runner/work/cert_landscape_CH/cert
 ## Source page no longer links the host (two or more checks)
 
 - account.proton.me
-- id.flughafen-zuerich.ch
 - www.bancastato.ch
 - www.compenswiss.ch
-- www.flughafen-zuerich.ch
 - www.ruag.ch
 - www.swissix.ch
 - www.tagesanzeiger.ch
@@ -184,10 +182,18 @@ Checked: 2026-11-19T09:07:24Z · list: `/home/runner/work/cert_landscape_CH/cert
 - account.post.ch
 - api.bcv.ch
 - auth.bcv.ch
+- my.groupe-e.ch
 - secure.axa.ch
+- shop.axpo.com
 - webmail.switch.ch
 - www.bcv.ch
-- www.saviva.ch
+- www.biel-bienne.ch
+- www.carbura.ch
+- www.gl.ch
+- www.koeniz.ch
+- www.sg.ch
+- www.sgsw.ch
+- www.stadt.sg.ch
 - www.stadtluzern.ch
 - www.ur.ch
 
