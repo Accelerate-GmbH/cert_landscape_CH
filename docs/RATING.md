@@ -100,6 +100,15 @@ keeps "offered and preferred" as the requirement from the Trust Posture
 fundamentals, and gives half the points for "offered" (decided
 19 November 2026).
 
+### Hosts that do not answer
+
+A host that resolves in DNS but answers over HTTPS on none of its addresses
+keeps its rating, which then rests on the DNS checks only; the connection
+checks are not assessed. Such hosts are marked "not reachable" on the map
+and in `hostnames.csv` (`unreachable`), so the score is not mistaken for a
+rated live service (decided 19 November 2026; 1,392 hosts in the first full
+run).
+
 ### D. Connection privacy
 
 | ID | Check | Pass | Fail | Weight |

@@ -230,3 +230,4 @@ table.hosts td.stc { text-align: center; font-size: 12px; }
 .pager button[disabled] { opacity: .35; cursor: default; }
 table.hosts td { vertical-align: middle; }
 .kotag { font-size: 10px; font-weight: 600; color: var(--critical); border: 1px solid var(--critical); border-radius: 4px; padding: 0 3px; margin-left: 2px; }
+.urtag { font-size: 10px; font-weight: 600; color: var(--text-secondary); border: 1px dashed var(--text-muted); border-radius: 4px; padding: 0 4px; margin-left: 2px; white-space: nowrap; }

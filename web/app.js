@@ -335,6 +335,7 @@
       w: c.checks || {}, g: c.green || 80, y: c.yellow || 50, crit: c.critical_resource_weight || 3 };
   }
   /* Measured values in words where the raw value is a code (PQC: preferred/enabled/no per endpoint). */
+  const urTag = () => ' <span class="urtag" title="' + esc(t("ur_title")) + '">' + esc(t("ur_tag")) + "</span>";
   function chkVal(cid, v) {
     if (v === null || v === undefined) return "";
     if (cid === "sec.pqc") return String(v).split("/").map((x) => (x ? t("pq_" + x) : "")).join(" / ");
@@ -358,7 +359,7 @@
   const plainCat = (k) => (G().cats[k] || {}).s || "";
   const plainChk = (k) => (G().checks[k] || {}).s || "";
   function resRow(level, id, i, r, valueHtml) {
-    return '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) + (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") +
+    return '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) + (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (r.ur ? urTag() : "") +
       (r.ko ? ' <span class="chip">K.-o.</span>' : "") + "</td>" + valueHtml + "</tr>";
   }
   function explain(spec) {
@@ -487,7 +488,7 @@
         .sort((a, b) => (a[3].v ?? 101) - (b[3].v ?? 101) || a[2][0].localeCompare(b[2][0]));
       const linkedName = (k) => { const [l, i] = k.split(":"); const x = (state.data.entities[l] || {})[i]; return x ? x.n : k; };
       const hrow = ([id, o, h, hv]) => '<tr class="click" data-orghost="' + esc(id + "|" + h[0]) + '"><td>' + esc(h[0]) +
-        (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + '<span class="src">' + esc(o.n) + (h[6] ? " · " + esc(t("measured_at").replace("{x}", linkedName(h[6]))) : "") +
+        (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (h[9] ? urTag() : "") + '<span class="src">' + esc(o.n) + (h[6] ? " · " + esc(t("measured_at").replace("{x}", linkedName(h[6]))) : "") +
         '</span></td><td class="num">' + (hv.st ? "" : fmt(hv.v)) + "</td><td>" + (hv.st ? stTag(ST_NAME[hv.st]) : chip(lightOf(hv.v), " ")) + "</td></tr>";
       const byOrg = {};
       hosts.forEach(([id, o, , hv]) => { const x = byOrg[id] || (byOrg[id] = { o, n: 0, sum: 0, cnt: 0 }); x.n++; if (hv.v !== null && hv.v !== undefined) { x.sum += hv.v; x.cnt++; } });
@@ -572,7 +573,7 @@
         const [lvl, ...rest] = x[1].split(":"); const id = rest.join(":");
         const e = (state.data.entities[lvl] || {})[id];
         const st = {}; order.forEach((cid, i) => { st[cid] = (x[7] || "")[i] || "-"; });
-        return { h: x[0], key: x[1], lvl, id, owner: e ? e.n : x[1], o: x[2], c: { ownership: x[3], sovereignty: x[4], security: x[5], privacy: x[6] }, st, crit: !!x[8], ko: x[9] || "" };
+        return { h: x[0], key: x[1], lvl, id, owner: e ? e.n : x[1], o: x[2], c: { ownership: x[3], sovereignty: x[4], security: x[5], privacy: x[6] }, st, crit: !!x[8], ko: x[9] || "", ur: !!x[10] };
       });
       return HL.rows;
     });
@@ -609,7 +610,7 @@
       CATS.map(([c, m]) => th("cat:" + c, simple() ? t("m_" + m) : t({ tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" }[m]), t("m_" + m))).join("") +
       (simple() ? "" : CHECK_IDS.map((cid) => th("chk:" + cid, CHECK_SHORT[cid], t(cid))).join(""));
     const body = part.map((r) => '<tr class="click" data-hostrow="' + esc(r.key + "|" + r.h) + '"><td class="hn">' + esc(r.h) +
-      (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + "</td><td>" + esc(r.owner) + '</td><td class="src">' + esc(t(KIND_LABEL[r.lvl])) + "</td>" +
+      (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (r.ur ? urTag() : "") + "</td><td>" + esc(r.owner) + '</td><td class="src">' + esc(t(KIND_LABEL[r.lvl])) + "</td>" +
       (r.ko ? cell(r.o, t("m_tm"), null).replace(/>0<\/td>$/, '><span title="' + esc(t("ko_row") + ": " + r.ko) + '">0 <span class="kotag">K.-o.</span></span></td>') : cell(r.o, t("m_tm"), null)) +
       CATS.map(([c, m]) => cell(r.c[c], t("m_" + m), null)).join("") +
       (simple() ? "" : CHECK_IDS.map((cid) => stCell(r.st[cid], t(cid))).join("")) + "</tr>").join("");
@@ -711,7 +712,7 @@
     const pubs = [...orgIds].map((id) => [id, state.data.entities.organisation[id]]).sort((a, b) => a[1].n.localeCompare(b[1].n));
     const linkedName = (k) => { const [l, i] = k.split(":"); const x = (state.data.entities[l] || {})[i]; return x ? x.n : k; };
     const hrows = hostRows.map(([id, o, h]) => '<tr class="click" data-orghost="' + esc(id + "|" + h[0]) + '"><td>' + esc(h[0]) +
-      (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + '<span class="src">' + esc(o.n) + (h[4] ? " · " + esc(t("st_" + h[4]) !== "st_" + h[4] ? t("st_" + h[4]) : h[4]) : "") +
+      (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (h[9] ? urTag() : "") + '<span class="src">' + esc(o.n) + (h[4] ? " · " + esc(t("st_" + h[4]) !== "st_" + h[4] ? t("st_" + h[4]) : h[4]) : "") +
       (h[6] ? " · " + esc(t("measured_at").replace("{x}", linkedName(h[6]))) : "") + '</span></td><td class="num">' + fmt(h[1]) + "</td><td>" +
       chip(lightOf(h[1]), " ") + "</td></tr>").join("");
     const rows = pubs.map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + (o.sub ? '<span class="src">' + esc(o.sub) + "</span>" : "") +
@@ -1036,7 +1037,7 @@
     panel.innerHTML = '<p class="muted">' + esc(t("loading")) + "</p>";
     loadResources(level, id).then((list) => {
       const rows = list.map((r, i) => '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) +
-        (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (r.ko ? ' <span class="chip">K.-o.</span>' : "") +
+        (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + (r.ko ? ' <span class="chip">K.-o.</span>' : "") + (r.ur ? urTag() : "") +
         '</td><td class="num">' + fmt(r.o) + "</td><td>" + chip(lightOf(r.o), " ") + "</td></tr>").join("");
       panel.innerHTML = '<button class="close" data-sel="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
         "<h2>" + esc(e.n) + '</h2><p class="sub">' + esc(t("res_title")) + ": " + list.length + "</p>" +
@@ -1063,6 +1064,7 @@
     panel.innerHTML = '<button class="close" data-res="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>" +
       "<h2>" + esc(r.h) + '</h2><p class="sub">' + esc(e.n) + (r.crit ? " · " + esc(t("crit_tag")) : "") + "</p>" +
       (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + "</p>" : "") +
+      (r.ur ? '<p class="note"><b>' + esc(t("ur_tag")) + ".</b> " + esc(t("ur_note")) + "</p>" : "") +
       '<div class="tmhead"><span class="v">' + fmt(r.o) + "</span>" + chip(lightOf(r.o), null, ["r", level, id, idx, "overall"].join("|")) + "</div>" +
       [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]].map(([k, m]) => {
         const v = r.c ? r.c[k] : null;
