@@ -89,7 +89,16 @@ again.
 | ID | Check | Pass | Partial | Fail | Weight |
 |---|---|---|---|---|---|
 | sec.tls13 | TLS 1.3 | every endpoint negotiates TLS 1.3 | some do | none | 1 |
-| sec.pqc | Post-quantum key exchange enabled and preferred | every endpoint accepts X25519MLKEM768 and chooses it when the client offers X25519 first | accepted but not preferred, or not on all endpoints | not accepted | 1 |
+| sec.pqc | Post-quantum key exchange offered and preferred | every endpoint accepts X25519MLKEM768 and chooses it when the client offers X25519 first (preferred) | accepted when offered alone but not chosen over X25519 (offered), or not on all endpoints | not accepted | 1 |
+
+Why "offered" only earns a partial: Chrome, Edge, Firefox, Safari and
+OpenSSL 3.5 put X25519MLKEM768 first, so a server that merely accepts it
+already protects those connections. Clients that list the classical group
+first (older libraries, apps, APIs, server-to-server connections) only get
+post-quantum protection from a server that prefers it. The draft therefore
+keeps "offered and preferred" as the requirement from the Trust Posture
+fundamentals, and gives half the points for "offered" (decided
+19 November 2026).
 
 ### D. Connection privacy
 

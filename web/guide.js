@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      pq_preferred: "bevorzugt", pq_enabled: "angeboten", pq_no: "nicht angeboten",
       hosts_sorted_col: "Wert der gewählten Spalte pro Host, tiefster zuerst. Klick zeigt alle Prüfungen des Hosts.", orgs_mean_col: "Mittel der Hosts in dieser Gruppe für die gewählte Spalte. Klick zeigt die Organisation.",
       back_github: "Zurück zu GitHub",
       level_federal: "Bund", level_sector: "Kritische Dienste", fed_table_title: "Bundesverwaltung", fed_total: "Bundesverwaltung gesamt, gewichtet nach Anzahl Dienste",
@@ -90,7 +91,7 @@ window.GUIDE = {
       "sov.hosting": { s: "Die Server des Dienstes stehen in einem Netz, das in der Schweiz registriert ist oder dem Betreiber selbst gehört.", x: "AS-Land aller A/AAAA-Adressen (Team Cymru); eigenes Netz zählt mit dem Sitz der Organisation. Alle CH = erfüllt, CH/EWR = teilweise." },
       "sov.tld": { s: "Die Adresse endet auf .ch oder .swiss. Diese Endungen werden in der Schweiz verwaltet.", x: "TLD .ch oder .swiss = erfüllt." },
       "sec.tls13": { s: "Die Verbindung nutzt die aktuelle Version der Verschlüsselung.", x: "Ausgehandelte Version je Endpunkt. Alle TLS 1.3 = erfüllt, einige = teilweise." },
-      "sec.pqc": { s: "Die Verbindung ist auch gegen künftige Quantencomputer geschützt. Wichtig, weil heute aufgezeichnete Daten später entschlüsselt werden könnten.", x: "Handshake nur mit X25519MLKEM768 (aktiviert) und mit Angebot X25519 + X25519MLKEM768 (bevorzugt). Alle bevorzugt = erfüllt, aktiviert = teilweise." },
+      "sec.pqc": { s: "Die Verbindung ist auch gegen künftige Quantencomputer geschützt. Das zählt schon heute, weil Angreifer verschlüsselte Daten aufzeichnen und später entschlüsseln könnten. Erfüllt ist die Prüfung, wenn der Server das quantensichere Verfahren immer wählt (bevorzugt). Bietet er es nur an, gibt es die halbe Punktzahl: Moderne Browser nutzen es dann zwar, ältere Apps, Schnittstellen und Server-zu-Server-Verbindungen aber oft nicht.", x: "Zwei Handshakes je Endpunkt: nur X25519MLKEM768 angeboten (angeboten = Server akzeptiert) und X25519 vor X25519MLKEM768 angeboten (bevorzugt = Server wählt trotzdem ML-KEM). Alle bevorzugt = erfüllt (1); angeboten, aber nicht bevorzugt, oder nicht auf allen Endpunkten = teilweise (0.5); kein ML-KEM = nicht erfüllt (0). Browser senden ML-KEM heute zuerst; der Unterschied betrifft Clients mit klassischer Reihenfolge." },
       "prv.ech": { s: "Auch der Name der besuchten Website wird verschlüsselt. Ohne ECH sehen ihn alle im Netz, etwa der Internetanbieter.", x: "HTTPS-Eintrag (Typ 65) mit gültiger ECHConfigList = erfüllt." },
     },
     sections: {
@@ -132,6 +133,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      pq_preferred: "préféré", pq_enabled: "proposé", pq_no: "non proposé",
       hosts_sorted_col: "Valeur de la colonne choisie par hôte, la plus basse d’abord. Cliquez pour voir tous les contrôles de l’hôte.", orgs_mean_col: "Moyenne des hôtes de ce groupe pour la colonne choisie. Cliquez pour voir l’organisation.",
       back_github: "Retour à GitHub",
       level_federal: "Confédération", level_sector: "Services critiques", fed_table_title: "Administration fédérale", fed_total: "Administration fédérale au total, pondérée par le nombre de services",
@@ -216,7 +218,7 @@ window.GUIDE = {
       "sov.hosting": { s: "Les serveurs du service se trouvent dans un réseau enregistré en Suisse ou appartenant à l’exploitant.", x: "Pays de l’AS de toutes les adresses A/AAAA (Team Cymru) ; le réseau propre compte avec le siège de l’organisation. Tous CH = rempli, CH/EEE = partiel." },
       "sov.tld": { s: "L’adresse se termine par .ch ou .swiss, gérés en Suisse.", x: "TLD .ch ou .swiss = rempli." },
       "sec.tls13": { s: "La connexion utilise la version actuelle du chiffrement.", x: "Version négociée par point d’accès. Tous TLS 1.3 = rempli, certains = partiel." },
-      "sec.pqc": { s: "La connexion est protégée aussi contre les futurs ordinateurs quantiques. Important, car des données enregistrées aujourd’hui pourraient être déchiffrées plus tard.", x: "Handshake avec X25519MLKEM768 seul (activé) et avec l’offre X25519 + X25519MLKEM768 (préféré). Tous préférés = rempli, activé = partiel." },
+      "sec.pqc": { s: "La connexion est protégée aussi contre les futurs ordinateurs quantiques. Cela compte dès aujourd’hui, car des données chiffrées enregistrées maintenant pourraient être déchiffrées plus tard. Le contrôle est rempli si le serveur choisit toujours le procédé résistant au quantique (préféré). S’il le propose seulement, il obtient la moitié des points : les navigateurs modernes l’utilisent alors, mais souvent pas les anciennes applications, interfaces et connexions entre serveurs.", x: "Deux handshakes par point d’accès : seulement X25519MLKEM768 proposé (proposé = le serveur l’accepte) et X25519 avant X25519MLKEM768 (préféré = le serveur choisit quand même ML-KEM). Tous préférés = rempli (1) ; proposé sans être préféré, ou pas sur tous les points d’accès = partiel (0.5) ; pas de ML-KEM = non rempli (0). Les navigateurs envoient aujourd’hui ML-KEM en premier ; la différence concerne les clients à l’ordre classique." },
       "prv.ech": { s: "Le nom du site visité est aussi chiffré. Sans ECH, il est visible sur le réseau, par exemple pour le fournisseur d’accès.", x: "Enregistrement HTTPS (type 65) avec ECHConfigList valide = rempli." },
     },
     sections: {
@@ -258,6 +260,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      pq_preferred: "preferito", pq_enabled: "offerto", pq_no: "non offerto",
       hosts_sorted_col: "Valore della colonna scelta per host, il più basso prima. Cliccare per tutti i controlli dell’host.", orgs_mean_col: "Media degli host di questo gruppo per la colonna scelta. Cliccare per l’organizzazione.",
       back_github: "Torna a GitHub",
       level_federal: "Confederazione", level_sector: "Servizi critici", fed_table_title: "Amministrazione federale", fed_total: "Amministrazione federale nel complesso, ponderata per numero di servizi",
@@ -342,7 +345,7 @@ window.GUIDE = {
       "sov.hosting": { s: "I server del servizio si trovano in una rete registrata in Svizzera o del gestore stesso.", x: "Paese dell’AS di tutti gli indirizzi A/AAAA (Team Cymru); la rete propria conta con la sede dell’organizzazione. Tutti CH = soddisfatto, CH/SEE = parziale." },
       "sov.tld": { s: "L’indirizzo termina con .ch o .swiss, gestiti in Svizzera.", x: "TLD .ch o .swiss = soddisfatto." },
       "sec.tls13": { s: "La connessione usa la versione attuale della cifratura.", x: "Versione negoziata per endpoint. Tutti TLS 1.3 = soddisfatto, alcuni = parziale." },
-      "sec.pqc": { s: "La connessione è protetta anche dai futuri computer quantistici. Importante, perché dati registrati oggi potrebbero essere decifrati più tardi.", x: "Handshake solo con X25519MLKEM768 (attivato) e con offerta X25519 + X25519MLKEM768 (preferito). Tutti preferiti = soddisfatto, attivato = parziale." },
+      "sec.pqc": { s: "La connessione è protetta anche dai futuri computer quantistici. Conta già oggi, perché dati cifrati registrati ora potrebbero essere decifrati più tardi. Il controllo è soddisfatto se il server sceglie sempre il procedimento resistente ai quanti (preferito). Se lo offre soltanto, ottiene metà dei punti: i browser moderni lo usano, ma spesso non le app più vecchie, le interfacce e le connessioni tra server.", x: "Due handshake per endpoint: solo X25519MLKEM768 offerto (offerto = il server lo accetta) e X25519 prima di X25519MLKEM768 (preferito = il server sceglie comunque ML-KEM). Tutti preferiti = soddisfatto (1); offerto ma non preferito, o non su tutti gli endpoint = parziale (0.5); nessun ML-KEM = non soddisfatto (0). I browser oggi inviano ML-KEM per primo; la differenza riguarda i client con ordine classico." },
       "prv.ech": { s: "Anche il nome del sito visitato è cifrato. Senza ECH è visibile in rete, per esempio al fornitore di accesso.", x: "Record HTTPS (tipo 65) con ECHConfigList valida = soddisfatto." },
     },
     sections: {
@@ -384,6 +387,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      pq_preferred: "preferred", pq_enabled: "offered", pq_no: "not offered",
       hosts_sorted_col: "Value of the chosen column per host, lowest first. Click to see all checks of the host.", orgs_mean_col: "Mean of the hosts in this group for the chosen column. Click to see the organisation.",
       back_github: "Back to GitHub",
       level_federal: "Federal", level_sector: "Critical services", fed_table_title: "Federal administration", fed_total: "Federal administration overall, weighted by number of services",
@@ -468,7 +472,7 @@ window.GUIDE = {
       "sov.hosting": { s: "The service's servers sit in a network registered in Switzerland or owned by the operator itself.", x: "AS country of all A/AAAA addresses (Team Cymru); the organisation's own network counts with its seat. All CH = pass, CH/EEA = partial." },
       "sov.tld": { s: "The address ends in .ch or .swiss, which are managed in Switzerland.", x: "TLD .ch or .swiss = pass." },
       "sec.tls13": { s: "The connection uses the current version of encryption.", x: "Negotiated version per endpoint. All TLS 1.3 = pass, some = partial." },
-      "sec.pqc": { s: "The connection is also protected against future quantum computers. This matters because data recorded today could be decrypted later.", x: "Handshake offering only X25519MLKEM768 (enabled) and offering X25519 + X25519MLKEM768 (preferred). All preferred = pass, enabled = partial." },
+      "sec.pqc": { s: "The connection is also protected against future quantum computers. This matters today, because encrypted data recorded now could be decrypted later. The check passes if the server always chooses the quantum-safe method (preferred). If it only offers it, it gets half the points: modern browsers then use it, but older apps, interfaces and server-to-server connections often do not.", x: "Two handshakes per endpoint: only X25519MLKEM768 offered (offered = the server accepts it) and X25519 before X25519MLKEM768 (preferred = the server still chooses ML-KEM). All preferred = pass (1); offered but not preferred, or not on all endpoints = partial (0.5); no ML-KEM = fail (0). Browsers send ML-KEM first today; the difference affects clients with the classical order." },
       "prv.ech": { s: "The name of the visited website is encrypted too. Without ECH anyone on the network can see it, for example the internet provider.", x: "HTTPS record (type 65) with a valid ECHConfigList = pass." },
     },
     sections: {
