@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import re
 import smtplib
-import socket
 import ssl
 from concurrent.futures import ThreadPoolExecutor
 

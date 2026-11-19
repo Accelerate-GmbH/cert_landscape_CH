@@ -188,7 +188,7 @@ its hosts with a drill-down to every check.
 
 ## 6. Logging
 
-Every check execution is written to `checks.jsonl`, one line per resource and
+Every check execution is written to `checks.jsonl.gz`, one line per resource and
 check: time of the check, entity, hostname, check ID, category, result,
 measured value, method (for example `tls`, `ocsp`, `dns-ad`, `ccadb-root`)
 and evidence. Endpoint-level details (address, TLS version, group, SCTs,

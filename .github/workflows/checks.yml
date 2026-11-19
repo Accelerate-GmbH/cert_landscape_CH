@@ -1,0 +1,50 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install
+        run: pip install -e . pytest pyflakes pyyaml
+      - name: Tests
+        run: pytest -q
+      - name: Static analysis
+        run: pyflakes src tools tests
+      - name: JavaScript syntax
+        run: for f in web/*.js; do node --check "$f"; done
+      - name: Workflow and config syntax
+        run: |
+          python - <<'EOF'
+          import json, pathlib, tomllib, yaml
+          for p in pathlib.Path(".github/workflows").glob("*.yml"):
+              yaml.safe_load(p.read_text())
+          for p in pathlib.Path("config").glob("*.toml"):
+              tomllib.loads(p.read_text())
+          for p in pathlib.Path("config").glob("*.json"):
+              json.loads(p.read_text())
+          EOF
+      - name: Repository consistency
+        run: python tools/check_repo.py

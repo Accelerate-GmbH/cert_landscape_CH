@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import logging
 import platform
@@ -53,15 +54,7 @@ def cmd_run(a) -> int:
         "python": platform.python_version(), "http": result["http_stats"],
     }
     paths = write_all(result, out_dir, registry, meta)
-    latest = Path(a.out) / "latest"
-    latest.mkdir(parents=True, exist_ok=True)
-    import shutil
-    for p in paths.values():
-        if p.is_dir():
-            shutil.rmtree(latest / p.name, ignore_errors=True)
-            shutil.copytree(p, latest / p.name)
-        else:
-            (latest / p.name).write_bytes(p.read_bytes())
+    publish_outputs(paths, Path(a.out), out_dir)
     print(json.dumps({k: str(v) for k, v in paths.items()}, indent=1))
     unknown = Counter(r["issuer_org"] for r in result["hostnames"] if r["ca_id"] == "unknown")
     if unknown:
@@ -92,15 +85,7 @@ def cmd_merge(a) -> int:
     }
     out_dir = Path(a.out) / snapshot
     paths = write_all(result, out_dir, registry, meta)
-    import shutil
-    latest = Path(a.out) / "latest"
-    latest.mkdir(parents=True, exist_ok=True)
-    for p in paths.values():
-        if p.is_dir():
-            shutil.rmtree(latest / p.name, ignore_errors=True)
-            shutil.copytree(p, latest / p.name)
-        else:
-            (latest / p.name).write_bytes(p.read_bytes())
+    publish_outputs(paths, Path(a.out), out_dir)
     print(json.dumps({k: str(v) for k, v in paths.items()}, indent=1))
     return 0
 
@@ -122,9 +107,41 @@ def cmd_verify_list(a) -> int:
     return 0
 
 
+def _read_json(path: str) -> dict:
+    p = Path(path)
+    if p.suffix == ".gz":
+        with gzip.open(p, "rt", encoding="utf-8") as fh:
+            return json.load(fh)
+    return json.loads(p.read_text())
+
+
+# Files kept in the dated snapshot folder (history); everything else only in latest/.
+HISTORY = {"run.json", "entities.csv", "results.json.gz", "restricted"}
+# Names that older versions wrote to latest/ and that are no longer produced.
+OBSOLETE = {"results.json", "checks.jsonl"}
+
+
+def publish_outputs(paths: dict, out_root: Path, out_dir: Path) -> None:
+    """Copy the full set to out_root/latest, keep only HISTORY in the dated folder."""
+    import shutil
+    latest = out_root / "latest"
+    latest.mkdir(parents=True, exist_ok=True)
+    for name in OBSOLETE:
+        (latest / name).unlink(missing_ok=True)
+    for p in paths.values():
+        if p.is_dir():
+            shutil.rmtree(latest / p.name, ignore_errors=True)
+            shutil.copytree(p, latest / p.name)
+        else:
+            (latest / p.name).write_bytes(p.read_bytes())
+    for p in out_dir.iterdir():
+        if p.name not in HISTORY:
+            shutil.rmtree(p) if p.is_dir() else p.unlink()
+
+
 def cmd_diff(a) -> int:
-    old = {r["key"]: r for r in json.loads(Path(a.old).read_text())["entities"]}
-    new = {r["key"]: r for r in json.loads(Path(a.new).read_text())["entities"]}
+    old = {r["key"]: r for r in _read_json(a.old)["entities"]}
+    new = {r["key"]: r for r in _read_json(a.new)["entities"]}
     print("key\tname\tsovereignty_old\tsovereignty_new\tassurance_old\tassurance_new\thosts_old\thosts_new")
     for k in sorted(set(old) | set(new)):
         o, n = old.get(k, {}), new.get(k, {})
@@ -186,14 +203,14 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("--cache", default=str(ROOT / ".cache"))
     v.set_defaults(func=cmd_verify_list)
 
-    d = sub.add_parser("diff", help="compare two results.json snapshots")
+    d = sub.add_parser("diff", help="compare two results.json(.gz) snapshots")
     d.add_argument("old")
     d.add_argument("new")
     d.add_argument("--changed-only", action="store_true")
     d.set_defaults(func=cmd_diff)
 
     u = sub.add_parser("unknown-issuers", help="list issuers missing from the CA registry")
-    u.add_argument("results", help="path to results.json")
+    u.add_argument("results", help="path to results.json(.gz)")
     u.set_defaults(func=cmd_unknown)
 
     a = ap.parse_args(argv)

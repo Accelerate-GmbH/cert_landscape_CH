@@ -1,4 +1,4 @@
-import csv,json,re,requests,html,os
+import csv,json,re,requests,html
 from concurrent.futures import ThreadPoolExecutor
 import urllib3; urllib3.disable_warnings()
 r=list(csv.DictReader(open('kritische_digitale_services_ch_top1000.csv',encoding='utf-8-sig')))

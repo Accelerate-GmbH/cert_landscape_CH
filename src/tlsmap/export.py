@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 from pathlib import Path
 
@@ -380,9 +381,11 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = {}
 
-    p = out_dir / "results.json"
-    p.write_text(json.dumps({"meta": run_meta, **{k: v for k, v in result.items() if k not in ("hostnames", "checklog", "tm_cfg")}},
-                            ensure_ascii=False, indent=1))
+    # large files are written compressed to keep the repository small
+    p = out_dir / "results.json.gz"
+    with gzip.open(p, "wt", encoding="utf-8", compresslevel=9) as fh:
+        json.dump({"meta": run_meta, **{k: v for k, v in result.items() if k not in ("hostnames", "checklog", "tm_cfg")}},
+                  fh, ensure_ascii=False, indent=1)
     paths["results"] = p
 
     p = out_dir / "hostnames.csv"
@@ -410,8 +413,8 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
                     "cert_sha256": c.get("sha256")}.items()})
     paths["endpoints"] = p
 
-    p = out_dir / "checks.jsonl"
-    with p.open("w", encoding="utf-8") as fh:
+    p = out_dir / "checks.jsonl.gz"
+    with gzip.open(p, "wt", encoding="utf-8", compresslevel=9) as fh:
         for x in result.get("checklog", []):
             fh.write(json.dumps(x, ensure_ascii=False, default=str) + "\n")
     paths["checklog"] = p
