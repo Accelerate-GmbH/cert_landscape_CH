@@ -26,7 +26,7 @@ in use, against every address (A and AAAA) with SNI:
 | Ownership visibility and protection | OV/EV certificate on all endpoints, live revocation (OCSP/CRL), DNSSEC, CAA, CT (embedded SCTs) |
 | Technology sovereignty | domicile of the CA (by its root) and hosting network (own network counts with the seat), control and spread of the DNS operation; Swiss TLD |
 | Connection security | TLS 1.3, post-quantum key exchange (X25519MLKEM768) enabled and preferred |
-| Connection privacy | Encrypted Client Hello configured in DNS |
+| Connection privacy | [Encrypted Client Hello (ECH)](https://support.mozilla.org/en-US/kb/understand-encrypted-client-hello) configured in DNS |
 
 How the results become scores, traffic lights and a rating per canton and
 municipality is proposed in [docs/RATING.md](docs/RATING.md) (draft v0.1, for

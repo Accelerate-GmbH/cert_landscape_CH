@@ -533,9 +533,11 @@
 
   /* ---- sector matrix ------------------------------------------------------- */
   const CHECK_IDS = ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "own.sectxt", "sov.ca", "sov.dns", "sov.registrar", "sov.hosting", "sov.tld", "sec.tls13", "sec.pqc", "sec.hsts", "prv.ech"];
-  const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "own.dnssec": "DNSSEC", "own.caa": "CAA", "own.ct": "SCT",
+  // further reading per check, shown in the help and the host detail
+const MORE = { "prv.ech": "https://support.mozilla.org/en-US/kb/understand-encrypted-client-hello" };
+const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "own.dnssec": "DNSSEC", "own.caa": "CAA", "own.ct": "SCT",
     "own.sectxt": "sec.txt", "sov.ca": "CA", "sov.dns": "DNS", "sov.registrar": "Registrar", "sov.hosting": "Host", "sov.tld": "TLD",
-    "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "sec.hsts": "HSTS", "prv.ech": "ECH" };
+    "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "sec.hsts": "HSTS", "prv.ech": "Encrypted Client Hello" };
   const CATS = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
   function share(k) { return k && k.assessed ? Math.round(100 * (k.pass + 0.5 * k.partial) / k.assessed) : null; }
   function cell(v, title, explain) {
@@ -876,6 +878,7 @@
     st_tld: ["name"], st_dns: ["dns", "cymru"], st_dnssec: ["dns"], st_host: ["cymru"], st_ca: ["ct", "ccadb"], st_root: ["ccadb"],
   };
   const src = (k) => (SRC[k] || []).map((x) => SRCL[x]()).join(", ");
+  const more = (k) => MORE[k] ? ' <a href="' + MORE[k] + '" target="_blank" rel="noopener">' + esc(t("more_info")) + "</a>" : "";
   const srcSpan = (k) => (SRC[k] ? '<span class="src">' + esc(t("source_col")) + ": " + src(k) + "</span>" : "");
 
   function chip(l, text, explain) {
@@ -1029,7 +1032,7 @@
       "</td><td>" + esc(g.cats[k].s) + (x ? '<span class="src">' + esc(g.cats[k].x) + "</span>" : "") + "</td></tr>").join("");
     const checks = CATS.map(([k, m]) => '<tr class="grp"><td colspan="' + (x ? 3 : 2) + '">' + esc(t("m_" + m)) + "</td></tr>" +
       CAT_CHECKS[k].map((cid) => "<tr><td><b>" + esc(t(cid)) + "</b>" + (x ? '<span class="src">' + esc(cid) + "</span>" : "") + "</td><td>" +
-        esc(fill(g.checks[cid].s)) + (x ? '<span class="xp">' + esc(fill(g.checks[cid].x)) + '</span><span class="src">' + esc(t("source_col")) + ": " + src(cid) + "</span>" : "") +
+        esc(fill(g.checks[cid].s)) + more(cid) + (x ? '<span class="xp">' + esc(fill(g.checks[cid].x)) + '</span><span class="src">' + esc(t("source_col")) + ": " + src(cid) + "</span>" : "") +
         "</td>" + (x ? '<td class="num">' + (c.w[cid] ?? 1) + "</td>" : "") + "</tr>").join("")).join("");
     const html = '<button class="close" data-close aria-label="' + esc(t("close")) + '">✕</button><h2>' + esc(t("help_title")) + "</h2>" +
       '<p class="sub">' + esc(t("view_hint")) + "</p>" +
@@ -1082,7 +1085,7 @@
       case "sov.dns": return [dnsLink(dom || h, "NS")];
       case "sov.hosting": return [...new Set(ips)];
       case "sec.tls13": case "sec.pqc": return [labsLink(h)];
-      case "prv.ech": return [dnsLink(h, "HTTPS")];
+      case "prv.ech": return [dnsLink(h, "HTTPS"), ext(MORE["prv.ech"], t("more_info"))];
       case "own.sectxt": return [ext("https://" + (dom || h) + "/.well-known/security.txt", "security.txt")];
       case "sov.registrar": return [ext((dom || h).endsWith(".ch") ? "https://rdap.nic.ch/domain/" + enc(dom || h) : "https://client.rdap.org/?type=domain&object=" + enc(dom || h), "RDAP")];
       case "sec.hsts": return [ext("https://hstspreload.org/?domain=" + enc(h), "hstspreload.org"), labsLink(h)];
