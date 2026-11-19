@@ -8,7 +8,8 @@
   const fetchTopo = () => fetch(TOPO_LOCAL).then((r) => (r.ok ? r.json() : Promise.reject(r)))
     .catch(() => fetch(TOPO_CDN).then((r) => r.json()));
   const params = new URLSearchParams(location.search);
-  const DATA_URL = params.get("data") || "data/map.json";
+  const BUILD = window.BUILD && window.BUILD !== "__BUILD__" ? window.BUILD : String(Date.now());   // cache buster per publication
+  const DATA_URL = params.get("data") || "data/map.json?v=" + BUILD;
 
   const state = {
     lang: pickLang(), view: pickView(), level: "canton", metric: "tm", selected: null, dim: "sektor",
@@ -209,7 +210,7 @@
   let hostIndex = null, hostIndexLoading = null;
   function loadHostIndex() {
     if (hostIndex || hostIndexLoading) return hostIndexLoading;
-    const url = DATA_URL.replace(/map\.json(\?.*)?$/, "search.json");
+    const url = DATA_URL.replace(/map\.json(\?.*)?$/, "search.json") + "?v=" + BUILD;
     hostIndexLoading = fetch(url).then((r) => (r.ok ? r.json() : { h: {} })).catch(() => ({ h: {} })).then((j) => {
       hostIndex = [];
       for (const [key, hosts] of Object.entries(j.h || {})) hosts.forEach((h) => hostIndex.push([h, key, ""]));
@@ -472,8 +473,27 @@
     html += head(title + " · " + colLabel, value) + note(fnote, plain) +
       '<p class="src">n = ' + part.n + (part.d ? " · " + (part.d.green || 0) + " " + esc(t("light_green")) + " · " + (part.d.yellow || 0) + " " + esc(t("light_yellow")) +
       " · " + (part.d.red || 0) + " " + esc(t("light_red")) : "") + "</p>";
-    const ents = isB ? Object.entries(state.data.entities[lvl] || {}) :
-      (dim === "sektor" ? Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key) : []);
+    if (!isB) {
+      const hosts = groupHosts(dim, key, pname).map(([id, o, h]) => [id, o, h, hostValue(h, col)])
+        .sort((a, b) => (a[3].v ?? 101) - (b[3].v ?? 101) || a[2][0].localeCompare(b[2][0]));
+      const linkedName = (k) => { const [l, i] = k.split(":"); const x = (state.data.entities[l] || {})[i]; return x ? x.n : k; };
+      const hrow = ([id, o, h, hv]) => '<tr class="click" data-orghost="' + esc(id + "|" + h[0]) + '"><td>' + esc(h[0]) +
+        (h[5] ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + '<span class="src">' + esc(o.n) + (h[6] ? " · " + esc(t("measured_at").replace("{x}", linkedName(h[6]))) : "") +
+        '</span></td><td class="num">' + (hv.st ? "" : fmt(hv.v)) + "</td><td>" + (hv.st ? stTag(ST_NAME[hv.st]) : chip(lightOf(hv.v), " ")) + "</td></tr>";
+      const byOrg = {};
+      hosts.forEach(([id, o, , hv]) => { const x = byOrg[id] || (byOrg[id] = { o, n: 0, sum: 0, cnt: 0 }); x.n++; if (hv.v !== null && hv.v !== undefined) { x.sum += hv.v; x.cnt++; } });
+      const orgs = Object.entries(byOrg).map(([id, x]) => [id, x, x.cnt ? Math.round(x.sum / x.cnt) : null]).sort((a, b) => (a[2] ?? 101) - (b[2] ?? 101));
+      html += "<h3>" + esc(t("hosts_here")) + " (" + hosts.length + ')</h3><p class="src">' + esc(t("hosts_sorted_col")) + "</p>" +
+        (hosts.length ? "<table><tbody>" + hosts.map(hrow).join("") + "</tbody></table>" : "") +
+        "<h3>" + esc(t("orgs_here")) + " (" + orgs.length + ')</h3><p class="src">' + esc(t("orgs_mean_col")) + "</p>" +
+        (orgs.length ? "<table><tbody>" + orgs.map(([id, x, v]) => '<tr class="click" data-sel="organisation:' + esc(id) + '"><td>' + esc(x.o.n) +
+          '<span class="src">' + x.n + " " + esc(t("n_hosts")) + (x.o.ort ? " · " + esc(x.o.ort) : "") + '</span></td><td class="num">' + fmt(v) + "</td><td>" +
+          chip(lightOf(v), " ") + "</td></tr>").join("") + "</tbody></table>" : "") +
+        (part.tief !== null && part.tief !== undefined ? '<p class="src">' + esc(t("conf_low")) + ": " + Math.round(100 * part.tief) + ' % · <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>" : "");
+      document.getElementById("panel").innerHTML = html;
+      return;
+    }
+    const ents = Object.entries(state.data.entities[lvl] || {});
     const elvl = isB ? lvl : "organisation";
     const rows = ents.map(([id, e]) => [id, e, getv(e)]).filter(([, , v]) => v !== null && v !== undefined).sort((a, b) => a[2] - b[2])
       .map(([id, e, v]) => '<tr class="click" data-sel="' + elvl + ":" + id + '"><td>' + esc(e.n) + '</td><td class="num">' + v + "</td><td>" + chip(lightOf(v), " ") + "</td></tr>").join("");
@@ -567,18 +587,31 @@
     const d = dimData("sektor");
     return Object.entries(d).some(([k, x]) => !k.startsWith("@") && x.orgs > (x.public || 0));
   }
+  /* Hosts of the critical-services list in one group of the sector table. */
+  function groupHosts(dim, key, pname) {
+    const inGroup = (o, h) => dim === "sektor" ? (h[2] || o.sec || "–") === key : dim === "teilsektor" ? ((h[2] || o.sec || "–") + " / " + (h[3] || o.sub || "–")) === key :
+      dim === "service_typ" ? (h[4] || "–") === key : dim === "kanton" ? (o.kt || o.c || "–") === key : false;
+    const out = [];
+    Object.entries(state.data.entities.organisation || {}).forEach(([id, o]) => (o.hs || []).forEach((h) => {
+      if (inGroup(o, h) && (pname === "all" || (pname === "krit") === !!h[5])) out.push([id, o, h]);
+    }));
+    return out;
+  }
+  const ST_NAME = { p: "pass", h: "partial", f: "fail", "-": "n/a" };
+  function hostValue(h, col) {
+    if (col === "o") return { v: h[1] };
+    if (col.startsWith("cat:")) { const i = CATS.findIndex(([c]) => c === col.slice(4)); return { v: h[7] ? h[7][i] : null }; }
+    const order = state.data.chk_order || CHECK_IDS;
+    const st = (h[8] || "")[order.indexOf(col.slice(4))] || "-";
+    return { st, v: { p: 100, h: 50, f: 0 }[st] ?? null };
+  }
   function sectorPanel(spec) {
     const [dim, key] = spec.includes("|") ? spec.split("|") : ["sektor", spec];
     const d = dimData(dim)[key];
     if (!d) return;
     if (key.startsWith("@")) { select(null, null); return; }
-    const inGroup = (o, h) => dim === "sektor" ? (h[2] || o.sec || "–") === key : dim === "teilsektor" ? ((h[2] || o.sec || "–") + " / " + (h[3] || o.sub || "–")) === key :
-      dim === "service_typ" ? (h[4] || "–") === key : dim === "kanton" ? (o.kt || o.c || "–") === key : false;
-    const hostRows = [];
-    const orgIds = new Set();
-    Object.entries(state.data.entities.organisation || {}).forEach(([id, o]) => (o.hs || []).forEach((h) => {
-      if (inGroup(o, h)) { hostRows.push([id, o, h]); orgIds.add(id); }
-    }));
+    const hostRows = groupHosts(dim, key, "all");
+    const orgIds = new Set(hostRows.map((x) => x[0]));
     hostRows.sort((a, b) => (a[2][1] ?? 101) - (b[2][1] ?? 101) || a[2][0].localeCompare(b[2][0]));
     const pubs = [...orgIds].map((id) => [id, state.data.entities.organisation[id]]).sort((a, b) => a[1].n.localeCompare(b[1].n));
     const linkedName = (k) => { const [l, i] = k.split(":"); const x = (state.data.entities[l] || {})[i]; return x ? x.n : k; };
@@ -900,7 +933,7 @@
   function loadResources(level, id) {
     const key = level + "-" + id;
     if (cache[key]) return Promise.resolve(cache[key]);
-    return fetch("data/resources/" + key + ".json").then((r) => (r.ok ? r.json() : [])).then((d) => (cache[key] = d));
+    return fetch("data/resources/" + key + ".json?v=" + BUILD).then((r) => (r.ok ? r.json() : [])).then((d) => (cache[key] = d));
   }
   function resourceList(level, id) {
     const e = state.data.entities[level][id];

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trust Posture Schweiz</title>
 <link rel="stylesheet" href="vendor/leaflet.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=__BUILD__">
 </head>
 <body>
 <div class="viz-root">
@@ -73,8 +73,9 @@
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="i18n.js"></script>
-<script src="guide.js"></script>
-<script src="app.js"></script>
+<script>window.BUILD = "__BUILD__";</script>
+<script src="i18n.js?v=__BUILD__"></script>
+<script src="guide.js?v=__BUILD__"></script>
+<script src="app.js?v=__BUILD__"></script>
 </body>
 </html>
