@@ -6,6 +6,9 @@
 window.GUIDE = {
   de: {
     ui: {
+      fed_title: "Bund", fed_note: "Departemente, Ämter, Gerichte und Parlament. Klicken für Details.",
+      t_canton: "Kanton", t_municipality: "Gemeinde", t_federal: "Bund", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
+      no_match: "Keine Treffer", searching: "Suche …", search: "Kanton, Gemeinde, Bund, Domain oder Host",
       view: "Ansicht", view_simple: "Einfach", view_expert: "Fachlich", help: "Erklärungen",
       help_title: "So funktioniert die Karte", help_more: "Ausführliche Methode (GitHub)",
       verdict_green: "Gut aufgestellt", verdict_yellow: "Teilweise gut aufgestellt", verdict_red: "Deutlicher Handlungsbedarf", verdict_none: "Noch nicht bewertet",
@@ -17,7 +20,7 @@ window.GUIDE = {
       why: "Warum wichtig", how_measured: "Wie gemessen", criteria: "Bewertung", cat_col: "Bereich",
       sec_what: "Was die Karte zeigt", sec_lights: "Die Ampel", sec_cats: "Die vier Bereiche", sec_checks: "Die zwölf Prüfungen",
       sec_crit: "Kritische Dienste", sec_data: "Daten und Aktualisierung", sec_limits: "Was die Bewertung nicht sagt",
-      intro_simple: "Die Karte zeigt, wie gut die Online-Dienste von Kantonen und Gemeinden geschützt sind und wie stark sie von ausländischen Anbietern abhängen. Klicken Sie auf einen Kanton oder eine Gemeinde.",
+      intro_simple: "Die Karte zeigt, wie gut die Online-Dienste von Kantonen, Gemeinden und Bund geschützt sind und wie stark sie von ausländischen Anbietern abhängen. Klicken Sie auf einen Kanton oder eine Gemeinde.",
       to_help: "Alles erklärt", view_hint: "Einfach: Erklärungen ohne Vorwissen. Fachlich: alle Kennzahlen, Formeln und Rohwerte.",
       sector_intro_simple: "Die Tabelle zeigt pro Wirtschaftssektor, wie gut die wichtigsten Online-Dienste abschneiden. Einzelne Firmen werden nicht gezeigt.",
       orgs_simple: "Kreise auf der Karte: Organisationen der Liste kritischer Dienste, gruppiert nach Ort. Die Farben zeigen den Anteil grün, gelb und rot.",
@@ -77,9 +80,11 @@ window.GUIDE = {
     sections: {
       what: {
         s: ["Die Karte zeigt, wie gut die Websites, Portale und Mail-Server von Kantonen, Gemeinden und wichtigen Organisationen geschützt sind und wie stark sie von ausländischen Anbietern abhängen.",
-            "Gemessen wird von aussen, so wie ein Besucher den Dienst sieht. Jeder Dienst wird mit zwölf Prüfungen in vier Bereichen bewertet. Daraus entsteht eine Zahl von 0 bis 100 und eine Ampelfarbe."],
+            "Gemessen wird von aussen, so wie ein Besucher den Dienst sieht. Jeder Dienst wird mit zwölf Prüfungen in vier Bereichen bewertet. Daraus entsteht eine Zahl von 0 bis 100 und eine Ampelfarbe.",
+            "Der Bund hat keine eigene Fläche auf der Karte. Er erscheint als Kästchen oben rechts, aufgeteilt nach Departementen. In der Suche lassen sich auch einzelne Domains und Hosts finden."],
         x: ["Ressourcen = Hostnamen in Betrieb (lösen im DNS auf), gefunden über Certificate Transparency unter den Domains der Einheit. Pro Ressource zwölf Prüfungen (Trust Posture, Entwurf v0.1), live über alle A/AAAA-Endpunkte mit SNI.",
-            "Ebenen: Kantone, Gemeinden, Bund; dazu die Liste kritischer Dienste, nur als Aggregat. Unter «Weitere Kennzahlen» stehen die zertifikatsbezogenen Werte des ursprünglichen Modells (Souveränität, Identitätsprüfung, CAA, gute Praxis)."],
+            "Ebenen: Kantone, Gemeinden, Bund; dazu die Liste kritischer Dienste, nur als Aggregat. Unter «Weitere Kennzahlen» stehen die zertifikatsbezogenen Werte des ursprünglichen Modells (Souveränität, Identitätsprüfung, CAA, gute Praxis).",
+            "Der Bund hat keine eigene Fläche auf der Karte. Er erscheint als Kästchen oben rechts, aufgeteilt nach Departementen. In der Suche lassen sich auch einzelne Domains und Hosts finden."],
       },
       crit: {
         s: ["Zusätzlich prüfen wir die rund 1000 wichtigsten Online-Dienste der Schweiz, etwa von Banken, Spitälern, Energie, Verkehr und Medien.",
@@ -111,6 +116,9 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      fed_title: "Confédération", fed_note: "Départements, offices, tribunaux et parlement. Cliquez pour les détails.",
+      t_canton: "Canton", t_municipality: "Commune", t_federal: "Confédération", t_organisation: "Organisation", t_domain: "Domaine", t_host: "Hôte",
+      no_match: "Aucun résultat", searching: "Recherche …", search: "Canton, commune, Confédération, domaine ou hôte",
       view: "Affichage", view_simple: "Simple", view_expert: "Expert", help: "Explications",
       help_title: "Comment lire la carte", help_more: "Méthode détaillée (GitHub)",
       verdict_green: "Bien positionné", verdict_yellow: "Partiellement bien positionné", verdict_red: "Action nécessaire", verdict_none: "Pas encore évalué",
@@ -122,7 +130,7 @@ window.GUIDE = {
       why: "Pourquoi c’est important", how_measured: "Comment c’est mesuré", criteria: "Évaluation", cat_col: "Domaine",
       sec_what: "Ce que montre la carte", sec_lights: "Les feux", sec_cats: "Les quatre domaines", sec_checks: "Les douze contrôles",
       sec_crit: "Services critiques", sec_data: "Données et mise à jour", sec_limits: "Ce que l’évaluation ne dit pas",
-      intro_simple: "La carte montre la protection des services en ligne des cantons et des communes et leur dépendance envers des fournisseurs étrangers. Cliquez sur un canton ou une commune.",
+      intro_simple: "La carte montre la protection des services en ligne des cantons, des communes et de la Confédération et leur dépendance envers des fournisseurs étrangers. Cliquez sur un canton ou une commune.",
       to_help: "Tout est expliqué", view_hint: "Simple : explications sans connaissances préalables. Expert : tous les indicateurs, formules et valeurs brutes.",
       sector_intro_simple: "Le tableau montre, par secteur économique, les résultats des principaux services en ligne. Les entreprises individuelles ne sont pas affichées.",
       orgs_simple: "Cercles sur la carte : organisations de la liste des services critiques, regroupées par lieu. Les couleurs montrent la part de vert, jaune et rouge.",
@@ -182,9 +190,11 @@ window.GUIDE = {
     sections: {
       what: {
         s: ["La carte montre la protection des sites, portails et serveurs de messagerie des cantons, des communes et d’organisations importantes, et leur dépendance envers des fournisseurs étrangers.",
-            "La mesure se fait de l’extérieur, comme un visiteur voit le service. Chaque service est évalué par douze contrôles dans quatre domaines, ce qui donne un chiffre de 0 à 100 et une couleur."],
+            "La mesure se fait de l’extérieur, comme un visiteur voit le service. Chaque service est évalué par douze contrôles dans quatre domaines, ce qui donne un chiffre de 0 à 100 et une couleur.",
+            "La Confédération n’a pas de surface propre sur la carte. Elle apparaît dans un encadré en haut à droite, répartie par département. La recherche trouve aussi des domaines et des hôtes."],
         x: ["Ressources = noms d’hôte en service (résolus dans le DNS), trouvés via Certificate Transparency sous les domaines de l’entité. Douze contrôles par ressource (Trust Posture, projet v0.1), en direct sur tous les points A/AAAA avec SNI.",
-            "Niveaux : cantons, communes, Confédération ; plus la liste des services critiques, uniquement en agrégat. « Autres indicateurs » contient les valeurs liées aux certificats du modèle initial (souveraineté, vérification d’identité, CAA, bonnes pratiques)."],
+            "Niveaux : cantons, communes, Confédération ; plus la liste des services critiques, uniquement en agrégat. « Autres indicateurs » contient les valeurs liées aux certificats du modèle initial (souveraineté, vérification d’identité, CAA, bonnes pratiques).",
+            "La Confédération n’a pas de surface propre sur la carte. Elle apparaît dans un encadré en haut à droite, répartie par département. La recherche trouve aussi des domaines et des hôtes."],
       },
       crit: {
         s: ["Nous contrôlons aussi les quelque 1000 services en ligne les plus importants de Suisse, par exemple de banques, hôpitaux, énergie, transports et médias.",
@@ -216,6 +226,9 @@ window.GUIDE = {
 
   it: {
     ui: {
+      fed_title: "Confederazione", fed_note: "Dipartimenti, uffici, tribunali e parlamento. Cliccare per i dettagli.",
+      t_canton: "Cantone", t_municipality: "Comune", t_federal: "Confederazione", t_organisation: "Organizzazione", t_domain: "Dominio", t_host: "Host",
+      no_match: "Nessun risultato", searching: "Ricerca …", search: "Cantone, comune, Confederazione, dominio o host",
       view: "Visualizzazione", view_simple: "Semplice", view_expert: "Esperto", help: "Spiegazioni",
       help_title: "Come leggere la carta", help_more: "Metodo dettagliato (GitHub)",
       verdict_green: "Ben posizionato", verdict_yellow: "Parzialmente ben posizionato", verdict_red: "Interventi necessari", verdict_none: "Non ancora valutato",
@@ -227,7 +240,7 @@ window.GUIDE = {
       why: "Perché è importante", how_measured: "Come si misura", criteria: "Valutazione", cat_col: "Ambito",
       sec_what: "Cosa mostra la carta", sec_lights: "Il semaforo", sec_cats: "I quattro ambiti", sec_checks: "I dodici controlli",
       sec_crit: "Servizi critici", sec_data: "Dati e aggiornamento", sec_limits: "Cosa la valutazione non dice",
-      intro_simple: "La carta mostra quanto sono protetti i servizi online di cantoni e comuni e quanto dipendono da fornitori esteri. Cliccare su un cantone o un comune.",
+      intro_simple: "La carta mostra quanto sono protetti i servizi online di cantoni, comuni e Confederazione e quanto dipendono da fornitori esteri. Cliccare su un cantone o un comune.",
       to_help: "Tutto spiegato", view_hint: "Semplice: spiegazioni senza conoscenze preliminari. Esperto: tutti gli indicatori, formule e valori grezzi.",
       sector_intro_simple: "La tabella mostra per settore economico i risultati dei principali servizi online. Le singole aziende non sono mostrate.",
       orgs_simple: "Cerchi sulla carta: organizzazioni dell’elenco dei servizi critici, raggruppate per luogo. I colori mostrano la quota di verde, giallo e rosso.",
@@ -287,9 +300,11 @@ window.GUIDE = {
     sections: {
       what: {
         s: ["La carta mostra quanto sono protetti siti, portali e server di posta di cantoni, comuni e organizzazioni importanti e quanto dipendono da fornitori esteri.",
-            "La misura avviene dall’esterno, come un visitatore vede il servizio. Ogni servizio è valutato con dodici controlli in quattro ambiti; ne risultano un numero da 0 a 100 e un colore."],
+            "La misura avviene dall’esterno, come un visitatore vede il servizio. Ogni servizio è valutato con dodici controlli in quattro ambiti; ne risultano un numero da 0 a 100 e un colore.",
+            "La Confederazione non ha una superficie propria sulla carta. Compare in un riquadro in alto a destra, suddivisa per dipartimento. La ricerca trova anche singoli domini e host."],
         x: ["Risorse = nomi host in servizio (risolti nel DNS), trovati tramite Certificate Transparency sotto i domini dell’unità. Dodici controlli per risorsa (Trust Posture, bozza v0.1), in tempo reale su tutti gli endpoint A/AAAA con SNI.",
-            "Livelli: cantoni, comuni, Confederazione; inoltre l’elenco dei servizi critici, solo come aggregato. «Altri indicatori» contiene i valori legati ai certificati del modello originale (sovranità, verifica d’identità, CAA, buone pratiche)."],
+            "Livelli: cantoni, comuni, Confederazione; inoltre l’elenco dei servizi critici, solo come aggregato. «Altri indicatori» contiene i valori legati ai certificati del modello originale (sovranità, verifica d’identità, CAA, buone pratiche).",
+            "La Confederazione non ha una superficie propria sulla carta. Compare in un riquadro in alto a destra, suddivisa per dipartimento. La ricerca trova anche singoli domini e host."],
       },
       crit: {
         s: ["Controlliamo inoltre i circa 1000 servizi online più importanti della Svizzera, per esempio di banche, ospedali, energia, trasporti e media.",
@@ -321,6 +336,9 @@ window.GUIDE = {
 
   en: {
     ui: {
+      fed_title: "Federal", fed_note: "Departments, offices, courts and parliament. Click for details.",
+      t_canton: "Canton", t_municipality: "Municipality", t_federal: "Federal", t_organisation: "Organisation", t_domain: "Domain", t_host: "Host",
+      no_match: "No matches", searching: "Searching …", search: "Canton, municipality, federal, domain or host",
       view: "View", view_simple: "Simple", view_expert: "Expert", help: "Explanations",
       help_title: "How to read the map", help_more: "Full method (GitHub)",
       verdict_green: "In good shape", verdict_yellow: "Partly in good shape", verdict_red: "Clear need for action", verdict_none: "Not rated yet",
@@ -332,7 +350,7 @@ window.GUIDE = {
       why: "Why it matters", how_measured: "How it is measured", criteria: "Rating", cat_col: "Area",
       sec_what: "What the map shows", sec_lights: "The traffic light", sec_cats: "The four areas", sec_checks: "The twelve checks",
       sec_crit: "Critical services", sec_data: "Data and updates", sec_limits: "What the rating does not say",
-      intro_simple: "The map shows how well the online services of cantons and municipalities are protected and how much they depend on foreign providers. Click a canton or municipality.",
+      intro_simple: "The map shows how well the online services of cantons, municipalities and the federal administration are protected and how much they depend on foreign providers. Click a canton or municipality.",
       to_help: "Everything explained", view_hint: "Simple: explanations without prior knowledge. Expert: all indicators, formulas and raw values.",
       sector_intro_simple: "The table shows, per economic sector, how the most important online services score. Individual companies are not shown.",
       orgs_simple: "Circles on the map: organisations on the critical-services list, grouped by place. The colours show the share of green, yellow and red.",
@@ -392,9 +410,11 @@ window.GUIDE = {
     sections: {
       what: {
         s: ["The map shows how well the websites, portals and mail servers of cantons, municipalities and important organisations are protected, and how much they depend on foreign providers.",
-            "Everything is measured from outside, the way a visitor sees the service. Each service gets twelve checks in four areas, which add up to a number from 0 to 100 and a colour."],
+            "Everything is measured from outside, the way a visitor sees the service. Each service gets twelve checks in four areas, which add up to a number from 0 to 100 and a colour.",
+            "The federal administration has no area of its own on the map. It appears in a box at the top right, split by department. The search also finds single domains and hosts."],
         x: ["Resources = hostnames in use (resolving in DNS), found via Certificate Transparency under the entity's domains. Twelve checks per resource (Trust Posture, draft v0.1), live over all A/AAAA endpoints with SNI.",
-            "Levels: cantons, municipalities, federal; plus the critical-services list, as aggregates only. 'More indicators' holds the certificate metrics of the original model (sovereignty, identity validation, CAA, good practice)."],
+            "Levels: cantons, municipalities, federal; plus the critical-services list, as aggregates only. 'More indicators' holds the certificate metrics of the original model (sovereignty, identity validation, CAA, good practice).",
+            "The federal administration has no area of its own on the map. It appears in a box at the top right, split by department. The search also finds single domains and hosts."],
       },
       crit: {
         s: ["We also check about 1,000 of the most important online services in Switzerland, for example of banks, hospitals, energy, transport and media.",

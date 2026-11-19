@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       canton:
-        description: "Only this canton (code, e.g. ZG); empty = all 26"
+        description: "Only this canton (code, e.g. ZG; CH = federal administration); empty = all"
         required: false
       list:
         description: "Include the critical-services list"
@@ -48,6 +48,7 @@ jobs:
 
   cantons:
     needs: test
+    if: github.event.inputs.canton != 'CH'
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
@@ -86,6 +87,45 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: raw-${{ matrix.canton }}
+          path: raw/
+          retention-days: 7
+
+  federal:
+    needs: test
+    # Departments and federal offices; part of every full run and of single
+    # reruns with canton=CH.
+    if: github.event.inputs.canton == '' || github.event.inputs.canton == null || github.event.inputs.canton == 'CH'
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: |
+          uv python install 3.15
+          uv venv --python 3.15 .venv
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
+      - name: Restore lookups (lets a cut-off batch resume)
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache
+          key: tlsmap-federal-${{ github.run_id }}
+          restore-keys: tlsmap-federal-
+      - run: uv pip install -e .
+      - name: Rate the federal administration
+        timeout-minutes: 310
+        env:
+          CERTSPOTTER_API_KEY: ${{ secrets.CERTSPOTTER_API_KEY }}
+        run: tlsmap run --entities federal $PROBE --raw-out raw/federal.json.gz
+      - name: Save lookups, also when the batch failed or was cut off
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache
+          key: tlsmap-federal-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: raw-federal
           path: raw/
           retention-days: 7
 
@@ -147,7 +187,7 @@ jobs:
           retention-days: 7
 
   merge:
-    needs: [test, cantons, services, verify-list]
+    needs: [test, cantons, federal, services, verify-list]
     if: always() && needs.test.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 60

@@ -160,10 +160,63 @@ code = "JU"
 name = "Kanton Jura"
 domains = ["jura.ch"]
 
-# Federal level is off by default (admin.ch alone has tens of thousands of
-# names). Enable with: tlsmap run --entities federal
+# Federal level, one entity per department plus the Federal Chancellery and
+# courts/parliament. admin.ch is too large for a single crt.sh query, so it is
+# listed per department and federal office (each label is queried as
+# %.<label>). Run with: tlsmap run --entities federal
+# Offices with their own domains are listed with the department they belong
+# to. Names that do not exist simply return nothing.
+
 [[federal]]
-id = "CH"
-code = "CH"
-name = "Bund"
-domains = ["admin.ch", "ch.ch"]
+id = "BK"
+code = "BK"
+name = "Bundeskanzlei und übergreifende Dienste"
+domains = ["bk.admin.ch", "www.admin.ch", "news.admin.ch", "fedlex.admin.ch", "edoeb.admin.ch", "ch.ch"]
+
+[[federal]]
+id = "EDA"
+code = "EDA"
+name = "Eidgenössisches Departement für auswärtige Angelegenheiten"
+domains = ["eda.admin.ch"]
+
+[[federal]]
+id = "EDI"
+code = "EDI"
+name = "Eidgenössisches Departement des Innern"
+domains = ["edi.admin.ch", "bag.admin.ch", "bfs.admin.ch", "bak.admin.ch", "bsv.admin.ch", "blv.admin.ch", "ebg.admin.ch", "bar.admin.ch", "nb.admin.ch", "meteoschweiz.admin.ch", "meteoswiss.admin.ch", "swissmedic.ch"]
+
+[[federal]]
+id = "EJPD"
+code = "EJPD"
+name = "Eidgenössisches Justiz- und Polizeidepartement"
+domains = ["ejpd.admin.ch", "sem.admin.ch", "fedpol.admin.ch", "bj.admin.ch", "isc-ejpd.admin.ch", "esbk.admin.ch", "nkvf.admin.ch", "metas.ch", "ige.ch"]
+
+[[federal]]
+id = "VBS"
+code = "VBS"
+name = "Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport"
+domains = ["vbs.admin.ch", "vtg.admin.ch", "babs.admin.ch", "swisstopo.admin.ch", "ar.admin.ch", "baspo.admin.ch", "sepos.admin.ch", "bacs.admin.ch", "ncsc.admin.ch", "armee.ch", "alert.swiss"]
+
+[[federal]]
+id = "EFD"
+code = "EFD"
+name = "Eidgenössisches Finanzdepartement"
+domains = ["efd.admin.ch", "estv.admin.ch", "bazg.admin.ch", "efv.admin.ch", "bit.admin.ch", "bbl.admin.ch", "epa.admin.ch", "sif.admin.ch", "efk.admin.ch", "zas.admin.ch", "eiam.admin.ch", "eid.admin.ch", "swiyu.admin.ch"]
+
+[[federal]]
+id = "WBF"
+code = "WBF"
+name = "Eidgenössisches Departement für Wirtschaft, Bildung und Forschung"
+domains = ["wbf.admin.ch", "seco.admin.ch", "sbfi.admin.ch", "blw.admin.ch", "bwl.admin.ch", "bwo.admin.ch", "weko.admin.ch", "zivi.admin.ch", "agroscope.admin.ch", "preisueberwachung.admin.ch", "easygov.swiss", "arbeit.swiss"]
+
+[[federal]]
+id = "UVEK"
+code = "UVEK"
+name = "Eidgenössisches Departement für Umwelt, Verkehr, Energie und Kommunikation"
+domains = ["uvek.admin.ch", "bav.admin.ch", "bazl.admin.ch", "bfe.admin.ch", "astra.admin.ch", "bakom.admin.ch", "bafu.admin.ch", "are.admin.ch", "sust.admin.ch", "ensi.ch"]
+
+[[federal]]
+id = "JUS"
+code = "Gerichte"
+name = "Bundesgerichte und Bundesversammlung"
+domains = ["bger.ch", "bvger.ch", "bstger.ch", "bpatger.ch", "parlament.ch"]

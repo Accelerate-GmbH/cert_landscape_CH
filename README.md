@@ -7,7 +7,7 @@ how well are their online services protected?
 Italian, English)
 
 `tlsmap` is an open pipeline that answers this for all 26 cantons and about
-2,100 municipalities (optionally the federal administration). It reads
+2,100 municipalities and the federal administration (per department). It reads
 Certificate Transparency logs, works out which certificate each hostname uses
 today, checks the hostname in DNS, and attributes every certificate to the
 company that controls the issuing CA. All rules and weights are in
@@ -168,7 +168,13 @@ the four areas, the twelve checks (why they matter, how they are measured,
 weight and source), the critical-services layer, data and updates, and what
 the rating does not say, at the depth of the chosen view.
 
-Levels are cantons, municipalities and sectors. The sector view compares
+Levels are cantons, municipalities and sectors. The federal administration
+has no area of its own: a box at the top right of the map shows its overall
+value and opens a list of departments (plus Federal Chancellery, and courts
+and parliament), each with the same drill-down as a canton. The search
+suggests cantons, municipalities, departments, domains and single hostnames
+while typing (`search.json`, administrations only; hosts of the
+critical-services list are not searchable). The sector view compares
 sectors, sub-sectors, service types or cantons of seat (critical and other
 services) with cantons and municipalities; organisations appear as grouped
 symbols per canton or place and can be searched by name. Every traffic light
