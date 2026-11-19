@@ -30,6 +30,83 @@ def _zone_status(zones: list[str]) -> str:
     return "fail"
 
 
+# -- operators of name servers and hosting networks --------------------------
+import re as _re
+import unicodedata as _ud
+
+_LEGAL = {"ag", "sa", "gmbh", "inc", "llc", "ltd", "bv", "b.v.", "corp", "corporation", "co", "plc", "sarl", "srl",
+          "spa", "the", "international", "group", "holding", "company", "technologies", "services", "online",
+          "kanton", "canton", "cantone", "stadt", "gemeinde", "commune", "comune", "ville", "citta"}
+
+
+def _fold(s: str) -> str:
+    s = s.lower().replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
+    s = "".join(c for c in _ud.normalize("NFKD", s) if not _ud.combining(c))
+    return _re.sub(r"[^a-z0-9.\- ]", " ", s)
+
+
+def operator_key(as_name: str) -> str:
+    """Rough operator identity from an AS name: 'Akamai International B.V.' and
+    'Akamai Technologies, Inc.' are both 'akamai'; 'UBS AG' and 'UBS Group AG'
+    are both 'ubs'; 'Amazon.com, Inc.' is 'amazon'."""
+    for tok in _fold(as_name).split():
+        tok = tok.strip(".-").split(".")[0]
+        if len(tok) > 1 and tok not in _LEGAL:
+            return tok
+    return _fold(as_name).strip()
+
+
+def self_tokens(name: str, domains: list[str]) -> set[str]:
+    """Words that identify the organisation itself in AS names."""
+    out = {t for t in _fold(name).split() if len(t) > 2 and t not in _LEGAL}
+    for d in domains:
+        lab = d.split(".")[-2] if "." in d else d
+        if len(lab) > 2:
+            out.add(lab)
+            out.update(x for x in lab.split("-") if len(x) > 2)
+    return out
+
+
+def parse_providers(text: str) -> list[tuple[str, str]]:
+    """'Akamai International B.V. (NL), Vercara, LLC (US)' -> [(name, cc), ...]"""
+    return [(m.group(1).strip(), m.group(2)) for m in _re.finditer(r"(.+?) \(([A-Z]{0,2}|\?)\)(?:, |$)", text or "")]
+
+
+def _local(name: str, cc: str, selfs: set[str]) -> bool:
+    return cc == "CH" or bool(selfs and operator_key(name) in selfs)
+
+
+def dns_status(providers: list[tuple[str, str]], selfs: set[str], eea: set[str]) -> str:
+    """Name servers of a zone.
+    pass: all at the organisation itself or in Switzerland, or spread over at
+          least two independent operators of which one is local;
+    partial: several independent operators, all abroad, or all in the EEA;
+    fail: a single foreign operator outside the EEA."""
+    if not providers:
+        return "n/a"
+    local = [_local(n, c, selfs) for n, c in providers]
+    ops = {operator_key(n) for n, _ in providers}
+    if all(local):
+        return "pass"
+    if any(local) and len(ops) >= 2:
+        return "pass"
+    if len(ops) >= 2 or all(l or c in eea for l, (n, c) in zip(local, providers)):
+        return "partial"
+    return "fail"
+
+
+def hosting_status(providers: list[tuple[str, str]], selfs: set[str], eea: set[str]) -> str:
+    """Networks of the endpoints; the organisation's own network counts as Swiss."""
+    if not providers:
+        return "n/a"
+    local = [_local(n, c, selfs) for n, c in providers]
+    if all(local):
+        return "pass"
+    if all(l or c in eea for l, (n, c) in zip(local, providers)):
+        return "partial"
+    return "fail"
+
+
 def _share_status(flags: list[bool]) -> str:
     if not flags:
         return "n/a"
@@ -83,11 +160,12 @@ def evaluate(r: dict, ctx: dict, cfg: dict) -> list[dict]:
     rz = r.get("root_zone") or "unknown"
     add("sov.ca", "n/a" if rz == "unknown" else {"ch": "pass", "eea": "partial"}.get(rz, "fail"),
         f"{r.get('root_owner', '')} ({r.get('root_country', '')})", "ccadb-root", r.get("root_name", ""))
-    ns_zones = ctx.get("ns_zones") or []
-    add("sov.dns", _zone_status(ns_zones), ", ".join(ctx.get("ns_providers") or []), "dns-ns-asn",
-        ctx.get("ns_domain", ""))
-    host_zones = r.get("hosting_zones") or []
-    add("sov.hosting", _zone_status(host_zones), ", ".join(sorted(set(r.get("hosting_as") or []))), "asn")
+    eea = set(cfg.get("eea_countries") or [])
+    selfs = set(ctx.get("self") or [])
+    ns_txt = ", ".join(ctx.get("ns_providers") or [])
+    add("sov.dns", dns_status(parse_providers(ns_txt), selfs, eea), ns_txt, "dns-ns-asn", ctx.get("ns_domain", ""))
+    host_txt = ", ".join(sorted(set(r.get("hosting_as") or [])))
+    add("sov.hosting", hosting_status(parse_providers(host_txt), selfs, eea), host_txt, "asn")
     tld = r.get("tld", "")
     add("sov.tld", "pass" if tld in cfg.get("swiss_tlds", ["ch", "swiss"]) else "fail", tld, "name")
 

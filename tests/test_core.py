@@ -254,3 +254,35 @@ def test_list_visibility_applies_at_merge(tmp_path):
     oid = load_organisations(p)[0].id
     res = {"entities": [{"key": f"organisation:{oid}", "kind": "organisation", "visibility": "aggregat"}]}
     assert apply_list_visibility(res, p) == 1 and res["entities"][0]["visibility"] == "oeffentlich"
+
+
+def test_dns_provider_rule():
+    from tlsmap.posture import dns_status, hosting_status, operator_key, parse_providers, self_tokens
+    eea = {"DE", "NL", "FR"}
+    ubs = parse_providers("Akamai International B.V. (NL), Akamai International B.V. (US), UBS AG (CH), "
+                          "UBS AG (US), UBS Group AG (CH), Vercara, LLC (US)")
+    assert ("Vercara, LLC", "US") in ubs and len(ubs) == 6
+    assert operator_key("Akamai Technologies, Inc.") == operator_key("Akamai International B.V.") == "akamai"
+    assert operator_key("UBS Group AG") == "ubs" and operator_key("Amazon.com, Inc.") == "amazon"
+    me = self_tokens("UBS AG", ["ubs.com", "credit-suisse.com"])
+    assert dns_status(ubs, me, eea) == "pass"                                   # own servers plus independent providers
+    assert dns_status([("Swisscom (Schweiz) AG", "CH")], set(), eea) == "pass"
+    assert dns_status([("Cloudflare, Inc.", "US")], set(), eea) == "fail"       # one foreign operator alone
+    assert dns_status([("Cloudflare, Inc.", "US"), ("Amazon.com, Inc.", "US")], set(), eea) == "partial"
+    assert dns_status([("Hetzner Online GmbH", "DE")], set(), eea) == "partial"
+    assert hosting_status([("UBS AG", "US")], me, eea) == "pass"                # own network counts with the seat
+    assert hosting_status([("Akamai International B.V.", "US")], me, eea) == "fail"
+
+
+def test_reapply_sovereignty():
+    from tlsmap.merge import reapply_sovereignty
+    from tlsmap.config import load_settings
+    cfg = {**load_settings()["trust_posture"], "eea_countries": ["NL"]}
+    checks = [{"check": "sov.dns", "category": "sovereignty", "status": "fail", "value": "UBS AG (CH), Vercara, LLC (US)"},
+              {"check": "sov.tld", "category": "sovereignty", "status": "fail", "value": "com"}]
+    res = {"tm_cfg": cfg, "entities": [{"key": "organisation:ubs", "kind": "organisation", "name": "UBS AG", "domains": ["ubs.com"]}],
+           "hostnames": [{"entity": "organisation:ubs", "hostname": "www.ubs.com", "critical": False, "tm": {}, "tm_checks": checks}],
+           "checklog": [{"entity": "organisation:ubs", "hostname": "www.ubs.com", "check": "sov.dns", "status": "fail"}]}
+    assert reapply_sovereignty(res) == 1
+    assert checks[0]["status"] == "pass" and res["checklog"][0]["status"] == "pass"
+    assert res["entities"][0]["posture"]["overall"] is not None

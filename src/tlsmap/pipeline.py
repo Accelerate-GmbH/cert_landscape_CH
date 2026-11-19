@@ -237,14 +237,16 @@ class Pipeline:
                 log.warning(probe_note)
 
         # Trust Posture rating per resource
-        tm_cfg = self.s["trust_posture"]
+        tm_cfg = {**self.s["trust_posture"], "eea_countries": sorted(self.reg.eea)}
+        ent_info = {e.key: posture.self_tokens(e.name, e.domains) for e in entities}
         checklog = []
         for r in resources:
             dom = dom_of.get((r["entity"], r["hostname"]), "")
             z = zones.get(dom, {})
             ctx = {"ns_zones": [p["zone"] for p in z.get("providers", [])], "ns_domain": dom,
                    "ns": [[p["ns"], p.get("asn", ""), p["as_name"], p["country"]] for p in z.get("providers", [])],
-                   "ns_providers": sorted({f"{p['as_name']} ({p['country']})" for p in z.get("providers", [])})}
+                   "ns_providers": sorted({f"{p['as_name']} ({p['country']})" for p in z.get("providers", [])}),
+                   "self": sorted(ent_info.get(r["entity"], set()))}
             results = posture.evaluate(r, ctx, tm_cfg)
             ko = posture.knockout(r)
             sc = posture.score(results, tm_cfg)

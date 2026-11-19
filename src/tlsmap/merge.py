@@ -102,3 +102,52 @@ def apply_list_visibility(result: dict, list_path) -> int:
             e["visibility"] = v
             changed += 1
     return changed
+
+
+def reapply_sovereignty(result: dict) -> int:
+    """Re-rate the name-server and hosting checks from the stored measurements
+    with the current rule, then the scores of every resource and entity. Lets
+    a rule change apply at the next merge without measuring again."""
+    cfg = result.get("tm_cfg")
+    if not cfg:
+        return 0
+    if not cfg.get("eea_countries"):
+        from .registry import Registry
+        cfg["eea_countries"] = sorted(Registry().eea)
+    eea = set(cfg["eea_countries"])
+    selfs = {e["key"]: posture.self_tokens(e["name"], e.get("domains") or []) for e in result["entities"]}
+    changed: dict[tuple, dict] = {}
+    for r in result["hostnames"]:
+        checks = r.get("tm_checks")
+        if not checks:
+            continue
+        st = selfs.get(r["entity"], set())
+        touched = False
+        for x in checks:
+            if x["check"] == "sov.dns":
+                new = posture.dns_status(posture.parse_providers(x.get("value") or ""), st, eea)
+            elif x["check"] == "sov.hosting":
+                new = posture.hosting_status(posture.parse_providers(x.get("value") or ""), st, eea)
+            else:
+                continue
+            if new != x["status"]:
+                x["status"] = new
+                touched = True
+                changed[(r["entity"], r["hostname"], x["check"])] = new
+        if touched:
+            sc = posture.score(checks, cfg)
+            if r.get("posture_knockout"):
+                sc["overall"] = 0
+            r["tm"] = sc
+    for x in result.get("checklog", []):
+        k = (x["entity"], x["hostname"], x["check"])
+        if k in changed:
+            x["status"] = changed[k]
+    if changed:
+        by_entity: dict[str, list] = {}
+        for r in result["hostnames"]:
+            if r.get("tm"):
+                by_entity.setdefault(r["entity"], []).append(r)
+        for e in result["entities"]:
+            e["posture"] = posture.aggregate(by_entity.get(e["key"], []), cfg)
+    return len(changed)
