@@ -11,7 +11,7 @@
   const DATA_URL = params.get("data") || "data/map.json";
 
   const state = {
-    lang: pickLang(), level: "canton", metric: "tm", selected: null, dim: "sektor",
+    lang: pickLang(), view: pickView(), level: "canton", metric: "tm", selected: null, dim: "sektor",
     data: null, topo: null, layer: null, lakes: null, sort: { key: "tm", dir: -1 },
   };
 
@@ -22,7 +22,29 @@
     const nav = (navigator.language || "de").slice(0, 2);
     return I18N[nav] ? nav : "de";
   }
-  const t = (k) => (I18N[state.lang] && I18N[state.lang][k]) || I18N.en[k] || k;
+  function pickView() {
+    const p = params.get("view");
+    if (p === "simple" || p === "expert") return p;
+    try { const s = localStorage.getItem("view"); if (s === "simple" || s === "expert") return s; } catch (e) { /* storage blocked */ }
+    return "simple";
+  }
+  const G = () => (window.GUIDE && (GUIDE[state.lang] || GUIDE.en)) || { ui: {}, s: {} };
+  const simple = () => state.view === "simple";
+  function t(k) {
+    const g = G();
+    if (simple() && g.s && g.s[k]) return g.s[k];
+    if (g.ui && g.ui[k]) return g.ui[k];
+    const en = (window.GUIDE && GUIDE.en) || { ui: {}, s: {} };
+    return (I18N[state.lang] && I18N[state.lang][k]) || I18N.en[k] || (simple() && en.s[k]) || en.ui[k] || k;
+  }
+  /* Fill rating parameters into explanation texts. */
+  function fill(s) {
+    const c = cfg(), d = (state.data && state.data.cfg) || {};
+    const w = (k) => Math.round(100 * (c.cw[k] || 0));
+    return String(s).replace(/\{g\}/g, c.g).replace(/\{y\}/g, c.y).replace(/\{g1\}/g, c.g - 1).replace(/\{y1\}/g, c.y - 1)
+      .replace(/\{crit\}/g, c.crit).replace(/\{min_scts\}/g, d.min_scts || 2).replace(/\{min_orgs\}/g, d.min_orgs_per_sector || 5)
+      .replace(/\{w_(\w+)\}/g, (_, k) => w(k));
+  }
   const fmt = (v) => (v === null || v === undefined ? "–" : String(v));
   const pct = (x) => (x === null || x === undefined ? "–" : Math.round(100 * x) + " %");
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -71,6 +93,16 @@
     return v === null ? t("no_data") : v + " / 100";
   }
 
+  /* ---- metrics offered per view ------------------------------------------ */
+  const METRICS_MAIN = ["tm", "tm_own", "tm_sov", "tm_sec", "tm_prv", "crit_seat"];
+  const METRICS_MORE = ["s", "cs", "a", "ca", "caa", "gp"];
+  function fillMetrics() {
+    const sel = document.getElementById("metric");
+    if (simple() && !METRICS_MAIN.includes(state.metric)) state.metric = "tm";
+    const opt = (m) => '<option value="' + m + '"' + (m === state.metric ? " selected" : "") + ">" + esc(t("m_" + m)) + "</option>";
+    sel.innerHTML = METRICS_MAIN.map(opt).join("") + (simple() ? "" : '<optgroup label="' + esc(t("more_metrics")) + '">' + METRICS_MORE.map(opt).join("") + "</optgroup>");
+  }
+
   /* ---- i18n ------------------------------------------------------------- */
   function applyI18n() {
     document.documentElement.lang = state.lang;
@@ -79,6 +111,10 @@
     document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === state.lang));
     document.querySelectorAll("[data-level]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.level === state.level));
+    document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.view === state.view));
+    document.getElementById("viewseg").title = t("view_hint");
+    document.querySelector(".viz-root").dataset.mode = state.view;
+    fillMetrics();
     updateNote();
   }
   function updateNote() {
@@ -129,7 +165,9 @@
         const id = String(f.id), e = ents[id];
         const name = (e && e.n) || (f.properties && f.properties.name) || id;
         lyr.on("mousemove", (ev) => {
-          showTip(ev, "<b>" + esc(name) + "</b><br>" + esc(t("m_" + state.metric)) + ": " + esc(isTM(state.metric) && value(e) !== null ? value(e) + " / 100" : valueText(e)));
+          const v = value(e);
+          showTip(ev, "<b>" + esc(name) + "</b><br>" + esc(t("m_" + state.metric)) + ": " + esc(isTM(state.metric) && v !== null ? v + " / 100" : valueText(e)) +
+            (simple() && isTM(state.metric) ? "<br>" + chip(lightOf(v), t("verdict_" + lightOf(v))) : ""));
           lyr.setStyle({ weight: 2, color: css("--text-primary") });
           lyr.bringToFront();
         });
@@ -239,6 +277,13 @@
     return '<h3>' + esc(t("how")) + "</h3><h2>" + esc(title) + '</h2><div class="tmhead"><span class="v">' + fmt(value) + "</span>" + chip(lightOf(value)) + "</div>";
   }
   function thresholdsNote() { const c = cfg(); return '<p class="src">' + esc(t("thresholds").replace("{g}", c.g).replace("{y}", c.y)) + "</p>"; }
+  /* Formula in the expert view, plain explanation in the simple view. */
+  function note(formula, plain) {
+    if (simple()) return '<div class="plain"><b>' + esc(t("in_words")) + "</b><p>" + esc(fill(plain)) + "</p></div>";
+    return '<p class="sub">' + esc(formula) + "</p>" + thresholdsNote();
+  }
+  const plainCat = (k) => (G().cats[k] || {}).s || "";
+  const plainChk = (k) => (G().checks[k] || {}).s || "";
   function resRow(level, id, i, r, valueHtml) {
     return '<tr class="click" data-rdetail="' + level + ":" + id + ":" + i + '"><td>' + esc(r.h) + (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") +
       (r.ko ? ' <span class="chip">K.-o.</span>' : "") + "</td>" + valueHtml + "</tr>";
@@ -266,7 +311,7 @@
             " %</td><td>" + chip(lightOf(v), " ", v === null || v === undefined ? null : ["e", level, id, "cat", k].join("|")) + "</td></tr>";
         }).join("");
         const re = wmean(list, (r) => r.o, c.crit);
-        html += head(e.n + " · " + t("m_tm"), e.tm.o) + '<p class="sub">' + esc(t("f_ent_overall").replace("{cw}", c.crit)) + "</p>" + thresholdsNote() +
+        html += head(e.n + " · " + t("m_tm"), e.tm.o) + note(t("f_ent_overall").replace("{cw}", c.crit), t("m_tm_d") + " " + G().lights.simple[lightOf(e.tm.o)]) +
           '<table><thead><tr><th></th><th class="num">' + esc(t("rating")) + '</th><th class="num">' + esc(t("weight")) + "</th><th></th></tr></thead><tbody>" + rows + "</tbody></table>" +
           '<p class="src">' + esc(t("recomputed").replace("{n}", list.length).replace("{v}", fmt(re))) + (e.tm.ko ? " · " + esc(t("ko_note")) : "") + "</p>" +
           "<h3>" + esc(t("weakest_first")) + '</h3><table><tbody>' +
@@ -281,7 +326,7 @@
             '</td><td class="num">' + (x ? x.pass + " / " + x.partial + " / " + x.fail : "–") + '</td><td class="num">' + fmt(sh) + "</td><td>" + chip(lightOf(sh), " ") + "</td></tr>";
         }).join("");
         const re = wmean(list, (r) => (r.c ? r.c[arg] : null), c.crit);
-        html += head(e.n + " · " + t("m_" + CAT_LABEL[arg]), v) + '<p class="sub">' + esc(t("f_ent_cat").replace("{cw}", c.crit)) + "</p>" + thresholdsNote() +
+        html += head(e.n + " · " + t("m_" + CAT_LABEL[arg]), v) + note(t("f_ent_cat").replace("{cw}", c.crit), plainCat(arg)) +
           '<table><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("weight")) + '</th><th class="num">✓ / ½ / ✗</th><th class="num">%</th><th></th></tr></thead><tbody>' + rows + "</tbody></table>" +
           '<p class="src">' + esc(t("recomputed").replace("{n}", list.length).replace("{v}", fmt(re))) + "</p>" +
           "<h3>" + esc(t("weakest_first")) + "</h3><table><tbody>" +
@@ -294,11 +339,11 @@
         const x = (e.tm.k || {})[arg] || { pass: 0, partial: 0, fail: 0, assessed: 0 };
         const sh = x.assessed ? Math.round(100 * (x.pass + 0.5 * x.partial) / x.assessed) : null;
         const dom = (r) => (e.d || []).find((d) => r.h === d || r.h.endsWith("." + d)) || "";
-        html += head(e.n + " · " + t(arg), sh) + '<p class="sub">' + esc(t("f_chk")) + "</p>" + thresholdsNote() +
+        html += head(e.n + " · " + t(arg), sh) + note(t("f_chk"), plainChk(arg)) +
           '<p class="sub">' + stTag("pass") + " " + x.pass + " · " + stTag("partial") + " " + x.partial + " · " + stTag("fail") + " " + x.fail +
           " · " + esc(t("source_col")) + ": " + src(arg) + "</p><table><tbody>" +
-          rows.map(([r, i, y]) => resRow(level, id, i, r, "<td>" + stTag(y[1]) + '</td><td class="ev">' + esc(String(y[2] ?? "")) +
-            (y[4] ? '<span class="src">' + esc(y[4]) + "</span>" : "") + '</td><td class="srccell">' + checkLinks(arg, r, dom(r)).filter(Boolean).join(" · ") + "</td>")).join("") +
+          rows.map(([r, i, y]) => resRow(level, id, i, r, "<td>" + stTag(y[1]) + "</td>" + (simple() ? "" : '<td class="ev">' + esc(String(y[2] ?? "")) +
+            (y[4] ? '<span class="src">' + esc(y[4]) + "</span>" : "") + '</td><td class="srccell">' + checkLinks(arg, r, dom(r)).filter(Boolean).join(" · ") + "</td>"))).join("") +
           "</tbody></table>";
       }
       panel.innerHTML = html;
@@ -317,7 +362,7 @@
         return "<tr><td>" + esc(t("m_" + CAT_LABEL[k])) + '</td><td class="num">' + fmt(v) + '</td><td class="num">' + Math.round(100 * c.cw[k]) + ' %</td><td class="num">' +
           (v === null || v === undefined ? "–" : (v * c.cw[k]).toFixed(1)) + "</td><td>" + chip(lightOf(v), " ", v === null || v === undefined ? null : ["r", level, id, idx, "cat", k].join("|")) + "</td></tr>";
       }).join("");
-      html += head(r.h + " · " + t("m_tm"), r.o) + '<p class="sub">' + esc(t("f_res_overall")) + "</p>" + thresholdsNote() +
+      html += head(r.h + " · " + t("m_tm"), r.o) + note(t("f_res_overall"), t("m_tm_d") + " " + G().lights.simple[lightOf(r.o)]) +
         (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + " · " + esc(t("ko_note")) + "</p>" : "") +
         '<table><thead><tr><th></th><th class="num">' + esc(t("rating")) + '</th><th class="num">' + esc(t("weight")) + '</th><th class="num">' + esc(t("contribution")) +
         "</th><th></th></tr></thead><tbody>" + rows + '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + Math.round(100 * b) + ' %</td><td class="num"><b>' +
@@ -332,7 +377,7 @@
         return "<tr><td>" + esc(t(cid)) + '<span class="src">' + esc(String(x[2] ?? "")) + "</span></td><td>" + stTag(x[1]) + '</td><td class="num">' + w +
           '</td><td class="num">' + (pt === undefined ? "–" : pt) + '</td><td class="num">' + (pt === undefined ? "–" : (w * pt).toFixed(1)) + "</td></tr>";
       }).join("");
-      html += head(r.h + " · " + t("m_" + CAT_LABEL[arg]), r.c ? r.c[arg] : null) + '<p class="sub">' + esc(t("f_res_cat")) + "</p>" + thresholdsNote() +
+      html += head(r.h + " · " + t("m_" + CAT_LABEL[arg]), r.c ? r.c[arg] : null) + note(t("f_res_cat"), plainCat(arg)) +
         '<table><thead><tr><th>' + esc(t("check_col")) + "</th><th></th><th class=\"num\">" + esc(t("weight")) + '</th><th class="num">' + esc(t("points")) +
         '</th><th class="num">' + esc(t("contribution")) + "</th></tr></thead><tbody>" + rows + '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + b +
         '</td><td></td><td class="num"><b>' + a.toFixed(1) + "</b></td></tr></tbody></table>" +
@@ -351,13 +396,14 @@
     const title = dimLabel(dim, key) +
       " · " + t(pname === "krit" ? "m_krit" : pname === "other" ? "m_other" : "m_all");
     let html = '<button class="close" data-close>✕</button>';
-    let value, note, getv;
-    if (col === "o") { value = part.o; note = t("f_ent_overall").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => e.tm && e.tm.o; }
-    else if (col.startsWith("cat:")) { const k = col.slice(4); value = part.c ? part.c[k] : null; note = t("f_ent_cat").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => (e.tm && e.tm.c ? e.tm.c[k] : null); }
-    else { const k = col.slice(4); const x = (part.k || {})[k]; value = share(x); note = t("f_chk"); getv = (e) => share(e.tm && e.tm.k ? e.tm.k[k] : null);
-      if (x) note += " " + t("status_pass") + " " + x.pass + " · " + t("status_partial") + " " + x.partial + " · " + t("status_fail") + " " + x.fail; }
+    let value, fnote, getv;
+    if (col === "o") { value = part.o; fnote = t("f_ent_overall").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => e.tm && e.tm.o; }
+    else if (col.startsWith("cat:")) { const k = col.slice(4); value = part.c ? part.c[k] : null; fnote = t("f_ent_cat").replace("{cw}", pname === "all" ? c.crit : 1); getv = (e) => (e.tm && e.tm.c ? e.tm.c[k] : null); }
+    else { const k = col.slice(4); const x = (part.k || {})[k]; value = share(x); fnote = t("f_chk"); getv = (e) => share(e.tm && e.tm.k ? e.tm.k[k] : null);
+      if (x) fnote += " " + t("status_pass") + " " + x.pass + " · " + t("status_partial") + " " + x.partial + " · " + t("status_fail") + " " + x.fail; }
     const colLabel = col === "o" ? t("m_tm") : col.startsWith("cat:") ? t("m_" + CAT_LABEL[col.slice(4)]) : t(col.slice(4));
-    html += head(title + " · " + colLabel, value) + '<p class="sub">' + esc(note) + "</p>" + thresholdsNote() +
+    const plain = col === "o" ? t("m_tm_d") : col.startsWith("cat:") ? plainCat(col.slice(4)) : plainChk(col.slice(4));
+    html += head(title + " · " + colLabel, value) + note(fnote, plain) +
       '<p class="src">n = ' + part.n + (part.d ? " · " + (part.d.green || 0) + " " + esc(t("light_green")) + " · " + (part.d.yellow || 0) + " " + esc(t("light_yellow")) +
       " · " + (part.d.red || 0) + " " + esc(t("light_red")) : "") + "</p>";
     const ents = isB ? Object.entries(state.data.entities[lvl] || {}) :
@@ -387,12 +433,12 @@
   function matrixRow(cls, label, part, key, pname, dim) {
     if (!part) return "";
     if (part.suppressed) return '<tr class="' + cls + '" data-sector="' + esc(key) + '"><td class="name">' + label + '</td><td class="sup" colspan="' +
-      (5 + CHECK_IDS.length) + '">' + esc(t("suppressed")) + " (n = " + part.n + ")</td></tr>";
+      (5 + (simple() ? 0 : CHECK_IDS.length)) + '">' + esc(t("suppressed")) + " (n = " + part.n + ")</td></tr>";
     const tief = part.tief !== null && part.tief !== undefined && !key.startsWith("@") ? " · " + esc(t("conf_low")) + " " + Math.round(100 * part.tief) + " %" : "";
     const ex = (col) => ["s", dim, key, pname, col].join("|");
     return '<tr class="' + cls + '"><td class="name click" data-sector="' + esc(dim + "|" + key) + '">' + label + '<span class="src">n = ' + part.n + tief + "</span></td>" +
       cell(part.o, t("m_tm"), ex("o")) + CATS.map(([c, m]) => cell(part.c ? part.c[c] : null, t("m_" + m), ex("cat:" + c))).join("") +
-      CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id), ex("chk:" + id))).join("") + "</tr>";
+      (simple() ? "" : CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id), ex("chk:" + id))).join("")) + "</tr>";
   }
   function renderMatrix() {
     const dim = state.dim;
@@ -409,12 +455,12 @@
       rows += matrixRow("sub", esc(t("m_krit")), d.krit, k, "krit", dim) + matrixRow("sub", esc(t("m_other")), d.other, k, "other", dim);
     }
     const CS = { tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" };
-    const head = "<th></th><th>TP</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(t(CS[m])) + "</th>").join("") +
-      CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + " · " + esc(t("source_col")) + ": " + esc((SRC[id] || []).join(", ")) + '">' + CHECK_SHORT[id] + "</th>").join("");
+    const head = "<th></th><th>" + (simple() ? esc(t("m_tm")) : "TP") + "</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(simple() ? t("m_" + m) : t(CS[m])) + "</th>").join("") +
+      (simple() ? "" : CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + " · " + esc(t("source_col")) + ": " + esc((SRC[id] || []).join(", ")) + '">' + CHECK_SHORT[id] + "</th>").join(""));
     const dims = ["sektor", "teilsektor", "service_typ", "kanton"].filter((x) => x === "sektor" || (state.data.dims && state.data.dims[x]));
     const sel = '<div class="seg" role="group" style="margin:6px 0 8px">' + dims.map((x) =>
       '<button data-dim="' + x + '" aria-pressed="' + (x === dim) + '">' + esc(t("dim_" + x)) + "</button>").join("") + "</div>";
-    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + " " + esc(t("agg_only")) +
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + (simple() ? esc(t("sector_intro_simple")) + " " : "") + esc(t("matrix_note")) + " " + esc(t("agg_only")) +
       ' <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a>" + (linked ? " · " + esc(t("linked_note").replace("{n}", linked)) : "") + "</p>" + sel +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
   }
@@ -444,9 +490,12 @@
     const el = document.getElementById("legend");
     let rows = "";
     if (isTM(state.metric)) {
-      rows = [["green", "80–100"], ["yellow", "50–79"], ["red", "0–49"]].map(([k, r]) =>
-        '<div class="row"><span class="sw" style="background:' + css(LIGHT_COLORS[k]) + '"></span>' + esc(t("light_" + k)) + " " + r + "</div>").join("");
+      const c = cfg();
+      rows = [["green", c.g + "–100"], ["yellow", c.y + "–" + (c.g - 1)], ["red", "0–" + (c.y - 1)]].map(([k, r]) =>
+        '<div class="row"><span class="sw" style="background:' + css(LIGHT_COLORS[k]) + '"></span>' +
+        (simple() ? "<span><b>" + esc(t("verdict_" + k)) + "</b> · " + r + "</span>" : esc(t("light_" + k)) + " " + r) + "</div>").join("");
       rows += '<div class="row"><span class="sw" style="background:' + css("--nodata") + '"></span>' + esc(t("not_assessed")) + "</div>";
+      rows += '<button class="linkbtn small" data-help="lights">' + esc(t("what_lights")) + "</button>";
     } else if (state.metric === "caa") {
       rows = ["swiss", "other", "none"].map((k) =>
         '<div class="row"><span class="sw" style="background:' + css(CAA_COLORS[k]) + '"></span>' + esc(t("caa_" + k)) + "</div>").join("");
@@ -457,7 +506,8 @@
     }
     const ls = state.metric === "tm" ? ["tls", "ocsp", "dns", "sct", "ccadb", "cymru"].map((x) => SRCL[x]()).join(", ") : src(state.metric);
     el.innerHTML = '<div class="t">' + esc(t("m_" + state.metric)) + '</div><div class="d">' + esc(t("m_" + state.metric + "_d")) +
-      (ls ? '<br><span class="src">' + esc(t("source_col")) + ": " + ls + "</span>" : "") + "</div>" + rows;
+      (ls && !simple() ? '<br><span class="src">' + esc(t("source_col")) + ": " + ls + "</span>" : "") + "</div>" + rows +
+      (simple() && document.getElementById("showorgs").checked && Object.keys(state.data.entities.organisation || {}).length ? '<p class="src">' + esc(t("orgs_simple")) + "</p>" : "");
   }
 
   /* ---- side panel -------------------------------------------------------- */
@@ -474,6 +524,7 @@
     const e = (state.data.entities[level] || {})[id];
     const panel = document.getElementById("panel");
     if (!e) { panel.innerHTML = '<button class="close" data-close>✕</button><p class="muted">' + esc(t("no_data")) + "</p>"; return; }
+    if (simple()) { panel.innerHTML = simpleDetail(e, level, id); return; }
     const kpi = (v, l, k) => '<div class="kpi"><div class="v">' + esc(fmt(v)) + '</div><div class="l">' + esc(l) + "</div>" + srcSpan(k) + "</div>";
     const vc = e.v || {};
     const cas = (e.cas || []).map((c) => "<tr><td>" + esc(c[0]) + "</td><td>" + esc(c[1]) + '</td><td class="num">' + c[3] + "</td></tr>").join("");
@@ -579,8 +630,97 @@
       "</tbody></table>";
   }
 
+  /* ---- simple view: plain summary of a unit ------------------------------ */
+  function verdictBlock(v, explainSpec, extra) {
+    const l = lightOf(v);
+    return '<div class="verdict ' + l + '"><div class="big">' + fmt(v) + '<small>/100</small></div><div><div class="vt">' +
+      esc(t("verdict_" + l)) + "</div>" + (extra || "") + "</div>" + (explainSpec ? chip(l, t("how"), explainSpec) : "") + "</div>";
+  }
+  function gapsList(k, level, id) {
+    const rows = Object.entries(k || {}).map(([cid, x]) => [cid, share(x)]).filter(([, v]) => v !== null && v < cfg().g)
+      .sort((a, b) => a[1] - b[1]).slice(0, 3);
+    if (!rows.length) return '<p class="sub">' + esc(t("gaps_none")) + "</p>";
+    return '<ul class="gaps">' + rows.map(([cid, v]) => '<li class="click" data-explain="' + ["e", level, id, "chk", cid].join("|") + '"><div class="gt">' +
+      chip(lightOf(v), " ") + "<b>" + esc(t(cid)) + '</b></div><div class="gs">' + esc(t("gap_share").replace("{p}", v)) + "</div><p>" + esc(fill(plainChk(cid))) + "</p></li>").join("") + "</ul>";
+  }
+  function simpleDetail(e, level, id) {
+    const tm = e.tm || {};
+    const d = tm.d || {};
+    const doms = e.d || [];
+    let html = '<button class="close" data-close aria-label="' + esc(t("close")) + '">✕</button><h2>' + esc(e.n) + "</h2>";
+    if (level === "organisation") html += '<p class="sub">' + esc(trSKI(e.sec || "–")) + (e.ort ? " · " + esc(e.ort) : "") + "</p>";
+    else if (doms.length) html += '<p class="sub">' + esc(doms.slice(0, 3).join(", ")) + (doms.length > 3 ? " +" + (doms.length - 3) : "") + "</p>";
+    if (e.sd) html += '<p class="note">' + esc(t("shared")) + "</p>";
+    if (tm.o === undefined || tm.o === null) return html + verdictBlock(null) + '<p class="sub">' + esc(G().lights.simple.none) + "</p>";
+    const extra = '<div class="sub">' + esc(t("services_checked").replace("{n}", tm.n || 0)) +
+      (d.green !== undefined ? " · " + esc(t("dist_line").replace("{g}", d.green || 0).replace("{y}", d.yellow || 0).replace("{r}", d.red || 0)) : "") + "</div>";
+    html += verdictBlock(tm.o, ["e", level, id, "overall"].join("|"), extra);
+    html += '<p class="sub">' + esc(fill(G().lights.simple[lightOf(tm.o)])) + "</p>";
+    if (tm.ko) html += '<p class="note">' + esc(t("ko_simple").replace("{n}", tm.ko)) + "</p>";
+    html += "<h3>" + esc(t("sec_cats")) + "</h3>" + CATS.map(([c, m]) => {
+      const v = tm.c ? tm.c[c] : null;
+      return '<div class="cat"><span>' + esc(t("m_" + m)) + '<span class="src">' + esc(plainCat(c)) + '</span></span><span class="num">' + fmt(v) + "</span>" +
+        chip(lightOf(v), null, v === null || v === undefined ? null : ["e", level, id, "cat", c].join("|")) + "</div>";
+    }).join("");
+    html += "<h3>" + esc(t("gaps")) + "</h3>" + gapsList(tm.k, level, id);
+    html += critSeat(e, level);
+    const st = e.stack;
+    if (st) {
+      const li = (label, arr, f) => (arr && arr.length ? "<li><b>" + esc(label) + ":</b> " + arr.slice(0, 3).map(f).join(", ") + "</li>" : "");
+      html += "<h3>" + esc(t("who_behind")) + '</h3><ul class="plainlist">' +
+        li(t("w_cert"), st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("w_server"), st.host, (x) => esc(x[0])) +
+        li(t("w_dns"), st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("w_tld"), st.tld, (x) => "." + esc(x)) + "</ul>";
+    }
+    if (tm.n && level !== "organisation") html += '<p><button class="linkbtn" data-res="' + level + ":" + id + '">' + esc(t("res_show")) + " (" + tm.n + ")</button></p>";
+    html += '<p><button class="linkbtn" data-view="expert">' + esc(t("show_expert")) + " →</button></p>";
+    return html;
+  }
+
+  /* ---- explanation panel ---------------------------------------------------- */
+  /* One line per colour, first sentence in bold. */
+  function lightLine(k) {
+    const txt = fill(G().lights.simple[k]);
+    const i = txt.search(/[.:]\s/);
+    const head = i > 0 ? txt.slice(0, i + 1) : txt, rest = i > 0 ? txt.slice(i + 2) : "";
+    return '<div class="lrow"><span class="sw" style="background:' + (k === "none" ? css("--nodata") : css(LIGHT_COLORS[k])) + '"></span><span><b>' +
+      esc(head) + "</b> " + esc(rest) + "</span></div>";
+  }
+  const DOCS = "https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/";
+  function helpPanel(section) {
+    const g = G(), c = cfg(), x = !simple();
+    const para = (arr) => (arr || []).map((p) => "<p>" + esc(fill(p)) + "</p>").join("");
+    const sec = (id, title, body) => '<section class="help" id="help-' + id + '"><h3>' + esc(title) + "</h3>" + body + "</section>";
+    const lightRows = ["green", "yellow", "red", "none"].map(lightLine).join("");
+    const cats = CATS.map(([k, m]) => "<tr><td><b>" + esc(t("m_" + m)) + "</b>" + (x ? '<span class="src">' + Math.round(100 * c.cw[k]) + " %</span>" : "") +
+      "</td><td>" + esc(g.cats[k].s) + (x ? '<span class="src">' + esc(g.cats[k].x) + "</span>" : "") + "</td></tr>").join("");
+    const checks = CATS.map(([k, m]) => '<tr class="grp"><td colspan="' + (x ? 3 : 2) + '">' + esc(t("m_" + m)) + "</td></tr>" +
+      CAT_CHECKS[k].map((cid) => "<tr><td><b>" + esc(t(cid)) + "</b>" + (x ? '<span class="src">' + esc(cid) + "</span>" : "") + "</td><td>" +
+        esc(fill(g.checks[cid].s)) + (x ? '<span class="xp">' + esc(fill(g.checks[cid].x)) + '</span><span class="src">' + esc(t("source_col")) + ": " + src(cid) + "</span>" : "") +
+        "</td>" + (x ? '<td class="num">' + (c.w[cid] ?? 1) + "</td>" : "") + "</tr>").join("")).join("");
+    const html = '<button class="close" data-close aria-label="' + esc(t("close")) + '">✕</button><h2>' + esc(t("help_title")) + "</h2>" +
+      '<p class="sub">' + esc(t("view_hint")) + "</p>" +
+      '<nav class="toc">' + [["what", "sec_what"], ["lights", "sec_lights"], ["cats", "sec_cats"], ["checks", "sec_checks"], ["crit", "sec_crit"], ["data", "sec_data"], ["limits", "sec_limits"]]
+        .map(([id, k]) => '<button class="linkbtn" data-help="' + id + '">' + esc(t(k)) + "</button>").join(" · ") + "</nav>" +
+      sec("what", t("sec_what"), para(g.sections.what[x ? "x" : "s"])) +
+      sec("lights", t("sec_lights"), lightRows + '<p class="sub">' + esc(g.lights.simple.note) + "</p>" + (x ? '<div class="xbox">' + para(g.lights.expert) + "</div>" : "") +
+        '<p class="src">' + esc(t("click_light")) + "</p>") +
+      sec("cats", t("sec_cats"), "<table><tbody>" + cats + "</tbody></table>") +
+      sec("checks", t("sec_checks"), "<table><thead><tr><th>" + esc(t("check_col")) + "</th><th>" + esc(x ? t("how_measured") : t("why")) + "</th>" +
+        (x ? '<th class="num">' + esc(t("weight")) + "</th>" : "") + "</tr></thead><tbody>" + checks + "</tbody></table>") +
+      sec("crit", t("sec_crit"), para(g.sections.crit[x ? "x" : "s"]) + '<p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>") +
+      sec("data", t("sec_data"), para(g.sections.data[x ? "x" : "s"]) + '<p class="src"><a href="https://github.com/Accelerate-GmbH/cert_landscape_CH/tree/main/output/latest">' +
+        esc(t("data_link")) + "</a></p>") +
+      sec("limits", t("sec_limits"), para(g.sections.limits[x ? "x" : "s"])) +
+      '<p class="src"><a href="' + DOCS + 'docs/RATING.md">' + esc(t("help_more")) + "</a> · <a href=\"" + DOCS + 'METHOD.md">' + esc(t("method")) + "</a></p>";
+    const panel = document.getElementById("panel");
+    panel.innerHTML = html;
+    state.help = section || "what";
+    const target = document.getElementById("help-" + state.help);
+    if (target && section && section !== "what") target.scrollIntoView({ block: "start" }); else panel.scrollTop = 0;
+  }
+
   function overviewSectors() {
-    document.getElementById("panel").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + "</p><p class=\"sub\">" +
+    document.getElementById("panel").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + (simple() ? esc(t("sector_intro_simple")) + " " : "") + esc(t("matrix_note")) + "</p><p class=\"sub\">" +
       esc(t("agg_only")) + '</p><p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>";
   }
 
@@ -661,8 +801,30 @@
       "</th><th>" + esc(t("net_col")) + "</th></tr></thead><tbody>" + eps + "</tbody></table>";
   }
 
+  function simpleOverview() {
+    const lvl = state.level;
+    const ents = Object.entries(state.data.entities[lvl] || {});
+    const cnt = { green: 0, yellow: 0, red: 0, none: 0 };
+    ents.forEach(([, e]) => { cnt[lightOf(value(e, "tm"))]++; });
+    const bar = '<div class="bar">' + ["green", "yellow", "red", "none"].filter((k) => cnt[k]).map((k) =>
+      '<span title="' + esc(t("verdict_" + k)) + " " + cnt[k] + '" style="width:' + (100 * cnt[k] / (ents.length || 1)) + "%;background:" +
+      (k === "none" ? css("--nodata") : css(LIGHT_COLORS[k])) + '"></span>').join("") + '</div><div class="keyrow">' +
+      ["green", "yellow", "red", "none"].filter((k) => cnt[k]).map((k) => '<span><i style="background:' + (k === "none" ? css("--nodata") : css(LIGHT_COLORS[k])) +
+        '"></i>' + esc(t("verdict_" + k)) + " " + cnt[k] + "</span>").join("") + "</div>";
+    const rank = lvl === "canton" ? ents.filter(([, e]) => value(e, "tm") !== null).sort((a, b) => value(b[1], "tm") - value(a[1], "tm"))
+      .map(([id, e]) => '<tr class="click" data-sel="canton:' + id + '"><td>' + esc(e.n) + '</td><td class="num">' + value(e, "tm") + "</td><td>" +
+        chip(lightOf(value(e, "tm")), t("verdict_" + lightOf(value(e, "tm")))) + "</td></tr>").join("") : "";
+    document.getElementById("panel").innerHTML = "<h2>" + esc(t("overview")) + '</h2><p class="sub">' + esc(t("intro_simple")) + "</p>" +
+      "<h3>" + esc(t("sec_lights")) + "</h3>" + ["green", "yellow", "red", "none"].map(lightLine).join("") +
+      '<p class="sub">' + esc(G().lights.simple.note) + "</p>" +
+      "<h3>" + esc(t("units_by_light").replace("{units}", t(lvl === "canton" ? "level_canton" : "level_municipality"))) + "</h3>" + bar +
+      (rank ? "<h3>" + esc(t("ranking")) + "</h3><table><tbody>" + rank + "</tbody></table>" : "") +
+      '<p><button class="linkbtn" data-help="what">' + esc(t("to_help")) + " →</button></p>";
+  }
+
   function overview() {
     if (state.level === "sector") { overviewSectors(); return; }
+    if (simple()) { simpleOverview(); return; }
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
     const lvlForStats = state.level === "sector" ? "canton" : state.level;
@@ -690,6 +852,7 @@
   }
 
   function select(level, id) {
+    state.help = null;
     state.selected = level && id ? { level, id } : null;
     if (state.selected) detail(level, id); else overview();
     try {
@@ -707,7 +870,13 @@
   document.addEventListener("click", (ev) => {
     const lang = ev.target.closest("[data-lang]");
     if (lang) { state.lang = lang.dataset.lang; try { localStorage.setItem("lang", state.lang); } catch (e) { /* ignore */ }
-      applyI18n(); legend(); refreshPanel(); if (state.data) fillSectors(); if (state.level === "sector") renderMatrix(); return; }
+      applyI18n(); draw(); if (state.help) helpPanel(state.help); else refreshPanel(); if (state.data) fillSectors(); return; }
+    const vw = ev.target.closest("[data-view]");
+    if (vw) { state.view = vw.dataset.view; try { localStorage.setItem("view", state.view); } catch (e) { /* ignore */ }
+      try { const u = new URL(location.href); u.searchParams.set("view", state.view); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
+      applyI18n(); draw(); if (state.help) helpPanel(state.help); else refreshPanel(); return; }
+    const hp = ev.target.closest("[data-help]");
+    if (hp) { helpPanel(hp.dataset.help); return; }
     const lvl = ev.target.closest("[data-level]");
     if (lvl) { state.level = lvl.dataset.level; applyI18n(); draw(); refreshPanel(); fillSearch(); return; }
     const exb = ev.target.closest("[data-explain]");
@@ -727,7 +896,7 @@
     if (srt) { const k = srt.dataset.sort; state.sort = { key: k, dir: state.sort.key === k ? -state.sort.dir : (k === "n" ? 1 : -1) }; overview(); }
   });
   document.getElementById("metric").addEventListener("change", (ev) => { state.metric = ev.target.value; draw(); });
-  document.getElementById("showorgs").addEventListener("change", drawOrgs);
+  document.getElementById("showorgs").addEventListener("change", () => { drawOrgs(); legend(); });
   document.getElementById("sectorfilter").addEventListener("change", drawOrgs);
   map.on("zoomend", drawOrgs);
   function fillSectors() {

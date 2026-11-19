@@ -377,7 +377,7 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
     mj["sectors"] = mj["dims"]["sektor"]
     c = result.get("tm_cfg") or {}
     mj["cfg"] = {k: c.get(k) for k in ("category_weights", "checks", "points", "green", "yellow",
-                                         "critical_resource_weight", "min_orgs_per_sector")}
+                                         "critical_resource_weight", "min_orgs_per_sector", "min_scts")}
     p.write_text(json.dumps(mj, ensure_ascii=False, separators=(",", ":")))
     paths["webmap"] = p
 

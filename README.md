@@ -152,19 +152,35 @@ A sample run for canton Zug is in `samples/zug/`.
 ## Map
 
 `web/` is a static map (Leaflet, no tracking, no tile server) in German,
-French, Italian and English: sovereignty and identity validation per canton
-and municipality, critical services, CAA, good-practice checks and the CA mix
-per entity. A sector view compares sectors (critical and other services)
-with cantons and municipalities; organisations appear as grouped symbols per
-canton or place and can be searched by name. Every score shows its source, and every entity drills down to
-its hostnames, each check result with its measured value and evidence, and
-links to verify it independently (crt.sh, SSL Labs, dns.google, DNSViz,
-bgp.he.net). The footer links to the method, the rating, the data of the
-latest run (`output/latest/` on GitHub: `entities.csv`, `hostnames.csv`,
+French, Italian and English. It has two views, switched at the top right
+(`?view=simple` or `?view=expert` in the link):
+
+- **Simple** for readers without background: the Trust Posture and its four
+  areas in plain words, a verdict per traffic light, the three checks most
+  often missing with why they matter, and where certificates, servers and DNS
+  sit.
+- **Expert** with all indicators (including the certificate metrics of the
+  original model: sovereignty, identity validation, CAA, good practice),
+  formulas, weights, raw values and all twelve checks in the sector matrix.
+
+The **Explanations** panel describes what the map shows, the traffic light,
+the four areas, the twelve checks (why they matter, how they are measured,
+weight and source), the critical-services layer, data and updates, and what
+the rating does not say, at the depth of the chosen view.
+
+Levels are cantons, municipalities and sectors. The sector view compares
+sectors, sub-sectors, service types or cantons of seat (critical and other
+services) with cantons and municipalities; organisations appear as grouped
+symbols per canton or place and can be searched by name. Every traffic light
+can be clicked and traced down to the single hostname, its measured values
+and links to verify them independently (crt.sh, SSL Labs, dns.google,
+DNSViz, bgp.he.net). The footer links to the method, the rating, the data of
+the latest run (`output/latest/` on GitHub: `entities.csv`, `hostnames.csv`,
 `results.json`, `endpoints.csv`, `checks.jsonl`, `export.xlsx`) and the
 critical-services list (`data/critical_services/`, method in
-[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md)). The `publish map` workflow deploys it to GitHub Pages with the
-latest `output/latest/map.json`. Local preview:
+[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md)). The `publish map`
+workflow deploys it to GitHub Pages with the latest `output/latest/map.json`.
+Local preview:
 
 ```bash
 cp output/latest/map.json web/data/map.json

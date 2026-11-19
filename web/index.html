@@ -14,9 +14,18 @@
       <h1 data-i18n="title"></h1>
       <p class="subtitle" data-i18n="subtitle"></p>
     </div>
-    <nav class="lang" aria-label="Sprache / langue / lingua / language">
-      <button data-lang="de">DE</button><button data-lang="fr">FR</button><button data-lang="it">IT</button><button data-lang="en">EN</button>
-    </nav>
+    <div class="settings" role="group">
+      <div class="setting" title="">
+        <span class="lbl" data-i18n="view"></span>
+        <div class="seg" role="group" id="viewseg">
+          <button data-view="simple" data-i18n="view_simple"></button><button data-view="expert" data-i18n="view_expert"></button>
+        </div>
+      </div>
+      <nav class="seg lang" aria-label="Sprache / langue / lingua / language">
+        <button data-lang="de">DE</button><button data-lang="fr">FR</button><button data-lang="it">IT</button><button data-lang="en">EN</button>
+      </nav>
+      <button class="helpbtn" data-help="what"><span aria-hidden="true">?</span> <span data-i18n="help"></span></button>
+    </div>
   </header>
 
   <div class="controls" role="toolbar">
@@ -25,25 +34,14 @@
       <button data-level="municipality" data-i18n="level_municipality"></button>
       <button data-level="sector" data-i18n="level_sector"></button>
     </div>
-    <label class="orgtoggle" id="orgtoggle"><input type="checkbox" id="showorgs" checked> <span data-i18n="orgs_layer"></span></label>
-    <select id="sectorfilter"><option value="" data-i18n="all_sectors"></option></select>
     <label class="metric">
       <span data-i18n="metric"></span>
-      <select id="metric">
-        <option value="tm" data-i18n="m_tm"></option>
-        <option value="tm_own" data-i18n="m_tm_own"></option>
-        <option value="tm_sov" data-i18n="m_tm_sov"></option>
-        <option value="tm_sec" data-i18n="m_tm_sec"></option>
-        <option value="tm_prv" data-i18n="m_tm_prv"></option>
-        <option value="s" data-i18n="m_s"></option>
-        <option value="cs" data-i18n="m_cs"></option>
-        <option value="a" data-i18n="m_a"></option>
-        <option value="ca" data-i18n="m_ca"></option>
-        <option value="caa" data-i18n="m_caa"></option>
-        <option value="gp" data-i18n="m_gp"></option>
-        <option value="crit_seat" data-i18n="m_crit_seat"></option>
-      </select>
+      <select id="metric"></select>
     </label>
+    <div class="orgs" id="orgtoggle">
+      <label><input type="checkbox" id="showorgs" checked> <span data-i18n="orgs_layer"></span></label>
+      <select id="sectorfilter" aria-label="sector"><option value="" data-i18n="all_sectors"></option></select>
+    </div>
     <input id="search" type="search" list="names" autocomplete="off" data-i18n-ph="search">
     <datalist id="names"></datalist>
   </div>
@@ -71,6 +69,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="i18n.js"></script>
+<script src="guide.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
