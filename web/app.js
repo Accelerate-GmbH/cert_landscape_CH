@@ -438,8 +438,11 @@
       html += head(r.h + " · " + t("m_tm"), r.o) + note(t("f_res_overall"), t("m_tm_d") + " " + G().lights.simple[lightOf(r.o)]) +
         (r.ko ? '<p class="note">K.-o.: ' + esc(r.ko) + " · " + esc(t("ko_note")) + "</p>" : "") +
         '<table><thead><tr><th></th><th class="num">' + esc(t("rating")) + '</th><th class="num">' + esc(t("weight")) + '</th><th class="num">' + esc(t("contribution")) +
-        "</th><th></th></tr></thead><tbody>" + rows + '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + Math.round(100 * b) + ' %</td><td class="num"><b>' +
-        (b ? (a / b).toFixed(1) : "–") + "</b></td><td></td></tr></tbody></table>";
+        "</th><th></th></tr></thead><tbody>" + rows +
+        (r.ko ? '<tr><td>' + esc(t("total_before_ko")) + '</td><td></td><td class="num">' + Math.round(100 * b) + ' %</td><td class="num">' + (b ? Math.round(a / b) : "–") +
+            '</td><td></td></tr><tr><td><b>' + esc(t("ko_row")) + '</b><span class="src">' + esc(r.ko) + '</span></td><td></td><td></td><td class="num"><b>0</b></td><td>' + chip("red", " ") + "</td></tr>"
+          : '<tr><td><b>' + esc(t("total")) + '</b></td><td></td><td class="num">' + Math.round(100 * b) + ' %</td><td class="num"><b>' + (b ? Math.round(a / b) : "–") + "</b></td><td></td></tr>") +
+        "</tbody></table>";
     } else {
       let a = 0, b = 0;
       const rows = CAT_CHECKS[arg].map((cid) => {
@@ -569,7 +572,7 @@
         const [lvl, ...rest] = x[1].split(":"); const id = rest.join(":");
         const e = (state.data.entities[lvl] || {})[id];
         const st = {}; order.forEach((cid, i) => { st[cid] = (x[7] || "")[i] || "-"; });
-        return { h: x[0], key: x[1], lvl, id, owner: e ? e.n : x[1], o: x[2], c: { ownership: x[3], sovereignty: x[4], security: x[5], privacy: x[6] }, st, crit: !!x[8] };
+        return { h: x[0], key: x[1], lvl, id, owner: e ? e.n : x[1], o: x[2], c: { ownership: x[3], sovereignty: x[4], security: x[5], privacy: x[6] }, st, crit: !!x[8], ko: x[9] || "" };
       });
       return HL.rows;
     });
@@ -607,7 +610,8 @@
       (simple() ? "" : CHECK_IDS.map((cid) => th("chk:" + cid, CHECK_SHORT[cid], t(cid))).join(""));
     const body = part.map((r) => '<tr class="click" data-hostrow="' + esc(r.key + "|" + r.h) + '"><td class="hn">' + esc(r.h) +
       (r.crit ? ' <span class="chip">' + esc(t("crit_tag")) + "</span>" : "") + "</td><td>" + esc(r.owner) + '</td><td class="src">' + esc(t(KIND_LABEL[r.lvl])) + "</td>" +
-      cell(r.o, t("m_tm"), null) + CATS.map(([c, m]) => cell(r.c[c], t("m_" + m), null)).join("") +
+      (r.ko ? cell(r.o, t("m_tm"), null).replace(/>0<\/td>$/, '><span title="' + esc(t("ko_row") + ": " + r.ko) + '">0 <span class="kotag">K.-o.</span></span></td>') : cell(r.o, t("m_tm"), null)) +
+      CATS.map(([c, m]) => cell(r.c[c], t("m_" + m), null)).join("") +
       (simple() ? "" : CHECK_IDS.map((cid) => stCell(r.st[cid], t(cid))).join("")) + "</tr>").join("");
     const pager = '<div class="pager"><span class="src">' + esc(t("rows_shown").replace("{a}", rows.length ? from + 1 : 0).replace("{b}", from + part.length).replace("{n}", rows.length)) + "</span> " +
       '<button class="linkbtn" data-hpage="-1"' + (HL.page ? "" : " disabled") + ">← " + esc(t("prev")) + "</button> " +
