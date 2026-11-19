@@ -432,17 +432,33 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
         (rdir / (key.replace(":", "-") + ".json")).write_text(json.dumps(items, ensure_ascii=False, separators=(",", ":")))
     paths["resources"] = rdir
 
-    # Search index for the map: hostnames of administrations, grouped by
-    # entity. Organisations are left out unless public (aggregate-only rows
-    # must not be findable by hostname).
+    # Search index for the map: every hostname found, per entity. "h" holds
+    # the rated hosts (they have a drill-down), "u" the others with a reason:
+    # wc wildcard, ex excluded, nx not in DNS, na no address, err DNS error,
+    # nr in use but not rated. Organisations only if public.
     public_orgs = {e["key"] for e in result["entities"] if e["kind"] == "organisation" and is_public(e)}
-    idx: dict[str, list] = {}
-    for key, items in by_entity.items():
+    rated: dict[str, set] = {}
+    unrated: dict[str, dict] = {}
+    for r in result["hostnames"]:
+        key = r["entity"]
         if key.startswith("organisation:") and key not in public_orgs:
             continue
-        idx[key] = sorted({x["h"] for x in items})
+        h = r["hostname"]
+        if r.get("tm") and not r.get("wildcard"):
+            rated.setdefault(key, set()).add(h)
+            continue
+        dns = r.get("dns_state") or ""
+        code = ("wc" if r.get("wildcard") else "ex" if r.get("excluded") else
+                "nx" if dns == "nxdomain" else "na" if dns == "no_address" else
+                "err" if dns and dns != "resolves" else "nr")
+        unrated.setdefault(key, {})[h] = code
+    for key, hs in rated.items():
+        for h in hs & set(unrated.get(key, {})):
+            del unrated[key][h]
     p = out_dir / "search.json"
-    p.write_text(json.dumps({"v": 1, "h": idx}, ensure_ascii=False, separators=(",", ":")))
+    p.write_text(json.dumps({"v": 2, "h": {k: sorted(v) for k, v in rated.items()},
+                             "u": {k: sorted(v.items()) for k, v in unrated.items() if v}},
+                            ensure_ascii=False, separators=(",", ":")))
     paths["search"] = p
 
     p = out_dir / "run.json"
