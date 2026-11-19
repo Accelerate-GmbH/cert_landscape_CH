@@ -204,3 +204,17 @@ section.help tr.grp td { background: var(--surface-0); font-weight: 600; color: 
 .legend .row span b { font-weight: 600; color: var(--text-primary); }
 .srccell { max-width: 96px; }
 .srccell a { display: inline-block; overflow-wrap: anywhere; }
+
+.brand { display: block; color: var(--text-primary); flex: none; }
+.brand .logo { width: 56px; height: auto; display: block; }
+.brand:hover { opacity: .75; }
+header .titles { flex: 1; min-width: 260px; }
+.ghbtn { display: inline-flex; align-items: center; gap: 6px; font: inherit; text-decoration: none; color: var(--text-primary);
+  border: 1px solid var(--border); background: var(--surface-1); padding: 4px 12px; border-radius: 6px; }
+.ghbtn:hover { border-color: var(--text-primary); }
+.ghbtn svg { width: 16px; height: 16px; }
+#sectorfilter { max-width: 200px; }
+.searchwrap #search { width: 260px; }
+#metric { max-width: 210px; }
+#sectorfilter { max-width: 170px; }
+.searchwrap #search { width: 230px; }
