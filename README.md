@@ -32,6 +32,13 @@ How the results become scores, traffic lights and a rating per canton and
 municipality is proposed in [docs/RATING.md](docs/RATING.md) (draft v0.1, for
 discussion). Every check execution is logged in `checks.jsonl`.
 
+## Mail
+
+Every domain is also checked for mail, with its own value next to the web
+rating: where the mail servers run, STARTTLS on port 25, enforced encryption
+(DANE or MTA-STS), TLS reporting, DMARC and SPF. Rules in
+[docs/RATING.md](docs/RATING.md#mail-from-november-2026).
+
 ## What it measures
 
 Per canton and municipality:

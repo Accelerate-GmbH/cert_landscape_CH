@@ -213,3 +213,24 @@ later.
 8. **Thresholds.** Green from 80 or from 90?
 9. **Incomplete chains.** In the first Zug run, 15 of 313 endpoints did not send their intermediate certificate. Knock-out, a failed check, or report only (current proposal)?
 10. **Critical services.** Should DV on a critical service turn the ownership category red regardless of the other checks?
+
+
+## Mail (from November 2026)
+
+Mail is rated per domain with its own checks and reported next to the web
+Trust Posture (map metric "Mail"); it does not change the web rating.
+Domains without MX are not rated; municipalities that only share another
+domain are left out.
+
+| ID | Check | Pass | Partial | Fail | Weight |
+|---|---|---|---|---|---|
+| mail.mx | Domicile of the mail servers' networks (own network counts with the seat) | all local | local or EU/EEA | otherwise | 2 |
+| mail.starttls | STARTTLS on port 25 with a certificate valid for the server | all TLS 1.3 | TLS 1.2, or only some servers | no STARTTLS | 2 |
+| mail.transport | Encrypted delivery enforced | DANE (TLSA, DNSSEC-validated) on all MX, or MTA-STS mode enforce | MTA-STS testing, or DANE on some MX | none | 2 |
+| mail.tlsrpt | TLS reporting configured | `_smtp._tls` TXT `v=TLSRPTv1` | | missing | 1 |
+| mail.dmarc | DMARC policy | `p=reject` | `p=quarantine` | `p=none` or missing | 2 |
+| mail.spf | SPF policy (redirects followed) | `-all` | `~all` | `?all`, `+all` or missing | 1 |
+
+STARTTLS is tested once per mail server from the GitHub runner (port 25 is
+reachable there, tested 19 November 2026); a server that does not answer is
+not assessed. An entity's mail value is the mean of its rated mail domains.

@@ -9,7 +9,9 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
+from . import mail as mail_mod
 from . import probe as probe_mod
+from .mail import MailCheck
 from .ccadb import CCADB
 from .certs import describe, load_cert
 from .config import Entity, Settings
@@ -261,6 +263,19 @@ class Pipeline:
         newest = max((d["newest_not_before"] for d in self.discovery_log if d["newest_not_before"]), default=None)
         self.ct_lag_days = round((self.now - _parse_iso(newest)).total_seconds() / 86400, 1) if newest else None
 
+        # mail per domain (MX, MTA-STS/DANE, TLS-RPT, SPF, DMARC, optional STARTTLS)
+        mail_cfg = self.s.raw.get("mail", {})
+        mail_res: dict[str, dict] = {}
+        if mail_cfg.get("enabled", True):
+            mail_domains = sorted({d for e in entities if not e.shared_domain for d in e.domains})
+            log.info("Mail checks for %d domains%s", len(mail_domains), " with STARTTLS" if self.do_probe else "")
+            mc = MailCheck(self.dns, self.http, self.conc["dns"],
+                           probe=self.do_probe and mail_cfg.get("starttls", True))
+            mail_res = mc.run(mail_domains)
+        mail_w = {**mail_mod.DEFAULT_WEIGHTS, **(mail_cfg.get("checks") or {})}
+        mail_pts = self.s["trust_posture"]["points"]
+        eea_set = set(self.reg.eea)
+
         # entity scores
         entities_out = []
         for e in entities:
@@ -270,6 +285,9 @@ class Pipeline:
             res_e = [r for r in hosts if r.get("tm")]
             metrics["posture"] = posture.aggregate(res_e, self.s["trust_posture"])
             metrics["zone"] = {d: zones.get(d, {}) for d in e.domains}
+            if mail_res:
+                metrics["mail"] = mail_mod.entity_mail(mail_res, [] if e.shared_domain else e.domains,
+                                                       posture.self_tokens(e.name, e.domains), eea_set, mail_w, mail_pts)
             disc_info = [x for x in self.discovery_log if x["domain"] in e.domains]
             entities_out.append({
                 "key": e.key, "kind": e.kind, "id": e.id, "name": e.name, "canton": e.canton,

@@ -62,7 +62,7 @@
   const CAA_COLORS = { swiss: "--cat-1", other: "--cat-2", none: "--nodata" };
   const TM_CAT = { tm_own: "ownership", tm_sov: "sovereignty", tm_sec: "security", tm_prv: "privacy" };
   const LIGHT_COLORS = { green: "--good", yellow: "--warning", red: "--critical" };
-  const isTM = (m) => m === "tm" || m === "crit_seat" || m in TM_CAT;
+  const isTM = (m) => m === "tm" || m === "crit_seat" || m === "ml" || m in TM_CAT;
   function lightOf(v) {
     if (v === null || v === undefined) return "none";
     return v >= 80 ? "green" : v >= 50 ? "yellow" : "red";
@@ -80,6 +80,7 @@
     const m = metric || state.metric;
     if (!e) return null;
     if (m === "tm") return e.tm && e.tm.o !== undefined ? e.tm.o : null;
+    if (m === "ml") return e.ml && e.ml.o !== undefined ? e.ml.o : null;
     if (m === "crit_seat") {
       const d = e.c && state.data.dims && state.data.dims.kanton ? state.data.dims.kanton[e.c] : null;
       return d && d.krit && !d.krit.suppressed && d.krit.o !== undefined ? d.krit.o : null;
@@ -95,7 +96,7 @@
   }
 
   /* ---- metrics offered per view ------------------------------------------ */
-  const METRICS_MAIN = ["tm", "tm_own", "tm_sov", "tm_sec", "tm_prv", "crit_seat"];
+  const METRICS_MAIN = ["tm", "tm_own", "tm_sov", "tm_sec", "tm_prv", "ml", "crit_seat"];
   const METRICS_MORE = ["s", "cs", "a", "ca", "caa", "gp"];
   function fillMetrics() {
     const sel = document.getElementById("metric");
@@ -815,7 +816,7 @@
       (level === "organisation" ? '<p class="sub">' + esc(t("sector")) + ": " + esc(e.sec || "–") + (e.sub ? " · " + esc(e.sub) : "") +
         "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + esc(e.uid) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
-      tmSection(e, level, id) + critSeat(e, level) + stackSection(e) +
+      tmSection(e, level, id) + mailSection(e, level, id) + critSeat(e, level) + stackSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
         esc(t("res_show")) + " (" + e.tm.n + ")</button></p>" : "") +
       "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
@@ -884,6 +885,41 @@
       '<table style="margin-top:8px"><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("pass_col")) +
       '</th><th></th><th class="num">n</th><th>' + esc(t("source_col")) + '</th></tr></thead><tbody>' + checks + "</tbody></table>";
   }
+  /* ---- mail: own checks per domain, next to the web rating ------------------ */
+  const MAIL_CHECKS = ["mail.mx", "mail.starttls", "mail.transport", "mail.tlsrpt", "mail.dmarc", "mail.spf"];
+  function mailSection(e, level, id) {
+    const m = e.ml;
+    if (!m) return "";
+    const head2 = "<h3>" + esc(t("mail_title")) + "</h3>";
+    if (m.o === null || m.o === undefined) return head2 + '<p class="sub">' + esc(t("mail_none")) + "</p>";
+    const rows = MAIL_CHECKS.map((cid) => {
+      const x = (m.k || {})[cid]; const v = share(x);
+      return '<div class="cat"><span>' + esc(t(cid)) + (simple() ? '<span class="src">' + esc(fill((G().checks[cid] || {}).s || "")) + "</span>" : "") +
+        '</span><span class="num">' + (v === null ? "–" : v + " %") + "</span>" + chip(lightOf(v), " ") + "</div>";
+    }).join("");
+    return head2 + '<div class="tmhead"><span class="v">' + fmt(m.o) + "</span>" + chip(lightOf(m.o), t("verdict_" + lightOf(m.o))) + '</div><p class="src">' +
+      esc(t("mail_domains").replace("{n}", m.n)) + " · " + esc(t("mail_share")) + "</p>" + rows +
+      '<p><button class="linkbtn" data-mail="' + esc(level + ":" + id) + '">' + esc(t("mail_show")) + " →</button></p>";
+  }
+  function mailDetail(level, id) {
+    const e = state.data.entities[level][id];
+    fetch("data/resources/mail-" + level + "-" + id + ".json?v=" + BUILD).then((r) => (r.ok ? r.json() : [])).then((doms) => {
+      const card = (d) => {
+        const mx = d.mx.map(([h, pref, nets, dane, tls, valid]) => "<tr><td>" + esc(h) + '<span class="src">' + esc(nets.join(", ")) + '</span></td><td class="num">' + pref +
+          "</td><td>" + (dane ? stTag("pass") : "") + "</td><td>" + esc(tls || "–") + (valid === false ? ' <span class="kotag">' + esc(t("mail_invalid")) + "</span>" : "") + "</td></tr>").join("");
+        const ck = d.c.map(([cid, st, val, , ev]) => "<tr><td>" + esc(t(cid)) + "<br>" + stTag(st) + '</td><td class="ev">' + esc(String(val || "")) +
+          (ev ? '<span class="src">' + esc(ev) + "</span>" : "") + "</td></tr>").join("");
+        return '<div class="maildom"><div class="tmhead"><b>' + esc(d.d) + '</b><span class="v">' + fmt(d.o) + "</span>" + chip(lightOf(d.o), " ") + "</div>" +
+          (d.mx.length ? "<table><thead><tr><th>" + esc(t("mail_mx")) + '</th><th class="num">Pref</th><th>DANE</th><th>STARTTLS</th></tr></thead><tbody>' + mx + "</tbody></table>" +
+            "<table><tbody>" + ck + "</tbody></table>" : '<p class="sub">' + esc(t(d.null ? "mail_nullmx" : "mail_nomx")) + "</p>") + "</div>";
+      };
+      document.getElementById("panel").innerHTML = '<button class="close" data-sel="' + esc(level + ":" + id) + '">← ' + esc(t("back")) + "</button><h2>" +
+        esc(e.n) + " · " + esc(t("mail_title")) + '</h2><p class="sub">' + esc(t("mail_intro")) + "</p>" +
+        doms.filter((d) => d.o !== null).map(card).join("") +
+        (doms.some((d) => d.o === null) ? '<p class="src">' + esc(t("mail_unrated")) + ": " + esc(doms.filter((d) => d.o === null).map((d) => d.d).join(", ")) + "</p>" : "");
+    });
+  }
+
   function critSeat(e, level) {
     if (level !== "canton" || !state.data.dims || !state.data.dims.kanton) return "";
     const d = state.data.dims.kanton[e.c];
@@ -940,6 +976,7 @@
         chip(lightOf(v), null, v === null || v === undefined ? null : ["e", level, id, "cat", c].join("|")) + "</div>";
     }).join("");
     html += "<h3>" + esc(t("gaps")) + "</h3>" + gapsList(tm.k, level, id);
+    html += mailSection(e, level, id);
     html += critSeat(e, level);
     const st = e.stack;
     if (st) {
@@ -976,7 +1013,7 @@
         "</td>" + (x ? '<td class="num">' + (c.w[cid] ?? 1) + "</td>" : "") + "</tr>").join("")).join("");
     const html = '<button class="close" data-close aria-label="' + esc(t("close")) + '">✕</button><h2>' + esc(t("help_title")) + "</h2>" +
       '<p class="sub">' + esc(t("view_hint")) + "</p>" +
-      '<nav class="toc">' + [["what", "sec_what"], ["lights", "sec_lights"], ["cats", "sec_cats"], ["checks", "sec_checks"], ["crit", "sec_crit"], ["data", "sec_data"], ["limits", "sec_limits"]]
+      '<nav class="toc">' + [["what", "sec_what"], ["lights", "sec_lights"], ["cats", "sec_cats"], ["checks", "sec_checks"], ["mail", "sec_mail"], ["crit", "sec_crit"], ["data", "sec_data"], ["limits", "sec_limits"]]
         .map(([id, k]) => '<button class="linkbtn" data-help="' + id + '">' + esc(t(k)) + "</button>").join(" · ") + "</nav>" +
       sec("what", t("sec_what"), para(g.sections.what[x ? "x" : "s"])) +
       sec("lights", t("sec_lights"), lightRows + '<p class="sub">' + esc(g.lights.simple.note) + "</p>" + (x ? '<div class="xbox">' + para(g.lights.expert) + "</div>" : "") +
@@ -984,6 +1021,9 @@
       sec("cats", t("sec_cats"), "<table><tbody>" + cats + "</tbody></table>") +
       sec("checks", t("sec_checks"), "<table><thead><tr><th>" + esc(t("check_col")) + "</th><th>" + esc(x ? t("how_measured") : t("why")) + "</th>" +
         (x ? '<th class="num">' + esc(t("weight")) + "</th>" : "") + "</tr></thead><tbody>" + checks + "</tbody></table>") +
+      sec("mail", t("sec_mail"), para(g.sections.mail[x ? "x" : "s"]) + "<table><thead><tr><th>" + esc(t("check_col")) + "</th><th>" + esc(x ? t("how_measured") : t("why")) +
+        "</th></tr></thead><tbody>" + MAIL_CHECKS.map((cid) => "<tr><td><b>" + esc(t(cid)) + "</b></td><td>" + esc(fill(g.checks[cid].s)) +
+        (x ? '<span class="xp">' + esc(fill(g.checks[cid].x)) + "</span>" : "") + "</td></tr>").join("") + "</tbody></table>") +
       sec("crit", t("sec_crit"), para(g.sections.crit[x ? "x" : "s"]) + '<p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>") +
       sec("data", t("sec_data"), para(g.sections.data[x ? "x" : "s"]) + '<p class="src"><a href="https://github.com/Accelerate-GmbH/cert_landscape_CH/tree/main/output/latest">' +
         esc(t("data_link")) + "</a></p>") +
@@ -1174,6 +1214,8 @@
     if (hp2) { HL.page += Number(hp2.dataset.hpage); renderHostsTable(); document.getElementById("hoststable").scrollIntoView({ block: "start" }); return; }
     const hr = ev.target.closest("[data-hostrow]");
     if (hr) { const [key, host] = hr.dataset.hostrow.split("|"); const [l, ...rest] = key.split(":"); openHost(l, rest.join(":"), host, true); return; }
+    const ml = ev.target.closest("[data-mail]");
+    if (ml) { const [l, ...rest] = ml.dataset.mail.split(":"); mailDetail(l, rest.join(":")); return; }
     const oh = ev.target.closest("[data-orghost]");
     if (oh) { const [oid, host] = oh.dataset.orghost.split("|"); openHost("organisation", oid, host, true); return; }
     const ft = ev.target.closest("[data-fedtoggle]");
