@@ -34,6 +34,7 @@ jobs:
           mkdir -p site/data
           cp web/*.html web/*.css web/*.js site/
           cp -r web/vendor site/
+          sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/index.html
           curl -fsSL -o site/data/ch-combined.json https://unpkg.com/swiss-maps@4.7.0/2026/ch-combined.json
           if [ -f output/latest/map.json ]; then
             cp output/latest/map.json site/data/map.json

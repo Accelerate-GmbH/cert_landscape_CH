@@ -6,6 +6,7 @@
 window.GUIDE = {
   de: {
     ui: {
+      hosts_sorted_col: "Wert der gewählten Spalte pro Host, tiefster zuerst. Klick zeigt alle Prüfungen des Hosts.", orgs_mean_col: "Mittel der Hosts in dieser Gruppe für die gewählte Spalte. Klick zeigt die Organisation.",
       back_github: "Zurück zu GitHub",
       level_federal: "Bund", level_sector: "Kritische Dienste", fed_table_title: "Bundesverwaltung", fed_total: "Bundesverwaltung gesamt, gewichtet nach Anzahl Dienste",
       fed_intro: "Departemente mit ihren Ämtern, dazu Bundeskanzlei sowie Gerichte und Parlament. Klick auf eine Zeile für Details, auf einen Wert für seine Herleitung.",
@@ -131,6 +132,7 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      hosts_sorted_col: "Valeur de la colonne choisie par hôte, la plus basse d’abord. Cliquez pour voir tous les contrôles de l’hôte.", orgs_mean_col: "Moyenne des hôtes de ce groupe pour la colonne choisie. Cliquez pour voir l’organisation.",
       back_github: "Retour à GitHub",
       level_federal: "Confédération", level_sector: "Services critiques", fed_table_title: "Administration fédérale", fed_total: "Administration fédérale au total, pondérée par le nombre de services",
       fed_intro: "Départements avec leurs offices, plus la Chancellerie fédérale ainsi que les tribunaux et le parlement. Cliquez sur une ligne pour les détails, sur une valeur pour son calcul.",
@@ -256,6 +258,7 @@ window.GUIDE = {
 
   it: {
     ui: {
+      hosts_sorted_col: "Valore della colonna scelta per host, il più basso prima. Cliccare per tutti i controlli dell’host.", orgs_mean_col: "Media degli host di questo gruppo per la colonna scelta. Cliccare per l’organizzazione.",
       back_github: "Torna a GitHub",
       level_federal: "Confederazione", level_sector: "Servizi critici", fed_table_title: "Amministrazione federale", fed_total: "Amministrazione federale nel complesso, ponderata per numero di servizi",
       fed_intro: "Dipartimenti con i loro uffici, più la Cancelleria federale nonché tribunali e parlamento. Cliccare su una riga per i dettagli, su un valore per il suo calcolo.",
@@ -381,6 +384,7 @@ window.GUIDE = {
 
   en: {
     ui: {
+      hosts_sorted_col: "Value of the chosen column per host, lowest first. Click to see all checks of the host.", orgs_mean_col: "Mean of the hosts in this group for the chosen column. Click to see the organisation.",
       back_github: "Back to GitHub",
       level_federal: "Federal", level_sector: "Critical services", fed_table_title: "Federal administration", fed_total: "Federal administration overall, weighted by number of services",
       fed_intro: "Departments with their offices, plus the Federal Chancellery, the courts and parliament. Click a row for details, a value for how it is calculated.",

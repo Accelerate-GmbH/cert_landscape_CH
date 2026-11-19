@@ -260,6 +260,17 @@ def sector_json(result: dict, dim: str = "sektor") -> dict:
     return out
 
 
+from .posture import CATEGORIES, CHECK_CATEGORY
+
+CHECK_ORDER = list(CHECK_CATEGORY)
+_ST = {"pass": "p", "partial": "h", "fail": "f"}
+
+
+def _status_string(r: dict) -> str:
+    st = {x["check"]: x["status"] for x in r.get("tm_checks", [])}
+    return "".join(_ST.get(st.get(c, ""), "-") for c in CHECK_ORDER)
+
+
 def map_json(result: dict, meta: dict) -> dict:
     """Compact per-entity data for the web map (web/)."""
     hosts_by_entity: dict[str, list] = {}
@@ -298,10 +309,14 @@ def map_json(result: dict, meta: dict) -> dict:
         if e["kind"] == "organisation":
             pl = e.get("place") or {}
             # hosts with what the sector view needs to list and filter them:
-            # [hostname, overall, sector, sub-sector, service type, critical, linked to]
+            # [hostname, overall, sector, sub-sector, service type, critical, linked to,
+            #  [ownership, sovereignty, security, privacy], check statuses in CHECK_ORDER
+            #  (p pass, h partial, f fail, - not assessed)]
             hs = [[r["hostname"], (r.get("tm") or {}).get("overall"), r.get("sector") or e.get("sector", ""),
                    r.get("subsector") or e.get("subsector", ""), r.get("service_type") or "",
-                   1 if r.get("critical") else 0, r.get("linked_to") or ""]
+                   1 if r.get("critical") else 0, r.get("linked_to") or "",
+                   [((r.get("tm") or {}).get("categories") or {}).get(c) for c in CATEGORIES],
+                   _status_string(r)]
                   for r in hosts_by_entity.get(e["key"], [])]
             ents["organisation"][e["id"]].update({
                 "hs": hs,
@@ -317,6 +332,7 @@ def map_json(result: dict, meta: dict) -> dict:
     except (OSError, KeyError, ValueError):
         mnames = {}
     return {"generated": result["generated"], "ct_lag_days": result.get("ct_lag_days"), "mnames": mnames,
+            "chk_order": CHECK_ORDER,
             "ccadb_fetched": result.get("ccadb_fetched"),
             "ct_sources": meta.get("ct_sources_used", {}), "entities": ents}
 
