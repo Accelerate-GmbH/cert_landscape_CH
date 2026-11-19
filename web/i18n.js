@@ -48,7 +48,7 @@ window.I18N = {
     national: "Alle gezeigten Einheiten", total_hosts: "Hostnamen in Betrieb",
     data_note: "Daten: Certificate Transparency, CCADB, DNS, TLS-Prüfungen. Stand {date}.",
     lag_note: "Die CT-Quelle lag {lag} Tage hinter den Logs.",
-    method: "Methode", rating_doc: "Bewertung", source: "Quellcode und Daten", close: "Schliessen", table: "Tabelle",
+    method: "Methode", rating_doc: "Bewertung", data_link: "Daten zum Herunterladen (GitHub, output/latest)", critical_list: "Kritische Dienste: Liste und Methode", source: "Quellcode", close: "Schliessen", table: "Tabelle",
   },
   fr: {
     res_title: "Ressources", res_show: "Afficher tous les noms d’hôte avec résultats", back: "Retour", endpoints: "Points d’accès (A/AAAA)", cert: "Certificat", value_col: "Valeur", evidence_col: "Preuve", verify_at: "Vérifier", crit_tag: "critique", checked: "contrôlé", not_probed: "pas contrôlé en direct", loading: "Chargement …", status_pass: "rempli", status_partial: "partiel", status_fail: "non rempli", "status_n/a": "non évalué", ip_col: "Adresse", net_col: "Réseau",
@@ -98,7 +98,7 @@ window.I18N = {
     national: "Toutes les entités affichées", total_hosts: "Noms d’hôte en service",
     data_note: "Données : Certificate Transparency, CCADB, DNS, contrôles TLS. État au {date}.",
     lag_note: "La source CT avait {lag} jours de retard sur les journaux.",
-    method: "Méthode", rating_doc: "Évaluation", source: "Code source et données", close: "Fermer", table: "Tableau",
+    method: "Méthode", rating_doc: "Évaluation", data_link: "Données à télécharger (GitHub, output/latest)", critical_list: "Services critiques : liste et méthode", source: "Code source", close: "Fermer", table: "Tableau",
   },
   it: {
     res_title: "Risorse", res_show: "Mostra tutti i nomi host con i risultati", back: "Indietro", endpoints: "Endpoint (A/AAAA)", cert: "Certificato", value_col: "Valore", evidence_col: "Prova", verify_at: "Verificare", crit_tag: "critico", checked: "controllato", not_probed: "non controllato in tempo reale", loading: "Caricamento …", status_pass: "soddisfatto", status_partial: "parziale", status_fail: "non soddisfatto", "status_n/a": "non valutato", ip_col: "Indirizzo", net_col: "Rete",
@@ -148,7 +148,7 @@ window.I18N = {
     national: "Tutte le unità mostrate", total_hosts: "Nomi host in uso",
     data_note: "Dati: Certificate Transparency, CCADB, DNS, controlli TLS. Stato al {date}.",
     lag_note: "La fonte CT era in ritardo di {lag} giorni rispetto ai log.",
-    method: "Metodo", rating_doc: "Valutazione", source: "Codice sorgente e dati", close: "Chiudi", table: "Tabella",
+    method: "Metodo", rating_doc: "Valutazione", data_link: "Dati da scaricare (GitHub, output/latest)", critical_list: "Servizi critici: elenco e metodo", source: "Codice sorgente", close: "Chiudi", table: "Tabella",
   },
   en: {
     res_title: "Resources", res_show: "Show all hostnames with check results", back: "Back", endpoints: "Endpoints (A/AAAA)", cert: "Certificate", value_col: "Value", evidence_col: "Evidence", verify_at: "Verify", crit_tag: "critical", checked: "checked", not_probed: "not checked live", loading: "Loading …", status_pass: "passed", status_partial: "partial", status_fail: "failed", "status_n/a": "not assessed", ip_col: "Address", net_col: "Network",
@@ -198,6 +198,6 @@ window.I18N = {
     national: "All entities shown", total_hosts: "Hostnames in use",
     data_note: "Data: Certificate Transparency, CCADB, DNS, TLS checks. As of {date}.",
     lag_note: "The CT source lagged the logs by {lag} days.",
-    method: "Method", rating_doc: "Rating", source: "Source code and data", close: "Close", table: "Table",
+    method: "Method", rating_doc: "Rating", data_link: "Download the data (GitHub, output/latest)", critical_list: "Critical services: list and method", source: "Source code", close: "Close", table: "Table",
   },
 };

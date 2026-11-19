@@ -113,7 +113,11 @@ and municipality, critical services, CAA, good-practice checks and the CA mix
 per entity. Every score shows its source, and every entity drills down to
 its hostnames, each check result with its measured value and evidence, and
 links to verify it independently (crt.sh, SSL Labs, dns.google, DNSViz,
-bgp.he.net). The `publish map` workflow deploys it to GitHub Pages with the
+bgp.he.net). The footer links to the method, the rating, the data of the
+latest run (`output/latest/` on GitHub: `entities.csv`, `hostnames.csv`,
+`results.json`, `endpoints.csv`, `checks.jsonl`, `export.xlsx`) and the
+critical-services list (`data/critical_services/`, method in
+[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md)). The `publish map` workflow deploys it to GitHub Pages with the
 latest `output/latest/map.json`. Local preview:
 
 ```bash
