@@ -1,15 +1,191 @@
 {
- "checked_at": "2026-11-19T01:04:13Z",
+ "checked_at": "2026-11-19T09:07:24Z",
  "list": "/home/runner/work/cert_landscape_CH/cert_landscape_CH/data/critical_services/critical_services_ch.csv",
  "summary": {
   "hosts": 1000,
-  "resolve": 1000,
-  "reachable": 842,
-  "source_links_host": 362,
+  "resolve": 997,
+  "reachable": 837,
+  "source_links_host": 363,
   "with_source": 374,
-  "failing_twice_or_more": [],
-  "source_lost_twice_or_more": [],
-  "changed_since_last_check": []
+  "failing_twice_or_more": [
+   "account.ail.ch",
+   "account.swissix.ch",
+   "api.ail.ch",
+   "api.axa.ch",
+   "api.axpo.com",
+   "api.bcge.ch",
+   "api.bcj.ch",
+   "api.bis.org",
+   "api.blick.ch",
+   "api.css.ch",
+   "api.elca.ch",
+   "api.epfl.ch",
+   "api.healthreg.admin.ch",
+   "api.lombardodier.com",
+   "api.postfinance.ch",
+   "api.srf.ch",
+   "api.stadtluzern.ch",
+   "api.swissgrid.ch",
+   "api.t-l.ch",
+   "api.tcs.ch",
+   "api.ubs.com",
+   "api.usz.ch",
+   "api.viseca.ch",
+   "app.bcge.ch",
+   "app.eda.admin.ch",
+   "app.h-fr.ch",
+   "app.hirslanden.ch",
+   "app.icrc.org",
+   "app.rega.ch",
+   "app.swissquote.ch",
+   "app.ti.ch",
+   "auth-pams.estv.admin.ch",
+   "auth.aew.ch",
+   "auth.alpiq.com",
+   "auth.ekz.ch",
+   "auth.elca.ch",
+   "auth.groupe-e.ch",
+   "auth.helvetia.ch",
+   "auth.primeo-energie.ch",
+   "auth.salt.ch",
+   "auth.so.ch",
+   "auth.stgag.ch",
+   "auth.sunrise.ch",
+   "auth.swissport.com",
+   "auth.trust-infra.swiyu.admin.ch",
+   "auth.unil.ch",
+   "auth.usz.ch",
+   "auth.uzh.ch",
+   "banking.credit-suisse.com",
+   "banking.postfinance.ch",
+   "customer.axpo.com",
+   "e-banking.ubs.com",
+   "ebanking.ubs.com",
+   "equinix.ch",
+   "id.ubs.com",
+   "id.uzh.ch",
+   "id.vd.ch",
+   "login.ag.ch",
+   "login.bkb.ch",
+   "login.cler.ch",
+   "login.eda.admin.ch",
+   "login.ethz.ch",
+   "login.ewb.ch",
+   "login.ewl-luzern.ch",
+   "login.gr.ch",
+   "login.helvetia.ch",
+   "login.hug.ch",
+   "login.inventx.ch",
+   "login.ksbl.ch",
+   "login.ksw.ch",
+   "login.primeo-energie.ch",
+   "login.roche.com",
+   "login.rts.ch",
+   "login.sh.ch",
+   "login.six-group.com",
+   "login.snb.ch",
+   "login.sunrise.ch",
+   "login.suva.ch",
+   "login.swiss.com",
+   "login.swissgas.ch",
+   "login.swisslife.ch",
+   "login.tagesanzeiger.ch",
+   "login.tg.ch",
+   "login.uzh.ch",
+   "mwsteasy.estv.admin.ch",
+   "my.brack.ch",
+   "my.cscs.ch",
+   "my.ebm.ch",
+   "my.elca.ch",
+   "my.ewb.ch",
+   "my.helvetia.ch",
+   "my.sbbcargo.com",
+   "my.sgsw.ch",
+   "my.srgssr.ch",
+   "my.tcs.ch",
+   "online.iwb.ch",
+   "online.migros.ch",
+   "online.stadt.sg.ch",
+   "portal.appkb.ch",
+   "portal.bsv.admin.ch",
+   "portal.datatrans.ch",
+   "portal.ewl-luzern.ch",
+   "portal.hirslanden.ch",
+   "portal.ksbl.ch",
+   "portal.ksgr.ch",
+   "portal.ksw.ch",
+   "portal.medgate.ch",
+   "portal.sfbvg.ch",
+   "portal.stadt.sg.ch",
+   "portal.swica.ch",
+   "portal.swissgas.ch",
+   "portal.swissmedic.ch",
+   "portal.trust-infra.swiyu.admin.ch",
+   "portal.viseca.ch",
+   "portal.vs.ch",
+   "secure.aet.ch",
+   "secure.bedag.ch",
+   "secure.migros.ch",
+   "secure.six-group.com",
+   "secure.six-securities-services.com",
+   "shop.20min.ch",
+   "shop.gkb.ch",
+   "shop.rega.ch",
+   "shop.rsi.ch",
+   "shop.sanitas.com",
+   "shop.swisscom.ch",
+   "shop.tagesanzeiger.ch",
+   "shop.ubs.com",
+   "sso.adnovum.com",
+   "sso.blkb.ch",
+   "sso.ekz.ch",
+   "sso.lonza.com",
+   "sso.lugano.ch",
+   "sso.salt.ch",
+   "sso.skribble.com",
+   "sso.sunrise.ch",
+   "sso.swissport.com",
+   "sso.switch.ch",
+   "user.eportal.admin.ch",
+   "vzc-api.astra.admin.ch",
+   "webmail.axpo.com",
+   "ws.api.astra.admin.ch",
+   "www.axsana.ch",
+   "www.bger.ch",
+   "www.brack.ch",
+   "www.bstger.ch",
+   "www.chaeis.ch",
+   "www.ebm.ch",
+   "www.ensi.ch",
+   "www.kapo.zh.ch",
+   "www.kkl.ch",
+   "www.medidata.ch",
+   "www.ofac.ch",
+   "www.stadtwerk.winterthur.ch",
+   "www.swiyu.admin.ch",
+   "www.winterthur.ch"
+  ],
+  "source_lost_twice_or_more": [
+   "account.proton.me",
+   "id.flughafen-zuerich.ch",
+   "www.bancastato.ch",
+   "www.compenswiss.ch",
+   "www.flughafen-zuerich.ch",
+   "www.ruag.ch",
+   "www.swissix.ch",
+   "www.tagesanzeiger.ch"
+  ],
+  "changed_since_last_check": [
+   "account.post.ch",
+   "api.bcv.ch",
+   "auth.bcv.ch",
+   "secure.axa.ch",
+   "webmail.switch.ch",
+   "www.bcv.ch",
+   "www.saviva.ch",
+   "www.stadtluzern.ch",
+   "www.ur.ch"
+  ]
  },
  "hosts": {
   "www.admin.ch": {
@@ -290,7 +466,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -324,7 +500,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -591,7 +767,7 @@
    "source_status": 403,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "www.post.ch": {
@@ -702,10 +878,10 @@
    "https_status": 200,
    "reachable": true,
    "final_url": "https://www.six-group.com/en/home.html",
-   "source_status": null,
-   "source_links_host": false,
+   "source_status": 200,
+   "source_links_host": true,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 0,
    "changed": false
   },
   "www.six-swiss-exchange.com": {
@@ -780,7 +956,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -878,7 +1054,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://id.vd.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1012,7 +1188,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1032,7 +1208,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://auth.usz.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1052,7 +1228,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1091,10 +1267,10 @@
   "sso.switch.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": null,
+   "https_status": 503,
    "reachable": false,
-   "final_url": "",
-   "fail_streak": 1,
+   "final_url": "https://sso.switch.ch/",
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1104,7 +1280,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1114,7 +1290,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1164,7 +1340,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1187,7 +1363,7 @@
    "source_status": 403,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "login.sbb.ch": {
@@ -1216,7 +1392,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://auth.sunrise.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1226,7 +1402,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1236,7 +1412,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1266,7 +1442,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1288,7 +1464,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1308,7 +1484,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1330,7 +1506,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1382,7 +1558,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1391,7 +1567,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://login.swissid.ch/login/?goto=https%3A%2F%2Flogin.swissid.ch%3A443%2Fidp%2Foauth2%2Fauthorize%3Fstate%3DwvQvWPzP2lIYA2YYV1PPPUBfXpQ%26nonce%3DJotHAWo4Ktel403m%26realm%3D%2Fsesam%26response_mode%3Dform_post%26redirect_uri%3Dhttps%3A%2F%2Faccount.swissid.ch%3A443%2Fwebagent%2Fcdsso-oauth2%26response_type%3Did_token%26scope%3Dopenid%26client_id%3Daccount-webagent%26agent_provider%3Dtrue%26agent_realm%3D%2Fsesam&realm=%2Fsesam",
+   "final_url": "https://login.swissid.ch/login/?goto=https%3A%2F%2Flogin.swissid.ch%3A443%2Fidp%2Foauth2%2Fauthorize%3Fstate%3DBNGOqTjpTQL_dMS1BQNu-xlAI4g%26nonce%3DLzGS80yvOrqxCo-U%26realm%3D%2Fsesam%26response_mode%3Dform_post%26redirect_uri%3Dhttps%3A%2F%2Faccount.swissid.ch%3A443%2Fwebagent%2Fcdsso-oauth2%26response_type%3Did_token%26scope%3Dopenid%26client_id%3Daccount-webagent%26agent_provider%3Dtrue%26agent_realm%3D%2Fsesam&realm=%2Fsesam",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -1422,7 +1598,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1451,14 +1627,14 @@
   "account.post.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 302,
-   "reachable": true,
-   "final_url": "https://account.post.ch/",
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
    "source_status": 200,
    "source_links_host": true,
-   "fail_streak": 0,
+   "fail_streak": 1,
    "source_fail_streak": 0,
-   "changed": false
+   "changed": true
   },
   "my.post.ch": {
    "resolves": true,
@@ -1527,7 +1703,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://wes-idp.six-group.com/bfi/authorize/?scope=openid+profile+dn&claims=%7B%22id_token%22%3A%7B%22acr%22%3A%7B%22value%22%3A%221%3Apassword%22%2C%22essential%22%3Atrue%7D%7D%7D&response_type=code&redirect_uri=https%3A%2F%2Fportal.six-group.com%2Ffi-home%2F&state=Om-L4VJ-WmJ7M3AYApFbBej7IxP_aoJB9we4jA4OH4k&nonce=C5jJhWIUvghxvnvJQh5RnYxs9E_lFjwQ-9ixwX4aTQw&client_id=bfi2&response_mode=query&valid_before=2026-11-19T01%3A06%3A23.694387019Z",
+   "final_url": "https://wes-idp.six-group.com/bfi/authorize/?scope=openid+profile+dn&claims=%7B%22id_token%22%3A%7B%22acr%22%3A%7B%22value%22%3A%221%3Apassword%22%2C%22essential%22%3Atrue%7D%7D%7D&response_type=code&redirect_uri=https%3A%2F%2Fportal.six-group.com%2Ffi-home%2F&state=NmqNi8g51PSIyIJBI56FD0mo0l1srEZlLVFHJQL9y60&nonce=qNqmcRvZWeXESN8ZtZl3bIAhugyrjxPMByNodLFaobs&client_id=bfi2&response_mode=query&valid_before=2026-11-19T09%3A09%3A41.772574795Z",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -1550,7 +1726,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1622,7 +1798,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1631,7 +1807,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://portal.fenaco.com/auth/realms/Portal/protocol/openid-connect/auth?client_id=iot-web&response_mode=form_post&response_type=code&login=true&redirect_uri=https://portal.fenaco.com/xauth.php&state=cadb0d63a1fd6c18a3e5ae910f2f0907",
+   "final_url": "https://portal.fenaco.com/auth/realms/Portal/protocol/openid-connect/auth?client_id=iot-web&response_mode=form_post&response_type=code&login=true&redirect_uri=https://portal.fenaco.com/xauth.php&state=e22b77e4e8e579b515ef845a5fa9e6dc",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -1642,7 +1818,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1704,7 +1880,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1764,7 +1940,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1774,7 +1950,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1794,7 +1970,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1814,7 +1990,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1898,7 +2074,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://api.srf.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1950,7 +2126,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://api.ubs.com/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -1980,7 +2156,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2000,7 +2176,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2010,7 +2186,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2059,7 +2235,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://foodonline-ch.cloudflareaccess.com/cdn-cgi/access/login/shop.migros.ch?kid=e7f66b7a42e49ff7bd0cd5e91b4fac756ba61329baa3f68955a83baf722539d5&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjFlYjUzZmY3MmU4ZjBlMWY2MGM3ODNjYTk2ZmU2YWNjYWY3MThkMDQ1MjFlOGI3NzU4MTczYTZjMGFiMzZjMGEifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6ImU3ZjY2YjdhNDJlNDlmZjdiZDBjZDVlOTFiNGZhYzc1NmJhNjEzMjliYWEzZjY4OTU1YTgzYmFmNzIyNTM5ZDUiLCJob3N0bmFtZSI6InNob3AubWlncm9zLmNoIiwicmVkaXJlY3RfdXJsIjoiLyIsInNlcnZpY2VfdG9rZW5fc3RhdHVzIjpmYWxzZSwiaXNfd2FycCI6ZmFsc2UsImlzX2dhdGV3YXkiOmZhbHNlLCJleHAiOjE3OTUwNTAzOTEsIm5iZiI6MTc5NTA1MDA5MSwiaWF0IjoxNzk1MDUwMDkxLCJhdXRoX3N0YXR1cyI6Ik5PTkUiLCJtdGxzX2F1dGgiOnsiY2VydF9pc3N1ZXJfZG4iOiIiLCJjZXJ0X3NlcmlhbCI6IiIsImNlcnRfaXNzdWVyX3NraSI6IiIsImNlcnRfcHJlc2VudGVkIjpmYWxzZSwiY29tbW9uX25hbWUiOiIiLCJhdXRoX3N0YXR1cyI6Ik5PTkUifSwicmVhbF9jb3VudHJ5IjoiVVMiLCJhcHBfc2Vzc2lvbl9oYXNoIjoiNmMxMTdhNjE3NmY4MDViZjQwODAzZTVmYzk3YzMzYjkwNzgyNjE2ZjljOTgwMmZiOTkzNTU0MzYxOTU2N2IzZSJ9.CUQEvecBQqotQuhpO55OQfE8l1qpE3ha35C66wvJenmGuuCqwS5dRIHHI346m_pSAzrNjIno0dLC2NiJhQXxltQNfNGmbonVRsOqATiekOdLEiXHHMrxA5S6yKIgNLpAsy1RzPPc0-gYfXkMQwUYnklbLP3bjUm0k1ZEUCoCYejpdDBHHOSANuNR0O8fvse97j4bID99386iHbUgWSobLXOvujMzjMVdECm9Kogmu_7MR8WfAcALweI1_RVD5RCjk2hXlDkIhdivrdE5eTnjMDDXTgT1QNeeVm9mY5-qL1kmjlIdKCtTtx1LBu3bzxSuK7z7jicTQXdLhG28sDq62A&redirect_url=%2F",
+   "final_url": "https://foodonline-ch.cloudflareaccess.com/cdn-cgi/access/login/shop.migros.ch?kid=e7f66b7a42e49ff7bd0cd5e91b4fac756ba61329baa3f68955a83baf722539d5&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjFlYjUzZmY3MmU4ZjBlMWY2MGM3ODNjYTk2ZmU2YWNjYWY3MThkMDQ1MjFlOGI3NzU4MTczYTZjMGFiMzZjMGEifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6ImU3ZjY2YjdhNDJlNDlmZjdiZDBjZDVlOTFiNGZhYzc1NmJhNjEzMjliYWEzZjY4OTU1YTgzYmFmNzIyNTM5ZDUiLCJob3N0bmFtZSI6InNob3AubWlncm9zLmNoIiwicmVkaXJlY3RfdXJsIjoiLyIsInNlcnZpY2VfdG9rZW5fc3RhdHVzIjpmYWxzZSwiaXNfd2FycCI6ZmFsc2UsImlzX2dhdGV3YXkiOmZhbHNlLCJleHAiOjE3OTUwNzkzOTAsIm5iZiI6MTc5NTA3OTA5MCwiaWF0IjoxNzk1MDc5MDkwLCJhdXRoX3N0YXR1cyI6Ik5PTkUiLCJtdGxzX2F1dGgiOnsiY2VydF9pc3N1ZXJfZG4iOiIiLCJjZXJ0X3NlcmlhbCI6IiIsImNlcnRfaXNzdWVyX3NraSI6IiIsImNlcnRfcHJlc2VudGVkIjpmYWxzZSwiY29tbW9uX25hbWUiOiIiLCJhdXRoX3N0YXR1cyI6Ik5PTkUifSwicmVhbF9jb3VudHJ5IjoiVVMiLCJhcHBfc2Vzc2lvbl9oYXNoIjoiOGJjNzI1N2UwNTcyNGYyZWUwMzY2ZWRjYzViNmM5MTEzODBiYjg2ZWYwY2ZhNzkxMTY4MDViYmE3MGE5Y2MzNSJ9.qLGEud_y677HTJT8DPKYtTVg3VsV3iPi-N2IE2VtWCI0yTdm_mvMuHPv3GddpAyMC5cLdMehE0GONkYfCOQKL2tKuZJduJ1kkXSbIXbmk1tt18vvVX-JfaTi3nSsmXeeSSL3ZAbYE1KvmiUKvSenMPxyXxjD1QyBc4FuzUa-9VWLPV1EkfWJci1e2ORB4QtztTyF1l6HJaKsva6xXHdVTvHAmSkDPFzyQGtgsD79Iin8pVzDfXoK1A4b42kSfujukBToky_SaZl4C5t1i46FM6K_AI2py_I6o67lOFKkw3dwHS2gKfDTAQ0dLds_eUQUDswJmAD6tXTeXCrbwd7NKw&redirect_url=%2F",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -2070,7 +2246,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://auth-pams.estv.admin.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2418,7 +2594,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2508,7 +2684,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://auth.trust-infra.swiyu.admin.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2548,7 +2724,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://portal.trust-infra.swiyu.admin.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -2597,7 +2773,7 @@
    "source_status": 301,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "www.bfe.admin.ch": {
@@ -2721,7 +2897,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.astra.admin.ch/fr",
+   "final_url": "https://www.astra.admin.ch/de",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -2925,16 +3101,16 @@
    "changed": false
   },
   "www.bcv.ch": {
-   "resolves": true,
-   "dns_state": "resolves",
-   "https_status": 200,
-   "reachable": true,
-   "final_url": "https://www.bcv.ch/",
-   "source_status": 200,
-   "source_links_host": true,
-   "fail_streak": 0,
-   "source_fail_streak": 0,
-   "changed": false
+   "resolves": false,
+   "dns_state": "rcode2",
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
+   "source_status": null,
+   "source_links_host": false,
+   "fail_streak": 1,
+   "source_fail_streak": 1,
+   "changed": true
   },
   "www.bekb.ch": {
    "resolves": true,
@@ -3093,13 +3269,13 @@
   "www.sbbcargo.com": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 403,
+   "https_status": 200,
    "reachable": true,
    "final_url": "https://www.sbbcargo.com/",
-   "source_status": 403,
-   "source_links_host": false,
+   "source_status": 200,
+   "source_links_host": true,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 0,
    "changed": false
   },
   "www.zurich-airport.com": {
@@ -3239,7 +3415,7 @@
    "source_status": 403,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "www.threema.ch": {
@@ -3472,7 +3648,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -3614,7 +3790,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -3808,7 +3984,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -3818,7 +3994,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -3828,7 +4004,7 @@
    "https_status": 500,
    "reachable": false,
    "final_url": "https://login.gr.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -3900,7 +4076,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://user.eportal.admin.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4032,7 +4208,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4072,7 +4248,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4082,7 +4258,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://api.healthreg.admin.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4122,7 +4298,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4167,16 +4343,16 @@
    "changed": false
   },
   "auth.bcv.ch": {
-   "resolves": true,
-   "dns_state": "resolves",
-   "https_status": 302,
-   "reachable": true,
-   "final_url": "https://auth.bcv.ch/",
-   "source_status": 200,
-   "source_links_host": true,
-   "fail_streak": 0,
-   "source_fail_streak": 0,
-   "changed": false
+   "resolves": false,
+   "dns_state": "rcode2",
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
+   "source_status": null,
+   "source_links_host": false,
+   "fail_streak": 1,
+   "source_fail_streak": 1,
+   "changed": true
   },
   "auth.lukb.ch": {
    "resolves": true,
@@ -4242,7 +4418,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4272,7 +4448,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4322,7 +4498,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4342,7 +4518,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4392,7 +4568,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4412,7 +4588,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4464,7 +4640,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4504,7 +4680,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4543,7 +4719,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://rochegroup.cloudflareaccess.com/cdn-cgi/access/login/id.roche.com?kid=5c15026191902540e11363145c1617ffde27abc370e489baae1425a89f19213b&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijk0YzNiMDRlYmIzZjI0YzEyNjUzZjdlNGU1NDljM2MxZWJiZDY4NDhmOTVmMWI0NGNhOTc2MWY2YmUwN2Q0MTcifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6IjVjMTUwMjYxOTE5MDI1NDBlMTEzNjMxNDVjMTYxN2ZmZGUyN2FiYzM3MGU0ODliYWFlMTQyNWE4OWYxOTIxM2IiLCJob3N0bmFtZSI6ImlkLnJvY2hlLmNvbSIsInJlZGlyZWN0X3VybCI6Ii8iLCJzZXJ2aWNlX3Rva2VuX3N0YXR1cyI6ZmFsc2UsImlzX3dhcnAiOmZhbHNlLCJpc19nYXRld2F5IjpmYWxzZSwiZXhwIjoxNzk1MDUwNDI2LCJuYmYiOjE3OTUwNTAxMjYsImlhdCI6MTc5NTA1MDEyNiwiYXV0aF9zdGF0dXMiOiJOT05FIiwibXRsc19hdXRoIjp7ImNlcnRfaXNzdWVyX2RuIjoiIiwiY2VydF9zZXJpYWwiOiIiLCJjZXJ0X2lzc3Vlcl9za2kiOiIiLCJjZXJ0X3ByZXNlbnRlZCI6ZmFsc2UsImNvbW1vbl9uYW1lIjoiIiwiYXV0aF9zdGF0dXMiOiJOT05FIn0sInJlYWxfY291bnRyeSI6IlVTIiwiYXBwX3Nlc3Npb25faGFzaCI6IjgzZDgzZWYzMDEyMDE2YjZhODgxN2NjMjM5OTU3NTY1ZGJlMGI2MzYxMGM5MzAwYWYxMTg1NjU1ZmEzYTMyMmIifQ.DXToNNJtVEh_piI64OGEO8tgqyycoafmaLt1Mvr798ioFIJHgCAv0jNJUEEfn6glww7OuvpzgyMrFEfR2xr0H3TmhtIrN8VXl00bV9xC47_WdAujIC6U4Mfm_vi-PeXz6Rch8zi0CGVWtR-qDU-wrZEUtRRThmwxkskRqf-WVPZnZrg6l1oTxS83tCryAe5fXgjMXRjikIllG8W0bDoVoGsVPx9Ws2LEg96SsYau3th12FZh0aIazTzDHi-gz1D1TYr_wMwMtP03xrn1Mzm2W0OMgCIwMtbGsObmqWU4s4ZRPRvj3uGB-TD6Nx_rS0hYuMOv-3IWIv4NuF2L0nkRUg&redirect_url=%2F",
+   "final_url": "https://rochegroup.cloudflareaccess.com/cdn-cgi/access/login/id.roche.com?kid=5c15026191902540e11363145c1617ffde27abc370e489baae1425a89f19213b&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijk0YzNiMDRlYmIzZjI0YzEyNjUzZjdlNGU1NDljM2MxZWJiZDY4NDhmOTVmMWI0NGNhOTc2MWY2YmUwN2Q0MTcifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6IjVjMTUwMjYxOTE5MDI1NDBlMTEzNjMxNDVjMTYxN2ZmZGUyN2FiYzM3MGU0ODliYWFlMTQyNWE4OWYxOTIxM2IiLCJob3N0bmFtZSI6ImlkLnJvY2hlLmNvbSIsInJlZGlyZWN0X3VybCI6Ii8iLCJzZXJ2aWNlX3Rva2VuX3N0YXR1cyI6ZmFsc2UsImlzX3dhcnAiOmZhbHNlLCJpc19nYXRld2F5IjpmYWxzZSwiZXhwIjoxNzk1MDc5NDI0LCJuYmYiOjE3OTUwNzkxMjQsImlhdCI6MTc5NTA3OTEyNCwiYXV0aF9zdGF0dXMiOiJOT05FIiwibXRsc19hdXRoIjp7ImNlcnRfaXNzdWVyX2RuIjoiIiwiY2VydF9zZXJpYWwiOiIiLCJjZXJ0X2lzc3Vlcl9za2kiOiIiLCJjZXJ0X3ByZXNlbnRlZCI6ZmFsc2UsImNvbW1vbl9uYW1lIjoiIiwiYXV0aF9zdGF0dXMiOiJOT05FIn0sInJlYWxfY291bnRyeSI6IlVTIiwiYXBwX3Nlc3Npb25faGFzaCI6IjA1MWUxYTA2YTQxYzNhMjYzOTUyZWQzZGNiNmRlZGVhYTA1MDI2Mzg5NzYyYjA2OGJhZTk0YWU1Y2RhNDY4MDAifQ.A4YIangqMMq0I8gwW7lilYrv-OgcoBkWgh44jq5KPfJ3m7zeYEKcqLYvRYXmrrI0QgfvLZteoXjJ2YmXj4Nz7ocwx5cfcL3AVS_hVyhpYXxmnMY8fqrzfstW30pyFJGog-F8NLfw2GZ2JN4h-1H8oiTNt3747XYUFtns1_s9UKctpOLWNvzWGuKUvYE7ivmdmarT8Ftt75y5Ot0iIT35Ormzxx2vehkk9g0rJhcjAdflaWDGhNTm0Qpty0Rjh7ypz2GhXfmVjoDH82MmJlfYaUnkjFSR4Ag77EUaMkx5uG_v_hJlpyc5-9oTD-QohJVNhIVr7HevGZuEFYv476h9ew&redirect_url=%2F",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -4574,7 +4750,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4594,7 +4770,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4698,7 +4874,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4770,7 +4946,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4833,9 +5009,9 @@
    "reachable": true,
    "final_url": "https://account.zvv.ch/",
    "source_status": 200,
-   "source_links_host": false,
+   "source_links_host": true,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 0,
    "changed": false
   },
   "account.cscs.ch": {
@@ -4854,7 +5030,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4921,9 +5097,9 @@
   "portal.bkb.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 403,
+   "https_status": 200,
    "reachable": true,
-   "final_url": "https://portal.bkb.ch/",
+   "final_url": "https://portal.bkb.ch/logon/LogonPoint/tmindex.html",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -4966,7 +5142,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4986,7 +5162,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -4995,7 +5171,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://auth.bexio.com/realms/bexio/protocol/openid-connect/auth?client_id=bexio_my&scope=email+openid+profile&response_type=code&redirect_uri=https%3A%2F%2Fmy.bexio.com%2Fconsume&state=jwt_state6afe4a98da44c8.98314011",
+   "final_url": "https://auth.bexio.com/realms/bexio/protocol/openid-connect/auth?client_id=bexio_my&scope=email+openid+profile&response_type=code&redirect_uri=https%3A%2F%2Fmy.bexio.com%2Fconsume&state=jwt_state6afebbde436ee4.71562209",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -5025,7 +5201,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://account.de-cix.net/realms/swissix/protocol/openid-connect/auth?response_type=code&client_id=portal&scope=openid+email&state=eyJjc3JmX3Rva2VuIjoiZjY2MGZhMjZmZDUxMzhjMGVhYWU4YWZkMDI1NzM3OGUifQ%253D%253D&redirect_uri=https%3A%2F%2Fportal.swissix.ch%2Flogin%2Fcheck-oauth-swissix&approval_prompt=auto",
+   "final_url": "https://account.de-cix.net/realms/swissix/protocol/openid-connect/auth?response_type=code&client_id=portal&scope=openid+email&state=eyJjc3JmX3Rva2VuIjoiMTJlMmI0NzQxYmRhNmU0OWI1YTE1MTRkNWM0YTZkM2QifQ%253D%253D&redirect_uri=https%3A%2F%2Fportal.swissix.ch%2Flogin%2Fcheck-oauth-swissix&approval_prompt=auto",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -5066,7 +5242,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5086,19 +5262,19 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
   "secure.axa.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 200,
-   "reachable": true,
-   "final_url": "https://www.axa.ch/de/privatkunden.html",
-   "fail_streak": 0,
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
+   "fail_streak": 1,
    "source_fail_streak": 0,
-   "changed": false
+   "changed": true
   },
   "secure.migrosbank.ch": {
    "resolves": true,
@@ -5126,7 +5302,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5145,7 +5321,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://wes-idp.six-group.com/terravis/authorize/?scope=openid+roles&claims=%7B%22id_token%22%3A%7B%22acr%22%3A%7B%22values%22%3A%5B%221%3Apassword%3Averidium%22%2C%223%3Acertificate%3Averidium%22%5D%2C%22essential%22%3Atrue%7D%7D%7D&response_type=code&redirect_uri=https%3A%2F%2Fsecure.terravis.ch%2Fterravis%2F&state=4Kw0pdEvZoHX-3xSrDYL5M_VSCYIPRMo4JesLo40kV4&nonce=iZLeO1bE_5_YfOYkGL-1knu5j84lRaj3bYsSIIxAx8k&client_id=trvweb&response_mode=query&prompt=login",
+   "final_url": "https://wes-idp.six-group.com/terravis/authorize/?scope=openid+roles&claims=%7B%22id_token%22%3A%7B%22acr%22%3A%7B%22values%22%3A%5B%221%3Apassword%3Averidium%22%2C%223%3Acertificate%3Averidium%22%5D%2C%22essential%22%3Atrue%7D%7D%7D&response_type=code&redirect_uri=https%3A%2F%2Fsecure.terravis.ch%2Fterravis%2F&state=8WkV6hFu-7UH7LSHyikhfyWWvn18pTBQ8huP4W0z8iA&nonce=TXzuVJEyRgpPqv0OaAfBuzMwsG8rYPAm9TWy_GJOQmI&client_id=trvweb&response_mode=query&prompt=login",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -5158,7 +5334,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5167,7 +5343,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://login.microsoftonline.com/08d5fafb-c5f2-4ab7-aad3-d0f3e4f189f4/saml2?SAMLRequest=pVLJbtswEP0VgXdqoSRXJiwXboyiBtLWiN0ceikoamQTkIYqh0qXrw8tp2h6CVDkSPDN22ZWpIZ%2BlJvJn%2FEOvk9APvo59Ehy%2FqjZ5FBaRYYkqgFIei0Pm4%2B3UsSpHJ31VtueRRsicN5YvLFI0wDuAO7BaPhyd1uzs%2FcjySQh0JOD%2BKR%2Bo%2FKxPietQsVRJSqoJxc9rp%2FGY30yLNoGNyZgA%2B9flt6eDMaD0c6S7bzF3iDE2g5JWrVlp7qG67ITvFDNG65Um%2FM27XIouqxadsUsI1j03joNc%2BqapSzabWv2rVxWi1wsikXRVKqAPG%2BgKLqyCi9RdhoCjGiCHZJX6GsmUrHgWcaz5THNZCqkEF9ZtH8q5Z3B1uDp5QabK4jkh%2BNxz%2FefD8eZ4MG04D4F9H%2BVB9iO1qC%2FlPd2rGnMWHQPjub6ghpbry44Oadwz9b8skf1Z7ds%2FSozq%2BSZ%2BtXKKC8hd9u97Y3%2BFW363v64caB8CJ6xZH0d%2Bfc8148%3D&RelayState=https%3A%2F%2Fsecure.gaznat.ch",
+   "final_url": "https://login.microsoftonline.com/08d5fafb-c5f2-4ab7-aad3-d0f3e4f189f4/saml2?SAMLRequest=pVJLb9swDP4rhu6yJSfOEiHOkDUoGqDbgibroZdCluhEgE15otw9fn0dp8O6S4GhZ378XuSSdNt0at3HE97B9x4oJj%2FbBkmNg5L1AZXX5EihboFUNGq%2F%2Fnyr8lSoLvjojW9YsiaCEJ3HK4%2FUtxD2EJ6cgW93tyU7xdiRyjIC0wdIj%2Fo36piaU2Y1ao4604N6dtbj5mU9NUfHks3gxg3YgfcvS%2BOPDtPWmeDJ19Fj4xBS49tMzG1R67ripqhzPtXVB661nXAr6glMazlf1NNRJmfJtQ8GxtQlEyzZbkr2mIOpBNg5yNwWxcRURkox07kxVV0vqtkAI%2BphixQ1xpLlIp9xKblcHMRCiUJNxQNLdi%2BlfHJoHR7fbrC6gEjdHA47vvu6P4wET85C%2BDKg%2F6s8QNt5h%2FFc3seupE6y5B4CjfUNamy1POPUmCK8OvPbHvWf27LVu8wss1fqFyudOofcbna%2BceZXsm4a%2F%2BMqgI5DcMmy1WXl3%2FdcPQM%3D&RelayState=https%3A%2F%2Fsecure.gaznat.ch",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -5249,7 +5425,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://wam.roche.com/idp/SSO.saml2?SAMLRequest=hZJLj9owFIX%2FSuR94jghMLEAKR1UDdK0RIRWVXeO44BVP1JfB2b662vSB2oXzNJX5%2Fh%2B59hLAymtRn8ye%2FF9FOCjF60M0DBeodEZahnIcGRaAPWcNtWHZ5olKR2c9ZZbhf4ayH0DAxDOS2tQtN2skOzily9Pl92%2B2%2F1ooSkqfWQo%2BiwcBMkKBUfQAYxia8Az48MozeYxITEpDymhaUYz8hVFm8AsDfOT6%2BT9ABTjC9OJs%2FwkEm41lt2Am2aXANMqu95aBxZ5FivUMwUCRfXvLO%2Bk6aQ53s%2FR%2FhIBfToc6rjeNQcUVX%2ByPVoDoxauEe4sufi0f75BKXuUJlGjZsMAE9iZ4ImJM6Vaxr%2Bh9TLUSKfYLnpvnWb%2BPsx1EprsJykVxkv%2FitZvb8Qw4HyRk6LIyHz2kKeLvMApz8uy5CwWZfkQz2Z5GbdiweO27%2Fq2K9O%2BWMyX%2BEZ4pU3px4Cw3dRWSf76JjNJyP%2FMmklVdZ0TAKFIpezl0Qnmb6%2BD19el%2F%2F7S9U8%3D&RelayState=49294771535a49c19b5539be320f24dc&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&Signature=tMIBW1UlIGortt4qBMwyx6y1bRh4%2FBuYPik78PL4alwoutjWgmLidPwzautvmiH8AxoCQ6pl64Y6dRZS8lDGxfUvDM5D5gq9E8mdp%2FJdEc%2FhSsnlo%2BXunTHnTUamUJYx3f2bv0Sjz3jX2QJvqhINYU8k8GcVRTHKCGpPMKSL3ndx%2BNCF7fZtSZadcXxS5G2VmvgZY9tjA9TDhkHkmc%2FLJLOyjUqFv%2F3j5K9tutMUu17M7XjFi%2BIFM%2BPmxrDJOKuAry%2F00afrmUpKzLvGxt6iho7biKIzYsJDQVVlv%2BPvNFjhbUXYfU7FCNwBvQMMxQfMF7UH2PWAFDBN3fL4SDyaOg%3D%3D",
+   "final_url": "https://wam.roche.com/idp/SSO.saml2?SAMLRequest=hZJfb5swFMW%2FCvI72EBIgpVEYs2mRepWVrJJ25sxprHmP9TXpOu3n2Fro%2B0hffTVOb6%2Fc%2ByNAUKr0Z%2FMvXgcBfjol1YGaBhv0egMtQxkODItgHpOm%2BrTLc0SQgdnveVWoVdDet3AAITz0hoUHfZbJLu41%2B%2FX%2BXrJ9%2Br7kFWP6guKvgkHQbJFwRF0AKM4GPDM%2BDAi2TJO0zgtj6SkpKAL8gNF%2B8AsDfOz6%2BT9ABTjJ6YTZ%2FlJJNxqLLsBN81dAkyrbLq1DizyLLaoZwoEiuq%2FWd5J00nzcD1H%2B0cE9OPxWMf1XXNEUfWS7cYaGLVwjXBnycXX%2B9sLlLIP0iRq1GwYYAY7p3hm4kyplvGfaLcJNdI5tos%2BWKeZvw4zTaYmZykVxkv%2FjHZvb8Qw4HyVp0WRpcvFOiervMCE52VZchaLslzHi0Vexq1Y8bjtu77tStIXq%2BUGXwgnWkI%2FB4TDvrZK8uc3mdMk%2FZ9ZM6mqrnMCIBSplH26cYL5y%2Bvg3bT031%2B6%2Bw0%3D&RelayState=c6e7099dc0b34cb18517d1a12bcd6450&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&Signature=hsi9SWEs0r%2FpXuGdSXyWlX88Usu27AHe%2BaC%2FhX17mybFUMTndeUb%2BSrjlLYXM%2FgdpPVvkcBkEYhi9dXjsJMbP7VavQt%2FhTqtWTgGg1gP8zUZZcxnb%2F6SCcTj1kN0wsvV6NRT%2FQPb63TdkdT7TZekNbRUj5CYcBxUhL8UTj9C306GfTu0KXbfveIdvDL5tvRZDbghyDxytYYjCdZggeZVc9OfkQzgzoM4KAdSUmwIX0EWftgOwp5deywBCef3df9oFvwYEOnXRmZtrGRgLX8TonqDjwOTs0KcbjDcwpvl4qiXRgsr4hg5EZ5vuB%2BSVPJkfxgOJwgc9rntNsdsqcrVQg%3D%3D",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -5259,7 +5435,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://portal.helsana.ch/index.html?X-XSRF-TOKEN=gi5LixaQx47b7rKo0u9dcAAr",
+   "final_url": "https://portal.helsana.ch/index.html?X-XSRF-TOKEN=HaudMnsOSnrzePMX3SB9QACl",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -5272,7 +5448,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5281,7 +5457,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://rochegroup.cloudflareaccess.com/cdn-cgi/access/login/portal.roche.com?kid=0b60c635cc0d246cd25735432ea13f64b86da0ab8f1a5b7ac11d348547a771f1&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijk0YzNiMDRlYmIzZjI0YzEyNjUzZjdlNGU1NDljM2MxZWJiZDY4NDhmOTVmMWI0NGNhOTc2MWY2YmUwN2Q0MTcifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6IjBiNjBjNjM1Y2MwZDI0NmNkMjU3MzU0MzJlYTEzZjY0Yjg2ZGEwYWI4ZjFhNWI3YWMxMWQzNDg1NDdhNzcxZjEiLCJob3N0bmFtZSI6InBvcnRhbC5yb2NoZS5jb20iLCJyZWRpcmVjdF91cmwiOiIvIiwic2VydmljZV90b2tlbl9zdGF0dXMiOmZhbHNlLCJpc193YXJwIjpmYWxzZSwiaXNfZ2F0ZXdheSI6ZmFsc2UsImV4cCI6MTc5NTA1MDQ0MSwibmJmIjoxNzk1MDUwMTQxLCJpYXQiOjE3OTUwNTAxNDEsImF1dGhfc3RhdHVzIjoiTk9ORSIsIm10bHNfYXV0aCI6eyJjZXJ0X2lzc3Vlcl9kbiI6IiIsImNlcnRfc2VyaWFsIjoiIiwiY2VydF9pc3N1ZXJfc2tpIjoiIiwiY2VydF9wcmVzZW50ZWQiOmZhbHNlLCJjb21tb25fbmFtZSI6IiIsImF1dGhfc3RhdHVzIjoiTk9ORSJ9LCJyZWFsX2NvdW50cnkiOiJVUyIsImFwcF9zZXNzaW9uX2hhc2giOiI0YTAwYTljY2E4ODA3NGQ2NzYwZjc0ZGQ4ZGNlOGEzZDU3YWQ3MjgwOGYxMzg4NmZkNWU4MWNjYmVmNThkMDBjIn0.p7tYOo8WwLR1MEFREYbJxUBmjv7Y721C2yVQRmBvQSnyCGWGJg-Cg8K9fBXy9Y08RZzhS7A1bsNB7VMgM39kcm198e84pzIa4pWzV4kThXXPZgYKmmwmOVcJt9mpEy_JjsYcHasUvxbaVJsGKQqPnw8KB78ASOhF1jJw035TTjQ48W2oT93mVmmqW2lYZh-tTISU44qzhATLJdkUEs-ApHy0SOzqhjx-D5cGWtTQ2KEeEN9oUkVP3YTgv8Bnr3TkavGRUnJNMK1KaOrU15r8GKyZ5U0JToVKGyvxFDGsSAYdezRIE67whpVNdn_HDV20wVfxwvWuLL_5vhUXgdMe_A&redirect_url=%2F",
+   "final_url": "https://rochegroup.cloudflareaccess.com/cdn-cgi/access/login/portal.roche.com?kid=0b60c635cc0d246cd25735432ea13f64b86da0ab8f1a5b7ac11d348547a771f1&meta=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijk0YzNiMDRlYmIzZjI0YzEyNjUzZjdlNGU1NDljM2MxZWJiZDY4NDhmOTVmMWI0NGNhOTc2MWY2YmUwN2Q0MTcifQ.eyJ0eXBlIjoibWV0YSIsImF1ZCI6IjBiNjBjNjM1Y2MwZDI0NmNkMjU3MzU0MzJlYTEzZjY0Yjg2ZGEwYWI4ZjFhNWI3YWMxMWQzNDg1NDdhNzcxZjEiLCJob3N0bmFtZSI6InBvcnRhbC5yb2NoZS5jb20iLCJyZWRpcmVjdF91cmwiOiIvIiwic2VydmljZV90b2tlbl9zdGF0dXMiOmZhbHNlLCJpc193YXJwIjpmYWxzZSwiaXNfZ2F0ZXdheSI6ZmFsc2UsImV4cCI6MTc5NTA3OTQzOSwibmJmIjoxNzk1MDc5MTM5LCJpYXQiOjE3OTUwNzkxMzksImF1dGhfc3RhdHVzIjoiTk9ORSIsIm10bHNfYXV0aCI6eyJjZXJ0X2lzc3Vlcl9kbiI6IiIsImNlcnRfc2VyaWFsIjoiIiwiY2VydF9pc3N1ZXJfc2tpIjoiIiwiY2VydF9wcmVzZW50ZWQiOmZhbHNlLCJjb21tb25fbmFtZSI6IiIsImF1dGhfc3RhdHVzIjoiTk9ORSJ9LCJyZWFsX2NvdW50cnkiOiJVUyIsImFwcF9zZXNzaW9uX2hhc2giOiI1MTFhMzA4N2YxYTRmOGNkOWYxZDQ3ODIxMDFjZWVlNmE2YTkyYjMxNmUwNWE4YmFkMmY0MGI0YzY5ZTJkM2ZmIn0.YzK46R5lzuWSMR7Yg3oBegGJED8QRVNIcrlmxI2ZsUAmZ2Xy5C73-NPnp64Kv4IbQ9E37UDAHxrD9Y4Uaa2GdFtvAL4Krpu3Imp_BzP2g3DHG2nAIfu8B9fqMM9cdsk5f-edAgQv6tWOtdAzZbJvxQwh8lchXOhFqj0c6ysufx2fSKdXKZu_L-xzVZohEzwfI1HGSkU8MNyb11kuynveJAPiPMUyfpHvJF2cXNlk1GmNRmaH87OV55sj1CKLvAz8qC1JvlWQ9VE0HE-O1nt0iBd8Rt65S33tU6CYR39bcAUXyEpFWs1YoudEZsyxxsr0yyyT_UZ4NoZHOnDN4KupeQ&redirect_url=%2F",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -5292,7 +5468,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5343,7 +5519,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://login.transgourmet.ch/sso/auth/realms/Transgourmet/protocol/openid-connect/auth?redirect_uri=https%3A%2F%2Fportal.transgourmet.ch%2Finfra%2Fauth%2Fcallback&scope=openid+profile+roles&state=onRDFOQmaqXglwTQ3mBXWtP8Gl5hC5KO8ZfdmaavJfc&code_challenge=WdUlMUyO2w0SpZd3TZ1A0_dkBTlQeeobZyzii5mIKj4&code_challenge_method=S256&client_id=tgs-customer-portal&response_type=code",
+   "final_url": "https://login.transgourmet.ch/sso/auth/realms/Transgourmet/protocol/openid-connect/auth?redirect_uri=https%3A%2F%2Fportal.transgourmet.ch%2Finfra%2Fauth%2Fcallback&scope=openid+profile+roles&state=rhqaVeZFKTBiAul51fSsJHsyk6j6f42_FDn_VqjMeuE&code_challenge=WAcH7rMPH8bmmRAPeAH3v8WAcfGXEXnrI_aHjNvuAVo&code_challenge_method=S256&client_id=tgs-customer-portal&response_type=code",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -5416,7 +5592,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5426,7 +5602,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5478,7 +5654,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5540,7 +5716,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5600,7 +5776,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5650,19 +5826,19 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
   "api.bcv.ch": {
-   "resolves": true,
-   "dns_state": "resolves",
-   "https_status": 200,
-   "reachable": true,
-   "final_url": "https://api.bcv.ch/",
-   "fail_streak": 0,
+   "resolves": false,
+   "dns_state": "rcode2",
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
+   "fail_streak": 1,
    "source_fail_streak": 0,
-   "changed": false
+   "changed": true
   },
   "app.bcge.ch": {
    "resolves": true,
@@ -5670,7 +5846,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5762,7 +5938,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5842,7 +6018,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5862,7 +6038,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5894,7 +6070,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5946,7 +6122,7 @@
    "final_url": "",
    "source_status": 200,
    "source_links_host": true,
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -5976,7 +6152,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -6037,7 +6213,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://app.transgourmet.ch/de",
+   "final_url": "https://www.transgourmet.ch/de/services/digitale-services/transgourmetprodega-app",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -6100,7 +6276,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -6142,7 +6318,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -6313,14 +6489,14 @@
   "www.stadtluzern.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 200,
-   "reachable": true,
-   "final_url": "https://www.stadtluzern.ch/",
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
    "source_status": 200,
    "source_links_host": true,
-   "fail_streak": 0,
+   "fail_streak": 1,
    "source_fail_streak": 0,
-   "changed": false
+   "changed": true
   },
   "www.svazurich.ch": {
    "resolves": true,
@@ -6359,14 +6535,14 @@
   "www.ur.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": 200,
-   "reachable": true,
-   "final_url": "https://www.ur.ch/",
-   "source_status": 200,
-   "source_links_host": true,
-   "fail_streak": 0,
-   "source_fail_streak": 0,
-   "changed": false
+   "https_status": null,
+   "reachable": false,
+   "final_url": "",
+   "source_status": null,
+   "source_links_host": false,
+   "fail_streak": 1,
+   "source_fail_streak": 1,
+   "changed": true
   },
   "www.uvek.admin.ch": {
    "resolves": true,
@@ -6398,7 +6574,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -6484,7 +6660,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -6493,7 +6669,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.sfbvg.ch/",
+   "final_url": "https://sfbvg.ch/",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -6773,7 +6949,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.edulog.ch/",
+   "final_url": "https://www.edulog.ch/de",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -6941,7 +7117,7 @@
    "source_status": 400,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "www.bedag.ch": {
@@ -6977,7 +7153,7 @@
    "source_status": 403,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "www.bcf.ch": {
@@ -7182,7 +7358,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -7248,7 +7424,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -7552,7 +7728,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -7687,7 +7863,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.refdata.ch/",
+   "final_url": "https://www.refdata.ch/de/",
    "source_status": 200,
    "source_links_host": true,
    "fail_streak": 0,
@@ -7866,7 +8042,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -7937,14 +8113,14 @@
   "www.saviva.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": null,
-   "reachable": false,
-   "final_url": "",
-   "source_status": null,
-   "source_links_host": false,
-   "fail_streak": 1,
-   "source_fail_streak": 1,
-   "changed": false
+   "https_status": 200,
+   "reachable": true,
+   "final_url": "https://www.saviva.ch/de/",
+   "source_status": 200,
+   "source_links_host": true,
+   "fail_streak": 0,
+   "source_fail_streak": 0,
+   "changed": true
   },
   "www.blick.ch": {
    "resolves": true,
@@ -7979,7 +8155,7 @@
    "source_status": 302,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "api.i14y.admin.ch": {
@@ -8008,7 +8184,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8067,7 +8243,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://id.sh.ch/login/sls/auth?RequestedPage=YXA5_xeMylEgVwDtklIxwVFnpYdBA_EZ",
+   "final_url": "https://id.sh.ch/login/sls/auth?RequestedPage=mHgDGs6vLyBh0Cfgf1hakIC-x8tSGW31",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -8078,7 +8254,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8088,7 +8264,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8108,7 +8284,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8128,7 +8304,7 @@
    "https_status": 500,
    "reachable": false,
    "final_url": "https://sso.lugano.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8168,7 +8344,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8188,7 +8364,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8198,7 +8374,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8208,7 +8384,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8218,7 +8394,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8228,7 +8404,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8238,7 +8414,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8248,7 +8424,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8258,7 +8434,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8268,7 +8444,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8298,7 +8474,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8318,7 +8494,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8524,7 +8700,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8564,7 +8740,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8594,7 +8770,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8614,7 +8790,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8644,7 +8820,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8664,7 +8840,7 @@
    "https_status": 504,
    "reachable": false,
    "final_url": "https://auth.helvetia.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8720,7 +8896,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8730,7 +8906,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8750,7 +8926,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8760,7 +8936,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8791,7 +8967,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://id.unilabs.ch/Account/Login?wa=wsignin1.0&wtrealm=https%3a%2f%2fe.unilabs.ch&wctx=rm%3d0%26id%3dpassive%26ru%3d%252f&wct=2026-11-19T01%3a03%3a22Z&wreply=https%3a%2f%2fe.unilabs.ch",
+   "final_url": "https://id.unilabs.ch/Account/Login?wa=wsignin1.0&wtrealm=https%3a%2f%2fe.unilabs.ch&wctx=rm%3d0%26id%3dpassive%26ru%3d%252f&wct=2026-11-19T09%3a06%3a35Z&wreply=https%3a%2f%2fe.unilabs.ch",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -8802,7 +8978,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8812,7 +8988,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8822,7 +8998,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8842,7 +9018,7 @@
    "https_status": 530,
    "reachable": false,
    "final_url": "https://login.tagesanzeiger.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8884,7 +9060,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8894,7 +9070,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8934,7 +9110,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8944,7 +9120,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8954,7 +9130,7 @@
    "https_status": 500,
    "reachable": false,
    "final_url": "https://account.ail.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8986,7 +9162,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -8996,7 +9172,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9028,7 +9204,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9038,7 +9214,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9058,7 +9234,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9068,7 +9244,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9078,7 +9254,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9160,7 +9336,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9180,7 +9356,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9254,7 +9430,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9277,7 +9453,7 @@
    "source_status": 200,
    "source_links_host": false,
    "fail_streak": 0,
-   "source_fail_streak": 1,
+   "source_fail_streak": 2,
    "changed": false
   },
   "my.elca.ch": {
@@ -9286,7 +9462,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9369,7 +9545,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.baloise.ch/auth/realms/Baloise/protocol/openid-connect/auth?response_type=code&client_id=bch-customercontact-mybaloiseapi&redirect_uri=https%3A%2F%2Fwww.baloise.ch%2Fmybaloise-api%2Fapi%2FredirectToMyBaloise%2Fv1&state=06cd838e-b338-41c6-b430-1efdffcba8e2&nonce=338KevSnmTlAUH10ITPYIg6uHtmfVv6X4m1AeWS8MBA&scope=openid",
+   "final_url": "https://www.baloise.ch/auth/realms/Baloise/protocol/openid-connect/auth?response_type=code&client_id=bch-customercontact-mybaloiseapi&redirect_uri=https%3A%2F%2Fwww.baloise.ch%2Fmybaloise-api%2Fapi%2FredirectToMyBaloise%2Fv1&state=64618b4e-ebe1-4ded-a549-a8c1100f4d8e&nonce=soqVAq1saTB4yK6G2GaBzTm_Z0P5oQaaa_BCS-EJzrk&scope=openid",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -9390,7 +9566,7 @@
    "https_status": 504,
    "reachable": false,
    "final_url": "https://my.helvetia.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9420,7 +9596,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9482,7 +9658,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9532,7 +9708,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9542,7 +9718,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9562,7 +9738,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9611,7 +9787,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.portail.vd.ch:443/sso/SSORedirect/metaAlias/internet/idp-default?SAMLRequest=fZJPa4NAEMW%2fiuxdV6NJzGIESSgI%2fUdSeuhtoyNZWHftzpi0374bpYdSyHV4b978ZqZA2etBVCOdzQE%2bR0AK6v2WqTbMT8tuDdkiXMv4FGZJnocngFUYt2mar%2fIsXuYbFryDQ2XNli2imAU14gi1QZKGfClerMIkCZPNW5yIOBVZFm1W2QcL9j5HGUmT80w0oOD8er1Gg3UklY4ubdScvT7liJYfjy8HaJWDhngPJCutJHJlCJwB4qodwhY6OWpiwc4ahFv66IywEhUKI3tAQY04Vk%2bPwg8qmlkkRoMDNKpT0LLgq9cGxbSQ%2b%2b7BWbKN1awsJmA3W%2b%2bbJCK4GzArf4Gl3%2fpMymXbIfeCi2oAObkRqeBz87KYb%2fTsW9b7V6tV8x08WNfLO5BJlEwVf8dukv5FrbS2150DSbBlPg1YwMuC%2f3%2bG8gc%3d&RelayState=297425ff-a326-4871-9f26-7ea1bb746083&Signature=JdKS5ZzvBlPJRItQDvXuwlOypMwyn4RSFuLhoscacZsNGOEF82Eqy%2bUvepTDTPMfwrqgqWVB2zaJutq%2fmm081%2bVI0PykBXYZMNnM%2buJUOcZPoC6X8sLg%2bo48rc7ZjiOuDHHx0kJTu65Nlh%2b536fKhUrM5qGMsYNQt7xsojGaHg0NYiYwhj1AvXr4NmTg4b2a%2fVSgSZofEECG6d10Y0rpUip3iWHwLUGxvRYPLQY4moTCeV0vuC6KAnixVKnpcbH5aR7YLjVov70OsMFAAyha919sYOAOXwMgfm0k%2bwh11MkkwoK%2bu74%2bcIhKmEkAAQlDbPgfX36Jh85KR%2buOyFWmMA%3d%3d&SigAlg=http%3a%2f%2fwww.w3.org%2f2001%2f04%2fxmldsig-more%23rsa-sha256",
+   "final_url": "https://www.portail.vd.ch:443/sso/SSORedirect/metaAlias/internet/idp-default?SAMLRequest=fZJPa8MwDMW%2fSvA9cdym2WrSQFkZFPaPdeywm%2bYo1ODYmaW027dflrDDGPQq3tPTT1JF0Llebwc%2b%2bmf8GJA42e82wjbp0pSrAtoyxXVxlRb4rlJYIqalgqW6bhSgeRfJK0aywW%2fEIstFsicacO%2bJwfNYyhdlqlSq1i%2f5WuelXl1leb5%2bE8luzLEeeHIemXvSUp7P56wPkcG67NRk5qiLYimJgjwcHp%2bxsRENyw4Zts4CSesZo0eWtunTBlsYHIvkJnjCn%2fQheh2ALGkPHZJmow%2fb%2bzs9DqrNLNKDpx6NbS02IvnsnCc9LeSyu4%2bBgwlO1NUEHGfrZRMQYfwBFvUvMIxbn0klNC3JUXCyBklyHIgrOTevq%2flGD2PL%2fe4pOGu%2bktsQO7gAqTI1VcY7tpP0L%2brWuXC%2biQiMGzGmoUhkXcn%2fz1B%2fAw%3d%3d&RelayState=dd49b199-8e10-43af-9f60-514d91ab64f3&Signature=tBoLEJAtcyw3heh1iaarDfoLmUTnHAa0pqoDZvRN%2bJ3Gas8o938wM3fNgg3n5UzXUigo6wJwM0LHdAj7KbKKM6jqb1ULlxUWTQOdawybzEOcR9kqOl38sYrgq%2fNumOi%2ffNjqca3Q5D4hSXXF%2b2B6TxG01BA2V21kdyMac4ABc2Ju7at%2ftY%2bzak9S69GC3IQK1q7MwvvwCf8EwmY1pAhk0hclOjGVfT5PhUBE1BOdVc16iMPuxoJJpcQqGKe5uYwOvZeipcOo2IhojUJr%2blYKObxEqPZvQ8EbXEL5EkbrFj5ECDVXlt%2fdEiI3l0HuGUe9G0v6QBHOizOPsKvWuhnOJg%3d%3d&SigAlg=http%3a%2f%2fwww.w3.org%2f2001%2f04%2fxmldsig-more%23rsa-sha256",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -9631,7 +9807,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://sts.finma.ch/adfs/ls/?wa=wsignin1.0&wtrealm=https%3a%2f%2fwebmail.finma.ch%2fowa%2f&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fowa%252f&wct=2026-11-19T01%3a03%3a44Z",
+   "final_url": "https://sts.finma.ch/adfs/ls/?wa=wsignin1.0&wtrealm=https%3a%2f%2fwebmail.finma.ch%2fowa%2f&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fowa%252f&wct=2026-11-19T09%3a06%3a56Z",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -9642,7 +9818,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://api.ail.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9672,7 +9848,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9692,7 +9868,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9741,7 +9917,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://sts.gva.ch/adfs/ls/?wa=wsignin1.0&wtrealm=https%3a%2f%2fwebmail.gva.ch%2fowa%2f&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fowa%252f&wct=2026-11-19T01%3a03%3a47Z",
+   "final_url": "https://sts.gva.ch/adfs/ls/?wa=wsignin1.0&wtrealm=https%3a%2f%2fwebmail.gva.ch%2fowa%2f&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fowa%252f&wct=2026-11-19T09%3a06%3a59Z",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -9863,12 +10039,12 @@
   "webmail.switch.ch": {
    "resolves": true,
    "dns_state": "resolves",
-   "https_status": null,
-   "reachable": false,
-   "final_url": "",
-   "fail_streak": 1,
+   "https_status": 200,
+   "reachable": true,
+   "final_url": "https://webmail.switch.ch/owa/auth/logon.aspx?url=https%3a%2f%2fwebmail.switch.ch%2fowa%2f&reason=0",
+   "fail_streak": 0,
    "source_fail_streak": 0,
-   "changed": false
+   "changed": true
   },
   "api.bcf.ch": {
    "resolves": true,
@@ -9886,7 +10062,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9908,7 +10084,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9948,7 +10124,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -9990,7 +10166,7 @@
    "final_url": "",
    "source_status": 200,
    "source_links_host": true,
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10070,7 +10246,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10162,7 +10338,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10181,7 +10357,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://id.unilabs.ch/Account/Login?wa=wsignin1.0&wtrealm=https%3a%2f%2fshop.unilabs.ch&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fPages%252fHelpPage.aspx&wct=2026-11-19T01%3a03%3a52Z&wreply=https%3a%2f%2fshop.unilabs.ch&sil=2",
+   "final_url": "https://id.unilabs.ch/Account/Login?wa=wsignin1.0&wtrealm=https%3a%2f%2fshop.unilabs.ch&wctx=rm%3d0%26id%3dpassive%26ru%3d%252fPages%252fHelpPage.aspx&wct=2026-11-19T09%3a07%3a03Z&wreply=https%3a%2f%2fshop.unilabs.ch&sil=2",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -10232,7 +10408,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10292,7 +10468,7 @@
    "https_status": 503,
    "reachable": false,
    "final_url": "https://api.blick.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10314,7 +10490,7 @@
    "https_status": 530,
    "reachable": false,
    "final_url": "https://shop.tagesanzeiger.ch/",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10424,7 +10600,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
@@ -10697,7 +10873,7 @@
    "dns_state": "resolves",
    "https_status": 200,
    "reachable": true,
-   "final_url": "https://www.polizei.ch/",
+   "final_url": "https://www.kkpks.ch/de",
    "fail_streak": 0,
    "source_fail_streak": 0,
    "changed": false
@@ -10720,7 +10896,7 @@
    "https_status": null,
    "reachable": false,
    "final_url": "",
-   "fail_streak": 1,
+   "fail_streak": 2,
    "source_fail_streak": 0,
    "changed": false
   },
