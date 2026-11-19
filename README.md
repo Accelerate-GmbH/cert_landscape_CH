@@ -174,7 +174,9 @@ the four areas, the twelve checks (why they matter, how they are measured,
 weight and source), the critical-services layer, data and updates, and what
 the rating does not say, at the depth of the chosen view.
 
-Levels are cantons, municipalities, federal and critical services. The
+Levels are cantons, municipalities, federal, critical services and all hosts
+(one table of every rated host, sortable by any column and filterable by
+host, operator, type and criticality; data in `hosts.json`). The
 federal level is a table of departments (plus Federal Chancellery, and
 courts and parliament), each with the same drill-down as a canton; on the
 map a box at the top right shows its overall value. The search
