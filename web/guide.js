@@ -6,6 +6,10 @@
 window.GUIDE = {
   de: {
     ui: {
+      level_federal: "Bund", level_sector: "Kritische Dienste", fed_table_title: "Bundesverwaltung", fed_total: "Bundesverwaltung gesamt, gewichtet nach Anzahl Dienste",
+      fed_intro: "Departemente mit ihren Ämtern, dazu Bundeskanzlei sowie Gerichte und Parlament. Klick auf eine Zeile für Details, auf einen Wert für seine Herleitung.",
+      fed_none: "Die Bundesverwaltung ist erst seit diesem Monat im Lauf. Die Ergebnisse erscheinen, sobald der Lauf abgeschlossen ist.",
+      host_not_rated: "Nicht bewertet", hostwhy_wc: "Sammelzertifikat (*.): Es gilt für alle Namen darunter und wird nicht als eigener Dienst bewertet.", hostwhy_ex: "Von der Bewertung ausgeschlossen (Korrekturliste data/overrides.json).", hostwhy_nx: "Der Name steht in einem Zertifikat, existiert im DNS aber nicht (mehr).", hostwhy_na: "Der Name existiert im DNS, hat aber keine Adresse.", hostwhy_err: "Die DNS-Abfrage für diesen Namen ist fehlgeschlagen.", hostwhy_nr: "Der Name ist erreichbar, aber keine Prüfung liess sich durchführen.",
       why_title: "Warum keine Bewertung?", without_value: "Ohne Bewertung",
       whys_no_domain: "Keine Domain bekannt", why_no_domain: "In den Quelldaten ist für diese Einheit weder eine Website- noch eine Mail-Domain eingetragen. Korrekturen sind über ein GitHub-Issue willkommen.",
       whys_shared: "Nur geteilte Domain", why_shared: "Die Einheit nutzt nur die Domain des Kantons oder eine Domain, die sie mit anderen Gemeinden teilt. Deren Dienste werden dort gezählt, nicht hier.",
@@ -126,6 +130,10 @@ window.GUIDE = {
 
   fr: {
     ui: {
+      level_federal: "Confédération", level_sector: "Services critiques", fed_table_title: "Administration fédérale", fed_total: "Administration fédérale au total, pondérée par le nombre de services",
+      fed_intro: "Départements avec leurs offices, plus la Chancellerie fédérale ainsi que les tribunaux et le parlement. Cliquez sur une ligne pour les détails, sur une valeur pour son calcul.",
+      fed_none: "L’administration fédérale fait partie du passage depuis ce mois. Les résultats apparaissent dès que le passage est terminé.",
+      host_not_rated: "Non évalué", hostwhy_wc: "Certificat générique (*.) : il couvre tous les noms en dessous et n’est pas évalué comme service propre.", hostwhy_ex: "Exclu de l’évaluation (liste de corrections data/overrides.json).", hostwhy_nx: "Le nom figure dans un certificat mais n’existe pas (ou plus) dans le DNS.", hostwhy_na: "Le nom existe dans le DNS mais n’a pas d’adresse.", hostwhy_err: "La requête DNS pour ce nom a échoué.", hostwhy_nr: "Le nom est joignable, mais aucun contrôle n’a pu être effectué.",
       why_title: "Pourquoi pas d’évaluation ?", without_value: "Sans évaluation",
       whys_no_domain: "Aucun domaine connu", why_no_domain: "Les données sources n’indiquent ni domaine de site web ni domaine de messagerie pour cette entité. Les corrections sont bienvenues via une issue GitHub.",
       whys_shared: "Domaine partagé seulement", why_shared: "L’entité utilise seulement le domaine du canton ou un domaine partagé avec d’autres communes. Ces services y sont comptés, pas ici.",
@@ -246,6 +254,10 @@ window.GUIDE = {
 
   it: {
     ui: {
+      level_federal: "Confederazione", level_sector: "Servizi critici", fed_table_title: "Amministrazione federale", fed_total: "Amministrazione federale nel complesso, ponderata per numero di servizi",
+      fed_intro: "Dipartimenti con i loro uffici, più la Cancelleria federale nonché tribunali e parlamento. Cliccare su una riga per i dettagli, su un valore per il suo calcolo.",
+      fed_none: "L’amministrazione federale fa parte dell’esecuzione da questo mese. I risultati compaiono appena l’esecuzione è conclusa.",
+      host_not_rated: "Non valutato", hostwhy_wc: "Certificato wildcard (*.): vale per tutti i nomi sottostanti e non è valutato come servizio a sé.", hostwhy_ex: "Escluso dalla valutazione (elenco correzioni data/overrides.json).", hostwhy_nx: "Il nome figura in un certificato ma non esiste (più) nel DNS.", hostwhy_na: "Il nome esiste nel DNS ma non ha un indirizzo.", hostwhy_err: "La richiesta DNS per questo nome non è riuscita.", hostwhy_nr: "Il nome è raggiungibile, ma nessun controllo è stato possibile.",
       why_title: "Perché nessuna valutazione?", without_value: "Senza valutazione",
       whys_no_domain: "Nessun dominio noto", why_no_domain: "Nei dati di partenza non è indicato né un dominio web né un dominio di posta per questa unità. Le correzioni sono benvenute tramite una issue GitHub.",
       whys_shared: "Solo dominio condiviso", why_shared: "L’unità usa solo il dominio del cantone o un dominio condiviso con altri comuni. Quei servizi sono contati lì, non qui.",
@@ -366,6 +378,10 @@ window.GUIDE = {
 
   en: {
     ui: {
+      level_federal: "Federal", level_sector: "Critical services", fed_table_title: "Federal administration", fed_total: "Federal administration overall, weighted by number of services",
+      fed_intro: "Departments with their offices, plus the Federal Chancellery, the courts and parliament. Click a row for details, a value for how it is calculated.",
+      fed_none: "The federal administration is part of the run from this month. Results appear as soon as the run has finished.",
+      host_not_rated: "Not rated", hostwhy_wc: "Wildcard certificate (*.): it covers all names below and is not rated as a service of its own.", hostwhy_ex: "Excluded from the rating (corrections list data/overrides.json).", hostwhy_nx: "The name appears in a certificate but does not (or no longer) exist in DNS.", hostwhy_na: "The name exists in DNS but has no address.", hostwhy_err: "The DNS query for this name failed.", hostwhy_nr: "The name is reachable, but no check could be made.",
       why_title: "Why no rating?", without_value: "Without a rating",
       whys_no_domain: "No domain known", why_no_domain: "The source data lists neither a website nor a mail domain for this unit. Corrections are welcome as a GitHub issue.",
       whys_shared: "Shared domain only", why_shared: "The unit only uses the canton's domain or one it shares with other municipalities. Those services are counted there, not here.",

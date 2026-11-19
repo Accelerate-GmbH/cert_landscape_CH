@@ -147,12 +147,13 @@
 
   function draw() {
     if (!state.topo || !state.data) return;
-    const sectorView = state.level === "sector";
+    const sectorView = isTable();
     document.getElementById("map").hidden = sectorView;
     document.getElementById("matrix").hidden = !sectorView;
     document.getElementById("legend").hidden = sectorView;
     document.querySelector(".metric").hidden = sectorView;
-    if (sectorView) { renderMatrix(); return; }
+    document.getElementById("orgtoggle").hidden = sectorView || !Object.keys(state.data.entities.organisation || {}).length;
+    if (sectorView) { if (state.level === "federal") renderFederal(); else renderMatrix(); return; }
     setTimeout(() => map.invalidateSize(), 0);
     if (state.layer) state.layer.remove();
     const obj = state.level === "canton" ? state.topo.objects.cantons : state.topo.objects.municipalities;
@@ -211,7 +212,8 @@
     const url = DATA_URL.replace(/map\.json(\?.*)?$/, "search.json");
     hostIndexLoading = fetch(url).then((r) => (r.ok ? r.json() : { h: {} })).catch(() => ({ h: {} })).then((j) => {
       hostIndex = [];
-      for (const [key, hosts] of Object.entries(j.h || {})) hosts.forEach((h) => hostIndex.push([h, key]));
+      for (const [key, hosts] of Object.entries(j.h || {})) hosts.forEach((h) => hostIndex.push([h, key, ""]));
+      for (const [key, hosts] of Object.entries(j.u || {})) hosts.forEach(([h, code]) => hostIndex.push([h, key, code]));
       return hostIndex;
     });
     return hostIndexLoading;
@@ -227,7 +229,6 @@
       for (const [id, e] of Object.entries(state.data.entities[lvl] || {})) {
         const sc = Math.min(...[score(e.n), e.c ? score(e.c) : -1].filter((x) => x >= 0).concat([99]));
         if (sc < 99) out.push({ kind: "entity", lvl, id, label: e.n, sub: t(KIND_LABEL[lvl]) + (lvl === "federal" && e.c ? " · " + e.c : ""), rank: sc * 10 });
-        if (lvl === "organisation") continue;
         (e.d || []).forEach((d) => {
           const s2 = score(d);
           if (s2 >= 0) out.push({ kind: "domain", lvl, id, label: d, sub: t("t_domain") + " · " + e.n, rank: s2 * 10 + 1 });
@@ -235,10 +236,10 @@
         });
       }
     }
-    (hostIndex || []).forEach(([h, key]) => {
+    (hostIndex || []).forEach(([h, key, code]) => {
       const s2 = score(h); if (s2 < 0) return;
       const [l, id, e] = entityByKey(key);
-      if (e) out.push({ kind: "host", lvl: l, id, label: h, sub: t("t_host") + " · " + e.n, rank: s2 * 10 + 2 });
+      if (e) out.push({ kind: "host", lvl: l, id, label: h, code, sub: t("t_host") + " · " + e.n + (code ? " · " + t("host_not_rated") : ""), rank: s2 * 10 + (code ? 3 : 2) });
     });
     const seen = new Set();
     return out.sort((a, b) => a.rank - b.rank || a.label.length - b.label.length || a.label.localeCompare(b.label))
@@ -275,7 +276,7 @@
   }
   function drawOrgs() {
     if (orgLayer) { orgLayer.remove(); orgLayer = null; }
-    if (state.level === "sector" || !document.getElementById("showorgs").checked) return;
+    if (isTable() || !document.getElementById("showorgs").checked) return;
     const byPlace = map.getZoom() >= 9.5;
     const groups = {};
     for (const [id, o] of orgList()) {
@@ -529,6 +530,39 @@
       ' <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a>" + (linked ? " · " + esc(t("linked_note").replace("{n}", linked)) : "") + "</p>" + sel +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
   }
+  function isTable() { return state.level === "sector" || state.level === "federal"; }
+
+  /* ---- federal level: departments as a table ------------------------------ */
+  function fedEntries() {
+    return Object.entries(state.data.entities.federal || {}).sort((a, b) => (value(b[1], "tm") ?? -1) - (value(a[1], "tm") ?? -1));
+  }
+  function renderFederal() {
+    const fed = fedEntries();
+    const ex = (id, rest) => ["e", "federal", id].concat(rest).join("|");
+    const head = "<th></th><th>" + (simple() ? esc(t("m_tm")) : "TP") + "</th>" + CATS.map(([, m]) => "<th>" + esc(simple() ? t("m_" + m) : t({ tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" }[m])) + "</th>").join("") +
+      (simple() ? "" : CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + '">' + CHECK_SHORT[id] + "</th>").join(""));
+    const rows = fed.map(([id, e]) => {
+      const tm = e.tm || {};
+      return '<tr class="sec"><td class="name click" data-sel="federal:' + esc(id) + '"><b>' + esc(e.c || id) + "</b> " + esc(e.n) + '<span class="src">' +
+        (tm.n || 0) + " " + esc(t("n_hosts")) + " · " + esc((e.d || []).length + " " + t("t_domain")) + "</span></td>" +
+        cell(tm.o ?? null, t("m_tm"), tm.o !== undefined && tm.o !== null ? ex(id, ["overall"]) : null) +
+        CATS.map(([c, m]) => cell(tm.c ? tm.c[c] : null, t("m_" + m), tm.c && tm.c[c] !== null && tm.c[c] !== undefined ? ex(id, ["cat", c]) : null)).join("") +
+        (simple() ? "" : CHECK_IDS.map((cid) => cell(share((tm.k || {})[cid]), t(cid), (tm.k || {})[cid] ? ex(id, ["chk", cid]) : null)).join("")) + "</tr>";
+    }).join("");
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("fed_table_title")) + '</h2><p class="sub">' + esc(t("fed_intro")) + "</p>" +
+      (fed.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" :
+        '<div class="why"><b>' + esc(t("whys_not_in_run")) + "</b><p>" + esc(t("fed_none")) + "</p></div>");
+  }
+  function overviewFederal() {
+    const fed = fedEntries();
+    let sw = 0, sv = 0;
+    fed.forEach(([, e]) => { const v = value(e, "tm"); const w = (e.tm && e.tm.n) || 1; if (v !== null) { sw += w; sv += w * v; } });
+    const total = sw ? Math.round(sv / sw) : null;
+    document.getElementById("panel").innerHTML = "<h2>" + esc(t("fed_table_title")) + '</h2><p class="sub">' + esc(t("fed_intro")) + "</p>" +
+      (fed.length ? verdictBlock(total, null, '<div class="sub">' + esc(t("fed_total")) + "</div>") : "") +
+      '<p><button class="linkbtn" data-help="what">' + esc(t("to_help")) + " →</button></p>";
+  }
+
   function aggHidden() {
     const d = dimData("sektor");
     return Object.entries(d).some(([k, x]) => !k.startsWith("@") && x.orgs > (x.public || 0));
@@ -951,6 +985,7 @@
 
   function overview() {
     if (state.level === "sector") { overviewSectors(); return; }
+    if (state.level === "federal") { overviewFederal(); return; }
     if (simple()) { simpleOverview(); return; }
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
@@ -1009,7 +1044,9 @@
     const hp = ev.target.closest("[data-help]");
     if (hp) { helpPanel(hp.dataset.help); return; }
     const lvl = ev.target.closest("[data-level]");
-    if (lvl) { state.level = lvl.dataset.level; applyI18n(); draw(); refreshPanel(); fillSearch(); return; }
+    if (lvl) { state.level = lvl.dataset.level; state.selected = null; applyI18n(); draw(); refreshPanel(); fillSearch();
+      try { const u = new URL(location.href); u.searchParams.set("level", state.level); u.searchParams.delete("sel"); history.replaceState(null, "", u); } catch (e) { /* ignore */ }
+      return; }
     const exb = ev.target.closest("[data-explain]");
     if (exb && exb.dataset.explain) { explain(exb.dataset.explain); return; }
     if (ev.target.closest("[data-close]")) { select(null, null); return; }
@@ -1058,30 +1095,36 @@
     if (!hostIndex) loadHostIndex().then(() => { if (document.activeElement === search) { sugItems = suggestions(search.value); renderSuggest(); } });
   }
   /* Open the check results of one host; from the sector view the back button returns there. */
-  function openHost(lvl, id, host, keepView) {
+  function openHost(lvl, id, host, keepView, code) {
     if (!keepView) select(lvl, id);
-    loadResources(lvl, id).then((list) => { const i = (list || []).findIndex((r) => r.h === host); if (i >= 0) resourceDetail(lvl, id, i); });
+    const unrated = () => {
+      const h2 = document.querySelector("#panel h2");
+      if (h2) h2.insertAdjacentHTML("afterend", '<div class="why"><b>' + esc(host) + "</b><p><b>" + esc(t("host_not_rated")) + ".</b> " +
+        esc(t("hostwhy_" + (code || "nr"))) + "</p></div>");
+    };
+    if (code) { unrated(); return; }
+    loadResources(lvl, id).then((list) => { const i = (list || []).findIndex((r) => r.h === host); if (i >= 0) resourceDetail(lvl, id, i); else unrated(); });
   }
   function goTo(x) {
     sugBox.hidden = true; search.value = x.label; search.blur();
     const { lvl, id } = x;
     if (lvl === "organisation") {
       const o = state.data.entities.organisation[id];
-      if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
+      if (isTable()) { state.level = "canton"; applyI18n(); draw(); }
       select("organisation", id);
       const c = (o.bfs && centers.municipality[o.bfs]) || centers.canton[String(CANTON_CODES.indexOf(o.kt) + 1)];
       if (c) map.setView(c, 11);
-      if (x.kind === "host") openHost("organisation", id, x.label, true);
+      if (x.kind === "host") openHost("organisation", id, x.label, true, x.code);
       return;
     }
     if (lvl === "federal") {
-      if (state.level === "sector") { state.level = "canton"; applyI18n(); draw(); }
+      if (state.level !== "federal") { state.level = "federal"; applyI18n(); draw(); }
     } else {
       if (state.level !== lvl) { state.level = lvl; applyI18n(); draw(); }
       state.layer.eachLayer((l) => { if (String(l.feature.id) === id) map.fitBounds(l.getBounds(), { maxZoom: 11 }); });
     }
     select(lvl, id);
-    if (x.kind === "host") openHost(lvl, id, x.label, true);
+    if (x.kind === "host") openHost(lvl, id, x.label, true, x.code);
   }
   search.addEventListener("input", updateSuggest);
   search.addEventListener("focus", () => { loadHostIndex(); if (search.value.trim().length >= 2) updateSuggest(); });
@@ -1106,6 +1149,8 @@
       }
       const sel = params.get("sel");
       if (params.get("level") === "municipality" || (sel && sel.startsWith("municipality:"))) state.level = "municipality";
+      if (params.get("level") === "federal" || (sel && sel.startsWith("federal:"))) state.level = "federal";
+      if (params.get("level") === "sector") state.level = "sector";
       computeCenters(); fillSectors();
       applyI18n(); draw(); fillSearch();
       if (sel) { const [l, i] = sel.split(":"); select(l, i); } else overview();

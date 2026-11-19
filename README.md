@@ -171,13 +171,14 @@ the four areas, the twelve checks (why they matter, how they are measured,
 weight and source), the critical-services layer, data and updates, and what
 the rating does not say, at the depth of the chosen view.
 
-Levels are cantons, municipalities and sectors. The federal administration
-has no area of its own: a box at the top right of the map shows its overall
-value and opens a list of departments (plus Federal Chancellery, and courts
-and parliament), each with the same drill-down as a canton. The search
+Levels are cantons, municipalities, federal and critical services. The
+federal level is a table of departments (plus Federal Chancellery, and
+courts and parliament), each with the same drill-down as a canton; on the
+map a box at the top right shows its overall value. The search
 suggests cantons, municipalities, departments, domains and single hostnames
-while typing (`search.json`: administrations and public rows of the
-critical-services list). Where a canton or municipality has no rating, the
+while typing (`search.json`: every hostname found for administrations and
+public rows of the critical-services list, rated or not; unrated names show
+why, for example not in DNS or covered by a wildcard). Where a canton or municipality has no rating, the
 map gives the reason: no domain known, only a shared domain, CT query
 failed, no certificates found, names not in DNS, nothing could be checked,
 or not collected in this run (`no_data_reason` in `entities.csv`). The sector view compares
