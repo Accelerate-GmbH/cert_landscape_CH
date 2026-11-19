@@ -1,4 +1,4 @@
-import json, re, csv, collections
+import json, re, collections
 R=json.load(open('dns.json'))
 orgs=[l.split('|') for l in open('orgs.txt',encoding='utf-8').read().splitlines() if l and not l.startswith('#')]
 SEK={'BEH':'Behörden','SIC':'Öffentliche Sicherheit','FIN':'Finanzen','GES':'Gesundheit','ENE':'Energie','IKT':'IKT & Vertrauensinfrastruktur','VER':'Verkehr & Logistik','NAH':'Detailhandel & Nahrung','MED':'Medien','BIL':'Bildung & Forschung','INT':'Internationale Organisationen'}

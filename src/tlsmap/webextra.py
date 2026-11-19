@@ -7,7 +7,6 @@ import socket
 import ssl
 from datetime import datetime, timezone
 
-from .http import HttpError
 
 
 def parse_security_txt(text: str) -> dict:

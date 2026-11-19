@@ -30,7 +30,7 @@ in use, against every address (A and AAAA) with SNI:
 
 How the results become scores, traffic lights and a rating per canton and
 municipality is proposed in [docs/RATING.md](docs/RATING.md) (draft v0.1, for
-discussion). Every check execution is logged in `checks.jsonl`.
+discussion). Every check execution is logged in `checks.jsonl.gz`.
 
 ## Mail
 
@@ -107,7 +107,7 @@ python -m venv .venv && . .venv/bin/activate
 pip install -e .
 tlsmap run --canton ZG                  # one canton and its municipalities
 tlsmap run --probe                      # all cantons and municipalities, with live TLS check
-tlsmap diff output/2026-10-01/results.json output/2026-11-01/results.json --changed-only
+tlsmap diff output/2026-10-01/results.json.gz output/2026-11-01/results.json.gz --changed-only
 ```
 
 Hostnames are discovered via crt.sh, which is free but slow (about 25 seconds
@@ -147,20 +147,28 @@ this repository, the repository must stay private.
 
 ## Output
 
-Each run writes `output/<date>/` and copies it to `output/latest/`:
+Each run writes the full set to `output/latest/`. The dated folder `output/<date>/`
+keeps only `run.json`, `entities.csv` and `results.json.gz`, enough to compare runs
+with `tlsmap diff`; older full sets remain in the git history. Large files are
+gzip-compressed (`zcat checks.jsonl.gz | head`).
 
 | File | Content |
 |---|---|
 | `entities.csv` | one row per canton / municipality with scores and checks |
 | `hostnames.csv` | one row per hostname: certificate, CA, owner, DNS, platform |
-| `results.json` | everything above plus CAA records, zones, Trust Posture ratings |
+| `results.json.gz` | everything above plus CAA records, zones, Trust Posture ratings |
 | `endpoints.csv` | one row per address probed: TLS version, group, PQ, certificate, SCTs, revocation |
-| `checks.jsonl` | log of every check execution: time, resource, check, result, method, evidence |
+| `checks.jsonl.gz` | log of every check execution: time, resource, check, result, method, evidence |
 | `export.xlsx` | the same as a workbook, including the CA registry and run metadata |
 | `data.min.json` | same shape as the existing map frontends (mxmap / sslmap), counted per hostname |
 | `run.json` | sources, CT lag, config hashes, versions |
 
 A sample run for canton Zug is in `samples/zug/`.
+
+`tools/check_repo.py` checks that rating code, configuration, map, translations
+and documentation describe the same checks, that no credentials are committed and
+that the published output is complete. The `checks` workflow runs it together
+with the tests on every push.
 
 ## Map
 
@@ -201,7 +209,7 @@ can be clicked and traced down to the single hostname, its measured values
 and links to verify them independently (crt.sh, SSL Labs, dns.google,
 DNSViz, bgp.he.net). The footer links to the method, the rating, the data of
 the latest run (`output/latest/` on GitHub: `entities.csv`, `hostnames.csv`,
-`results.json`, `endpoints.csv`, `checks.jsonl`, `export.xlsx`) and the
+`results.json.gz`, `endpoints.csv`, `checks.jsonl.gz`, `export.xlsx`) and the
 critical-services list (`data/critical_services/`, method in
 [docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md)). The `publish map`
 workflow deploys it to GitHub Pages with the latest `output/latest/map.json`.

@@ -14,7 +14,7 @@ TS={'PRJV':'Parlament, Regierung, Justiz, Verwaltung','FL':'Forschung und Lehre'
 OVR={'AIL':'CHE-105.969.920','AdNovum':'CHE-106.013.711','CARA (EPD-Gemeinschaft)':'CHE-356.327.035','Bundesstrafgericht':'CHE-265.476.805','CERN':'CHE-108.967.751',
 'Carbura':'CHE-105.841.616','IKRK':'CHE-105.924.024','ELCA':'CHE-105.944.452','Energie 360°':'CHE-106.839.415','Generali Schweiz':'CHE-105.991.440','Genève Aéroport':'CHE-108.913.293',
 'HFR Hôpital fribourgeois':'CHE-113.175.595','Hupac':'CHE-106.844.385','HUG':'CHE-108.907.884','ITU':'CHE-498.972.006','WHO':'CHE-440.062.067','WIPO':'CHE-462.076.735','WTO':'CHE-467.353.304',
-'UNO Genf':'CHE-328.330.061','Kantonsspital Graubünden':'CHE-112.957.968','Primeo Energie':'CHE-105.932.928','Hirslanden':'CHE-113.796.171','RSI':'CHE-460.782.578','SBB Cargo':'CHE-100.866.483',
+'UNO Genf':'CHE-328.330.061','Kantonsspital Graubünden':'CHE-112.957.968','Primeo Energie':'CHE-105.932.928','Hirslanden':'CHE-113.796.171','SBB Cargo':'CHE-100.866.483',
 'Swissmedic':'CHE-108.952.985','SEPOS':'CHE-488.645.267','Swiss Re':'CHE-102.979.129','Swissquote':'CHE-102.383.586','Yuh (Swissquote/PostFinance)':'CHE-102.383.586','Threema':'CHE-487.082.806',
 'Tox Info Suisse':'CHE-107.827.343','Viseca':'CHE-105.243.616','ZAS':'CHE-200.474.557','État de Fribourg':'CHE-114.965.163','Schweizerisches Rotes Kreuz':'CHE-105.903.074',
 'edulog':'CHE-271.002.692','OFAC':'CHE-107.755.086','Swisstransplant':'CHE-100.390.782','Medgate':'CHE-440.718.407','Medbase':'CHE-112.648.125','esisuisse':'CHE-406.991.378',

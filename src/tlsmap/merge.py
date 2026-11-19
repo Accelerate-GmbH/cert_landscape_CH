@@ -127,7 +127,6 @@ def reapply_sovereignty(result: dict) -> int:
         if not checks:
             continue
         st = selfs.get(r["entity"], set())
-        touched = False
         for x in checks:
             if x["check"] == "sov.dns":
                 new = posture.dns_status(posture.parse_providers(x.get("value") or ""), st, eea)
@@ -137,7 +136,6 @@ def reapply_sovereignty(result: dict) -> int:
                 continue
             if new != x["status"]:
                 x["status"] = new
-                touched = True
                 changed[(r["entity"], r["hostname"], x["check"])] = new
         # every resource is scored again with the current weights
         sc = posture.score(checks, cfg)

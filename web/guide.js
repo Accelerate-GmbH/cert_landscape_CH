@@ -135,7 +135,7 @@ window.GUIDE = {
             "Jede Farbe lässt sich anklicken. Die Herleitung führt bis zum einzelnen Dienst und zu Links, mit denen sich das Resultat selbst nachprüfen lässt.",
             "Alle Daten und der Programmcode sind offen und frei verfügbar."],
         x: ["Quellen: crt.sh (Certificate Transparency), CCADB (CA-Hierarchie und Inhaber), DNS über DoH (dns.google, Cloudflare), Team Cymru (IP → AS → Land), Live-TLS von GitHub-Runnern (OpenSSL 3.5 für den PQC-Test).",
-            "Monatlicher Lauf: ein Batch pro Kanton und einer für die Liste, danach Zusammenführung. Ergebnisse unter output/latest (CSV, JSON, XLSX, checks.jsonl mit jeder Einzelprüfung). Liegt crt.sh mehr als 7 Tage zurück, steht das in der Fusszeile."],
+            "Monatlicher Lauf: ein Batch pro Kanton und einer für die Liste, danach Zusammenführung. Ergebnisse unter output/latest (CSV, JSON, XLSX, checks.jsonl.gz mit jeder Einzelprüfung). Liegt crt.sh mehr als 7 Tage zurück, steht das in der Fusszeile."],
       },
       limits: {
         s: ["Die Bewertung ist ein Entwurf und kein Sicherheitsaudit. Sie sieht nur, was von aussen sichtbar ist.",
@@ -280,7 +280,7 @@ window.GUIDE = {
             "Chaque couleur est cliquable. Le calcul mène jusqu’au service individuel et à des liens permettant de vérifier soi-même le résultat.",
             "Toutes les données et le code sont ouverts et librement disponibles."],
         x: ["Sources : crt.sh (Certificate Transparency), CCADB (hiérarchie et titulaires des AC), DNS via DoH (dns.google, Cloudflare), Team Cymru (IP → AS → pays), TLS en direct depuis des runners GitHub (OpenSSL 3.5 pour le test PQC).",
-            "Exécution mensuelle : un lot par canton et un pour la liste, puis fusion. Résultats dans output/latest (CSV, JSON, XLSX, checks.jsonl avec chaque contrôle). Si crt.sh a plus de 7 jours de retard, le pied de page l’indique."],
+            "Exécution mensuelle : un lot par canton et un pour la liste, puis fusion. Résultats dans output/latest (CSV, JSON, XLSX, checks.jsonl.gz avec chaque contrôle). Si crt.sh a plus de 7 jours de retard, le pied de page l’indique."],
       },
       limits: {
         s: ["L’évaluation est un projet, pas un audit de sécurité. Elle ne voit que ce qui est visible de l’extérieur.",
@@ -425,7 +425,7 @@ window.GUIDE = {
             "Ogni colore è cliccabile. Il calcolo porta fino al singolo servizio e a link con cui verificare il risultato da sé.",
             "Tutti i dati e il codice sono aperti e liberamente disponibili."],
         x: ["Fonti: crt.sh (Certificate Transparency), CCADB (gerarchia e titolari delle AC), DNS tramite DoH (dns.google, Cloudflare), Team Cymru (IP → AS → paese), TLS in tempo reale da runner GitHub (OpenSSL 3.5 per il test PQC).",
-            "Esecuzione mensile: un lotto per cantone e uno per l’elenco, poi unione. Risultati in output/latest (CSV, JSON, XLSX, checks.jsonl con ogni controllo). Se crt.sh è in ritardo di più di 7 giorni, lo indica il piè di pagina."],
+            "Esecuzione mensile: un lotto per cantone e uno per l’elenco, poi unione. Risultati in output/latest (CSV, JSON, XLSX, checks.jsonl.gz con ogni controllo). Se crt.sh è in ritardo di più di 7 giorni, lo indica il piè di pagina."],
       },
       limits: {
         s: ["La valutazione è una bozza e non un audit di sicurezza. Vede solo ciò che è visibile dall’esterno.",
@@ -570,7 +570,7 @@ window.GUIDE = {
             "Every colour can be clicked. The explanation leads down to the single service and to links where you can check the result yourself.",
             "All data and the code are open and freely available."],
         x: ["Sources: crt.sh (Certificate Transparency), CCADB (CA hierarchy and owners), DNS over HTTPS (dns.google, Cloudflare), Team Cymru (IP → AS → country), live TLS from GitHub runners (OpenSSL 3.5 for the PQC test).",
-            "Monthly run: one batch per canton and one for the list, then a merge. Results in output/latest (CSV, JSON, XLSX, checks.jsonl with every single check). If crt.sh lags more than 7 days, the footer says so."],
+            "Monthly run: one batch per canton and one for the list, then a merge. Results in output/latest (CSV, JSON, XLSX, checks.jsonl.gz with every single check). If crt.sh lags more than 7 days, the footer says so."],
       },
       limits: {
         s: ["The rating is a draft, not a security audit. It only sees what is visible from outside.",
