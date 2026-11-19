@@ -1,6 +1,7 @@
 /* Interface texts. Swiss German orthography (ss, no ß). */
 window.I18N = {
   de: {
+    dim: "Gliederung", dim_sektor: "Sektor", dim_teilsektor: "Teilsektor", dim_service_typ: "Service-Typ", dim_kanton: "Kanton (Sitz)", no_sector: "ohne SKI-Sektor", conf_low: "Sicherheit tief", list_source: "Quelle der Liste und Methode", linked_note: "{n} Hosts gehören zu Kantonen oder Gemeinden und sind dort gemessen (verlinkt).", agg_only: "Nur Aggregate: Einzelne Hosts dieser Liste werden nicht gezeigt.", m_crit_seat: "Kritische Dienste mit Sitz im Kanton", m_crit_seat_d: "Trust Posture der kritischen Services auf der Liste, nach Sitz des Betreibers. Ab fünf Organisationen pro Kanton.", st_login: "Login", st_kundenportal: "Kundenportal", st_transaktion: "Transaktion", st_api: "API", st_fernzugriff: "Fernzugriff", st_email: "E-Mail", st_website: "Website",
     how: "So entsteht dieser Wert", weight: "Gewicht", contribution: "Beitrag", points: "Punkte", status_col: "Ergebnis", count_col: "Anzahl",
     f_ent_overall: "Gesamtwert = Mittel der Gesamtwerte aller Ressourcen; kritische Ressourcen zählen {cw}-fach. Der Gesamtwert einer Ressource ist das gewichtete Mittel ihrer beurteilten Kategorien.",
     f_ent_cat: "Kategorienwert = Mittel der Kategorienwerte aller Ressourcen; kritische zählen {cw}-fach. Pro Ressource: Summe (Gewicht × Punkte) ÷ Summe der Gewichte der beurteilten Prüfungen. Punkte: erfüllt 1, teilweise 0.5, nicht erfüllt 0.",
@@ -62,6 +63,7 @@ window.I18N = {
     method: "Methode", rating_doc: "Bewertung", data_link: "Daten zum Herunterladen (GitHub, output/latest)", critical_list: "Kritische Dienste: Liste und Methode", source: "Quellcode", close: "Schliessen", table: "Tabelle",
   },
   fr: {
+    dim: "Regroupement", dim_sektor: "Secteur", dim_teilsektor: "Sous-secteur", dim_service_typ: "Type de service", dim_kanton: "Canton (siège)", no_sector: "sans secteur SKI", conf_low: "Fiabilité faible", list_source: "Source de la liste et méthode", linked_note: "{n} hôtes appartiennent à des cantons ou communes et y sont mesurés (liés).", agg_only: "Agrégats uniquement : les hôtes individuels de cette liste ne sont pas affichés.", m_crit_seat: "Services critiques avec siège dans le canton", m_crit_seat_d: "Trust Posture des services critiques de la liste, selon le siège de l’exploitant. Dès cinq organisations par canton.", st_login: "Login", st_kundenportal: "Portail client", st_transaktion: "Transaction", st_api: "API", st_fernzugriff: "Accès à distance", st_email: "E-mail", st_website: "Site web",
     how: "Comment cette valeur est calculée", weight: "Poids", contribution: "Contribution", points: "Points", status_col: "Résultat", count_col: "Nombre",
     f_ent_overall: "Valeur globale = moyenne des valeurs globales de toutes les ressources ; les ressources critiques comptent {cw} fois. La valeur globale d’une ressource est la moyenne pondérée de ses catégories évaluées.",
     f_ent_cat: "Valeur de catégorie = moyenne des valeurs de toutes les ressources ; les critiques comptent {cw} fois. Par ressource : somme (poids × points) ÷ somme des poids des contrôles évalués. Points : rempli 1, partiel 0.5, non rempli 0.",
@@ -123,6 +125,7 @@ window.I18N = {
     method: "Méthode", rating_doc: "Évaluation", data_link: "Données à télécharger (GitHub, output/latest)", critical_list: "Services critiques : liste et méthode", source: "Code source", close: "Fermer", table: "Tableau",
   },
   it: {
+    dim: "Raggruppamento", dim_sektor: "Settore", dim_teilsektor: "Sottosettore", dim_service_typ: "Tipo di servizio", dim_kanton: "Cantone (sede)", no_sector: "senza settore SKI", conf_low: "Affidabilità bassa", list_source: "Fonte dell’elenco e metodo", linked_note: "{n} host appartengono a cantoni o comuni e sono misurati lì (collegati).", agg_only: "Solo aggregati: i singoli host di questo elenco non sono mostrati.", m_crit_seat: "Servizi critici con sede nel cantone", m_crit_seat_d: "Trust Posture dei servizi critici dell’elenco, secondo la sede del gestore. Da cinque organizzazioni per cantone.", st_login: "Login", st_kundenportal: "Portale clienti", st_transaktion: "Transazione", st_api: "API", st_fernzugriff: "Accesso remoto", st_email: "E-mail", st_website: "Sito web",
     how: "Come si ottiene questo valore", weight: "Peso", contribution: "Contributo", points: "Punti", status_col: "Risultato", count_col: "Numero",
     f_ent_overall: "Valore complessivo = media dei valori complessivi di tutte le risorse; le risorse critiche contano {cw} volte. Il valore complessivo di una risorsa è la media ponderata delle sue categorie valutate.",
     f_ent_cat: "Valore di categoria = media dei valori di tutte le risorse; le critiche contano {cw} volte. Per risorsa: somma (peso × punti) ÷ somma dei pesi dei controlli valutati. Punti: soddisfatto 1, parziale 0.5, non soddisfatto 0.",
@@ -184,6 +187,7 @@ window.I18N = {
     method: "Metodo", rating_doc: "Valutazione", data_link: "Dati da scaricare (GitHub, output/latest)", critical_list: "Servizi critici: elenco e metodo", source: "Codice sorgente", close: "Chiudi", table: "Tabella",
   },
   en: {
+    dim: "Group by", dim_sektor: "Sector", dim_teilsektor: "Sub-sector", dim_service_typ: "Service type", dim_kanton: "Canton (seat)", no_sector: "no CIP sector", conf_low: "Low confidence", list_source: "Source of the list and method", linked_note: "{n} hosts belong to cantons or municipalities and are measured there (linked).", agg_only: "Aggregates only: individual hosts of this list are not shown.", m_crit_seat: "Critical services seated in the canton", m_crit_seat_d: "Trust Posture of the listed critical services, by the operator's seat. From five organisations per canton.", st_login: "Login", st_kundenportal: "Customer portal", st_transaktion: "Transaction", st_api: "API", st_fernzugriff: "Remote access", st_email: "E-mail", st_website: "Website",
     how: "How this value is derived", weight: "Weight", contribution: "Contribution", points: "Points", status_col: "Result", count_col: "Count",
     f_ent_overall: "Overall = mean of the overall values of all resources; critical resources count {cw} times. A resource's overall value is the weighted mean of its assessed categories.",
     f_ent_cat: "Category value = mean over all resources; critical ones count {cw} times. Per resource: sum (weight × points) ÷ sum of the weights of the assessed checks. Points: passed 1, partial 0.5, failed 0.",
@@ -244,4 +248,47 @@ window.I18N = {
     lag_note: "The CT source lagged the logs by {lag} days.",
     method: "Method", rating_doc: "Rating", data_link: "Download the data (GitHub, output/latest)", critical_list: "Critical services: list and method", source: "Source code", close: "Close", table: "Table",
   },
+};
+
+/* Sectors and sub-sectors of the national CIP strategy (SKI, BBl 2023 1659).
+   German names are verbatim from the strategy and stay the reference.
+   FR/IT/EN are working translations: replace them with the official FR/IT
+   wording of the strategy where it differs. */
+window.SKI = {
+  "Behörden": { fr: "Autorités", it: "Autorità", en: "Authorities" },
+  "Forschung und Lehre": { fr: "Recherche et enseignement", it: "Ricerca e insegnamento", en: "Research and education" },
+  "Kulturgüter": { fr: "Biens culturels", it: "Beni culturali", en: "Cultural property" },
+  "Parlament, Regierung, Justiz, Verwaltung": { fr: "Parlement, gouvernement, justice, administration", it: "Parlamento, governo, giustizia, amministrazione", en: "Parliament, government, judiciary, administration" },
+  "Energie": { fr: "Énergie", it: "Energia", en: "Energy" },
+  "Erdgasversorgung": { fr: "Approvisionnement en gaz naturel", it: "Approvvigionamento di gas naturale", en: "Natural gas supply" },
+  "Erdölversorgung": { fr: "Approvisionnement en pétrole", it: "Approvvigionamento di petrolio", en: "Oil supply" },
+  "Fern- und Prozesswärme": { fr: "Chaleur à distance et chaleur industrielle", it: "Teleriscaldamento e calore di processo", en: "District and process heat" },
+  "Stromversorgung": { fr: "Approvisionnement en électricité", it: "Approvvigionamento di energia elettrica", en: "Electricity supply" },
+  "Entsorgung": { fr: "Élimination", it: "Smaltimento", en: "Waste disposal" },
+  "Abfälle": { fr: "Déchets", it: "Rifiuti", en: "Waste" },
+  "Abwasser": { fr: "Eaux usées", it: "Acque di scarico", en: "Wastewater" },
+  "Finanzen": { fr: "Finances", it: "Finanze", en: "Finance" },
+  "Finanzdienstleistungen": { fr: "Services financiers", it: "Servizi finanziari", en: "Financial services" },
+  "Versicherungsdienstleistungen": { fr: "Services d’assurance", it: "Servizi assicurativi", en: "Insurance services" },
+  "Gesundheit": { fr: "Santé", it: "Sanità", en: "Health" },
+  "Chemie und Heilmittel": { fr: "Chimie et produits thérapeutiques", it: "Chimica e agenti terapeutici", en: "Chemicals and therapeutic products" },
+  "Labordienstleistungen": { fr: "Services de laboratoire", it: "Servizi di laboratorio", en: "Laboratory services" },
+  "Medizinische Versorgung": { fr: "Soins médicaux", it: "Assistenza medica", en: "Medical care" },
+  "Information und Kommunikation": { fr: "Information et communication", it: "Informazione e comunicazione", en: "Information and communication" },
+  "IT-Dienstleistungen": { fr: "Services informatiques", it: "Servizi informatici", en: "IT services" },
+  "Medien": { fr: "Médias", it: "Media", en: "Media" },
+  "Postdienste": { fr: "Services postaux", it: "Servizi postali", en: "Postal services" },
+  "Telekommunikation": { fr: "Télécommunications", it: "Telecomunicazioni", en: "Telecommunications" },
+  "Nahrung": { fr: "Alimentation", it: "Alimentazione", en: "Food" },
+  "Lebensmittelversorgung": { fr: "Approvisionnement alimentaire", it: "Approvvigionamento alimentare", en: "Food supply" },
+  "Wasserversorgung": { fr: "Approvisionnement en eau", it: "Approvvigionamento idrico", en: "Water supply" },
+  "Öffentliche Sicherheit": { fr: "Sécurité publique", it: "Sicurezza pubblica", en: "Public safety" },
+  "Armee": { fr: "Armée", it: "Esercito", en: "Armed forces" },
+  "Blaulichtorganisationen": { fr: "Organisations d’intervention d’urgence", it: "Organizzazioni di pronto intervento", en: "Emergency services" },
+  "Zivilschutz": { fr: "Protection civile", it: "Protezione civile", en: "Civil protection" },
+  "Verkehr": { fr: "Transports", it: "Trasporti", en: "Transport" },
+  "Luftverkehr": { fr: "Trafic aérien", it: "Traffico aereo", en: "Air transport" },
+  "Schienenverkehr": { fr: "Trafic ferroviaire", it: "Traffico ferroviario", en: "Rail transport" },
+  "Schiffsverkehr": { fr: "Navigation", it: "Navigazione", en: "Shipping" },
+  "Strassenverkehr": { fr: "Trafic routier", it: "Traffico stradale", en: "Road transport" },
 };

@@ -210,3 +210,24 @@ def test_public_split_hides_aggregate_organisations():
     pub = split_public(res)
     assert [e["key"] for e in pub["entities"]] == ["canton:9", "organisation:a"]
     assert [r["hostname"] for r in pub["hostnames"]] == ["y"] and pub["checklog"] == []
+
+
+def test_listed_host_links_to_administration():
+    from tlsmap.merge import combine, link_admin_hosts
+    admin = {"entities": [{"key": "canton:1", "kind": "canton"}],
+             "hostnames": [{"entity": "canton:1", "hostname": "www.zh.ch", "tm": {"overall": 70}, "critical": False,
+                            "validation": "OV"}],
+             "generated": "2026-11-19T00:00:00Z", "discovery": [], "checklog": [
+                 {"entity": "canton:1", "hostname": "www.zh.ch", "check": "own.identity", "status": "pass"}]}
+    org = {"entities": [{"key": "organisation:kt-zh", "kind": "organisation", "visibility": "aggregat"}],
+           "hostnames": [{"entity": "organisation:kt-zh", "hostname": "www.zh.ch", "tm": {"overall": 10}, "critical": True,
+                          "sector": "Behörden", "service_type": "website", "confidence": "hoch"}],
+           "generated": "2026-11-19T01:00:00Z", "discovery": [], "checklog": [
+               {"entity": "organisation:kt-zh", "hostname": "www.zh.ch", "check": "own.identity", "status": "fail"}]}
+    res = combine([admin, org])
+    assert link_admin_hosts(res) == 1
+    r = next(x for x in res["hostnames"] if x["entity"] == "organisation:kt-zh")
+    assert r["tm"]["overall"] == 70 and r["validation"] == "OV"          # measurement from the canton
+    assert r["critical"] is True and r["sector"] == "Behörden"         # list attributes kept
+    assert r["linked_to"] == "canton:1"
+    assert [x["status"] for x in res["checklog"] if x["entity"] == "organisation:kt-zh"] == ["pass"]

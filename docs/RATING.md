@@ -128,10 +128,12 @@ and service type (proposal, can be overridden per host):
 | Authorities | customer portal (e-government), login, API (e-ID/swiyu) |
 | Other sectors | login, customer portal, remote access |
 
-The sector view shows each sector twice, for critical and other services,
-with cantons and municipalities as benchmark rows. A sector is only shown
-with at least five organisations. Organisations appear by name only if they
-are marked public in the host list.
+The sector view groups the list by sector, sub-sector, service type or
+canton of the operator's seat, each split into critical and other services,
+with cantons and municipalities as benchmark rows. A group is only shown
+with at least five organisations, and the share of low-confidence rows is
+shown next to it. Organisations appear by name only if they are marked
+public in the list; at present all rows are aggregate-only.
 
 ## 6. Logging
 

@@ -134,7 +134,7 @@ class Pipeline:
             if meta:
                 row.update({"service_type": meta.get("service_type", ""), "sector": meta.get("sector", ""),
                             "subsector": meta.get("subsector", ""), "reason": meta.get("reason", ""),
-                            "source_url": meta.get("source_url", "")})
+                            "source_url": meta.get("source_url", ""), "confidence": meta.get("confidence", "")})
             row.update(c)
             if name in e.excluded_hosts:
                 row["excluded"] = e.excluded_hosts[name]

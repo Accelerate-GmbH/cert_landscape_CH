@@ -52,8 +52,28 @@ telecoms, transport, food supply, media), each with its operator and UID from
 the UID register, its sector and sub-sector under the national CIP strategy
 (SKI) of 16 June 2023, its service type and whether it counts as critical, is
 in `data/critical_services/`. How it was built and enriched is documented in
-[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md). It is not yet part of
-the scored pipeline runs.
+[docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md).
+
+The list is part of every run:
+
+- **Hosts, not whole domains.** Each listed host is rated as a service with
+  the twelve Trust Posture checks. Facts that belong to the domain (DNSSEC
+  signing of the zone, name servers, CAA) are read from the host's
+  registrable domain. Other subdomains of an operator are not rated, so the
+  results stay limited to the services judged critical.
+- **No double measurement.** 77 listed hosts belong to cantons or
+  municipalities (for example `www.zh.ch`). They are measured there and
+  linked; the list keeps its own sector, service type and criticality.
+- **Aggregates only.** All rows are `sichtbarkeit = aggregat`: the map shows
+  results per sector, sub-sector, service type and canton of the operator's
+  seat, never per host, and only from five organisations per group. The
+  share of rows with low confidence (`sicherheit = tief`) is shown next to
+  each aggregate.
+- **Verified every month.** `tlsmap verify-list` checks that each host still
+  resolves and answers over HTTPS and that its source page still links it.
+  Results are in `data/critical_services/verification.md`; hosts failing
+  twice in a row are listed for review. The list itself is only changed by
+  hand.
 
 ## How it differs from a count of certificates
 

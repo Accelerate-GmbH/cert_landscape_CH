@@ -1,0 +1,86 @@
+"""Combine partial runs and link listed hosts to administrations.
+
+A full run is split into batches (one per canton, one for the critical
+services list) so that each fits into a CI job. Each batch writes its raw
+result; `merge` combines them and writes the usual outputs.
+
+Hosts on the critical-services list that belong to a canton or municipality
+(for example www.zh.ch) are measured once: the organisation row takes the
+administration's measurement and keeps its own list attributes (sector,
+service type, criticality, confidence). It is marked `linked_to`.
+"""
+
+from __future__ import annotations
+
+import gzip
+import json
+from pathlib import Path
+
+from . import posture
+
+LIST_FIELDS = ("entity", "entity_name", "critical", "service_type", "sector", "subsector",
+               "reason", "source_url", "confidence")
+
+
+def save_raw(result: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with gzip.open(path, "wt", encoding="utf-8") as fh:
+        json.dump(result, fh, ensure_ascii=False, default=str)
+
+
+def load_raw(path: Path) -> dict:
+    with gzip.open(path, "rt", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def combine(parts: list[dict]) -> dict:
+    out: dict = {"entities": [], "hostnames": [], "discovery": [], "checklog": []}
+    seen = set()
+    for p in parts:
+        for e in p["entities"]:
+            if e["key"] not in seen:           # cantons may appear in several batches
+                seen.add(e["key"])
+                out["entities"].append(e)
+        keys = {e["key"] for e in p["entities"]}
+        have = {(r["entity"], r["hostname"]) for r in out["hostnames"]}
+        out["hostnames"] += [r for r in p["hostnames"] if r["entity"] in keys and (r["entity"], r["hostname"]) not in have]
+        out["discovery"] += p.get("discovery", [])
+        out["checklog"] += p.get("checklog", [])
+    first = parts[0]
+    out["generated"] = max(p["generated"] for p in parts)
+    lags = [p.get("ct_lag_days") for p in parts if p.get("ct_lag_days") is not None]
+    out["ct_lag_days"] = max(lags) if lags else None
+    for k in ("ccadb_fetched", "tm_cfg", "probe_caps", "probe"):
+        out[k] = next((p.get(k) for p in parts if p.get(k)), first.get(k))
+    out["http_stats"] = {k: sum(p.get("http_stats", {}).get(k, 0) for p in parts)
+                         for k in ("requests", "cache_hits", "errors")}
+    return out
+
+
+def link_admin_hosts(result: dict) -> int:
+    """Organisation rows for hosts an administration already measured take that measurement."""
+    admin = {r["hostname"]: r for r in result["hostnames"]
+             if not r["entity"].startswith("organisation:") and r.get("tm")}
+    linked = {}
+    for r in result["hostnames"]:
+        if r["entity"].startswith("organisation:") and r["hostname"] in admin:
+            a = admin[r["hostname"]]
+            own = {k: r.get(k) for k in LIST_FIELDS}
+            r.clear()
+            r.update(json.loads(json.dumps(a, default=str)))
+            r.update(own)
+            r["linked_to"] = a["entity"]
+            linked[(own["entity"], r["hostname"])] = a["entity"]
+    if linked:
+        log = [x for x in result.get("checklog", []) if (x["entity"], x["hostname"]) not in linked]
+        for (org, host), adm in linked.items():
+            log += [{**x, "entity": org, "linked_to": adm} for x in result.get("checklog", [])
+                     if x["entity"] == adm and x["hostname"] == host]
+        result["checklog"] = log
+        cfg = result.get("tm_cfg")
+        if cfg:
+            for e in result["entities"]:
+                if e["kind"] == "organisation":
+                    rows = [r for r in result["hostnames"] if r["entity"] == e["key"] and r.get("tm")]
+                    e["posture"] = posture.aggregate(rows, cfg)
+    return len(linked)

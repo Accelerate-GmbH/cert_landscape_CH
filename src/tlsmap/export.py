@@ -175,50 +175,68 @@ def _bfs_lookup() -> dict:
     return out
 
 
-def sector_json(result: dict) -> dict:
-    """Sector matrix: per sector, critical and other resources, with administrations as benchmark."""
+DIMENSIONS = ("sektor", "teilsektor", "service_typ", "kanton")
+BENCH = {"canton": "@Kantone", "municipality": "@Gemeinden", "federal": "@Bund"}
+
+
+def _group_key(dim: str, r: dict, e: dict) -> str:
+    if dim == "sektor":
+        return r.get("sector") or e.get("sector") or "–"
+    if dim == "teilsektor":
+        sec = r.get("sector") or e.get("sector") or "–"
+        sub = r.get("subsector") or e.get("subsector") or "–"
+        return f"{sec} / {sub}"
+    if dim == "service_typ":
+        return r.get("service_type") or "–"
+    if dim == "kanton":
+        return (e.get("place") or {}).get("kanton") or e.get("code") or "–"
+    return "–"
+
+
+def sector_json(result: dict, dim: str = "sektor") -> dict:
+    """Aggregates of the critical-services list along one dimension, split into
+    critical and other services, with administrations as benchmark rows."""
     from . import posture
     from .config import load_settings
     cfg = result.get("tm_cfg") or load_settings().raw["trust_posture"]
-    vis = {e["key"]: e for e in result["entities"]}
+    ents = {e["key"]: e for e in result["entities"]}
     groups: dict[tuple, list] = {}
     for r in result["hostnames"]:
         if not r.get("tm"):
             continue
-        e = vis.get(r["entity"])
+        e = ents.get(r["entity"])
         if not e or (e["kind"] == "organisation" and e.get("visibility") == "intern"):
             continue
-        if e["kind"] == "organisation":
-            sec = r.get("sector") or e.get("sector") or "?"
-        else:
-            sec = {"canton": "@Kantone", "municipality": "@Gemeinden", "federal": "@Bund"}[e["kind"]]
-        groups.setdefault((sec, "krit" if r["critical"] else "other"), []).append(r)
-    sectors: dict[str, dict] = {}
-    for (sec, part), rows in groups.items():
-        agg = posture.aggregate(rows, {**cfg, "critical_resource_weight": 1})
-        d = sectors.setdefault(sec, {"orgs": set(), "hosts": 0, "subs": {}})
-        d[part] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
-                   "d": agg["distribution"], "ko": agg["knockouts"]}
+        key = _group_key(dim, r, e) if e["kind"] == "organisation" else BENCH[e["kind"]]
+        groups.setdefault((key, "krit" if r["critical"] else "other"), []).append(r)
+    out: dict[str, dict] = {}
+
+    def pack(rows, weight):
+        agg = posture.aggregate(rows, {**cfg, "critical_resource_weight": weight})
+        conf = [x.get("confidence") for x in rows if x.get("confidence")]
+        return {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
+                "d": agg["distribution"], "ko": agg["knockouts"],
+                "tief": round(sum(1 for c in conf if c == "tief") / len(conf), 3) if conf else None}
+
+    for (key, part), rows in groups.items():
+        d = out.setdefault(key, {"orgs": set(), "hosts": 0, "linked": 0})
+        d[part] = pack(rows, 1)
         d["hosts"] += len(rows)
-        for r in rows:
-            d["orgs"].add(r["entity"])
-            sub = r.get("subsector") or ""
-            if sub:
-                d["subs"][sub] = d["subs"].get(sub, 0) + 1
-    for sec, d in sectors.items():
-        rows = [r for (s2, _), rs in groups.items() if s2 == sec for r in rs]
-        agg = posture.aggregate(rows, cfg)
-        d["all"] = {"o": agg["overall"], "c": agg["categories"], "k": agg["checks"], "n": agg["resources"],
-                    "d": agg["distribution"], "ko": agg["knockouts"]}
+        d["linked"] += sum(1 for r in rows if r.get("linked_to"))
+        d["orgs"] |= {r["entity"] for r in rows}
+    min_orgs = cfg.get("min_orgs_per_sector", 5)
+    for key, d in out.items():
+        rows = [r for (k2, _), rs in groups.items() if k2 == key for r in rs]
+        d["all"] = pack(rows, cfg.get("critical_resource_weight", 3))
         d["orgs"] = len(d["orgs"])
         d["public"] = sum(1 for e in result["entities"] if e["kind"] == "organisation"
-                          and e.get("visibility") == "oeffentlich" and (e.get("sector") or "?") == sec)
-        if not sec.startswith("@") and d["orgs"] < cfg.get("min_orgs_per_sector", 5):
+                          and e.get("visibility") == "oeffentlich" and e["key"] in {r["entity"] for r in rows})
+        if not key.startswith("@") and d["orgs"] < min_orgs:
             for part in ("krit", "other", "all"):
                 if part in d:
-                    d[part] = {"n": d[part]["n"], "suppressed": True}
+                    d[part] = {"n": d[part]["n"], "tief": d[part].get("tief"), "suppressed": True}
             d["suppressed"] = True
-    return sectors
+    return out
 
 
 def map_json(result: dict, meta: dict) -> dict:
@@ -281,6 +299,9 @@ def split_public(result: dict) -> dict:
 
 def write_all(result: dict, out_dir: Path, registry: Registry, run_meta: dict) -> dict[str, Path]:
     """Public files in out_dir; the complete set (all organisations) in out_dir/restricted."""
+    from .merge import link_admin_hosts
+    run_meta = dict(run_meta)
+    run_meta["linked_hosts"] = link_admin_hosts(result)
     full = result
     has_restricted = any(not is_public(e) for e in full["entities"])
     paths = _write(split_public(full), out_dir, registry, run_meta, sectors_from=full)
@@ -352,7 +373,8 @@ def _write(result: dict, out_dir: Path, registry: Registry, run_meta: dict, sect
 
     p = out_dir / "map.json"
     mj = map_json(result, run_meta)
-    mj["sectors"] = sector_json(sectors_from)
+    mj["dims"] = {dim: sector_json(sectors_from, dim) for dim in DIMENSIONS}
+    mj["sectors"] = mj["dims"]["sektor"]
     c = result.get("tm_cfg") or {}
     mj["cfg"] = {k: c.get(k) for k in ("category_weights", "checks", "points", "green", "yellow",
                                          "critical_resource_weight", "min_orgs_per_sector")}

@@ -11,7 +11,7 @@
   const DATA_URL = params.get("data") || "data/map.json";
 
   const state = {
-    lang: pickLang(), level: "canton", metric: "tm", selected: null,
+    lang: pickLang(), level: "canton", metric: "tm", selected: null, dim: "sektor",
     data: null, topo: null, layer: null, lakes: null, sort: { key: "tm", dir: -1 },
   };
 
@@ -39,7 +39,7 @@
   const CAA_COLORS = { swiss: "--cat-1", other: "--cat-2", none: "--nodata" };
   const TM_CAT = { tm_own: "ownership", tm_sov: "sovereignty", tm_sec: "security", tm_prv: "privacy" };
   const LIGHT_COLORS = { green: "--good", yellow: "--warning", red: "--critical" };
-  const isTM = (m) => m === "tm" || m in TM_CAT;
+  const isTM = (m) => m === "tm" || m === "crit_seat" || m in TM_CAT;
   function lightOf(v) {
     if (v === null || v === undefined) return "none";
     return v >= 80 ? "green" : v >= 50 ? "yellow" : "red";
@@ -57,6 +57,10 @@
     const m = metric || state.metric;
     if (!e) return null;
     if (m === "tm") return e.tm && e.tm.o !== undefined ? e.tm.o : null;
+    if (m === "crit_seat") {
+      const d = e.c && state.data.dims && state.data.dims.kanton ? state.data.dims.kanton[e.c] : null;
+      return d && d.krit && !d.krit.suppressed && d.krit.o !== undefined ? d.krit.o : null;
+    }
     if (m in TM_CAT) return e.tm && e.tm.c ? (e.tm.c[TM_CAT[m]] === undefined ? null : e.tm.c[TM_CAT[m]]) : null;
     return e[m] === undefined ? null : e[m];
   }
@@ -200,6 +204,21 @@
       rows + "</tbody></table>";
   }
 
+  /* ---- critical-services list: dimensions and labels ---------------------- */
+  const trSKI = (name) => (window.SKI && SKI[name] && SKI[name][state.lang]) || name;
+  function dimData(dim) {
+    const d = state.data.dims || {};
+    return d[dim || state.dim] || (dim === "sektor" || !dim ? state.data.sectors : null) || {};
+  }
+  function dimLabel(dim, key) {
+    if (key.startsWith("@")) return t({ "@Kantone": "bench_canton", "@Gemeinden": "bench_municipality", "@Bund": "bench_federal" }[key]);
+    if (dim === "sektor") return key === "–" ? t("no_sector") : trSKI(key);
+    if (dim === "teilsektor") return key.split(" / ").map((x) => (x === "–" ? t("no_sector") : trSKI(x))).join(" / ");
+    if (dim === "service_typ") return key === "–" ? "–" : t("st_" + key);
+    return key;
+  }
+  const LIST_DOC = "https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/docs/CRITICAL_SERVICES.md";
+
   /* ---- explanations: every traffic light can be traced back ---------------- */
   const CAT_CHECKS = { ownership: ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct"],
     sovereignty: ["sov.ca", "sov.dns", "sov.hosting", "sov.tld"], security: ["sec.tls13", "sec.pqc"], privacy: ["prv.ech"] };
@@ -228,7 +247,7 @@
     const p = spec.split("|");
     if (p[0] === "e") return explainEntity(p[1], p[2], p[3], p[4]);
     if (p[0] === "r") return explainResource(p[1], p[2], Number(p[3]), p[4], p[5]);
-    if (p[0] === "s") return explainSector(p[1], p[2], p[3]);
+    if (p[0] === "s") return explainSector(p[1], p[2], p[3], p[4]);
   }
   function backTo(level, id) { return '<button class="close" data-sel="' + level + ":" + id + '">← ' + esc(t("back")) + "</button>"; }
 
@@ -322,14 +341,14 @@
     document.getElementById("panel").innerHTML = html;
   }
 
-  function explainSector(key, pname, col) {
-    const d = (state.data.sectors || {})[key];
+  function explainSector(dim, key, pname, col) {
+    const d = dimData(dim)[key];
     const part = d && d[pname];
     if (!part || part.suppressed) return;
     const c = cfg();
     const isB = key.startsWith("@");
     const lvl = { "@Kantone": "canton", "@Gemeinden": "municipality", "@Bund": "federal" }[key];
-    const title = (isB ? t({ "@Kantone": "bench_canton", "@Gemeinden": "bench_municipality", "@Bund": "bench_federal" }[key]) : key) +
+    const title = dimLabel(dim, key) +
       " · " + t(pname === "krit" ? "m_krit" : pname === "other" ? "m_other" : "m_all");
     let html = '<button class="close" data-close>✕</button>';
     let value, note, getv;
@@ -341,12 +360,14 @@
     html += head(title + " · " + colLabel, value) + '<p class="sub">' + esc(note) + "</p>" + thresholdsNote() +
       '<p class="src">n = ' + part.n + (part.d ? " · " + (part.d.green || 0) + " " + esc(t("light_green")) + " · " + (part.d.yellow || 0) + " " + esc(t("light_yellow")) +
       " · " + (part.d.red || 0) + " " + esc(t("light_red")) : "") + "</p>";
-    const ents = isB ? Object.entries(state.data.entities[lvl] || {}) : Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key);
+    const ents = isB ? Object.entries(state.data.entities[lvl] || {}) :
+      (dim === "sektor" ? Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key) : []);
     const elvl = isB ? lvl : "organisation";
     const rows = ents.map(([id, e]) => [id, e, getv(e)]).filter(([, , v]) => v !== null && v !== undefined).sort((a, b) => a[2] - b[2])
       .map(([id, e, v]) => '<tr class="click" data-sel="' + elvl + ":" + id + '"><td>' + esc(e.n) + '</td><td class="num">' + v + "</td><td>" + chip(lightOf(v), " ") + "</td></tr>").join("");
     html += "<h3>" + esc(isB ? t("units") : t("sector_list")) + "</h3>" + (rows ? "<table><tbody>" + rows + "</tbody></table>" : "") +
-      (!isB && d.orgs > ents.length ? '<p class="note">' + esc(t("agg_note").replace("{n}", d.orgs - ents.length)) + "</p>" : "");
+      (!isB && d.orgs > ents.length ? '<p class="note">' + esc(t("agg_note").replace("{n}", d.orgs - ents.length)) + " " + esc(t("agg_only")) + "</p>" : "") +
+      (!isB && part.tief !== null && part.tief !== undefined ? '<p class="src">' + esc(t("conf_low")) + ": " + Math.round(100 * part.tief) + ' % · <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>" : "");
     document.getElementById("panel").innerHTML = html;
   }
 
@@ -363,47 +384,58 @@
     return '<td class="cell click" data-explain="' + esc(explain || "") + '" title="' + esc((title || "") + " · " + t("how")) +
       '" style="background:' + col + "22;box-shadow:inset 3px 0 " + col + '">' + v + "</td>";
   }
-  function matrixRow(cls, label, part, key, pname) {
+  function matrixRow(cls, label, part, key, pname, dim) {
     if (!part) return "";
     if (part.suppressed) return '<tr class="' + cls + '" data-sector="' + esc(key) + '"><td class="name">' + label + '</td><td class="sup" colspan="' +
       (5 + CHECK_IDS.length) + '">' + esc(t("suppressed")) + " (n = " + part.n + ")</td></tr>";
-    const ex = (col) => ["s", key, pname, col].join("|");
-    return '<tr class="' + cls + '"><td class="name click" data-sector="' + esc(key) + '">' + label + '<span class="src">n = ' + part.n + "</span></td>" +
+    const tief = part.tief !== null && part.tief !== undefined && !key.startsWith("@") ? " · " + esc(t("conf_low")) + " " + Math.round(100 * part.tief) + " %" : "";
+    const ex = (col) => ["s", dim, key, pname, col].join("|");
+    return '<tr class="' + cls + '"><td class="name click" data-sector="' + esc(dim + "|" + key) + '">' + label + '<span class="src">n = ' + part.n + tief + "</span></td>" +
       cell(part.o, t("m_tm"), ex("o")) + CATS.map(([c, m]) => cell(part.c ? part.c[c] : null, t("m_" + m), ex("cat:" + c))).join("") +
       CHECK_IDS.map((id) => cell(share((part.k || {})[id]), t(id), ex("chk:" + id))).join("") + "</tr>";
   }
   function renderMatrix() {
-    const sec = state.data.sectors || {};
-    const names = Object.keys(sec).filter((k) => !k.startsWith("@")).sort((a, b) => a.localeCompare(b));
+    const dim = state.dim;
+    const sec = dimData(dim);
+    const names = Object.keys(sec).filter((k) => !k.startsWith("@")).sort((a, b) => dimLabel(dim, a).localeCompare(dimLabel(dim, b)));
     const bench = ["@Kantone", "@Gemeinden", "@Bund"].filter((k) => sec[k]);
-    const benchLabel = { "@Kantone": "bench_canton", "@Gemeinden": "bench_municipality", "@Bund": "bench_federal" };
-    let rows = "";
+    let rows = "", linked = 0;
     for (const k of names.concat(bench)) {
       const d = sec[k];
       const isB = k.startsWith("@");
-      const label = isB ? esc(t(benchLabel[k])) : esc(k) + '<span class="src">' + d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</span>";
-      rows += matrixRow("sec" + (isB ? " bench" : ""), label, d.all, k, "all");
-      rows += matrixRow("sub", esc(t("m_krit")), d.krit, k, "krit") + matrixRow("sub", esc(t("m_other")), d.other, k, "other");
+      linked += isB ? 0 : (d.linked || 0);
+      const label = esc(dimLabel(dim, k)) + (isB ? "" : '<span class="src">' + d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</span>");
+      rows += matrixRow("sec" + (isB ? " bench" : ""), label, d.all, k, "all", dim);
+      rows += matrixRow("sub", esc(t("m_krit")), d.krit, k, "krit", dim) + matrixRow("sub", esc(t("m_other")), d.other, k, "other", dim);
     }
     const CS = { tm_own: "cs_own", tm_sov: "cs_sov", tm_sec: "cs_sec", tm_prv: "cs_prv" };
     const head = "<th></th><th>TP</th>" + CATS.map(([, m]) => '<th title="' + esc(t("m_" + m)) + '">' + esc(t(CS[m])) + "</th>").join("") +
       CHECK_IDS.map((id) => '<th title="' + esc(t(id)) + " · " + esc(t("source_col")) + ": " + esc((SRC[id] || []).join(", ")) + '">' + CHECK_SHORT[id] + "</th>").join("");
-    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + "</p>" +
+    const dims = ["sektor", "teilsektor", "service_typ", "kanton"].filter((x) => x === "sektor" || (state.data.dims && state.data.dims[x]));
+    const sel = '<div class="seg" role="group" style="margin:6px 0 8px">' + dims.map((x) =>
+      '<button data-dim="' + x + '" aria-pressed="' + (x === dim) + '">' + esc(t("dim_" + x)) + "</button>").join("") + "</div>";
+    document.getElementById("matrix").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + " " + esc(t("agg_only")) +
+      ' <a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a>" + (linked ? " · " + esc(t("linked_note").replace("{n}", linked)) : "") + "</p>" + sel +
       (names.length || bench.length ? "<table><thead><tr>" + head + "</tr></thead><tbody>" + rows + "</tbody></table>" : '<p class="muted">' + esc(t("no_data")) + "</p>");
   }
-  function sectorPanel(key) {
-    const d = (state.data.sectors || {})[key];
+  function sectorPanel(spec) {
+    const [dim, key] = spec.includes("|") ? spec.split("|") : ["sektor", spec];
+    const d = dimData(dim)[key];
     if (!d) return;
     if (key.startsWith("@")) { select(null, null); return; }
-    const pubs = Object.entries(state.data.entities.organisation || {}).filter(([, o]) => o.sec === key)
+    const pubs = Object.entries(state.data.entities.organisation || {}).filter(([, o]) => dim === "sektor" && o.sec === key)
       .sort((a, b) => a[1].n.localeCompare(b[1].n));
     const rows = pubs.map(([id, o]) => '<tr class="click" data-sel="organisation:' + id + '"><td>' + esc(o.n) + (o.sub ? '<span class="src">' + esc(o.sub) + "</span>" : "") +
       '</td><td class="num">' + fmt(value(o, "tm")) + "</td><td>" + chip(lightOf(value(o, "tm")), " ") + "</td></tr>").join("");
-    const subs = Object.entries(d.subs || {}).map(([k, v]) => esc(k) + " " + v).join(", ");
     const hidden = d.orgs - pubs.length;
-    document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(key) + '</h2><p class="sub">' +
-      d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + "</p>" +
-      (subs ? "<h3>" + esc(t("subsector")) + '</h3><p class="sub">' + subs + "</p>" : "") +
+    const tief = d.all && d.all.tief !== null && d.all.tief !== undefined ? " · " + esc(t("conf_low")) + " " + Math.round(100 * d.all.tief) + " %" : "";
+    document.getElementById("panel").innerHTML = '<button class="close" data-close>✕</button><h2>' + esc(dimLabel(dim, key)) + '</h2><p class="sub">' +
+      d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) + tief + "</p>" +
+      (d.all && !d.all.suppressed ? '<div class="tmhead"><span class="v">' + fmt(d.all.o) + "</span>" + chip(lightOf(d.all.o), null, ["s", dim, key, "all", "o"].join("|")) + "</div>" +
+        CATS.map(([c, m]) => '<div class="cat"><span>' + esc(t("m_" + m)) + '</span><span class="num">' + fmt(d.all.c ? d.all.c[c] : null) + "</span>" +
+          chip(lightOf(d.all.c ? d.all.c[c] : null), null, d.all.c && d.all.c[c] !== null ? ["s", dim, key, "all", "cat:" + c].join("|") : null) + "</div>").join("") : '<p class="note">' + esc(t("suppressed")) + "</p>") +
+      (d.linked ? '<p class="src">' + esc(t("linked_note").replace("{n}", d.linked)) + "</p>" : "") +
+      '<p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>" +
       (pubs.length ? "<h3>" + esc(t("orgs_here")) + '</h3><table><tbody>' + rows + "</tbody></table>" : "") +
       (hidden > 0 ? '<p class="note">' + esc(t("agg_note").replace("{n}", hidden)) + "</p>" : "");
   }
@@ -455,7 +487,7 @@
       (level === "organisation" ? '<p class="sub">' + esc(t("sector")) + ": " + esc(e.sec || "–") + (e.sub ? " · " + esc(e.sub) : "") +
         "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + esc(e.uid) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
-      tmSection(e, level, id) + stackSection(e) +
+      tmSection(e, level, id) + critSeat(e, level) + stackSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
         esc(t("res_show")) + " (" + e.tm.n + ")</button></p>" : "") +
       "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
@@ -490,6 +522,7 @@
     "sov.ca": ["ccadb"], "sov.dns": ["dns", "cymru"], "sov.hosting": ["cymru"], "sov.tld": ["name"],
     "sec.tls13": ["tls"], "sec.pqc": ["tls"], "prv.ech": ["dns"],
     s: ["ct", "ccadb"], cs: ["ct", "ccadb"], a: ["ct", "tls"], ca: ["ct", "tls"], caa: ["dns"],
+    crit_seat: ["tls", "dns", "ccadb", "cymru"],
     tm_own: ["tls", "ocsp", "dns", "sct"], tm_sov: ["ccadb", "dns", "cymru"], tm_sec: ["tls"], tm_prv: ["dns"],
     st_tld: ["name"], st_dns: ["dns", "cymru"], st_dnssec: ["dns"], st_host: ["cymru"], st_ca: ["ct", "ccadb"], st_root: ["ccadb"],
   };
@@ -523,6 +556,15 @@
       '<table style="margin-top:8px"><thead><tr><th>' + esc(t("check_col")) + '</th><th class="num">' + esc(t("pass_col")) +
       '</th><th></th><th class="num">n</th><th>' + esc(t("source_col")) + '</th></tr></thead><tbody>' + checks + "</tbody></table>";
   }
+  function critSeat(e, level) {
+    if (level !== "canton" || !state.data.dims || !state.data.dims.kanton) return "";
+    const d = state.data.dims.kanton[e.c];
+    if (!d) return "";
+    const v = d.krit && !d.krit.suppressed ? d.krit.o : null;
+    return "<h3>" + esc(t("m_crit_seat")) + '</h3><div class="cat"><span>' + d.orgs + " " + esc(t("n_orgs")) + " · " + d.hosts + " " + esc(t("n_hosts")) +
+      '<span class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></span></span><span class=\"num\">" + fmt(v) + "</span>" +
+      (v === null ? '<span class="src">' + esc(t("suppressed")) + "</span>" : chip(lightOf(v), null, ["s", "kanton", e.c, "krit", "o"].join("|"))) + "</div>";
+  }
   function stackSection(e) {
     const st = e.stack;
     if (!st) return "";
@@ -535,6 +577,11 @@
       "<tr><td>" + esc(t("st_ca")) + srcSpan("st_ca") + "</td><td>" + list(st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + "): " + x[2]) + "</td></tr>" +
       "<tr><td>" + esc(t("st_root")) + srcSpan("st_root") + "</td><td>" + list(st.root, (x) => esc(x[0]) + ": " + x[1]) + "</td></tr>" +
       "</tbody></table>";
+  }
+
+  function overviewSectors() {
+    document.getElementById("panel").innerHTML = "<h2>" + esc(t("matrix_title")) + '</h2><p class="sub">' + esc(t("matrix_note")) + "</p><p class=\"sub\">" +
+      esc(t("agg_only")) + '</p><p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>";
   }
 
   /* ---- drill-down: entity -> resources -> checks -> sources ------------- */
@@ -615,6 +662,7 @@
   }
 
   function overview() {
+    if (state.level === "sector") { overviewSectors(); return; }
     const panel = document.getElementById("panel");
     const cantons = Object.entries(state.data.entities.canton || {});
     const lvlForStats = state.level === "sector" ? "canton" : state.level;
@@ -671,6 +719,8 @@
     if (rd) { const [l, i, k] = rd.dataset.rdetail.split(":"); resourceDetail(l, i, Number(k)); return; }
     const sel = ev.target.closest("[data-sel]");
     if (sel) { const [l, i] = sel.dataset.sel.split(":"); select(l, i); return; }
+    const db = ev.target.closest("[data-dim]");
+    if (db) { state.dim = db.dataset.dim; renderMatrix(); return; }
     const sr = ev.target.closest("[data-sector]");
     if (sr) { sectorPanel(sr.dataset.sector); return; }
     const srt = ev.target.closest("[data-sort]");
@@ -685,7 +735,7 @@
     const secs = new Set(Object.keys(state.data.sectors || {}).filter((k) => !k.startsWith("@")));
     Object.values(state.data.entities.organisation || {}).forEach((o) => o.sec && secs.add(o.sec));
     const cur = sel.value;
-    sel.innerHTML = '<option value="">' + esc(t("all_sectors")) + "</option>" + [...secs].sort().map((k) => '<option value="' + esc(k) + '">' + esc(k) + "</option>").join("");
+    sel.innerHTML = '<option value="">' + esc(t("all_sectors")) + "</option>" + [...secs].sort().map((k) => '<option value="' + esc(k) + '">' + esc(trSKI(k)) + "</option>").join("");
     sel.value = cur;
     const hasOrgs = Object.keys(state.data.entities.organisation || {}).length > 0;
     document.getElementById("orgtoggle").hidden = !hasOrgs;

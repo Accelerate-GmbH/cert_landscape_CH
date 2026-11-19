@@ -201,7 +201,9 @@ def load_entities(kinds: list[str], canton_filter: str | None = None,
             e.domains = [d for d in e.domains if d not in PUBLIC_MAIL]
 
     if "organisations" in kinds:
-        hp = DATA_DIR / "hosts_ch.csv"
+        hp = DATA_DIR / "critical_services" / "critical_services_ch.csv"
+        if not hp.exists():
+            hp = DATA_DIR / "hosts_ch.csv"
         if hosts_path is not None:
             hp = Path(hosts_path)
         if hp.exists():

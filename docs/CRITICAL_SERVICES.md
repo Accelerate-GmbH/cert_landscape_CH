@@ -225,6 +225,22 @@ Low confidence per block of 100 rows (`quality_by_block.json`):
 | 801–900 | 41 | host not reachable (26), service type not confirmed (12), UID not unique (6) |
 | 901–1000 | 36 | UID not unique (14), host not reachable (12), service type not confirmed (6) |
 
+## In the pipeline
+
+- Each listed host is rated with the Trust Posture checks
+  ([RATING.md](RATING.md)); domain-level facts (DNSSEC signing, name servers,
+  CAA) come from its registrable domain. Other subdomains are not rated.
+- Hosts that belong to cantons or municipalities already on the map are
+  measured once, with the administration, and linked (`linked_to`).
+- Results are published only as aggregates per sector, sub-sector, service
+  type and canton of seat, from five organisations per group, with the share
+  of low-confidence rows next to each value.
+- `tlsmap verify-list` runs every month: DNS resolution, HTTPS answer and
+  whether `quelle_url` still links the host. The report
+  (`verification.md`) lists hosts failing in two consecutive checks for
+  review; nothing is changed automatically. UID and seat are re-checked with
+  the scripts above when the list is revised.
+
 ## Known limits
 
 - The selection reflects one person's judgement of importance. Tiers and the
