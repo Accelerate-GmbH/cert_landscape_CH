@@ -539,7 +539,12 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
     "own.sectxt": "sec.txt", "sov.ca": "CA", "sov.dns": "DNS", "sov.registrar": "Registrar", "sov.hosting": "Host", "sov.tld": "TLD",
     "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "sec.hsts": "HSTS", "prv.ech": "Encrypted Client Hello" };
   const CATS = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
-  function share(k) { return k && k.assessed ? Math.round(100 * (k.pass + 0.5 * k.partial) / k.assessed) : null; }
+  function share(k) {
+    if (!k) return null;
+    // mail counts carry no "assessed" field: every domain counted was assessed
+    const n = k.assessed !== undefined ? k.assessed : (k.pass || 0) + (k.partial || 0) + (k.fail || 0);
+    return n ? Math.round(100 * ((k.pass || 0) + 0.5 * (k.partial || 0)) / n) : null;
+  }
   function cell(v, title, explain) {
     if (v === null || v === undefined) return '<td class="cell sup">–</td>';
     const l = lightOf(v);
