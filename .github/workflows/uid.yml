@@ -37,7 +37,7 @@ jobs:
           python-version: "3.13"
       - run: pip install -e .
       - name: Restore earlier answers (lets a cut-off lookup resume)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache/uid
           key: uid-${{ github.run_id }}
@@ -51,7 +51,7 @@ jobs:
           tlsmap uid $args
       - name: Save answers, also when the lookup was cut off
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .cache/uid
           key: uid-${{ github.run_id }}-${{ github.run_attempt }}

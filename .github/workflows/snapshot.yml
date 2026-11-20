@@ -67,7 +67,7 @@ jobs:
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
           echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
       - name: Restore lookups (lets a cut-off batch resume)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache
           key: tlsmap-${{ matrix.canton }}-${{ github.run_id }}
@@ -80,7 +80,7 @@ jobs:
         run: tlsmap run --canton ${{ matrix.canton }} --entities cantons,municipalities $PROBE --raw-out raw/${{ matrix.canton }}.json.gz
       - name: Save lookups, also when the batch failed or was cut off
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .cache
           key: tlsmap-${{ matrix.canton }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -111,7 +111,7 @@ jobs:
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
           echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
       - name: Restore lookups (lets a cut-off batch resume)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache
           key: tlsmap-federal-${{ matrix.dept }}-${{ github.run_id }}
@@ -126,7 +126,7 @@ jobs:
         run: tlsmap run --entities federal --only ${{ matrix.dept }} $PROBE --raw-out raw/federal-${{ matrix.dept }}.json.gz
       - name: Save lookups, also when the batch failed or was cut off
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .cache
           key: tlsmap-federal-${{ matrix.dept }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -150,7 +150,7 @@ jobs:
           echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
           echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
       - name: Restore lookups (lets a cut-off batch resume)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache
           key: tlsmap-services-${{ github.run_id }}
@@ -163,7 +163,7 @@ jobs:
         run: tlsmap run --entities organisations $PROBE --raw-out raw/services.json.gz
       - name: Save lookups, also when the batch failed or was cut off
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .cache
           key: tlsmap-services-${{ github.run_id }}-${{ github.run_attempt }}
