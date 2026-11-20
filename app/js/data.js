@@ -1,0 +1,21 @@
+// All data comes from one folder with a fixed schema (docs/DATA_CONTRACT.md).
+// Only this module knows where it lives, so the data can move to another
+// origin (e.g. a private repository's release) by changing BASE.
+export const BASE = "data";
+const cache = new Map();
+
+async function get(path) {
+  if (!cache.has(path)) {
+    cache.set(path, fetch(`${BASE}/${path}?v=${window.BUILD || ""}`).then((r) => {
+      if (!r.ok) throw new Error(`${path}: ${r.status}`);
+      return r.json();
+    }));
+  }
+  return cache.get(path);
+}
+
+export const meta = () => get("meta.json");
+export const overview = () => get("overview.json");
+export const benchmarks = () => get("benchmarks.json");
+export const index = () => get("index.json");
+export const entity = (key) => get(`entities/${key.replace(":", "-")}.json`);

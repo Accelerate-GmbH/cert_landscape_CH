@@ -1,0 +1,60 @@
+# The layer model of the map (docs: "Trust Posture Schweiz – Modell und Personas").
+# Bottom to top. Each building block names what measures it today:
+#   checks  = Trust Posture checks (share of hosts that meet them)
+#   mail    = mail checks (share of mail domains)
+#   deps    = a dependency from the stack (share of hosts or domains with a Swiss provider)
+#   none    = not measured yet; shown as such
+# The public data (output/public) and the new frontend (app/) are built from this file.
+
+[[layer]]
+id = "net"
+blocks = [
+  { id = "registrar", checks = ["sov.registrar"] },
+  { id = "dns",       checks = ["sov.dns", "own.dnssec"] },
+  { id = "cert",      checks = ["sov.ca", "own.identity", "own.revocation", "own.caa", "own.ct"] },
+  { id = "hosting",   checks = ["sov.hosting", "sov.tld"] },
+]
+
+[[layer]]
+id = "cloud"
+blocks = [
+  { id = "infra",    deps = "cloud" },
+  { id = "platform", deps = "saas" },
+]
+
+[[layer]]
+id = "trust"
+blocks = [
+  { id = "swiyu",     none = true },
+  { id = "seal",      none = true },
+  { id = "timestamp", none = true },
+]
+
+[[layer]]
+id = "ext"
+blocks = [
+  { id = "transport", checks = ["sec.tls13", "sec.pqc", "sec.hsts"] },
+  { id = "mail",      mail = ["mail.mx", "mail.starttls", "mail.transport", "mail.tlsrpt", "mail.dmarc", "mail.spf"] },
+  { id = "privacy",   checks = ["prv.ech"] },
+  { id = "contact",   checks = ["own.sectxt"] },
+]
+
+[[layer]]
+id = "control"
+blocks = [
+  { id = "identity", deps = "idp" },
+  { id = "exchange", none = true },
+  { id = "value",    none = true },
+]
+
+[[layer]]
+id = "apps"
+blocks = [
+  { id = "services", deps = "apps" },
+]
+
+[benchmark]
+# compare with the best 5 % of the same level; where a level has fewer than
+# min_group members (cantons, departments) the single best one is shown
+top_share = 0.05
+min_group = 40

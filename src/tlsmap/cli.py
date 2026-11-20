@@ -142,6 +142,9 @@ def publish_outputs(paths: dict, out_root: Path, out_dir: Path) -> None:
     for p in out_dir.iterdir():
         if p.name not in HISTORY:
             shutil.rmtree(p) if p.is_dir() else p.unlink()
+    # the folder the public site reads (docs/DATA_CONTRACT.md)
+    from .public import build
+    build(latest, out_root / "public" / "v2")
 
 
 def cmd_diff(a) -> int:
@@ -156,6 +159,13 @@ def cmd_diff(a) -> int:
             continue
         print("\t".join(str(x) for x in (k, (n or o).get("name"), so, sn, ao, an,
                                           o.get("hosts_in_use"), n.get("hosts_in_use"))))
+    return 0
+
+
+def cmd_public(a) -> int:
+    from .public import build
+    counts = build(Path(a.latest), Path(a.out))
+    print(json.dumps(counts))
     return 0
 
 
@@ -230,6 +240,11 @@ def main(argv: list[str] | None = None) -> int:
     d.add_argument("new")
     d.add_argument("--changed-only", action="store_true")
     d.set_defaults(func=cmd_diff)
+
+    pb = sub.add_parser("public", help="write the public data for the web app (output/public/v2)")
+    pb.add_argument("--latest", default="output/latest")
+    pb.add_argument("--out", default="output/public/v2")
+    pb.set_defaults(func=cmd_public)
 
     ud = sub.add_parser("uid", help="look up UID numbers of cantons, municipalities and federal departments")
     ud.add_argument("--kinds", default="cantons,municipalities,federal")
