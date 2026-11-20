@@ -839,7 +839,8 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
       "<h2>" + esc(e.n) + "</h2>" +
       '<p class="sub">' + esc((e.d || []).join(", ")) + "</p>" +
       (level === "organisation" ? '<p class="sub">' + esc(t("sector")) + ": " + esc(e.sec || "–") + (e.sub ? " · " + esc(e.sub) : "") +
-        "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + esc(e.uid) : "") + "</p>" : "") +
+        "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + uidLink(e.uid) : "") + "</p>" : "") +
+      (level !== "organisation" && e.uid ? '<p class="sub">' + uidLink(e.uid) + (e.un ? " · " + esc(e.un) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
       tmSection(e, level, id) + mailSection(e, level, id) + critSeat(e, level) + stackSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
@@ -883,6 +884,9 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
     st_tld: ["name"], st_dns: ["dns", "cymru"], st_dnssec: ["dns"], st_host: ["cymru"], st_ca: ["ct", "ccadb"], st_root: ["ccadb"],
   };
   const src = (k) => (SRC[k] || []).map((x) => SRCL[x]()).join(", ");
+  // the UID links to its own entry in the UID register, not to the register's start page
+  const uidLink = (u) => '<a href="https://www.uid.admin.ch/Detail.aspx?uid_id=' + encodeURIComponent(u) + '" target="_blank" rel="noopener" title="' +
+    esc(t("uid_reg")) + '">' + esc(u) + "</a>";
   const more = (k) => MORE[k] ? ' <a href="' + MORE[k] + '" target="_blank" rel="noopener">' + esc(t("more_info")) + "</a>" : "";
   const srcSpan = (k) => (SRC[k] ? '<span class="src">' + esc(t("source_col")) + ": " + src(k) + "</span>" : "");
 

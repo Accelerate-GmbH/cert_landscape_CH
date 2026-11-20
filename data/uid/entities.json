@@ -1,0 +1,310 @@
+{
+ "detail": "https://www.uid.admin.ch/Detail.aspx?uid_id={uid}",
+ "entities": {
+  "canton": {
+   "18": {
+    "match": "auto",
+    "name": "Kanton Graubünden",
+    "uid": "CHE-114.809.356"
+   },
+   "21": {
+    "match": "auto",
+    "name": "Repubblica e Cantone Ticino",
+    "uid": "CHE-467.167.629"
+   },
+   "22": {
+    "match": "auto",
+    "name": "Canton de Vaud",
+    "uid": "CHE-114.965.329"
+   },
+   "9": {
+    "match": "auto",
+    "name": "Kanton Zug",
+    "uid": "CHE-114.965.157"
+   }
+  },
+  "federal": {
+   "BK": {
+    "match": "auto",
+    "name": "Schweizerische Bundeskanzlei (BK)",
+    "uid": "CHE-263.297.189"
+   },
+   "EDA": {
+    "match": "auto",
+    "name": "Eidgenössisches Departement für auswärtige Angelegenheiten (EDA)",
+    "uid": "CHE-335.670.007"
+   },
+   "EDI": {
+    "match": "auto",
+    "name": "Eidgenössisches Departement des Innern (EDI)",
+    "uid": "CHE-255.108.719"
+   },
+   "EFD": {
+    "match": "auto",
+    "name": "Eidgenössisches Finanzdepartement (EFD)",
+    "uid": "CHE-319.639.393"
+   },
+   "EJPD": {
+    "match": "auto",
+    "name": "Eidgenössisches Justiz- und Polizeidepartement (EJPD)",
+    "uid": "CHE-460.147.005"
+   },
+   "JUS": {
+    "candidates": [],
+    "match": "none",
+    "uid": ""
+   },
+   "UVEK": {
+    "match": "auto",
+    "name": "Eidgenössisches Departement für Umwelt, Verkehr, Energie und Kommunikation (UVEK)",
+    "uid": "CHE-288.910.965"
+   },
+   "VBS": {
+    "match": "auto",
+    "name": "Eidgenössisches Departement für Verteidigung, Bevölkerungsschutz und Sport (VBS)",
+    "uid": "CHE-132.071.565"
+   },
+   "WBF": {
+    "match": "auto",
+    "name": "Eidgenössisches Departement für Wirtschaft, Bildung und Forschung (WBF)",
+    "uid": "CHE-279.426.498"
+   }
+  },
+  "municipality": {
+   "1701": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Baar",
+    "uid": "CHE-115.506.728"
+   },
+   "1702": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Cham",
+    "uid": "CHE-115.081.456"
+   },
+   "1703": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Hünenberg",
+    "uid": "CHE-115.081.485"
+   },
+   "1704": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Menzingen",
+    "uid": "CHE-115.081.516"
+   },
+   "1705": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Neuheim",
+    "uid": "CHE-115.081.539"
+   },
+   "1706": {
+    "match": "auto",
+    "name": "Einwohnergemeinde Oberägeri",
+    "uid": "CHE-115.081.551"
+   },
+   "1707": {
+    "match": "auto",
+    "name": "Gemeinde Risch",
+    "uid": "CHE-115.081.580"
+   },
+   "1708": {
+    "match": "auto",
+    "name": "Gemeinde Steinhausen",
+    "uid": "CHE-115.081.605"
+   },
+   "1709": {
+    "match": "auto",
+    "name": "Gemeinde Unterägeri",
+    "uid": "CHE-115.081.628"
+   },
+   "1710": {
+    "match": "auto",
+    "name": "Gemeinde Walchwil",
+    "uid": "CHE-115.081.781"
+   },
+   "1711": {
+    "match": "auto",
+    "name": "Stadt Zug",
+    "uid": "CHE-115.506.763"
+   },
+   "3506": {
+    "match": "auto",
+    "name": "Gemeinde Vaz/Obervaz",
+    "uid": "CHE-115.056.240"
+   },
+   "3513": {
+    "match": "auto",
+    "name": "Gemeinde Lantsch/Lenz",
+    "uid": "CHE-115.056.317"
+   },
+   "3514": {
+    "match": "auto",
+    "name": "Gemeinde Schmitten (GR)",
+    "uid": "CHE-115.056.872"
+   },
+   "3542": {
+    "match": "auto",
+    "name": "Gemeinde Albula/Alvra",
+    "uid": "CHE-261.007.541"
+   },
+   "3543": {
+    "match": "auto",
+    "name": "Gemeinde Surses",
+    "uid": "CHE-429.972.943"
+   },
+   "3544": {
+    "match": "auto",
+    "name": "Gemeinde Bergün Filisur",
+    "uid": "CHE-468.236.635"
+   },
+   "3551": {
+    "match": "auto",
+    "name": "Comune di Brusio",
+    "uid": "CHE-115.082.183"
+   },
+   "3561": {
+    "match": "auto",
+    "name": "Comune di Poschiavo",
+    "uid": "CHE-115.057.699"
+   },
+   "3572": {
+    "match": "auto",
+    "name": "Gemeinde Falera",
+    "uid": "CHE-115.057.765"
+   },
+   "3575": {
+    "match": "auto",
+    "name": "Gemeinde Laax",
+    "uid": "CHE-115.057.908"
+   },
+   "3581": {
+    "match": "auto",
+    "name": "Gemeinde Sagogn",
+    "uid": "CHE-115.058.210"
+   },
+   "5001": {
+    "match": "auto",
+    "name": "Comune di Arbedo-Castione",
+    "uid": "CHE-115.084.489"
+   },
+   "5002": {
+    "match": "auto",
+    "name": "Città di Bellinzona",
+    "uid": "CHE-115.084.495"
+   },
+   "5003": {
+    "match": "auto",
+    "name": "Comune di Cadenazzo",
+    "uid": "CHE-115.084.526"
+   },
+   "5009": {
+    "match": "auto",
+    "name": "Comune di Isone",
+    "uid": "CHE-115.084.638"
+   },
+   "5010": {
+    "match": "auto",
+    "name": "Comune di Lumino",
+    "uid": "CHE-115.084.644"
+   },
+   "5017": {
+    "match": "auto",
+    "name": "Comune di Sant'Antonino",
+    "uid": "CHE-115.084.762"
+   },
+   "5048": {
+    "match": "auto",
+    "name": "Comune di Acquarossa",
+    "uid": "CHE-115.141.242"
+   },
+   "5049": {
+    "match": "auto",
+    "name": "Comune di Blenio",
+    "uid": "CHE-115.084.928"
+   },
+   "5050": {
+    "match": "auto",
+    "name": "Comune di Serravalle",
+    "uid": "CHE-420.979.318"
+   },
+   "5061": {
+    "match": "auto",
+    "name": "Comune di Airolo",
+    "uid": "CHE-115.084.934"
+   },
+   "5063": {
+    "match": "auto",
+    "name": "Comune di Bedretto",
+    "uid": "CHE-115.497.880"
+   },
+   "5401": {
+    "match": "auto",
+    "name": "Commune d'Aigle",
+    "uid": "CHE-114.911.368"
+   },
+   "5402": {
+    "match": "auto",
+    "name": "Commune de Bex",
+    "uid": "CHE-114.911.351"
+   },
+   "5403": {
+    "match": "auto",
+    "name": "Commune de Chessel",
+    "uid": "CHE-114.911.121"
+   },
+   "5404": {
+    "match": "auto",
+    "name": "Commune de Corbeyrier",
+    "uid": "CHE-114.911.227"
+   },
+   "5405": {
+    "match": "auto",
+    "name": "Commune de Gryon",
+    "uid": "CHE-114.911.233"
+   },
+   "5406": {
+    "match": "auto",
+    "name": "Commune de Lavey-Morcles",
+    "uid": "CHE-114.911.144"
+   },
+   "5407": {
+    "match": "auto",
+    "name": "Commune de Leysin",
+    "uid": "CHE-114.909.710"
+   },
+   "5408": {
+    "match": "auto",
+    "name": "Commune de Noville",
+    "uid": "CHE-196.550.294"
+   },
+   "5409": {
+    "match": "auto",
+    "name": "Commune d'Ollon",
+    "uid": "CHE-114.909.609"
+   },
+   "5410": {
+    "match": "auto",
+    "name": "Commune d'Ormont-Dessous",
+    "uid": "CHE-114.909.615"
+   },
+   "5411": {
+    "match": "auto",
+    "name": "Commune d'Ormont-Dessus",
+    "uid": "CHE-114.909.638"
+   }
+  }
+ },
+ "generated": "2026-11-20",
+ "source": "https://www.uid-wse.admin.ch/V5.0/PublicServices.svc",
+ "summary": {
+  "canton": {
+   "auto": 4
+  },
+  "federal": {
+   "auto": 8,
+   "none": 1
+  },
+  "municipality": {
+   "auto": 44
+  }
+ }
+}
