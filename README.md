@@ -220,6 +220,18 @@ cp output/latest/map.json web/data/map.json
 cd web && python -m http.server 8000      # then open http://localhost:8000
 ```
 
+## Dependencies
+
+Per canton, municipality, department and organisation the map lists what the
+services rest on, read from public DNS and network data: mail platform (MX),
+services allowed to send mail in its name (SPF), SaaS with a verified domain
+or a CNAME to it, login provider (where the start page redirects to), cloud
+and hosting per host, and the type of service from the host name (website,
+login, portal, mail, records management, remote access …). Providers, their
+countries and the patterns are in `config/stack.toml`. This is shown, not
+rated: it does not change the Trust Posture. What an organisation uses
+internally does not show up in public DNS.
+
 ## UID numbers
 
 Every canton, municipality and federal department carries its UID (CHE-…) from the

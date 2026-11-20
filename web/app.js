@@ -842,7 +842,7 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
         "<br>" + esc(t("place")) + ": " + esc(e.ort || "–") + (e.kt ? " (" + esc(e.kt) + ")" : "") + (e.uid ? " · " + uidLink(e.uid) : "") + "</p>" : "") +
       (level !== "organisation" && e.uid ? '<p class="sub">' + uidLink(e.uid) + (e.un ? " · " + esc(e.un) : "") + "</p>" : "") +
       (e.sd ? '<p class="note">' + esc(t("shared")) + "</p>" : "") +
-      tmSection(e, level, id) + mailSection(e, level, id) + critSeat(e, level) + stackSection(e) +
+      tmSection(e, level, id) + mailSection(e, level, id) + critSeat(e, level) + stackSection(e) + depsSection(e) +
       (e.tm && e.tm.n ? "<h3>" + esc(t("res_title")) + '</h3><p><button class="linkbtn" data-res="' + level + ":" + id + '">' +
         esc(t("res_show")) + " (" + e.tm.n + ")</button></p>" : "") +
       "<h3>" + esc(t("m_s")) + " · " + esc(t("m_a")) + "</h3>" +
@@ -961,6 +961,19 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
       '<span class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></span></span><span class=\"num\">" + fmt(v) + "</span>" +
       (v === null ? '<span class="src">' + esc(t("suppressed")) + "</span>" : chip(lightOf(v), null, ["s", "kanton", e.c, "krit", "o"].join("|"))) + "</div>";
   }
+  // what the services rest on: mail platform, sending, SaaS, login, cloud, types of service
+  const APP_ORDER = ["website", "portal", "login", "mail", "gever", "payment", "api", "remote", "collab", "geo", "intranet", "school", "test", "other"];
+  const prov = (x) => esc(x[0]) + (x[1] ? ' <span class="cc' + (x[1] === "CH" ? "" : " abroad") + '">' + esc(x[1]) + "</span>" : "") + (x.length > 2 ? " · " + x[2] : "");
+  function depsSection(e) {
+    const sk = e.sk;
+    if (!sk) return "";
+    const row = (key, arr) => (arr && arr.length ? "<tr><td>" + esc(t(key)) + "</td><td>" + arr.slice(0, 8).map(prov).join("<br>") + "</td></tr>" : "");
+    const apps = sk.apps ? APP_ORDER.filter((a) => sk.apps[a]).map((a) => esc(t("app_" + a)) + ": " + sk.apps[a]).join(", ") : "";
+    return "<h3>" + esc(t("dep_title")) + '</h3><table class="stack"><tbody>' +
+      row("dep_mail", sk.mail) + row("dep_send", sk.send) + row("dep_saas", sk.saas) + row("dep_idp", sk.idp) + row("dep_cloud", sk.cloud) +
+      (apps ? "<tr><td>" + esc(t("dep_apps")) + "</td><td>" + apps + "</td></tr>" : "") +
+      '</tbody></table><p class="sub">' + esc(t("dep_note")) + " " + esc(t("dep_src")) + ".</p>";
+  }
   function stackSection(e) {
     const st = e.stack;
     if (!st) return "";
@@ -1015,7 +1028,9 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
       const li = (label, arr, f) => (arr && arr.length ? "<li><b>" + esc(label) + ":</b> " + arr.slice(0, 3).map(f).join(", ") + "</li>" : "");
       html += "<h3>" + esc(t("who_behind")) + '</h3><ul class="plainlist">' +
         li(t("w_cert"), st.ca, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("w_server"), st.host, (x) => esc(x[0])) +
-        li(t("w_dns"), st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("w_tld"), st.tld, (x) => "." + esc(x)) + "</ul>";
+        li(t("w_dns"), st.dns, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("w_tld"), st.tld, (x) => "." + esc(x)) +
+        (e.sk ? li(t("dep_mail"), e.sk.mail, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") + li(t("dep_saas"), e.sk.saas, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") +
+          li(t("dep_idp"), e.sk.idp, (x) => esc(x[0]) + " (" + esc(x[1]) + ")") : "") + "</ul>";
     }
     if (tm.n && level !== "organisation") html += '<p><button class="linkbtn" data-res="' + level + ":" + id + '">' + esc(t("res_show")) + " (" + tm.n + ")</button></p>";
     html += '<p><button class="linkbtn" data-view="expert">' + esc(t("show_expert")) + " →</button></p>";

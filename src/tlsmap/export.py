@@ -281,10 +281,19 @@ def _status_string(r: dict) -> str:
     return "".join(_ST.get(st.get(c, ""), "-") for c in CHECK_ORDER)
 
 
+def _deps(e: dict, rows: list[dict]) -> dict:
+    """Dependencies (mail platform, cloud, SaaS, login, service types) with empty parts left out."""
+    from .stack import entity_stack
+    sk = entity_stack(e, rows)
+    return {k: v for k, v in sk.items() if v}
+
+
 def map_json(result: dict, meta: dict) -> dict:
     """Compact per-entity data for the web map (web/)."""
     hosts_by_entity: dict[str, list] = {}
+    rows_by_entity: dict[str, list] = {}
     for r in result.get("hostnames", []):
+        rows_by_entity.setdefault(r["entity"], []).append(r)
         if r["entity"].startswith("organisation:"):
             hosts_by_entity.setdefault(r["entity"], []).append(r)
     ents: dict[str, dict] = {"canton": {}, "municipality": {}, "federal": {}, "organisation": {}}
@@ -317,6 +326,7 @@ def map_json(result: dict, meta: dict) -> dict:
             "stack": _stack(e),
             **({"ml": {"o": e["mail"]["overall"], "k": e["mail"]["checks"], "n": e["mail"]["rated"]}} if e.get("mail") else {}),
             **({"uid": e["uid"], "un": e.get("uid_name", "")} if e.get("uid") and e["kind"] != "organisation" else {}),
+            **({"sk": sk} if (sk := _deps(e, rows_by_entity.get(e["key"], []))) else {}),
         }
         if e["kind"] == "organisation":
             pl = e.get("place") or {}

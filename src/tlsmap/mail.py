@@ -60,6 +60,9 @@ def dmarc_policy(record: str) -> str:
     return m.group(1).lower() if m else ""
 
 
+VERIF = re.compile(r"(?i)verif|^ms=|^[a-z0-9-]+=[a-z0-9_-]{16,}|^zoom_verify_|amazonses:")
+
+
 class MailCheck:
     def __init__(self, doh, http, conc: int = 16, probe: bool = False, timeout: float = 15):
         self.doh, self.http, self.conc, self.probe, self.timeout = doh, http, conc, probe, timeout
@@ -83,6 +86,8 @@ class MailCheck:
         mx.sort()
         out = {"domain": d, "mx": [], "null_mx": any(h in ("", ".") for _, h in mx)}
         txt = _txt(self.doh.query(d, "TXT")["answers"])
+        # domain verification records show SaaS in use (MS=…, google-site-verification=…)
+        out["txt"] = [t[:120] for t in txt if not t.lower().startswith("v=spf1") and VERIF.search(t)][:20]
         spf = [t for t in txt if t.lower().startswith("v=spf1")]
         out["spf"] = spf[0] if spf else ""
         # follow redirect= (up to three steps) to find the effective 'all'
@@ -256,6 +261,7 @@ def entity_mail(domain_results: dict[str, dict], domains: list[str], selfs: set[
             if c["status"] in a:
                 a[c["status"]] += 1
         doms.append({"domain": d, "overall": o, "checks": checks, "null_mx": info.get("null_mx", False),
+                     "txt": info.get("txt", []),
                      "mx": [{"host": m["host"], "pref": m["pref"], "nets": m.get("nets"), "dane": m.get("dane"),
                              "tls": m.get("tls")} for m in info.get("mx", [])]})
     return {"overall": round(sum(scores) / len(scores)) if scores else None, "domains": doms, "checks": agg,
