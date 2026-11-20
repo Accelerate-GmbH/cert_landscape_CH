@@ -96,3 +96,29 @@ def test_fmt_and_parse():
            '</a:organisation></a:uidEntitySearchResultItem></SearchResult></SearchResponse></s:Body></s:Envelope>')
     out = uidreg.parse(xml)
     assert out[0]["uid"] == "CHE-114.855.706" and out[0]["form"] == "0223" and out[0]["status"] == "3"
+
+
+def test_articles_and_single_unit():
+    assert uidreg.pick_municipality([r("Commune des Verrières")], "Les Verrières")[0]
+    assert uidreg.pick_municipality([r("Commune du Lieu")], "Le Lieu")[0]
+    same = [r("Gemeinde Ilanz/Glion", "CHE-111.111.111"), r("Gemeinde Ilanz/Glion", "CHE-111.111.111")]
+    assert uidreg.pick_municipality(same, "Ilanz/Glion")[0]
+
+
+def test_canton_short_plain_name():
+    res = [r("République et Canton de Genève", "CHE-114.809.416", form="0221"),
+           r("Etat de Genève/DSES/OCD Etablissement fermé de la Brenaz", form="0221")]
+    assert uidreg.pick_canton(res, "Kanton Genf", "GE")[0]["uid"] == "CHE-114.809.416"
+
+
+def test_canton_not_a_cantonal_office():
+    res = [r("Kantonales Labor Zürich", form="0221"), r("Kanton Zürich", "CHE-114.807.523", form="0221")]
+    assert uidreg.pick_canton(res, "Kanton Zürich", "ZH")[0]["name"] == "Kanton Zürich"
+    assert uidreg.pick_canton([r("Kantonales Labor Zürich", form="0221")], "Kanton Zürich", "ZH")[0] is None
+
+
+def test_municipality_service_entries_rejected():
+    assert uidreg.pick_municipality([r("Liegenschaften Stadt Zürich")], "Zürich")[0] is None
+    assert uidreg.pick_municipality([r("Einwohnergemeinde Wenslingen Wärmeverbund")], "Wenslingen")[0] is None
+    assert uidreg.pick_municipality([r("Gemeinde Pfäffikon ZH")], "Pfäffikon")[0]
+    assert uidreg.pick_municipality([r("Einwohnergemeinde der Stadt Basel")], "Basel")[0]

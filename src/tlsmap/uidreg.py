@@ -47,22 +47,24 @@ UNIT_WORDS = re.compile(
     r"forst|wasser|abwasser|abfall|kabelnetz|elektrizit|energie|polizei|police|zivilschutz|"
     r"bourgeoisie|paroisse|scolaire|école|ecole|scuola|patriziato|parrocchia|corporazione|"
     r"zweckverband|korporation|genossenschaft|stiftung|fondation|fondazione|heim|bibliothek|"
-    r"steuer|betreibung|grundbuch|sozial|kesb|museum|tourismus|hafen|friedhof|bad\b",
+    r"wärme|warme|verbund|liegenschaft|ordures|dechets|déchets|steuer|betreibung|grundbuch|sozial|kesb|museum|tourismus|hafen|friedhof|bad\b",
     re.I)
 MUNI_PREFIX = re.compile(
     r"^(politische gemeinde|einwohnergemeinde|einwohnerinnengemeinde|gemeinde|stadt|"
-    r"commune d[e'’]\s*|commune|municipalité d[e'’]\s*|ville d[e'’]\s*|ville|"
+    r"commune des\s|commune du\s|commune d[e'’]\s*|commune|municipalité d[e'’]\s*|ville d[e'’]\s*|ville|"
     r"comune di|comune|città di|città|municipio di|vischnanca|cumün da|cumün|"
     r"vischnaunca|lai\b)\s*", re.I)
 CANTON_PREFIX = re.compile(
-    r"^(kanton|canton d[eu'’]\s*|canton|etat d[eu'’]\s*|état d[eu'’]\s*|"
-    r"république et canton d[eu'’]\s*|repubblica e cantone|staat|chantun)\s*", re.I)
+    r"^(kanton\b|canton d[eu'’]\s*|canton\b|etat du canton d[eu'’]\s*|etat d[eu'’]\s*|état d[eu'’]\s*|"
+    r"république et canton d[eu'’]\s*|repubblica e cantone\b|staat\b|chantun\b)\s*", re.I)
 
 
 def _fold(s: str) -> str:
     s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower()
     s = re.sub(r"\(.*?\)", " ", s)
-    return re.sub(r"[^a-z0-9]+", " ", s).strip()
+    s = re.sub(r"[^a-z0-9]+", " ", s).strip()
+    # articles: "Les Verrières" = "Commune des Verrières", "Le Lieu" = "Commune du Lieu"
+    return re.sub(r"^(les|le|la|l|il|lo|i)\s+", "", s)
 
 
 def fmt_uid(digits: str) -> str:
@@ -165,15 +167,43 @@ def _main_units(results: list[dict], form: str, base: str = "") -> list[dict]:
             and not UNIT_WORDS.search(rest(r["name"]))]
 
 
-def pick_municipality(results: list[dict], name: str) -> tuple[dict | None, list[dict]]:
+# words that may stand next to the municipality's name in its own entry
+ADMIN_WORDS = set("""politische einwohnergemeinde einwohnerinnengemeinde gemeinde stadt stadtgemeinde der die
+gemeindeverwaltung bezirk commune mixte municipale de du des d ville municipalite comune politico di delle della
+municipio citta vischnanca cumun da lai am an im bei sur sous pres""".split())
+
+
+def _only_admin_words(name: str, base: str) -> bool:
+    """True when the entry's name is the municipality's name plus administrative words
+    and canton codes ("Gemeinde Pfäffikon ZH"), not a service ("…, Wärmeverbund")."""
+    rest = _fold(name).replace(base, " ").split()
+    return all(w in ADMIN_WORDS or len(w) == 2 for w in rest)
+
+
+def pick_municipality(results: list[dict], name: str, canton: str = "") -> tuple[dict | None, list[dict]]:
     base = _fold(name)
     cands = _main_units(results, FORM["municipality"], base)
+    if canton:  # "Brugg" (AG) is not "Brügg" (BE)
+        cands = [r for r in cands if not r.get("kt") or r["kt"] == canton]
     exact = [r for r in cands if _fold(MUNI_PREFIX.sub("", r["name"])) == base]
     if len(exact) == 1:
         return exact[0], []
-    pool = exact or [r for r in cands if base and base in _fold(r["name"])]
+    pool = exact or [r for r in cands if base and base in _fold(r["name"]) and _only_admin_words(r["name"], base)]
+    if not pool:  # "Bezirk Küssnacht am Rigi" for Küssnacht (SZ): the name may carry a longer form
+        pool = [r for r in cands if base and base in _fold(r["name"]) and len(_fold(r["name"]).replace(base, " ").split()) <= 3
+                and not UNIT_WORDS.search(_fold(r["name"]).replace(base, " "))]
     if len(pool) == 1:
         return pool[0], []
+    if not pool and len(cands) == 1 and MUNI_PREFIX.match(cands[0]["name"]) and _only_admin_words(cands[0]["name"], base):
+        return cands[0], []
+    uids = {r["uid"] for r in pool}
+    if len(uids) == 1 and pool:            # the same unit listed twice
+        return pool[0], []
+    if pool and len({r["name"] for r in pool}) == 1:
+        # one name, several entries: the one without an additional name is the municipality itself
+        plain = [r for r in pool if not r.get("add")]
+        if len(plain) == 1:
+            return plain[0], []
     if pool:  # same name twice: prefer the political municipality, then the shortest name
         pref = [r for r in pool if re.match(r"(?i)politische gemeinde|einwohnergemeinde|commune|comune|ville|stadt|città", r["name"])]
         if len(pref) == 1:
@@ -186,6 +216,10 @@ def pick_canton(results: list[dict], name: str, code: str) -> tuple[dict | None,
     cands = [r for r in _main_units(results, FORM["canton"], base) if CANTON_PREFIX.match(r["name"])]
     exact = [r for r in cands if _fold(CANTON_PREFIX.sub("", r["name"])) in (base, code.lower())]
     pool = exact or cands
+    if len(pool) > 1:  # "République et Canton de Genève" next to "Etat de Genève/DSES/…": a short plain name wins
+        plain = [r for r in pool if "/" not in r["name"] and len(_fold(CANTON_PREFIX.sub("", r["name"])).split()) <= 2]
+        if len(plain) == 1:
+            return plain[0], []
     if len(pool) > 1:  # "Repubblica e Cantone Ticino" next to "… Ticino DFE. Sezione …": the plain name wins
         pool = sorted(pool, key=lambda r: len(r["name"]))
         if len(pool[0]["name"]) < len(pool[1]["name"]) and all(r["name"].startswith(pool[0]["name"]) for r in pool[1:]):
@@ -222,16 +256,28 @@ def resolve(entities, reg: UidRegister, pins: dict, previous: dict, refresh: boo
             continue
         if kind == "municipality":
             res = reg.search(municipality=int(e.id), legal_form=FORM[kind])
-            pick = pick_municipality(res, e.name) if res is not None else (None, [])
+            pick = pick_municipality(res, e.name, e.code) if res is not None else (None, [])
+            short = re.sub(r"\s*\(.*?\)", "", e.name).strip()
             if res is not None and not pick[0] and len(res) >= CAP:
                 # large municipalities have more units than one answer holds: narrow by name
-                short = re.sub(r"\s*\(.*?\)", "", e.name).strip()
                 res2 = reg.search(name=short, municipality=int(e.id), legal_form=FORM[kind])
                 if res2:
-                    pick = pick_municipality(res2, e.name)
+                    pick = pick_municipality(res2, e.name, e.code)
+            if res is not None and not pick[0] and not pick[1] and e.code:
+                # nothing under this BFS number (number changed, address elsewhere): by name within the canton
+                res3 = reg.search(name=short, canton=e.code, legal_form=FORM[kind])
+                if res3:
+                    pick = pick_municipality(res3, e.name, e.code)
         elif kind == "canton":
             res = reg.search(canton=e.code, legal_form=FORM[kind])
             pick = pick_canton(res, e.name, e.code) if res is not None else (None, [])
+            if res is not None and not pick[0]:
+                # large cantons have more units than one answer holds: by name
+                for q in (e.name, CANTON_PREFIX.sub("", e.name)):
+                    res2 = reg.search(name=q, canton=e.code, legal_form=FORM[kind])
+                    if res2 and (p2 := pick_canton(res2, e.name, e.code))[0]:
+                        pick = p2
+                        break
         else:
             res = reg.search(name=e.code, legal_form=FORM[kind])
             pick = pick_federal(res, e.name, e.code) if res is not None else (None, [])
