@@ -73,6 +73,13 @@ def http_security(host: str, ip: str, timeout: float = 8) -> dict:
             out["hsts_preload"] = "preload" in m.group(1).lower()
         else:
             out["hsts"] = None
+        # where the start page sends visitors: a login provider shows up here (Entra ID, eIAM …)
+        status = re.match(r"HTTP/\d\.?\d?\s+(\d{3})", head)
+        loc = re.search(r"(?im)^location\s*:\s*(\S+)", head)
+        if status and status.group(1) in ("301", "302", "303", "307", "308") and loc:
+            hm = re.match(r"(?i)https?://([^/:?#]+)", loc.group(1))
+            if hm:
+                out["location_host"] = hm.group(1).lower()
     except Exception as e:  # noqa: BLE001 - a broken server must not stop the batch
         out["https_error"] = f"{type(e).__name__}"
     try:
