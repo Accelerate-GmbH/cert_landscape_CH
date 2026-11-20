@@ -3,18 +3,9 @@
  "entities": {
   "canton": {
    "1": {
-    "candidates": [
-     {
-      "name": "Kantonales Labor Zürich",
-      "uid": "CHE-112.621.439"
-     },
-     {
-      "name": "Kantonale Drucksachen- und Materialzentrale",
-      "uid": "CHE-114.869.708"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Kanton Zürich",
+    "uid": "CHE-114.809.327"
    },
    "10": {
     "match": "auto",
@@ -67,9 +58,9 @@
     "uid": "CHE-114.809.310"
    },
    "2": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Kanton Bern",
+    "uid": "CHE-114.809.379"
    },
    "20": {
     "match": "auto",
@@ -97,22 +88,9 @@
     "uid": "CHE-114.965.341"
    },
    "25": {
-    "candidates": [
-     {
-      "name": "République et Canton de Genève",
-      "uid": "CHE-114.809.416"
-     },
-     {
-      "name": "Etat de Genève/DSES/OCD Etablissement fermé de la Brenaz",
-      "uid": "CHE-353.037.227"
-     },
-     {
-      "name": "Etat de Genève / DSPS / OCD Etablissement fermé Curabilis / SAF",
-      "uid": "CHE-240.730.620"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "République et Canton de Genève",
+    "uid": "CHE-114.809.416"
    },
    "26": {
     "match": "auto",
@@ -729,9 +707,9 @@
     "uid": "CHE-114.878.400"
    },
    "1210": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Hospental",
+    "uid": "CHE-115.076.550"
    },
    "1211": {
     "match": "auto",
@@ -1809,14 +1787,9 @@
     "uid": "CHE-114.889.102"
    },
    "2271": {
-    "candidates": [
-     {
-      "name": "Gemeinde Merlach",
-      "uid": "CHE-115.093.318"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "pinned",
+    "name": "Gemeinde Merlach",
+    "uid": "CHE-115.093.318"
    },
    "2272": {
     "match": "auto",
@@ -2514,9 +2487,9 @@
     "uid": "CHE-115.090.509"
    },
    "261": {
-    "match": "auto",
-    "name": "Liegenschaften Stadt Zürich",
-    "uid": "CHE-115.989.976"
+    "match": "pinned",
+    "name": "Stadt Zürich",
+    "uid": "CHE-114.889.289"
    },
    "2611": {
     "match": "auto",
@@ -2574,9 +2547,9 @@
     "uid": "CHE-115.090.691"
    },
    "2622": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Zullwil",
+    "uid": "CHE-115.510.078"
    },
    "27": {
     "match": "auto",
@@ -2774,9 +2747,9 @@
     "uid": "CHE-115.091.182"
    },
    "2827": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Hersberg",
+    "uid": "CHE-115.091.207"
    },
    "2828": {
     "match": "auto",
@@ -2864,9 +2837,9 @@
     "uid": "CHE-115.091.489"
    },
    "2851": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Kilchberg (BL)",
+    "uid": "CHE-115.510.196"
    },
    "2852": {
     "match": "auto",
@@ -2879,14 +2852,14 @@
     "uid": "CHE-115.091.549"
    },
    "2854": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Nusshof",
+    "uid": "CHE-115.676.448"
    },
    "2855": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Oltingen",
+    "uid": "CHE-115.091.555"
    },
    "2856": {
     "match": "auto",
@@ -2909,9 +2882,9 @@
     "uid": "CHE-115.091.621"
    },
    "2860": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Rünenberg",
+    "uid": "CHE-115.091.667"
    },
    "2861": {
     "match": "auto",
@@ -2935,8 +2908,8 @@
    },
    "2865": {
     "match": "auto",
-    "name": "Einwohnergemeinde Wenslingen Wärmeverbund",
-    "uid": "CHE-337.415.584"
+    "name": "Gemeinde Wenslingen",
+    "uid": "CHE-115.091.779"
    },
    "2866": {
     "match": "auto",
@@ -3469,9 +3442,9 @@
     "uid": "CHE-115.049.406"
    },
    "322": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Auswil",
+    "uid": "CHE-114.890.625"
    },
    "323": {
     "match": "auto",
@@ -3574,18 +3547,9 @@
     "uid": "CHE-115.053.483"
    },
    "3273": {
-    "candidates": [
-     {
-      "name": "Politische Gemeinde Grabs",
-      "uid": "CHE-209.581.461"
-     },
-     {
-      "name": "Politische Gemeinde Grabs",
-      "uid": "CHE-115.050.421"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Politische Gemeinde Grabs",
+    "uid": "CHE-115.050.421"
    },
    "3274": {
     "match": "auto",
@@ -4026,11 +3990,11 @@
     "candidates": [
      {
       "name": "Gemeinde Ilanz/Glion",
-      "uid": "CHE-100.773.752"
+      "uid": "CHE-137.165.920"
      },
      {
       "name": "Gemeinde Ilanz/Glion",
-      "uid": "CHE-137.165.920"
+      "uid": "CHE-100.773.752"
      }
     ],
     "match": "ambiguous",
@@ -4352,8 +4316,13 @@
     "uid": "CHE-115.064.966"
    },
    "3837": {
-    "candidates": [],
-    "match": "none",
+    "candidates": [
+     {
+      "name": "Comune di Santa Maria in Calanca",
+      "uid": "CHE-115.857.961"
+     }
+    ],
+    "match": "ambiguous",
     "uid": ""
    },
    "3847": {
@@ -4417,9 +4386,9 @@
     "uid": "CHE-115.065.227"
    },
    "389": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Meienried",
+    "uid": "CHE-115.724.774"
    },
    "3891": {
     "match": "auto",
@@ -4637,9 +4606,9 @@
     "uid": "CHE-115.072.782"
    },
    "402": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Alchenstorf",
+    "uid": "CHE-261.110.021"
    },
    "4021": {
     "match": "auto",
@@ -4877,9 +4846,9 @@
     "uid": "CHE-115.075.846"
    },
    "408": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Hellsau",
+    "uid": "CHE-114.893.486"
    },
    "4080": {
     "match": "auto",
@@ -4927,18 +4896,9 @@
     "uid": "CHE-115.076.018"
    },
    "4095": {
-    "candidates": [
-     {
-      "name": "Einwohnergemeinde Brügg",
-      "uid": "CHE-115.057.558"
-     },
-     {
-      "name": "Stadt Brugg",
-      "uid": "CHE-115.076.047"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Stadt Brugg",
+    "uid": "CHE-115.076.047"
    },
    "4099": {
     "match": "auto",
@@ -5166,9 +5126,9 @@
     "uid": "CHE-115.078.738"
    },
    "4173": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Oberhof",
+    "uid": "CHE-292.444.914"
    },
    "4175": {
     "match": "auto",
@@ -5321,9 +5281,9 @@
     "uid": "CHE-115.079.229"
    },
    "421": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Rumendingen",
+    "uid": "CHE-115.820.018"
    },
    "4210": {
     "match": "auto",
@@ -5331,9 +5291,9 @@
     "uid": "CHE-115.079.235"
    },
    "422": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Rüti bei Lyssach",
+    "uid": "CHE-115.820.076"
    },
    "4221": {
     "match": "auto",
@@ -5376,9 +5336,9 @@
     "uid": "CHE-115.079.666"
    },
    "423": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Willadingen",
+    "uid": "CHE-115.820.656"
    },
    "4230": {
     "match": "auto",
@@ -5586,9 +5546,9 @@
     "uid": "CHE-115.080.675"
    },
    "4288": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Wiliberg",
+    "uid": "CHE-115.401.213"
    },
    "4289": {
     "match": "auto",
@@ -5621,9 +5581,9 @@
     "uid": "CHE-115.725.590"
    },
    "4307": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Full-Reuenthal",
+    "uid": "CHE-115.080.907"
    },
    "4309": {
     "match": "auto",
@@ -6716,9 +6676,9 @@
     "uid": "CHE-115.048.223"
    },
    "535": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Deisswil bei Münchenbuchsee",
+    "uid": "CHE-115.050.645"
    },
    "538": {
     "match": "auto",
@@ -7206,14 +7166,9 @@
     "uid": "CHE-114.879.842"
    },
    "554": {
-    "candidates": [
-     {
-      "name": "Gemeinde Wiler",
-      "uid": "CHE-115.052.259"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Wiler",
+    "uid": "CHE-115.052.259"
    },
    "5540": {
     "match": "auto",
@@ -7351,14 +7306,9 @@
     "uid": "CHE-114.878.162"
    },
    "5587": {
-    "candidates": [
-     {
-      "name": "Commune du Mont-sur-Lausanne",
-      "uid": "CHE-114.878.191"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Mont-sur-Lausanne",
+    "uid": "CHE-114.878.191"
    },
    "5588": {
     "match": "auto",
@@ -8084,11 +8034,11 @@
     "candidates": [
      {
       "name": "Einwohnergemeinde Interlaken",
-      "uid": "CHE-115.053.655"
+      "uid": "CHE-114.765.380"
      },
      {
       "name": "Einwohnergemeinde Interlaken",
-      "uid": "CHE-114.765.380"
+      "uid": "CHE-115.053.655"
      }
     ],
     "match": "ambiguous",
@@ -8260,28 +8210,14 @@
     "uid": "CHE-114.865.691"
    },
    "5872": {
-    "candidates": [
-     {
-      "name": "Commune de La Vallée de Joux",
-      "uid": "CHE-436.298.017"
-     },
-     {
-      "name": "Commune du Chenit",
-      "uid": "CHE-114.865.751"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Chenit",
+    "uid": "CHE-114.865.751"
    },
    "5873": {
-    "candidates": [
-     {
-      "name": "Commune du Lieu",
-      "uid": "CHE-114.866.911"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Lieu",
+    "uid": "CHE-114.866.911"
    },
    "588": {
     "match": "auto",
@@ -8949,9 +8885,9 @@
     "uid": "CHE-114.856.611"
    },
    "6192": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Blatten",
+    "uid": "CHE-114.929.888"
    },
    "6193": {
     "match": "auto",
@@ -9204,9 +9140,9 @@
     "uid": "CHE-114.850.324"
    },
    "629": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Oberhünigen",
+    "uid": "CHE-115.056.501"
    },
    "6290": {
     "match": "auto",
@@ -9334,14 +9270,9 @@
     "uid": "CHE-114.847.055"
    },
    "6434": {
-    "candidates": [
-     {
-      "name": "Commune du Cerneux-Péquignot",
-      "uid": "CHE-114.847.061"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Cerneux-Péquignot",
+    "uid": "CHE-114.847.061"
    },
    "6435": {
     "match": "auto",
@@ -9349,28 +9280,14 @@
     "uid": "CHE-114.847.865"
    },
    "6436": {
-    "candidates": [
-     {
-      "name": "Services industriels de la ville du Locle",
-      "uid": "CHE-113.541.961"
-     },
-     {
-      "name": "Ville du Locle",
-      "uid": "CHE-114.847.888"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Ville du Locle",
+    "uid": "CHE-114.847.888"
    },
    "6437": {
-    "candidates": [
-     {
-      "name": "Commune des Ponts-de-Martel",
-      "uid": "CHE-114.847.842"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune des Ponts-de-Martel",
+    "uid": "CHE-114.847.842"
    },
    "6451": {
     "match": "auto",
@@ -9383,14 +9300,9 @@
     "uid": "CHE-114.847.836"
    },
    "6455": {
-    "candidates": [
-     {
-      "name": "Commune du Landeron",
-      "uid": "CHE-114.847.983"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Landeron",
+    "uid": "CHE-114.847.983"
    },
    "6456": {
     "match": "auto",
@@ -9398,9 +9310,9 @@
     "uid": "CHE-114.847.931"
    },
    "6458": {
-    "match": "auto",
-    "name": "Ville de Neuchâtel Service d'ordures & déchets incinérés",
-    "uid": "CHE-113.534.464"
+    "match": "pinned",
+    "name": "Ville de Neuchâtel",
+    "uid": "CHE-115.447.675"
    },
    "6487": {
     "match": "auto",
@@ -9418,14 +9330,9 @@
     "uid": "CHE-115.147.411"
    },
    "6511": {
-    "candidates": [
-     {
-      "name": "Commune des Verrières",
-      "uid": "CHE-114.855.899"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune des Verrières",
+    "uid": "CHE-114.855.899"
    },
    "6512": {
     "match": "auto",
@@ -9558,14 +9465,9 @@
     "uid": "CHE-114.847.173"
    },
    "6623": {
-    "candidates": [
-     {
-      "name": "Ville du Grand-Saconnex",
-      "uid": "CHE-114.847.204"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Ville du Grand-Saconnex",
+    "uid": "CHE-114.847.204"
    },
    "6624": {
     "match": "auto",
@@ -9723,9 +9625,9 @@
     "uid": "CHE-114.847.977"
    },
    "6703": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune de Bourrignon",
+    "uid": "CHE-114.849.427"
    },
    "6704": {
     "match": "auto",
@@ -9828,34 +9730,19 @@
     "uid": "CHE-114.852.234"
    },
    "6743": {
-    "candidates": [
-     {
-      "name": "Commune des Breuleux",
-      "uid": "CHE-114.852.292"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune des Breuleux",
+    "uid": "CHE-114.852.292"
    },
    "6745": {
-    "candidates": [
-     {
-      "name": "Commune des Enfers",
-      "uid": "CHE-114.852.317"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune des Enfers",
+    "uid": "CHE-114.852.317"
    },
    "6748": {
-    "candidates": [
-     {
-      "name": "Commune des Genevez",
-      "uid": "CHE-114.852.435"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune des Genevez",
+    "uid": "CHE-114.852.435"
    },
    "6750": {
     "match": "auto",
@@ -9873,14 +9760,9 @@
     "uid": "CHE-114.853.050"
    },
    "6754": {
-    "candidates": [
-     {
-      "name": "Commune du Noirmont",
-      "uid": "CHE-114.853.073"
-     }
-    ],
-    "match": "ambiguous",
-    "uid": ""
+    "match": "auto",
+    "name": "Commune du Noirmont",
+    "uid": "CHE-114.853.073"
    },
    "6757": {
     "match": "auto",
@@ -10162,9 +10044,9 @@
     "uid": "CHE-115.057.535"
    },
    "733": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Einwohnergemeinde Brügg",
+    "uid": "CHE-115.057.558"
    },
    "734": {
     "match": "auto",
@@ -10672,9 +10554,9 @@
     "uid": "CHE-114.875.330"
    },
    "940": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Teuffenthal (BE)",
+    "uid": "CHE-115.825.197"
    },
    "941": {
     "match": "auto",
@@ -10782,9 +10664,9 @@
     "uid": "CHE-115.061.896"
    },
    "972": {
-    "candidates": [],
-    "match": "none",
-    "uid": ""
+    "match": "auto",
+    "name": "Gemeinde Berken",
+    "uid": "CHE-115.825.323"
    },
    "973": {
     "match": "auto",
@@ -10887,18 +10769,17 @@
  "source": "https://www.uid-wse.admin.ch/V5.0/PublicServices.svc",
  "summary": {
   "canton": {
-   "ambiguous": 2,
-   "auto": 23,
-   "none": 1
+   "auto": 26
   },
   "federal": {
    "auto": 8,
    "none": 1
   },
   "municipality": {
-   "ambiguous": 20,
-   "auto": 2063,
-   "none": 27
+   "ambiguous": 4,
+   "auto": 2101,
+   "none": 2,
+   "pinned": 3
   }
  }
 }

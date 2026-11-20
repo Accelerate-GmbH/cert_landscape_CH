@@ -1,7 +1,7 @@
 {
  "tool": "tlsmap",
  "version": "0.1.0",
- "merged_at": "2026-11-20T20:06:17Z",
+ "merged_at": "2026-11-20T20:44:40Z",
  "batches": 36,
  "entities": {
   "canton": 26,
@@ -26,6 +26,6 @@
  },
  "visibility_from_list": 0,
  "sovereignty_rerated": 0,
- "uids_applied": 56,
+ "uids_applied": 2138,
  "linked_hosts": 149
 }

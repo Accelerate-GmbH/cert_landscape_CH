@@ -1,5 +1,18 @@
 {
  "canton": {},
- "municipality": {},
- "federal": {}
+ "federal": {},
+ "municipality": {
+  "261": {
+   "uid": "CHE-114.889.289",
+   "name": "Stadt Zürich"
+  },
+  "6458": {
+   "uid": "CHE-115.447.675",
+   "name": "Ville de Neuchâtel"
+  },
+  "2271": {
+   "uid": "CHE-115.093.318",
+   "name": "Gemeinde Merlach"
+  }
+ }
 }
