@@ -220,6 +220,15 @@ cp output/latest/map.json web/data/map.json
 cd web && python -m http.server 8000      # then open http://localhost:8000
 ```
 
+## UID numbers
+
+Every canton, municipality and federal department carries its UID (CHE-…) from the
+UID register, linked on the map to its own entry. The UID is the key for matching
+entities with other registers such as the GLEIF LEI directory or the swiyu trust
+registry. `tlsmap uid` looks them up (municipalities by BFS number), the workflow
+`UID numbers` runs it once a year; details and manual pins in
+[data/uid/README.md](data/uid/README.md).
+
 ## Corrections
 
 - CA owners come from the CCADB. A parent company in another country goes in

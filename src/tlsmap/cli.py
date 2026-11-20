@@ -68,11 +68,12 @@ def cmd_run(a) -> int:
 
 
 def cmd_merge(a) -> int:
-    from .merge import apply_list_visibility, combine, load_raw, reapply_sovereignty
+    from .merge import apply_list_visibility, apply_uids, combine, load_raw, reapply_sovereignty
     parts = [load_raw(Path(p)) for p in a.raw]
     result = combine(parts)
     rerated = reapply_sovereignty(result)
     vis_changed = apply_list_visibility(result, a.list)
+    uids = apply_uids(result, a.uid)
     registry = Registry()
     started = datetime.now(timezone.utc)
     snapshot = result["generated"][:10]
@@ -85,6 +86,7 @@ def cmd_merge(a) -> int:
         "probe_note": result.get("probe"), "settings_sha256": file_sha256(CONFIG_DIR / "settings.toml"),
         "registry_sha256": file_sha256(registry.path), "python": platform.python_version(),
         "http": result.get("http_stats"), "visibility_from_list": vis_changed, "sovereignty_rerated": rerated,
+        "uids_applied": uids,
     }
     out_dir = Path(a.out) / snapshot
     paths = write_all(result, out_dir, registry, meta)
@@ -157,6 +159,20 @@ def cmd_diff(a) -> int:
     return 0
 
 
+def cmd_uid(a) -> int:
+    from . import uidreg
+    kinds = a.kinds.split(",")
+    ents = load_entities(kinds, canton_filter=a.canton)
+    if a.limit:
+        ents = ents[: a.limit]
+    reg = uidreg.UidRegister(Path(a.cache), interval=a.interval)
+    pins = json.loads(Path(a.pins).read_text()) if Path(a.pins).exists() else {}
+    data = uidreg.resolve(ents, reg, pins, uidreg.load(Path(a.out)), refresh=a.refresh)
+    uidreg.write(Path(a.out), data)
+    print(json.dumps(uidreg.summary(data), indent=1))
+    return 0
+
+
 def cmd_unknown(a) -> int:
     import csv
     from .ccadb import CCADB
@@ -199,6 +215,8 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--out", default=str(ROOT / "output"))
     m.add_argument("--list", default=str(ROOT / "data" / "critical_services" / "critical_services_ch.csv"),
                    help="host list whose visibility applies to the merged result")
+    m.add_argument("--uid", default=str(DATA_DIR / "uid" / "entities.json"),
+                   help="UID numbers of cantons, municipalities and federal departments (tlsmap uid)")
     m.set_defaults(func=cmd_merge)
 
     v = sub.add_parser("verify-list", help="check that listed hosts still resolve, answer and are linked from their source")
@@ -212,6 +230,17 @@ def main(argv: list[str] | None = None) -> int:
     d.add_argument("new")
     d.add_argument("--changed-only", action="store_true")
     d.set_defaults(func=cmd_diff)
+
+    ud = sub.add_parser("uid", help="look up UID numbers of cantons, municipalities and federal departments")
+    ud.add_argument("--kinds", default="cantons,municipalities,federal")
+    ud.add_argument("--canton", help="only this canton (code, e.g. ZG)")
+    ud.add_argument("--limit", type=int, help="only the first N entities (testing)")
+    ud.add_argument("--refresh", action="store_true", help="look up again, also where a UID is known")
+    ud.add_argument("--interval", type=float, default=3.0, help="seconds between requests to the register")
+    ud.add_argument("--out", default=str(DATA_DIR / "uid" / "entities.json"))
+    ud.add_argument("--pins", default=str(DATA_DIR / "uid" / "pins.json"))
+    ud.add_argument("--cache", default=".cache/uid/search.json")
+    ud.set_defaults(func=cmd_uid)
 
     u = sub.add_parser("unknown-issuers", help="list issuers missing from the CA registry")
     u.add_argument("results", help="path to results.json(.gz)")

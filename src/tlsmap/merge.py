@@ -104,6 +104,23 @@ def apply_list_visibility(result: dict, list_path) -> int:
     return changed
 
 
+def apply_uids(result: dict, uid_path) -> int:
+    """UID numbers of cantons, municipalities and federal departments from
+    data/uid/entities.json (written by `tlsmap uid`). Organisations keep the
+    UID of the critical-services list."""
+    from pathlib import Path
+    from .uidreg import load
+    data = load(Path(uid_path))
+    n = 0
+    for e in result["entities"]:
+        rec = (data.get(e["kind"]) or {}).get(str(e["id"])) or {}
+        if e["kind"] != "organisation" and rec.get("uid"):
+            e["uid"] = rec["uid"]
+            e["uid_name"] = rec.get("name", "")
+            n += 1
+    return n
+
+
 def current_cfg(result: dict) -> dict:
     """Rating configuration from the current settings, so changed weights or
     rules apply at the next merge without measuring again."""

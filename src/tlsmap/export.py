@@ -316,6 +316,7 @@ def map_json(result: dict, meta: dict) -> dict:
             "tm": _tm_compact(e.get("posture") or {}),
             "stack": _stack(e),
             **({"ml": {"o": e["mail"]["overall"], "k": e["mail"]["checks"], "n": e["mail"]["rated"]}} if e.get("mail") else {}),
+            **({"uid": e["uid"], "un": e.get("uid_name", "")} if e.get("uid") and e["kind"] != "organisation" else {}),
         }
         if e["kind"] == "organisation":
             pl = e.get("place") or {}
