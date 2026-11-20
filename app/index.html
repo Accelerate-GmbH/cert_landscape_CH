@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trust Posture Schweiz</title>
+<link rel="stylesheet" href="style.css?v=__BUILD__">
+<script>window.BUILD = "__BUILD__";</script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/">Trust Posture Schweiz <span class="beta">Entwurf v2</span></a>
+  <nav>
+    <a href="#/" data-nav="start">Überblick</a>
+    <a href="#/org" data-nav="org">Meine Organisation</a>
+  </nav>
+  <div class="search">
+    <input id="q" type="search" placeholder="Gemeinde, Kanton, Amt oder Firma" autocomplete="off" aria-label="Suchen" role="combobox" aria-expanded="false" aria-controls="sugg">
+    <ul id="sugg" role="listbox" hidden></ul>
+  </div>
+  <label class="role">Rolle
+    <select id="role">
+      <option value="lay">Entscheid und Öffentlichkeit</option>
+      <option value="tech">Informatik und Fachleute</option>
+    </select>
+  </label>
+</header>
+<main id="view" aria-live="polite"></main>
+<footer>
+  Daten: <span id="asof"></span> · <a href="../">bisherige Karte</a> · <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH">Methode und Quellen</a>
+</footer>
+<script src="../guide.js?v=__BUILD__"></script>
+<script type="module" src="js/main.js?v=__BUILD__"></script>
+</body>
+</html>
