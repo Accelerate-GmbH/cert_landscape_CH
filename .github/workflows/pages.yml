@@ -30,11 +30,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
       - name: Data from the pipeline repository (read only, not committed)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: Accelerate-GmbH/cert_landscape_CH_data
           ref: main
