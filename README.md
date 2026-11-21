@@ -1,4 +1,4 @@
-# Trust Posture Radar (cert_landscape_CH)
+# Trust & Sovereignty Posture Radar (cert_landscape_CH)
 
 How well are the online services of the federal administration, the 26
 cantons, about 2,100 municipalities and the operators of critical services
