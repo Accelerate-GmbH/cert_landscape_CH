@@ -100,3 +100,4 @@ table { border-collapse: collapse; width: 100%; }
 .cc { display: inline-block; font-size: 11px; padding: 0 4px; border-radius: 3px; background: #e8f0e8; color: #2d5a2d; }
 .cc.abroad { background: #f6e5d6; color: #8a4a12; }
 .note { margin-top: 20px; color: var(--text-2); font-size: 13.5px; max-width: 760px; }
+.proof { text-decoration: underline dotted; cursor: help; }
