@@ -4,8 +4,9 @@ name: publish map
 # time from the non-public pipeline repository and goes only into the
 # deployed site, never into this repository. The pipeline repository starts
 # this workflow with the event data-published after every monthly run.
-# Needs the secret DATA_REPO_TOKEN: a fine-grained token with read access to
-# the contents of Accelerate-GmbH/cert_landscape_CH_data only.
+# Needs a token with read access to the contents of
+# Accelerate-GmbH/cert_landscape_CH_data, as secret REPO_TOKEN (the same token
+# can serve both repositories) or DATA_REPO_TOKEN.
 on:
   push:
     branches: [main]
@@ -38,7 +39,7 @@ jobs:
         with:
           repository: Accelerate-GmbH/cert_landscape_CH_data
           ref: main
-          token: ${{ secrets.DATA_REPO_TOKEN }}
+          token: ${{ secrets.REPO_TOKEN || secrets.DATA_REPO_TOKEN }}
           path: src-data
           persist-credentials: false
           sparse-checkout: |
