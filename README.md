@@ -20,26 +20,28 @@ hosting, SaaS, certificate authority, DNS, registrar.
 | `METHOD.md` | how hostnames, certificates and authorities are attributed |
 | `docs/CRITICAL_SERVICES.md` | how the list of critical services was built |
 | `docs/DATA_CONTRACT.md` | the data the new frontend loads |
-| `tools/check_site.mjs` | consistency of both frontends with the published data |
-| branch `published-data` | the data the site loads, replaced after every monthly run |
+| `tools/check_site.mjs` | consistency of both frontends with the data they load |
 
-Data collection, rating and the full results are maintained in a separate,
-non-public repository. After every monthly run it replaces the branch
-`published-data` here with the files the website needs and starts the
-workflow `publish map`, which builds the site from `main` (code) and
-`published-data` (data). `publish map` and the Dependabot rule for its actions
-are the only automation kept here; all other workflows run in the pipeline
-repository. The git history of this repository up to
-21 November 2026 still contains the earlier pipeline and its output.
+This repository holds no data. Data collection, rating and all results are
+maintained in a separate, non-public repository. After every monthly run it
+starts the workflow `publish map` here, which reads the files the website
+loads from that repository at build time and deploys them with the code from
+`main` to GitHub Pages; nothing of it is committed here. `publish map` and the
+Dependabot rule for its actions are the only automation kept here. The git
+history of this repository up to 21 November 2026 still contains the earlier
+pipeline and its output.
 
 ## Run the site locally
 
+Needs read access to the pipeline repository, which holds the data:
+
 ```bash
 git clone https://github.com/Accelerate-GmbH/cert_landscape_CH.git && cd cert_landscape_CH
-git clone --branch published-data --depth 1 https://github.com/Accelerate-GmbH/cert_landscape_CH.git pub
+D=/path/to/cert_landscape_CH_data/output
 mkdir -p site/data site/v2
-cp web/*.html web/*.css web/*.js site/ && cp -r web/vendor site/ && cp -r pub/map/. site/data/
-cp -r app/. site/v2/ && cp -r pub/v2 site/v2/data
+cp web/*.html web/*.css web/*.js site/ && cp -r web/vendor site/
+cp $D/latest/map.json $D/latest/hosts.json $D/latest/search.json site/data/ && cp -r $D/latest/resources site/data/
+cp -r app/. site/v2/ && cp -r $D/public/v2 site/v2/data
 cd site && python3 -m http.server 8765    # http://localhost:8765/ and /v2/
 ```
 
@@ -49,11 +51,11 @@ publish workflow downloads them.
 
 ## Checks
 
-`node tools/check_site.mjs pub` verifies that every published check has texts
+`node tools/check_site.mjs <folder with v2/meta.json>` verifies that every published check has texts
 in all four languages, that the languages carry the same keys, that the map
 lists the checks in the published order and that every referenced file
-exists. It runs in the pipeline repository daily and before every data
-release; run it locally before pushing changes to `web/` or `app/`.
+exists. It runs in every build of the site and daily in the pipeline repository;
+run it locally before pushing changes to `web/` or `app/`.
 
 ## Corrections
 
