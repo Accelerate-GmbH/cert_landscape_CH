@@ -1,6 +1,6 @@
 // Consistency of the two frontends with the published data, run in CI.
 //
-//   node tools/check_site.mjs [path to published data]   (default: pub, a checkout of branch published-data)
+//   node tools/check_site.mjs <folder with v2/meta.json>   (default: pub; the site build puts the data there)
 //
 // Checks: every check the pipeline publishes (meta.json check_order, mail
 // checks of the model) has a simple and an expert text and labels in all four
