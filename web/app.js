@@ -1,4 +1,4 @@
-/* Trust Posture Switzerland: map and tables for cantons, municipalities, federal administration and critical services. */
+/* Trust Posture Radar: map and tables for cantons, municipalities, federal administration and critical services. */
 (function () {
   "use strict";
 
