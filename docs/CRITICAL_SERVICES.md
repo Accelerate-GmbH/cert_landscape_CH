@@ -1,5 +1,8 @@
 # Critical digital services in Switzerland (draft v0.1)
 
+> Code, configuration and data files named in this document are kept in the
+> non-public pipeline repository; see README.md.
+
 Cantons and municipalities cover only part of what Switzerland depends on.
 This document describes how a list of the **1,000 most important Swiss
 hostnames** across public, semi-public and private operators was built and

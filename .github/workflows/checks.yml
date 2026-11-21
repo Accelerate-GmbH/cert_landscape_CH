@@ -16,35 +16,23 @@ concurrency:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
         with:
-          python-version: "3.13"
+          ref: published-data
+          path: pub
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install
-        run: pip install -e . pytest pyflakes pyyaml
-      - name: Tests
-        run: pytest -q
-      - name: Static analysis
-        run: pyflakes src tools tests
       - name: JavaScript syntax
-        run: for f in web/*.js; do node --check "$f"; done
-      - name: Workflow and config syntax
+        run: for f in web/*.js app/js/*.js app/js/views/*.js; do node --check "$f"; done
+      - name: Workflow syntax
         run: |
-          python - <<'EOF'
-          import json, pathlib, tomllib, yaml
-          for p in pathlib.Path(".github/workflows").glob("*.yml"):
-              yaml.safe_load(p.read_text())
-          for p in pathlib.Path("config").glob("*.toml"):
-              tomllib.loads(p.read_text())
-          for p in pathlib.Path("config").glob("*.json"):
-              json.loads(p.read_text())
-          EOF
-      - name: Repository consistency
-        run: python tools/check_repo.py
+          python3 -c "import sys,yaml; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" .github/workflows/*.yml .github/dependabot.yml
+      - name: Frontends consistent with the published data
+        run: node tools/check_site.mjs pub

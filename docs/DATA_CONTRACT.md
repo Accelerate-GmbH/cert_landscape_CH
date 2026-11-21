@@ -1,21 +1,19 @@
 # Public data for the web app (schema 2)
 
-The new frontend (`app/`, published under `/v2`) reads **only** the folder
-`output/public/v2/`. Nothing else from `output/` is needed by the browser.
-`tlsmap public` writes the folder from `output/latest/`; `tlsmap merge` does
-it at the end of every snapshot.
+The new frontend (`app/`, published under `/v2`) reads **only** this data.
+The non-public pipeline writes it to its `output/public/v2/` (`tlsmap public`,
+also at the end of every merge) and copies it, together with the files of the
+current map, to the branch `published-data` of this repository:
 
-This split is what lets the data move to a private repository later:
+| Branch `published-data` | Served as | Read by |
+| --- | --- | --- |
+| `v2/` | `/v2/data/` | `app/` (`app/js/data.js`, `BASE = "data"`) |
+| `map/` (`map.json`, `hosts.json`, `search.json`, `resources/`) | `/data/` | `web/` (current map) |
+| `SOURCE` | – | commit of the pipeline repository the data comes from |
 
-| Today (one repository) | Later (code public, data private) |
-| --- | --- |
-| pipeline, raw batches, `output/latest/`, `output/public/v2/` all here | private repository runs the pipeline and keeps `output/` |
-| `pages.yml` copies `output/public/v2/` to `site/v2/data/` | private repository hands over only `output/public/v2/` (release asset or push to a public data branch); `pages.yml` fetches it |
-| frontend loads `data/…` (`app/js/data.js`, `BASE`) | unchanged, or `BASE` points to the published data location |
-
-Rule for anything added: a file the browser needs goes into `output/public/`
-with an entry below. Raw results, host-level exports, CSV and Excel files stay
-outside it.
+The branch holds one commit, replaced after every run. Rule for anything
+added: a file the browser needs goes into the public folder with an entry
+below. Raw results, CSV and Excel exports stay in the pipeline repository.
 
 ## Files
 

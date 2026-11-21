@@ -1,5 +1,8 @@
 # Method
 
+> Code, configuration and data files named in this document are kept in the
+> non-public pipeline repository; see README.md.
+
 This file describes data collection and the certificate-landscape scores.
 The Trust Posture rating built on top of it is in [docs/RATING.md](docs/RATING.md).
 The list of critical services beyond public administrations, with sectors
