@@ -1,1 +1,0 @@
-entity,hostname,ip,family,checked_at,ok,valid,verify_error,error,tls_version,cipher,group,pq,validation,issuer_org,issuer_cn,not_after,key_type,key_bits,scts,revocation,revocation_method,cert_sha256

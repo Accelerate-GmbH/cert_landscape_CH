@@ -1,6 +1,0 @@
-{
-  "_comment": "Corrections and additions. extra_domains: more registrable domains per entity (key: 'canton:<id>', 'municipality:<bfs>', 'federal:CH'). exclude_hosts: hostnames to leave out, with a reason (e.g. operated by a third party under a delegated name). replace_domains: replace the domain list entirely.",
-  "extra_domains": {},
-  "replace_domains": {},
-  "exclude_hosts": {}
-}

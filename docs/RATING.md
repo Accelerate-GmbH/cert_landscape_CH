@@ -1,5 +1,8 @@
 # Trust Posture rating – proposal v0.1 (draft for discussion)
 
+> Code, configuration and data files named in this document are kept in the
+> non-public pipeline repository; see README.md.
+
 This document proposes how the Trust Posture checks are combined into a
 rating. It implements the four check categories of the Trust Posture concept
 (V 0.3, August 2026) and the requirements stated there: checks are automated,

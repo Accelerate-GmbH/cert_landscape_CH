@@ -1,12 +1,14 @@
 name: publish map
 
+# Code of the site comes from main (web/, app/); the data from the branch
+# published-data, which the private pipeline repository replaces after every
+# snapshot and then announces with the event data-published.
 on:
   push:
     branches: [main]
-    paths: ["web/**", "app/**", "output/latest/**", "output/public/**"]
-  workflow_run:
-    workflows: ["monthly snapshot"]
-    types: [completed]
+    paths: ["web/**", "app/**", ".github/workflows/pages.yml"]
+  repository_dispatch:
+    types: [data-published]
   workflow_dispatch:
 
 permissions:
@@ -20,7 +22,6 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -29,29 +30,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - uses: actions/checkout@v4
+        with:
+          ref: published-data
+          path: pub
       - name: Assemble site
         run: |
-          mkdir -p site/data
+          set -e
+          mkdir -p site/data site/v2
+          # current map
           cp web/*.html web/*.css web/*.js site/
           cp -r web/vendor site/
           sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/index.html
           curl -fsSL -o site/data/ch-combined.json https://unpkg.com/swiss-maps@4.7.0/2026/ch-combined.json
-          if [ -f output/latest/map.json ]; then
-            cp output/latest/map.json site/data/map.json
-            if [ -d output/latest/resources ]; then cp -r output/latest/resources site/data/resources; fi
-            if [ -f output/latest/search.json ]; then cp output/latest/search.json site/data/search.json; fi
-            if [ -f output/latest/hosts.json ]; then cp output/latest/hosts.json site/data/hosts.json; fi
-          else
-            cp web/data/map.json site/data/map.json
-          fi
-          # new frontend (draft) under /v2; it reads only the public data folder
-          # (docs/DATA_CONTRACT.md), which can later come from a private repository
-          if [ -d output/public/v2 ]; then
-            mkdir -p site/v2
-            cp -r app/. site/v2/
-            cp -r output/public/v2 site/v2/data
-            sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/v2/index.html
-          fi
+          cp -r pub/map/. site/data/
+          # new frontend (draft) under /v2, reading only its public data folder (docs/DATA_CONTRACT.md)
+          cp -r app/. site/v2/
+          cp -r pub/v2 site/v2/data
+          sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/v2/index.html
+          echo "data from $(cat pub/SOURCE)"
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
