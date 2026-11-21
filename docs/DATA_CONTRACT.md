@@ -55,6 +55,6 @@ below. Raw results, CSV and Excel exports stay in the pipeline repository.
 ## Measures per building block
 
 Defined in `config/model.toml`: `checks` = share of hosts meeting the listed
-Trust Posture checks (pass 1, partial ½); `mail` = share of mail domains
+Trust & Sovereignty Posture checks (pass 1, partial ½); `mail` = share of mail domains
 meeting the mail checks; `deps` = share of Swiss providers among the
 dependencies found; `none` = not measured yet.

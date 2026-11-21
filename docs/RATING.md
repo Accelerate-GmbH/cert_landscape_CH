@@ -1,10 +1,10 @@
-# Trust Posture rating – proposal v0.1 (draft for discussion)
+# Trust & Sovereignty Posture rating – proposal v0.1 (draft for discussion)
 
 > Code, configuration and data files named in this document are kept in the
 > non-public pipeline repository; see README.md.
 
-This document proposes how the Trust Posture checks are combined into a
-rating. It implements the four check categories of the Trust Posture concept
+This document proposes how the Trust & Sovereignty Posture checks are combined into a
+rating. It implements the four check categories of the Trust & Sovereignty Posture concept
 (V 0.3, August 2026) and the requirements stated there: checks are automated,
 run by a party external to the checked resource, combine into a weighted
 compound score, and every check execution is logged.
@@ -101,7 +101,7 @@ OpenSSL 3.5 put X25519MLKEM768 first, so a server that merely accepts it
 already protects those connections. Clients that list the classical group
 first (older libraries, apps, APIs, server-to-server connections) only get
 post-quantum protection from a server that prefers it. The draft therefore
-keeps "offered and preferred" as the requirement from the Trust Posture
+keeps "offered and preferred" as the requirement from the Trust & Sovereignty Posture
 fundamentals, and gives half the points for "offered" (decided
 19 November 2026).
 
@@ -161,7 +161,7 @@ resources counting **three times**. The rating also reports, per check, how
 many resources passed, partly passed and failed, the distribution of green,
 yellow and red resources, and the number of knock-outs.
 
-**Trust Posture eligible** (proposal for the later signal): no knock-out and all
+**Trust & Sovereignty Posture eligible** (proposal for the later signal): no knock-out and all
 four categories green.
 
 ## 5. Sectors and critical services
@@ -224,7 +224,7 @@ later.
 ## Mail (from November 2026)
 
 Mail is rated per domain with its own checks and reported next to the web
-Trust Posture (map metric "Mail"); it does not change the web rating.
+Trust & Sovereignty Posture (map metric "Mail"); it does not change the web rating.
 Domains without MX are not rated; municipalities that only share another
 domain are left out.
 

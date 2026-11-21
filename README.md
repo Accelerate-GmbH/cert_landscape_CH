@@ -3,7 +3,7 @@
 How well are the online services of the federal administration, the 26
 cantons, about 2,100 municipalities and the operators of critical services
 protected, and who controls them? The map rates every service with fifteen
-checks on ownership, sovereignty, security and privacy (Trust Posture), adds
+checks on ownership, sovereignty, security and privacy (Trust & Sovereignty Posture), adds
 six mail checks, and shows what the services rest on: mail platform, cloud and
 hosting, SaaS, certificate authority, DNS, registrar.
 

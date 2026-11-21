@@ -4,7 +4,7 @@
 > non-public pipeline repository; see README.md.
 
 This file describes data collection and the certificate-landscape scores.
-The Trust Posture rating built on top of it is in [docs/RATING.md](docs/RATING.md).
+The Trust & Sovereignty Posture rating built on top of it is in [docs/RATING.md](docs/RATING.md).
 The list of critical services beyond public administrations, with sectors
 under the national CIP strategy, is described in
 [docs/CRITICAL_SERVICES.md](docs/CRITICAL_SERVICES.md).
