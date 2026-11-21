@@ -35,6 +35,15 @@ results, CSV and Excel exports stay in the pipeline repository.
   `{"v": 0–100 | null, "entities": n, "objects": n, "m": "share" | "count" | "none"}`.
   `v` is weighted by the number of objects (hosts or mail domains).
 
+`scores.json`
+: values per entity for the ranking in the view «Vergleich», loaded only
+  there: `{"schema": 2, "series": [...], "rows": {key: [value | null, …]}}`.
+  `series` in this order: `overall`, `cat:<category>` (ownership,
+  sovereignty, security, privacy), `mail`, then `blk:<layer>.<block>` for
+  every measured building block of `model` (not `none`, not the count of
+  service types); the same names as in `benchmarks.json`. Values 0–100 with
+  one decimal.
+
 `benchmarks.json`
 : per level and series (`overall`, `cat:<category>`, `chk:<check>`, `mail`,
   `blk:<layer>.<block>`): with at least 40 entities the best 5 % by rank,

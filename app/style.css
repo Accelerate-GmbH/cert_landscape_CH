@@ -101,3 +101,27 @@ table { border-collapse: collapse; width: 100%; }
 .cc.abroad { background: #f6e5d6; color: #8a4a12; }
 .note { margin-top: 20px; color: var(--text-2); font-size: 13.5px; max-width: 760px; }
 .proof { text-decoration: underline dotted; cursor: help; }
+.tocmp { margin-left: 12px; font-size: 13px; }
+.cmp th, .cmp td, .rank th, .rank td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.cmp thead th, .rank thead th { font-weight: 500; color: var(--text-2); font-size: 13px; }
+.cmp tbody th { font-weight: 500; }
+.cmp tr.total th, .cmp tr.total td { font-weight: 650; }
+.cmp .gap.pos { color: var(--good); } .cmp .gap.neg { color: var(--bad); }
+.cmp td.ex { min-width: 180px; }
+.cmp td.ex .bar { margin: 6px 0; }
+.diff { padding-left: 20px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 10px 0; font-size: 13.5px; }
+.filters select { font: inherit; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--text); }
+.rank td.rk { color: var(--muted); width: 48px; }
+.rank tr.me td { background: var(--accent-soft); }
+.rank tr.gapline td { color: var(--muted); text-align: center; }
+.cmp tr.grp th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; padding-top: 16px; }
+.cmp td { white-space: nowrap; } .cmp td.ex { white-space: normal; }
+.scroll { overflow-x: auto; }
+@media (max-width: 760px) {
+  main { padding: 16px; }
+  .cmp td.ex, .cmp thead th:last-child, .cmp .bl { display: none; }
+  .cmp th, .cmp td, .rank th, .rank td { padding: 6px 4px; }
+  .filters select { max-width: 100%; }
+  .filters label { display: flex; flex-wrap: wrap; gap: 4px; max-width: 100%; }
+}

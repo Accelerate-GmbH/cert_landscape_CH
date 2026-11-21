@@ -6,8 +6,9 @@
 // checks of the model) has a simple and an expert text and labels in all four
 // languages; the four languages carry the same keys; web/app.js lists the
 // checks in the published order; the dependencies in the entity files follow
-// docs/DATA_CONTRACT.md; every file the pages reference exists; no file in the
-// repository names an AI tool.
+// docs/DATA_CONTRACT.md; every file the pages reference exists; every view in
+// the navigation of /v2 has a route, and every data file app/js/data.js loads is
+// published; no file in the repository names an AI tool.
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
@@ -93,7 +94,20 @@ for (const [dir, file] of [["web", "index.html"], ["app", "index.html"]]) {
   }
 }
 
-// 5. no AI tool named anywhere in the repository
+// 5. views and data files of /v2
+{
+  const html = fs.readFileSync(path.join(ROOT, "app/index.html"), "utf8");
+  const main = fs.readFileSync(path.join(ROOT, "app/js/main.js"), "utf8");
+  for (const [, nav] of html.matchAll(/data-nav="([^"]+)"/g)) {
+    if (!main.includes(`name: "${nav}"`)) fail(`app/index.html: view ${nav} has no route in app/js/main.js`);
+  }
+  const dj = fs.readFileSync(path.join(ROOT, "app/js/data.js"), "utf8");
+  for (const [, f] of dj.matchAll(/get\("([^"]+\.json)"\)/g)) {
+    if (fs.existsSync(path.join(PUB, "v2")) && !fs.existsSync(path.join(PUB, "v2", f))) fail(`v2/${f} is loaded by app/js/data.js but not published`);
+  }
+}
+
+// 6. no AI tool named anywhere in the repository
 const files = execSync("git ls-files", { cwd: ROOT }).toString().split("\n").filter(Boolean);
 const word = new RegExp(["cla", "ude|anth", "ropic"].join(""), "i");
 for (const f of files) {

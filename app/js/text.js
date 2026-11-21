@@ -55,3 +55,27 @@ export const WHY = {
   privacy: "Ohne Schutz sieht jedes Netz unterwegs, welche Dienste jemand nutzt.",
   mail: "Mail ist der häufigste Weg für Betrug und Datenabfluss; ohne Schutz lässt sich der Absender fälschen.",
 };
+
+// Texts of the interface, by language; only German so far. New views take their
+// texts from here so that French, Italian and English can be added without
+// touching the views. {name} is replaced by the value given.
+const T = {
+  de: {
+    overall: "Gesamtwert", total_and_areas: "Gesamtwert und Bereiche", mail: "Mail", function: "Funktion", benchmark: "Vergleichswert", gap: "Abstand",
+    who_reaches: "Wer ihn erreicht", best_top: "Ø beste {p} %", best_one: "Bester",
+    compare_title: "Vergleich", per_function: "{n} pro Funktion",
+    explain_top: "Vergleichswert: Durchschnitt der besten {p} % aller {lv}. Daneben, wer ihn erreicht; ⇄ stellt diese Einheit daneben.",
+    explain_best: "Vergleichswert: der Beste unter den {lv}. Daneben, wer ihn erreicht; ⇄ stellt diese Einheit daneben.",
+    compare_with: "{n} daneben stellen", remove: "entfernen",
+    other_level: "{n} ist ein(e) {lv}; die Rangliste unten zeigt eine andere Ebene.",
+    no_home: "Wählen Sie oben eine Organisation oder legen Sie eine Heim-Organisation fest, um sie mit den Besten zu vergleichen. Die Rangliste unten gilt für alle.",
+    does_differently: "Was {n} anders macht", no_difference: "Bei keiner Prüfung mindestens 20 Punkte besser.",
+    ranking: "Rangliste", sort_by: "Sortiert nach", canton: "Kanton", sector: "Sektor", all: "alle",
+    rated_of: "{r} von {n} bewertet", own_rank: "eigener Rang {r}", rank: "Rang", show_all: "Alle {n} anzeigen",
+  },
+};
+export const LANG = "de";
+export function t(key, vars = {}) {
+  const s = (T[LANG] || T.de)[key] ?? T.de[key] ?? key;
+  return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
+}
