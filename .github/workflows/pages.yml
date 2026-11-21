@@ -1,8 +1,11 @@
 name: publish map
 
-# Code of the site comes from main (web/, app/); the data from the branch
-# published-data, which the private pipeline repository replaces after every
-# snapshot and then announces with the event data-published.
+# Code of the site comes from main (web/, app/). The data is read at build
+# time from the non-public pipeline repository and goes only into the
+# deployed site, never into this repository. The pipeline repository starts
+# this workflow with the event data-published after every monthly run.
+# Needs the secret DATA_REPO_TOKEN: a fine-grained token with read access to
+# the contents of Accelerate-GmbH/cert_landscape_CH_data only.
 on:
   push:
     branches: [main]
@@ -30,10 +33,35 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - uses: actions/checkout@v4
+      - name: Data from the pipeline repository (read only, not committed)
+        uses: actions/checkout@v4
         with:
-          ref: published-data
-          path: pub
+          repository: Accelerate-GmbH/cert_landscape_CH_data
+          ref: main
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: src-data
+          persist-credentials: false
+          sparse-checkout: |
+            output/latest/map.json
+            output/latest/hosts.json
+            output/latest/search.json
+            output/latest/resources
+            output/public/v2
+          sparse-checkout-cone-mode: false
+      - name: Only the files the website loads
+        run: |
+          set -e
+          mkdir -p pub/map pub/v2
+          cp src-data/output/latest/map.json src-data/output/latest/hosts.json src-data/output/latest/search.json pub/map/
+          cp -r src-data/output/latest/resources pub/map/resources
+          cp -r src-data/output/public/v2/. pub/v2/
+          git -C src-data rev-parse --short HEAD > pub/SOURCE
+          rm -rf src-data
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Frontends consistent with the data
+        run: node tools/check_site.mjs pub
       - name: Assemble site
         run: |
           set -e

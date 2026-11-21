@@ -1,19 +1,19 @@
 # Public data for the web app (schema 2)
 
 The new frontend (`app/`, published under `/v2`) reads **only** this data.
-The non-public pipeline writes it to its `output/public/v2/` (`tlsmap public`,
-also at the end of every merge) and copies it, together with the files of the
-current map, to the branch `published-data` of this repository:
+The non-public pipeline repository writes it to its `output/public/v2/`
+(`tlsmap public`, also at the end of every merge). The workflow `publish map`
+of this repository reads it from there at build time, together with the files
+of the current map, and deploys it with the site; nothing is committed here.
 
-| Branch `published-data` | Served as | Read by |
+| In the pipeline repository | Served as | Read by |
 | --- | --- | --- |
-| `v2/` | `/v2/data/` | `app/` (`app/js/data.js`, `BASE = "data"`) |
-| `map/` (`map.json`, `hosts.json`, `search.json`, `resources/`) | `/data/` | `web/` (current map) |
-| `SOURCE` | – | commit of the pipeline repository the data comes from |
+| `output/public/v2/` | `/v2/data/` | `app/` (`app/js/data.js`, `BASE = "data"`) |
+| `output/latest/map.json`, `hosts.json`, `search.json`, `resources/` | `/data/` | `web/` (current map) |
 
-The branch holds one commit, replaced after every run. Rule for anything
-added: a file the browser needs goes into the public folder with an entry
-below. Raw results, CSV and Excel exports stay in the pipeline repository.
+Rule for anything added: a file the browser needs goes into the public folder
+with an entry below and into the list of files `publish map` reads. Raw
+results, CSV and Excel exports stay in the pipeline repository.
 
 ## Files
 
