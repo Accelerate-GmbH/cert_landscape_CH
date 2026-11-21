@@ -232,7 +232,7 @@ Low confidence per block of 100 rows (`quality_by_block.json`):
 
 ## In the pipeline
 
-- Each listed host is rated with the Trust Posture checks
+- Each listed host is rated with the Trust & Sovereignty Posture checks
   ([RATING.md](RATING.md)); domain-level facts (DNSSEC signing, name servers,
   CAA) come from its registrable domain. Other subdomains are not rated.
 - Hosts that belong to cantons or municipalities already on the map are
