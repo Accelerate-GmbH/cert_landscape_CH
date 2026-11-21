@@ -27,7 +27,9 @@ Data collection, rating and the full results are maintained in a separate,
 non-public repository. After every monthly run it replaces the branch
 `published-data` here with the files the website needs and starts the
 workflow `publish map`, which builds the site from `main` (code) and
-`published-data` (data). The git history of this repository up to
+`published-data` (data). `publish map` and the Dependabot rule for its actions
+are the only automation kept here; all other workflows run in the pipeline
+repository. The git history of this repository up to
 21 November 2026 still contains the earlier pipeline and its output.
 
 ## Run the site locally
@@ -50,7 +52,8 @@ publish workflow downloads them.
 `node tools/check_site.mjs pub` verifies that every published check has texts
 in all four languages, that the languages carry the same keys, that the map
 lists the checks in the published order and that every referenced file
-exists. The workflow `checks` runs it on every push.
+exists. It runs in the pipeline repository daily and before every data
+release; run it locally before pushing changes to `web/` or `app/`.
 
 ## Corrections
 
