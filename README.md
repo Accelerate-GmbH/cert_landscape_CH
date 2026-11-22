@@ -7,8 +7,8 @@ checks on ownership, sovereignty, security and privacy (Trust & Sovereignty Post
 six mail checks, and shows what the services rest on: mail platform, cloud and
 hosting, SaaS, certificate authority, DNS, registrar.
 
-- **Map:** https://accelerate-gmbh.github.io/cert_landscape_CH/ (German, French, Italian, English)
-- **New frontend (draft):** https://accelerate-gmbh.github.io/cert_landscape_CH/v2/
+- **Map:** https://accelerate-swiss.github.io/cert_landscape_CH/ (German, French, Italian, English)
+- **New frontend (draft):** https://accelerate-swiss.github.io/cert_landscape_CH/v2/
 
 ## This repository
 
@@ -36,7 +36,7 @@ pipeline and its output.
 Needs read access to the pipeline repository, which holds the data:
 
 ```bash
-git clone https://github.com/Accelerate-GmbH/cert_landscape_CH.git && cd cert_landscape_CH
+git clone https://github.com/Accelerate-swiss/cert_landscape_CH.git && cd cert_landscape_CH
 D=/path/to/cert_landscape_CH_data/output
 mkdir -p site/data site/v2
 cp web/*.html web/*.css web/*.js site/ && cp -r web/vendor site/
