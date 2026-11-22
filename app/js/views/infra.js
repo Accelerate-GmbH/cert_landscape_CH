@@ -3,9 +3,9 @@
 // and who is seen to use them; for identity also the foreign login providers used
 // instead. Reads infrastructure.json; every implementation carries its sources.
 import * as data from "../data.js";
-import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, t } from "../text.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, LANG, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
-import { provisionRows, statusWord } from "./gov.js";
+import { provisionRows, statusWord, lawText } from "./gov.js";
 
 const REST = ["sov.ca", "sov.dns", "sov.hosting", "sov.registrar"];
 const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
@@ -22,7 +22,7 @@ function legal(gov, key) {
   const laws = (gov.laws || []).filter((l) => l.blocks.includes(key));
   if (!laws.length) return "";
   return `<section><h2>${esc(t("gov_for_block"))}</h2>${laws.map((l) =>
-    `<h3><a href="#/governance/${encodeURIComponent(l.id)}">${esc(l.abbr)}</a> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h3>
+    `<h3><a href="#/governance/${encodeURIComponent(l.id)}">${esc(lawText(l, "abbr"))}</a> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h3>
      <table class="deps gov"><tbody>${provisionRows(l, key)}</tbody></table>`).join("")}</section>`;
 }
 
@@ -43,7 +43,7 @@ export async function render(el, params) {
       return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
     }).join("");
     return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>
-      <p class="sub">${esc(i.operator || "")}${i.role ? " · " + esc(i.role) : ""}</p>
+      <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + esc(tx(i, "role")) : ""}</p>
       <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
       <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
           + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
@@ -54,7 +54,8 @@ export async function render(el, params) {
       <p class="muted small">${esc(t("checked_on", { d: date(i.checked) }))} · ${esc(t("sources"))}: ${src(i.sources)}</p></section>`;
   };
   // the identity block in its aspects: identity, authentication, authority, agency are distinct functions
-  const aspects = key === "dpi.identity" ? Object.entries(inf.aspects || {}) : [];
+  const aspects = key === "dpi.identity"
+    ? Object.entries(inf.aspects || {}).map(([a, label]) => [a, ((inf.aspects_i18n || {})[LANG] || {})[a] || label]) : [];
   const imps = aspects.length
     ? aspects.map(([a, label]) => {
         const list = b.implementations.filter((i) => i.aspect === a);
@@ -68,7 +69,7 @@ export async function render(el, params) {
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(grp ? grp.name : "")} · ${esc(LAYERS[lid].name)}</div>
       <h1>${esc(BLOCKS[key])}</h1><p>${esc(LAYERS[lid].hint)}</p>
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
-      ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(inf.source.title)}</a></p>` : ""}
+      ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(tx(inf.source, "title"))}</a></p>` : ""}
       <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>
     ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}${legal(gov, key)}`;
 }

@@ -197,7 +197,7 @@ export default {
   gov_provision: "Disposition et briques concernées",
   gov_filtered: "Seulement les dispositions concernant la brique « {b} ».",
   gov_show_all: "tout afficher",
-  gov_de_only: "Les résumés n'existent qu'en allemand.",
+  gov_de_only: "Résumés : traduction non officielle à partir des textes officiels ; seul le texte publié sur Fedlex fait foi.",
   gov_none: "Aucune base légale n'est saisie pour cette brique.",
   gov_for_block: "Bases légales",
   loading: "Chargement …",

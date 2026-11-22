@@ -52,6 +52,8 @@ export const LEVELS = new Proxy([], {
   },
 });
 export const locale = () => cur().locale;
+// a text from the data in the chosen language: obj.i18n[lang][field], else the German obj[field]
+export const tx = (obj, field) => ((obj && obj.i18n && obj.i18n[LANG]) || {})[field] || (obj ? obj[field] : "");
 
 export function t(key, vars = {}) {
   const s = cur().ui[key] ?? de.ui[key] ?? key;

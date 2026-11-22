@@ -2,11 +2,11 @@
 // fixed here), the standard behind each check, which data sources feed which
 // building block, the limits of the measurement and how to get raw data.
 import * as data from "../data.js";
-import { LAYERS, BLOCKS, BLOCK_WHAT, CATS, t, checkName } from "../text.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, CATS, t, tx, checkName } from "../text.js";
 import { esc } from "../ui.js";
 
 const CAT_OF = { own: "ownership", sov: "sovereignty", sec: "security", prv: "privacy" };
-const link = (s) => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`;
+const link = (s) => `<a href="${esc(s.url)}" rel="noopener">${esc(tx(s, "title"))}</a>`;
 const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
 const pct = (w) => `${Math.round(w * 100)} %`;
 
@@ -36,7 +36,7 @@ export async function render(el) {
       <td>${ds.map(link).join("<br>") || '<span class="muted">–</span>'}</td></tr>`;
   }).join("")).join("");
 
-  const sources = (src.data || []).map((d) => `<tr><td>${link(d)}</td><td>${esc(d.use)}</td></tr>`).join("");
+  const sources = (src.data || []).map((d) => `<tr><td>${link(d)}</td><td>${esc(tx(d, "use"))}</td></tr>`).join("");
 
   el.innerHTML = `<section class="lead"><h1>${esc(t("basics_title"))}</h1>
       <p>${esc(t("basics_intro"))}</p>

@@ -28,7 +28,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   `config/sources.toml`: `checked`, `rating` `{"title", "url"}`, `checks`
   `{check: [{"title", "url"}]}` the standard or rule each check applies,
   `data` `[{"title", "url", "use", "blocks"}]` the data sources and the
-  building blocks they feed).
+  building blocks they feed). Translations: any object with a German text
+  can carry `i18n` `{lang: {field: text}}` for `fr`, `it`, `en` (here
+  `title`, `use`; from `config/sources.i18n.toml`); the frontend shows
+  `i18n[lang][field]`, else the German field.
 
 `index.json`
 : `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector], …]}` for
@@ -90,8 +93,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   trust infrastructure; identity, data exchange, value exchange):
   `{"schema": 2, "source": {"title", "url"}, "blocks": {"<layer>.<block>": {"implementations": [...], "alternatives": [...]}}, "control": [...]}`.
   `aspects`: labels of the aspects of the identity block (identity,
-  authentication, authority, agency), `aspect_sources` the sources for this
-  distinction. An implementation: `name`, `aspect` (identity block only),
+  authentication, authority, agency), `aspects_i18n` `{lang: {aspect: label}}`,
+  `aspect_sources` the sources for this distinction; `source` carries
+  `i18n` for its `title`; each implementation carries `i18n` for `operator`
+  and `role` (from `config/model.i18n.toml`). An implementation: `name`, `aspect` (identity block only),
   `operator`, `role`, `sources` (`[{"title", "url"}]`),
   `checked`, `providers` (keys in `config/stack.toml` through which use is
   recognised), `hosts` (number of its measured hosts that run the service
@@ -117,8 +122,13 @@ results, CSV and Excel exports stay in the pipeline repository.
   `angenommen` | …), `status_text`, `status_sources` (`[{"title", "url"}]`),
   `scope` (who it applies to), `provisions` (`[{"art", "text", "url",
   "blocks"}]`: article, short summary close to its wording, link to the
-  article, building blocks of `model` it concerns), `blocks` (union of the
-  provisions' blocks). Only laws whose provisions all carry a link appear.
+  article, building blocks of `model` it concerns, `i18n` `{fr, it, en}` the
+  summary in other languages), `blocks` (union of the provisions' blocks),
+  `i18n` (`{lang: {"abbr", "name", "status_text", "scope", "status_sources"}}`,
+  `status_sources` a list of titles in the order of `status_sources`, from
+  `config/governance.i18n.toml`; not official translations, French and
+  Italian follow the official texts). Only laws whose provisions all carry a
+  link appear.
 
 `benchmarks.json`. Values 0–100 with
   one decimal.

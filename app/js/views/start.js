@@ -3,7 +3,7 @@
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, LEVELS, LEVEL_MANY, GROUPS, CONTROL, t } from "../text.js";
 import { esc, fmt, light, dot, store, HOME_KEY } from "../ui.js";
-import { statusWord } from "./gov.js";
+import { statusWord, lawText } from "./gov.js";
 
 const ORDER = ["apps", "dpi", "ext", "trust", "cloud", "net"];
 
@@ -56,8 +56,8 @@ export async function render(el, params) {
       <div class="ch" title="${esc(CONTROL.hint)}">${esc(CONTROL.name)}</div>
       <div class="cg">${esc(t("gov_name"))}</div>
       <p class="muted small">${esc(t("gov_box_hint"))}</p>
-      <ul>${gov.laws.map((l) => `<li><a href="#/governance/${encodeURIComponent(l.id)}" data-blocks="${esc(l.blocks.join(" "))}" title="${esc(l.name)}">
-        <b>${esc(l.abbr)}</b> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></a></li>`).join("")}</ul>
+      <ul>${gov.laws.map((l) => `<li><a href="#/governance/${encodeURIComponent(l.id)}" data-blocks="${esc(l.blocks.join(" "))}" title="${esc(lawText(l, "name"))}">
+        <b>${esc(lawText(l, "abbr"))}</b> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></a></li>`).join("")}</ul>
       <a class="small" href="#/governance">${esc(t("gov_all"))} ›</a></aside></div>
     <section class="note"><p>${esc(t("start_note", { d: (meta.data_generated || "").slice(0, 10).split("-").reverse().map(Number).join(".") }))}</p></section>`;
   // a law in the governance box marks the building blocks it concerns

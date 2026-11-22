@@ -197,7 +197,7 @@ export default {
   gov_provision: "Disposizione e moduli interessati",
   gov_filtered: "Solo le disposizioni sul modulo «{b}».",
   gov_show_all: "mostra tutto",
-  gov_de_only: "I riassunti esistono solo in tedesco.",
+  gov_de_only: "Riassunti: traduzione non ufficiale basata sui testi ufficiali; fa fede solo il testo pubblicato su Fedlex.",
   gov_none: "Per questo modulo non è registrata alcuna base legale.",
   gov_for_block: "Basi legali",
   loading: "Caricamento …",

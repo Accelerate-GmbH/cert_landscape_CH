@@ -197,7 +197,7 @@ export default {
   gov_provision: "Provision and building blocks concerned",
   gov_filtered: "Only provisions on the building block “{b}”.",
   gov_show_all: "show all",
-  gov_de_only: "The summaries are available in German only.",
+  gov_de_only: "Summaries: unofficial translation; only the text published on Fedlex is authoritative.",
   gov_none: "No legal basis is recorded for this building block.",
   gov_for_block: "Legal bases",
   loading: "Loading …",
