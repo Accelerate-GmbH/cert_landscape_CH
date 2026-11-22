@@ -13,8 +13,10 @@ const link = (s) => `<a href="${esc(fedlex(s.url))}" rel="noopener">${esc(s.titl
 export const lawText = (law, k) => ((law.i18n || {})[LANG] || {})[k] || (k === "status_sources" ? null : law[k]);
 const provText = (p) => (p.i18n || {})[LANG] || p.text;
 // Fedlex has every act in German, French and Italian: same link, other language
+// BELEX (Bern) is German and French: French readers get the French version
 export const fedlex = (u) => (LANG === "fr" || LANG === "it") && /fedlex\.admin\.ch\/eli\//.test(u || "")
-  ? u.replace(/\/de(?=#|$)/, "/" + LANG) : u;
+  ? u.replace(/\/de(?=#|$)/, "/" + LANG)
+  : LANG === "fr" && /belex\.sites\.be\.ch\/app\/de\//.test(u || "") ? u.replace("/app/de/", "/app/fr/") : u;
 // article labels in the notation of the language (Art. 2 Abs. 1 Bst. b)
 const ART = {
   fr: [[/^Art\./, "art."], [/ Abs\. /g, ", al. "], [/ Bst\. /g, ", let. "], [/ und /g, " et "]],

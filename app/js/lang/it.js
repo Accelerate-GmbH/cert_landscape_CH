@@ -254,7 +254,7 @@ export default {
   gov_provision: "Disposizione e moduli interessati",
   gov_filtered: "Solo le disposizioni sul modulo «{b}».",
   gov_show_all: "mostra tutto",
-  gov_de_only: "Riassunti: traduzione non ufficiale basata sui testi ufficiali; fa fede solo il testo pubblicato su Fedlex.",
+  gov_de_only: "Riassunti: traduzione non ufficiale; fa fede solo il testo ufficiale pubblicato dalla Confederazione (Fedlex) o dal Cantone.",
   gov_none: "Per questo modulo non è registrata alcuna base legale.",
   gov_for_block: "Basi legali",
   loading: "Caricamento …",
