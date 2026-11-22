@@ -88,8 +88,12 @@ results, CSV and Excel exports stay in the pipeline repository.
   distinction. An implementation: `name`, `aspect` (identity block only),
   `operator`, `role`, `sources` (`[{"title", "url"}]`),
   `checked`, `providers` (keys in `config/stack.toml` through which use is
-  recognised), `hosts` (number of its measured hosts), `overall` (mean value
-  of these hosts), `rests_on` (per check `sov.ca`, `sov.dns`, `sov.hosting`,
+  recognised), `hosts` (number of its measured hosts that run the service
+  itself), `host_roles` (`{"service", "info", "test", "other"}`: how many
+  of all its hosts run the service, an information site, a test
+  environment, or are not sorted; `null` while unclassified), `classified`
+  (date the hosts were sorted by their start page, `null` while
+  unclassified), `overall` (mean value of the service hosts), `rests_on` (per check `sov.ca`, `sov.dns`, `sov.hosting`,
   `sov.registrar`: `[{"value", "hosts", "status", "evidence"}]`, what its hosts
   rest on, with the evidence of the check), `examples` (up to 12 host names),
   `users` (`{level: n_entities}` seen to use it). An implementation can

@@ -35,6 +35,8 @@ export async function render(el, params) {
     return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>
       <p class="sub">${esc(i.operator || "")}${i.role ? " · " + esc(i.role) : ""}</p>
       <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
+      <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) }))
+        : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
       ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}
       <h3>${esc(t("used_by"))}</h3><p>${users(i.users)}</p>
