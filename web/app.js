@@ -340,7 +340,7 @@
     if (dim === "service_typ") return key === "–" ? "–" : t("st_" + key);
     return key;
   }
-  const LIST_DOC = "https://github.com/Accelerate-swiss/cert_landscape_CH/blob/main/docs/CRITICAL_SERVICES.md";
+  const LIST_DOC = "https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/docs/CRITICAL_SERVICES.md";
 
   /* ---- explanations: every traffic light can be traced back ---------------- */
   const CAT_CHECKS = { ownership: ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "own.sectxt"],
@@ -648,7 +648,7 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
   function renderHosts() {
     const types = ["", "canton", "municipality", "federal", "organisation"];
     document.getElementById("matrix").innerHTML = "<h2>" + esc(t("hosts_title")) + '</h2><p class="sub">' + esc(t("hosts_intro")) +
-      ' <a href="https://github.com/Accelerate-swiss/cert_landscape_CH/blob/main/output/latest/hostnames.csv">' + esc(t("hosts_csv")) + "</a></p>" +
+      ' <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/output/latest/hostnames.csv">' + esc(t("hosts_csv")) + "</a></p>" +
       '<div class="hostfilters"><input id="hostq" type="search" autocomplete="off" placeholder="' + esc(t("hosts_filter")) + '" value="' + esc(HL.q) + '">' +
       '<select id="hosttype">' + types.map((x) => '<option value="' + x + '"' + (x === HL.type ? " selected" : "") + ">" + esc(x ? t(KIND_LABEL[x]) : t("type_all")) + "</option>").join("") + "</select>" +
       '<label><input type="checkbox" id="hostcrit"' + (HL.crit ? " checked" : "") + "> " + esc(t("only_crit")) + "</label></div>" +
@@ -1046,7 +1046,7 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
     return '<div class="lrow"><span class="sw" style="background:' + (k === "none" ? css("--nodata") : css(LIGHT_COLORS[k])) + '"></span><span><b>' +
       esc(head) + "</b> " + esc(rest) + "</span></div>";
   }
-  const DOCS = "https://github.com/Accelerate-swiss/cert_landscape_CH/blob/main/";
+  const DOCS = "https://github.com/Accelerate-GmbH/cert_landscape_CH/blob/main/";
   function helpPanel(section) {
     const g = G(), c = cfg(), x = !simple();
     const para = (arr) => (arr || []).map((p) => "<p>" + esc(fill(p)) + "</p>").join("");
@@ -1072,7 +1072,7 @@ const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "ow
         "</th></tr></thead><tbody>" + MAIL_CHECKS.map((cid) => "<tr><td><b>" + esc(t(cid)) + "</b></td><td>" + esc(fill(g.checks[cid].s)) +
         (x ? '<span class="xp">' + esc(fill(g.checks[cid].x)) + "</span>" : "") + "</td></tr>").join("") + "</tbody></table>") +
       sec("crit", t("sec_crit"), para(g.sections.crit[x ? "x" : "s"]) + '<p class="src"><a href="' + LIST_DOC + '">' + esc(t("list_source")) + "</a></p>") +
-      sec("data", t("sec_data"), para(g.sections.data[x ? "x" : "s"]) + '<p class="src"><a href="https://github.com/Accelerate-swiss/cert_landscape_CH/tree/main/output/latest">' +
+      sec("data", t("sec_data"), para(g.sections.data[x ? "x" : "s"]) + '<p class="src"><a href="https://github.com/Accelerate-GmbH/cert_landscape_CH/tree/main/output/latest">' +
         esc(t("data_link")) + "</a></p>") +
       sec("limits", t("sec_limits"), para(g.sections.limits[x ? "x" : "s"])) +
       '<p class="src"><a href="' + DOCS + 'docs/RATING.md">' + esc(t("help_more")) + "</a> · <a href=\"" + DOCS + 'METHOD.md">' + esc(t("method")) + "</a></p>";
