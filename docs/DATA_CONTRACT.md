@@ -50,10 +50,16 @@ results, CSV and Excel exports stay in the pipeline repository.
   `series` in this order: `overall`, `cat:<category>` (ownership,
   sovereignty, security, privacy), `mail`, then `blk:<layer>.<block>` for
   every measured building block of `model` (not `none`, not the count of
-  service types); the same names as in `history/<level>-<id>.json`
+  service types).
+
+`history/<level>-<id>.json`
 : the time series of one entity, one point per month:
   `{"schema": 2, "key", "points": [point, …], "predecessors": [{"key", "name", "merged", "points": [point, …]}, …]}`.
-  A point: `{"month": "YYYY-MM", "run": "YYYY-MM-DD", "overall", "categories": {ownership, sovereignty, security, privacy}, "light", "knockouts", "mail"}`,
+  A point: `{"month": "YYYY-MM", "run": "YYYY-MM-DD", "overall", "categories": {ownership, sovereignty, security, privacy}, "light", "knockouts", "mail", "hosts", "checks"}`,
+  `hosts` the number of rated hosts, `checks` `{check: 0–100}` the share per
+  check (pass 1, partial ½, over the assessed hosts; missing where no host
+  was assessed); both from the run's `results.json.gz`, `null`/`{}` where it
+  is missing,
   values 0–100 with one decimal or `null`. Read from the dated run folders of
   the pipeline (`output/YYYY-MM-DD/entities.csv`); within a month the latest
   run that contains the entity counts. `predecessors`: municipalities merged
@@ -136,6 +142,12 @@ results, CSV and Excel exports stay in the pipeline repository.
   `config/governance.i18n.toml`; not official translations, French and
   Italian follow the official texts). Only laws whose provisions all carry a
   link appear.
+
+`rss/<level>-<id>.xml`
+: RSS 2.0 feed of one entity, one item per month (newest first): value,
+  change to the previous month, categories, mail; link to the report page
+  `#/org/<key>/bericht?m=YYYY-MM` under `[public] site` of
+  `config/settings.toml`. German only.
 
 `benchmarks.json`. Values 0–100 with
   one decimal.
