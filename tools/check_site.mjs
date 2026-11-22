@@ -6,8 +6,9 @@
 // checks of the model) has a simple and an expert text and labels in all four
 // languages; the four languages carry the same keys; web/app.js lists the
 // checks in the published order; the dependencies in the entity files follow
-// docs/DATA_CONTRACT.md; every file the pages reference exists; no file in the
-// repository names an AI tool.
+// docs/DATA_CONTRACT.md; every file the pages reference exists; every view in
+// the navigation of /v2 has a route, and every data file app/js/data.js loads is
+// published; no file in the repository names an AI tool.
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
@@ -82,6 +83,9 @@ if (fs.existsSync(entDir)) {
     }
   }
   if (bad > 5) fail(`… ${bad - 5} more dependency problems`);
+  const histDir = path.join(PUB, "v2", "history");
+  const missing = fs.readdirSync(entDir).filter((f) => f.endsWith(".json") && !fs.existsSync(path.join(histDir, f)));
+  if (missing.length) fail(`v2/history: ${missing.length} entities without a time series, e.g. ${missing.slice(0, 3).join(", ")}`);
 }
 
 // 4. referenced files exist
@@ -93,7 +97,34 @@ for (const [dir, file] of [["web", "index.html"], ["app", "index.html"]]) {
   }
 }
 
-// 5. no AI tool named anywhere in the repository
+// 5. views and data files of /v2
+{
+  const html = fs.readFileSync(path.join(ROOT, "app/index.html"), "utf8");
+  const main = fs.readFileSync(path.join(ROOT, "app/js/main.js"), "utf8");
+  for (const [, nav] of html.matchAll(/data-nav="([^"]+)"/g)) {
+    if (!main.includes(`name: "${nav}"`)) fail(`app/index.html: view ${nav} has no route in app/js/main.js`);
+  }
+  const dj = fs.readFileSync(path.join(ROOT, "app/js/data.js"), "utf8");
+  for (const [, f] of dj.matchAll(/get\("([^"]+\.json)"\)/g)) {
+    if (fs.existsSync(path.join(PUB, "v2")) && !fs.existsSync(path.join(PUB, "v2", f))) fail(`v2/${f} is loaded by app/js/data.js but not published`);
+  }
+}
+
+// 6. the four language files of /v2 carry the same keys
+{
+  const flatKeys = (o, p = "") => Object.entries(o || {}).flatMap(([k, v]) =>
+    v && typeof v === "object" && !Array.isArray(v) ? flatKeys(v, p + k + ".") : [p + k + (Array.isArray(v) ? `[${v.length}]` : "")]);
+  const langs = {};
+  for (const l of LANGS) langs[l] = (await import(path.join(ROOT, "app/js/lang", l + ".js"))).default;
+  const base = new Set(flatKeys(langs.de));
+  for (const l of LANGS.slice(1)) {
+    const other = new Set(flatKeys(langs[l]));
+    const diff = [...base].filter((k) => !other.has(k)).concat([...other].filter((k) => !base.has(k)));
+    if (diff.length) fail(`app/js/lang/${l}.js differs from de.js in ${diff.slice(0, 8).join(", ")}`);
+  }
+}
+
+// 7. no AI tool named anywhere in the repository
 const files = execSync("git ls-files", { cwd: ROOT }).toString().split("\n").filter(Boolean);
 const word = new RegExp(["cla", "ude|anth", "ropic"].join(""), "i");
 for (const f of files) {

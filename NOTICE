@@ -38,6 +38,8 @@ Web map (web/)
   (c) 2010-2011 CloudMade), stylesheet copied to web/vendor/leaflet.css;
   script loaded from unpkg.com. topojson-client 3.1.0 (ISC), loaded from unpkg.com.
   Boundaries: swiss-maps 4.7.0 (interactivethings), based on swisstopo data.
+  The new frontend (/v2) uses the same boundaries, converted to SVG paths when
+  the site is built (tools/build_map.mjs, map-ch.json).
 
 Inspiration
   sslmap.nbrt.ch, map of Swiss public-sector TLS certificates (2026).
