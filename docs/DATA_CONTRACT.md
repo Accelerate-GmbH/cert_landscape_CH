@@ -111,6 +111,13 @@ results, CSV and Excel exports stay in the pipeline repository.
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (identity
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.
+  `register` (seal and time stamp blocks): the providers recognised under
+  ZertES from the Swiss Trusted List of the SAS, `{"source", "rules",
+  "issued", "sequence", "next_update", "providers": [{"name", "uid",
+  "trade_names", "services": [{"name", "kind", "for", "since"}], "withdrawn"}]}`;
+  `kind` `certificates` (qualified certificates, `for` `signatures` and/or
+  `seals`), `remote_qscd` or `timestamp`; only granted services, `withdrawn`
+  counts the withdrawn ones.
   `control`: the lever per building block of the control layer, a view
   across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`);
   only approved entries with sources appear.

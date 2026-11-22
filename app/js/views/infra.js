@@ -17,6 +17,23 @@ function users(u) {
   return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
 }
 
+// providers recognised under ZertES (Swiss Trusted List), for seals and time stamps
+function register(r) {
+  if (!r || !(r.providers || []).length) return "";
+  const svc = (s) => `${esc(t("kind_" + s.kind) || s.kind)}${(s.for || []).length ? " (" + s.for.map((f) => esc(t("for_" + f))).join(", ") + ")" : ""}`;
+  const rows = r.providers.map((p) => {
+    const kinds = {};
+    p.services.forEach((s) => { const k = svc(s); kinds[k] = (kinds[k] || 0) + 1; });
+    return `<tr><th>${esc(p.name)}${p.trade_names && p.trade_names.length ? `<div class="muted small">${esc(p.trade_names.join(", "))}</div>` : ""}
+      ${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${esc(p.uid)}</div>` : ""}</th>
+      <td>${Object.entries(kinds).map(([k, n]) => `${k}: ${n}`).join("<br>")}${p.withdrawn ? `<div class="muted small">${esc(t("reg_withdrawn", { n: p.withdrawn }))}</div>` : ""}</td></tr>`;
+  }).join("");
+  return `<section><h2>${esc(t("reg_title"))}</h2><p>${esc(t("reg_intro"))}</p>
+    <table class="deps"><thead><tr><th></th><td>${esc(t("reg_services"))}</td></tr></thead><tbody>${rows}</tbody></table>
+    <p class="muted small">${esc(t("reg_list", { s: r.sequence, d: date(r.issued), n: date(r.next_update) }))} · ${esc(t("sources"))}:
+      <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a> · <a href="${esc(r.rules)}" rel="noopener">${esc(t("reg_rules"))}</a></p></section>`;
+}
+
 // the legal bases concerning this block (governance.json)
 function legal(gov, key) {
   const laws = (gov.laws || []).filter((l) => l.blocks.includes(key));
@@ -71,5 +88,5 @@ export async function render(el, params) {
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
       ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(tx(inf.source, "title"))}</a></p>` : ""}
       <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>
-    ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}${legal(gov, key)}`;
+    ${imps || (b.register ? "" : `<p class="muted">${esc(t("no_implementation"))}</p>`)}${register(b.register)}${alt}${legal(gov, key)}`;
 }
