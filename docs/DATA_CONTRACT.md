@@ -64,9 +64,11 @@ results, CSV and Excel exports stay in the pipeline repository.
   `parent` is the controlling group where known (`config/stack.toml`, later
   GLEIF), else `null`. `hosts` only for `cloud` and `ca`. Rows sorted by the
   number of dependent entities, most first. `functions`: whether the function
-  runs over an open protocol or a platform (`model`: `protocol` | `platform`)
-  and how easily a provider can be replaced (`swap`: `easy` | `effort` |
-  `hard`), from `[functions]` in `config/stack.toml`.
+  runs over an open protocol or a platform (`model`: `protocol` | `platform`),
+  and, once approved, how replaceable a provider is: `swap` (`easy` |
+  `effort` | `hard`), `data` (which data lie with the provider), `export` (how
+  they can be taken out and stay reusable), `costs` (what a switch costs
+  beyond the work). From `[functions]` in `config/stack.toml`; texts in German.
 
 `providers/<id>.json`
 : one provider: the row above plus `"entities": {function: [key, …]}`, the

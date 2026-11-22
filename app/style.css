@@ -151,3 +151,7 @@ details { margin: 10px 0; }
 summary { cursor: pointer; }
 .ents { columns: 3 220px; padding-left: 18px; margin: 8px 0; }
 .ents li { break-inside: avoid; }
+.repl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0; font-size: 13.5px; max-width: 820px; }
+.repl dt { color: var(--text-2); font-weight: 500; }
+.repl dd { margin: 0; }
+@media (max-width: 600px) { .repl { grid-template-columns: 1fr; } .repl dd { margin-bottom: 6px; } }

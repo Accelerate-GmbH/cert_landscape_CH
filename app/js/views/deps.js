@@ -17,9 +17,16 @@ function hash(path, p) {
 }
 const levelOf = (params, fallback = "municipality") => (LEVELS.some(([k]) => k === params.level) ? params.level : fallback);
 
+// protocol or platform always; replaceability (swap, data, export, costs) once approved
 function fnInfo(f, funcs) {
   const x = funcs[f] || {};
-  return x.model ? `${t("model_" + x.model)} · ${t("swap_" + x.swap)}` : "";
+  return [x.model && t("model_" + x.model), x.swap && t("swap_" + x.swap)].filter(Boolean).join(" · ");
+}
+function fnDetail(f, funcs) {
+  const x = funcs[f] || {};
+  if (!x.data && !x.export && !x.costs) return "";
+  return `<dl class="repl">${[["data", x.data], ["export", x.export], ["costs", x.costs]].filter(([, v]) => v)
+    .map(([k, v]) => `<dt>${esc(t("repl_" + k))}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;
 }
 
 export async function renderList(el, params) {
@@ -65,6 +72,7 @@ export async function renderList(el, params) {
       <label><input type="checkbox" data-f="konzern"${byGroup ? " checked" : ""}> ${esc(t("by_group"))}</label>
       ${f ? `<span class="muted small">${esc(fnInfo(f, dir.functions))}</span>` : ""}
     </div>
+    ${f ? fnDetail(f, dir.functions) : ""}
     ${lead ? `<p class="sub">${esc(lead)}</p>` : ""}</section>
     <div class="scroll"><table class="prov"><thead><tr><th>${esc(t("rank"))}</th><th>${esc(byGroup ? t("group") : t("provider"))}</th>
       <th>${esc(t("depend", { lv: LEVEL_MANY[level] }))}</th><th>${esc(byGroup ? t("products") : t("functions"))}</th></tr></thead>
@@ -100,7 +108,7 @@ export async function renderProvider(el, params) {
     if (!ks.length) return "";
     ks.sort((a, b) => ((names[a] || [a])[0]).localeCompare((names[b] || [b])[0]));
     return `<details${ks.length <= 30 ? " open" : ""}><summary><b>${esc(fname(f))}</b> · ${ks.length} ${esc(LEVEL_MANY[level])}
-      <span class="muted small">· ${esc(fnInfo(f, dir.functions))}</span></summary>
+      <span class="muted small">· ${esc(fnInfo(f, dir.functions))}</span></summary>${fnDetail(f, dir.functions)}
       <ul class="ents">${ks.map((k) => `<li><a href="#/org/${encodeURIComponent(k)}">${esc((names[k] || [k])[0])}</a>${(names[k] || [])[1] && level === "municipality" ? ` <span class="muted small">${esc(names[k][1])}</span>` : ""}</li>`).join("")}</ul></details>`;
   }).join("");
   const cantons = !["municipality", "organisation"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
