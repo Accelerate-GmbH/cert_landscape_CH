@@ -25,8 +25,10 @@ function fnInfo(f, funcs) {
 function fnDetail(f, funcs) {
   const x = funcs[f] || {};
   if (!x.data && !x.export && !x.costs) return "";
+  const src = (x.sources || []).map((s) => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`).join(" · ");
   return `<dl class="repl">${[["data", x.data], ["export", x.export], ["costs", x.costs]].filter(([, v]) => v)
-    .map(([k, v]) => `<dt>${esc(t("repl_" + k))}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;
+    .map(([k, v]) => `<dt>${esc(t("repl_" + k))}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+    <p class="muted small">${x.assessment ? esc(t("assessment")) + " " : ""}${esc(t("checked_on", { d: (x.checked || "").split("-").reverse().map(Number).join(".") }))}${src ? " · " + esc(t("sources")) + ": " + src : ""}</p>`;
 }
 
 export async function renderList(el, params) {

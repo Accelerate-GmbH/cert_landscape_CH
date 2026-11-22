@@ -84,6 +84,7 @@ const T = {
     fn_mail: "Mail", fn_send: "Versand", fn_saas: "SaaS", fn_idp: "Login", fn_cloud: "Cloud und Hosting", fn_ca: "Zertifikate (CA)", fn_dns: "DNS",
     model_protocol: "offenes Protokoll", model_platform: "Plattform",
     swap_easy: "leicht ersetzbar", swap_effort: "mit Aufwand und Kosten ersetzbar", swap_hard: "schwer ersetzbar",
+    assessment: "Einschätzung des Trust & Sovereignty Posture Radar.", checked_on: "Geprüft am {d}", sources: "Quellen",
     repl_data: "Daten beim Anbieter", repl_export: "Herausnehmen und weiterverwenden", repl_costs: "Kosten eines Wechsels",
     kind_saas: "SaaS", kind_sending: "Versanddienst", kind_send: "Versanddienst", kind_idp: "Login-Anbieter", kind_cloud: "Cloud",
     kind_cdn: "Content Delivery Network", kind_hosting: "Hosting", kind_mailsec: "Mail-Filter", kind_network: "Netz (Hosting)",

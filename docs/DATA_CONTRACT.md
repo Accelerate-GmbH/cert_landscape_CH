@@ -61,14 +61,19 @@ results, CSV and Excel exports stay in the pipeline repository.
   "counts": {level: {function: n_entities}}, "hosts": {level: {function: n_hosts}}}`.
   `id` is the key in `config/stack.toml` where the provider is listed there,
   else `x-<slug of the name>` (networks, CAs and DNS operators by name);
-  `parent` is the controlling group where known (`config/stack.toml`, later
+  `parent` and `parent_country`: the controlling group, only where a source
+  for it is recorded (`parent_source`, a link to the register entry, e.g.
   GLEIF), else `null`. `hosts` only for `cloud` and `ca`. Rows sorted by the
   number of dependent entities, most first. `functions`: whether the function
   runs over an open protocol or a platform (`model`: `protocol` | `platform`),
   and, once approved, how replaceable a provider is: `swap` (`easy` |
   `effort` | `hard`), `data` (which data lie with the provider), `export` (how
   they can be taken out and stay reusable), `costs` (what a switch costs
-  beyond the work). From `[functions]` in `config/stack.toml`; texts in German.
+  beyond the work), `sources` (`[{"title", "url"}]`, links to the exact place
+  that supports the facts in the texts), `checked` (date of the check) and
+  `assessment` (`true`: the texts are an assessment, shown as such). Only
+  entries approved and checked are published. From `[functions]` in
+  `config/stack.toml`; texts in German.
 
 `providers/<id>.json`
 : one provider: the row above plus `"entities": {function: [key, …]}`, the
