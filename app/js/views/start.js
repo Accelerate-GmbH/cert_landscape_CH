@@ -1,7 +1,7 @@
 // Switzerland at a glance: the layer model, one block per building block,
 // filled with the share over all entities of the chosen level.
 import * as data from "../data.js";
-import { LAYERS, BLOCKS, BLOCK_WHAT, LEVELS, GROUPS, CONTROL, t } from "../text.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, LEVELS, LEVEL_MANY, GROUPS, CONTROL, t } from "../text.js";
 import { esc, fmt, light, dot, store, HOME_KEY } from "../ui.js";
 
 const ORDER = ["apps", "dpi", "ext", "trust", "cloud", "net"];
@@ -16,13 +16,12 @@ export async function render(el, params) {
   const tabs = LEVELS.map(([k, n]) => `<a class="tab${k === level ? " on" : ""}" href="#/?level=${k}">${esc(n)}</a>`).join("");
   const lights = o.lights || {};
   const head = `<section class="lead">
-    <h1>Wo hält die Schweiz ihre digitalen Grundbausteine in eigener Hand?</h1>
-    <p>Jede Box ist ein Baustein, auf dem öffentliche Dienste ruhen. Die Zahl zeigt, wie gut ${esc(LEVELS.find((l) => l[0] === level)[1])}
-      diesen Baustein im Durchschnitt abdecken, von 0 bis 100. Gestrichelt ist, was es heute noch nicht gibt.</p>
+    <h1>${esc(t("start_h1"))}</h1>
+    <p>${esc(t("start_intro", { lv: LEVEL_MANY[level] }))}</p>
     <div class="tabs" role="tablist">${tabs}</div>
-    <p class="sub">${o.entities} erfasst · ${o.rated} bewertet · Gesamtwert ${fmt(o.overall)} ·
+    <p class="sub">${esc(t("start_counts", { e: o.entities, r: o.rated, o: fmt(o.overall) }))} ·
       ${dot("green")} ${lights.green || 0} ${dot("yellow")} ${lights.yellow || 0} ${dot("red")} ${lights.red || 0}
-      ${home ? ` · <a href="#/org/${encodeURIComponent(home)}">zu meiner Organisation →</a>` : ""}</p>
+      ${home ? ` · <a href="#/org/${encodeURIComponent(home)}">${esc(t("to_my_org"))}</a>` : ""}</p>
   </section>`;
 
   const rows = ORDER.map((lid) => {
@@ -33,14 +32,14 @@ export async function render(el, params) {
       const none = c.m === "none", count = c.m === "count";
       const l = none || count ? "none" : light(c.v, cfg);
       const empty = !none && !count && (c.v === null || c.v === undefined);
-      const val = none ? (nImpl ? t("use_unmeasured") : "noch nicht gemessen") : count ? "Typen pro Organisation" : empty ? "noch keine Daten" : fmt(c.v);
+      const val = none ? (nImpl ? t("use_unmeasured") : t("not_measured")) : count ? t("types_per_org") : empty ? t("no_data_yet") : fmt(c.v);
       // blocks of the digital public infrastructure open their own page
       const href = L.group === "dpi" ? `#/baustein/${key}` : !none && !count && !empty ? `#/karte/${encodeURIComponent("blk:" + key)}?level=${level === "canton" ? "canton" : "municipality"}` : "";
       const tag = href ? "a" : "div";
       return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
         <div class="bn">${esc(BLOCKS[key] || key)}</div>
         <div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>
-        ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${c.entities === 1 ? "Einheit" : "Einheiten"}</div>` : ""}
+        ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${esc(c.entities === 1 ? t("unit_one") : t("unit_many"))}</div>` : ""}
         ${nImpl ? `<div class="bs">${esc(nImpl === 1 ? t("impl_one") : t("impl_count", { n: nImpl }))} ›</div>` : ""}
       </${tag}>`;
     }).join("");
@@ -50,9 +49,7 @@ export async function render(el, params) {
     </div>`;
   }).join("");
 
-  el.innerHTML = head + `<div class="modelwrap"><section class="model" aria-label="Schichtenmodell">${rows}</section>
+  el.innerHTML = head + `<div class="modelwrap"><section class="model" aria-label="${esc(t("layer_model"))}">${rows}</section>
     <div class="ctrl" tabindex="0" title="${esc(CONTROL.hint)}" aria-label="${esc(CONTROL.name + ": " + CONTROL.hint)}"><span>${esc(CONTROL.name)}</span></div></div>
-    <section class="note"><p>Grundlage: öffentliche Messungen von DNS, Zertifikaten, Netzwerken und Mail, Stand ${esc((meta.data_generated || "").slice(0, 10))}.
-      Was eine Organisation intern betreibt, ist nicht sichtbar. Bei der digitalen öffentlichen Infrastruktur zeigt ein Klick auf den Baustein,
-      worauf ihre Umsetzungen ruhen; wer sie nutzt, wird erst teilweise erkannt. Die Kontrollschicht ist ein Entwurf und erscheint nach Prüfung der Quellen.</p></section>`;
+    <section class="note"><p>${esc(t("start_note", { d: (meta.data_generated || "").slice(0, 10).split("-").reverse().map(Number).join(".") }))}</p></section>`;
 }

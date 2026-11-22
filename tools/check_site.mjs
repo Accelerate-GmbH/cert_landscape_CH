@@ -110,7 +110,21 @@ for (const [dir, file] of [["web", "index.html"], ["app", "index.html"]]) {
   }
 }
 
-// 6. no AI tool named anywhere in the repository
+// 6. the four language files of /v2 carry the same keys
+{
+  const flatKeys = (o, p = "") => Object.entries(o || {}).flatMap(([k, v]) =>
+    v && typeof v === "object" && !Array.isArray(v) ? flatKeys(v, p + k + ".") : [p + k + (Array.isArray(v) ? `[${v.length}]` : "")]);
+  const langs = {};
+  for (const l of LANGS) langs[l] = (await import(path.join(ROOT, "app/js/lang", l + ".js"))).default;
+  const base = new Set(flatKeys(langs.de));
+  for (const l of LANGS.slice(1)) {
+    const other = new Set(flatKeys(langs[l]));
+    const diff = [...base].filter((k) => !other.has(k)).concat([...other].filter((k) => !base.has(k)));
+    if (diff.length) fail(`app/js/lang/${l}.js differs from de.js in ${diff.slice(0, 8).join(", ")}`);
+  }
+}
+
+// 7. no AI tool named anywhere in the repository
 const files = execSync("git ls-files", { cwd: ROOT }).toString().split("\n").filter(Boolean);
 const word = new RegExp(["cla", "ude|anth", "ropic"].join(""), "i");
 for (const f of files) {

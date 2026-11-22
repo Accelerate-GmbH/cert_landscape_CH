@@ -8,9 +8,21 @@ import * as infra from "./views/infra.js";
 import * as basics from "./views/basics.js";
 import * as lens from "./views/lens.js";
 import { esc, store } from "./ui.js";
-import { LEVEL_ONE } from "./text.js";
+import { LEVEL_ONE, LANG, LANGS, setLang, t } from "./text.js";
 
 const view = document.getElementById("view");
+
+// texts of the page frame (header, footer) in the chosen language
+function frame() {
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-t]").forEach((n) => { n.textContent = t(n.dataset.t); });
+  document.querySelectorAll("[data-t-ph]").forEach((n) => { n.placeholder = t(n.dataset.tPh); });
+  document.querySelectorAll("[data-t-label]").forEach((n) => { n.setAttribute("aria-label", t(n.dataset.tLabel)); });
+}
+const langSel = document.getElementById("lang");
+langSel.innerHTML = Object.keys(LANGS).map((l) => `<option value="${l}"${l === LANG ? " selected" : ""}>${l.toUpperCase()}</option>`).join("");
+langSel.addEventListener("change", () => { setLang(langSel.value); frame(); route(); });
+frame();
 const roleSel = document.getElementById("role");
 roleSel.value = store.get("tp.role") || "lay";
 roleSel.addEventListener("change", () => { store.set("tp.role", roleSel.value); route(); });
@@ -33,7 +45,7 @@ function parse() {
 async function route() {
   const r = parse();
   document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", a.dataset.nav === r.name));
-  view.innerHTML = '<p class="muted">Lade …</p>';
+  view.innerHTML = `<p class="muted">${esc(t("loading"))}</p>`;
   try {
     if (r.name === "org") await org.render(view, r.params, roleSel.value);
     else if (r.sub === "lens") await lens.render(view, r.params);
@@ -43,7 +55,7 @@ async function route() {
     else if (r.name === "compare") await compare.render(view, r.params, roleSel.value);
     else await start.render(view, r.params, roleSel.value);
   } catch (e) {
-    view.innerHTML = `<p>Die Daten konnten nicht geladen werden (${esc(e.message)}).</p>`;
+    view.innerHTML = `<p>${esc(t("load_error", { e: e.message }))}</p>`;
   }
   window.scrollTo(0, 0);
 }

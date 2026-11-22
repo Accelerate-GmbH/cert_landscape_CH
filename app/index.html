@@ -9,28 +9,29 @@
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#/">Trust &amp; Sovereignty Posture Radar <span class="beta">Entwurf v2</span></a>
+  <a class="brand" href="#/">Trust &amp; Sovereignty Posture Radar <span class="beta" data-t="draft">Entwurf v2</span></a>
   <nav>
-    <a href="#/" data-nav="start">Überblick</a>
-    <a href="#/org" data-nav="org">Meine Organisation</a>
-    <a href="#/vergleich" data-nav="compare">Vergleich</a>
-    <a href="#/abhaengigkeiten" data-nav="deps">Abhängigkeiten</a>
-    <a href="#/grundlagen" data-nav="basics">Grundlagen</a>
+    <a href="#/" data-nav="start" data-t="nav_start">Überblick</a>
+    <a href="#/org" data-nav="org" data-t="nav_org">Meine Organisation</a>
+    <a href="#/vergleich" data-nav="compare" data-t="nav_compare">Vergleich</a>
+    <a href="#/abhaengigkeiten" data-nav="deps" data-t="nav_deps">Abhängigkeiten</a>
+    <a href="#/grundlagen" data-nav="basics" data-t="nav_basics">Grundlagen</a>
   </nav>
   <div class="search">
-    <input id="q" type="search" placeholder="Gemeinde, Kanton, Amt oder Firma" autocomplete="off" aria-label="Suchen" role="combobox" aria-expanded="false" aria-controls="sugg">
+    <input id="q" type="search" placeholder="Gemeinde, Kanton, Amt oder Firma" data-t-ph="search_ph" autocomplete="off" aria-label="Suchen" data-t-label="search_label" role="combobox" aria-expanded="false" aria-controls="sugg">
     <ul id="sugg" role="listbox" hidden></ul>
   </div>
-  <label class="role">Rolle
+  <label class="role"><span data-t="role">Rolle</span>
     <select id="role">
-      <option value="lay">Entscheid und Öffentlichkeit</option>
-      <option value="tech">Informatik und Fachleute</option>
+      <option value="lay" data-t="role_lay">Entscheid und Öffentlichkeit</option>
+      <option value="tech" data-t="role_tech">Informatik und Fachleute</option>
     </select>
   </label>
+  <label class="role"><span data-t="language">Sprache</span> <select id="lang"></select></label>
 </header>
 <main id="view" aria-live="polite"></main>
 <footer>
-  Daten: <span id="asof"></span> · <a href="../">bisherige Karte</a> · <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH">Methode und Quellen</a>
+  <span data-t="footer_data">Daten</span>: <span id="asof"></span> · <a href="../" data-t="footer_old">bisherige Karte</a> · <a href="https://github.com/Accelerate-GmbH/cert_landscape_CH" data-t="footer_method">Methode und Quellen</a>
 </footer>
 <script src="../guide.js?v=__BUILD__"></script>
 <script type="module" src="js/main.js?v=__BUILD__"></script>
