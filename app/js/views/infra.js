@@ -30,12 +30,13 @@ export async function render(el, params) {
   const one = (i) => {
     const rest = REST.map((c) => {
       const rows = (i.rests_on || {})[c] || [];
-      return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value)} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
+      return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
     }).join("");
     return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>
       <p class="sub">${esc(i.operator || "")}${i.role ? " · " + esc(i.role) : ""}</p>
       <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
-      <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) }))
+      <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
+          + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
         : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
       ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}
