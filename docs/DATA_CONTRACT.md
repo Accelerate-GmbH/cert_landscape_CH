@@ -130,8 +130,9 @@ results, CSV and Excel exports stay in the pipeline repository.
 
 `governance.json`
 : the legal bases of the governance view, from `config/governance.toml`:
-  `{"schema": 2, "checked", "laws": [law, …]}`. A law: `id`, `abbr`,
-  `name`, `ref` (SR or BBl number), `url`, `status` (`in_force` |
+  `{"schema": 2, "checked", "laws": [law, …]}`. A law: `id`, `level`
+  (`federal` | `canton`), `canton` (code, cantonal law only), `abbr`,
+  `name`, `ref` (SR, BBl or cantonal systematic number), `url`, `status` (`in_force` |
   `angenommen` | …), `status_text`, `status_sources` (`[{"title", "url"}]`),
   `scope` (who it applies to), `provisions` (`[{"art", "text", "url",
   "blocks"}]`: article, short summary close to its wording, link to the

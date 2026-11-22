@@ -36,11 +36,13 @@ function register(r) {
 
 // the legal bases concerning this block (governance.json)
 function legal(gov, key) {
-  const laws = (gov.laws || []).filter((l) => l.blocks.includes(key));
-  if (!laws.length) return "";
+  const laws = (gov.laws || []).filter((l) => l.blocks.includes(key) && l.level !== "canton");
+  const kt = [...new Set((gov.laws || []).filter((l) => l.blocks.includes(key) && l.level === "canton").map((l) => l.canton))].sort();
+  if (!laws.length && !kt.length) return "";
   return `<section><h2>${esc(t("gov_for_block"))}</h2>${laws.map((l) =>
     `<h3><a href="#/governance/${encodeURIComponent(l.id)}">${esc(lawText(l, "abbr"))}</a> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h3>
-     <table class="deps gov"><tbody>${provisionRows(l, key)}</tbody></table>`).join("")}</section>`;
+     <table class="deps gov"><tbody>${provisionRows(l, key)}</tbody></table>`).join("")}
+    ${kt.length ? `<p><a href="#/governance?blk=${encodeURIComponent(key)}">${esc(t("gov_cantonal_box", { c: kt.join(", ") }))} ›</a></p>` : ""}</section>`;
 }
 
 export async function render(el, params) {
