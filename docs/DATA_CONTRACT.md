@@ -22,7 +22,7 @@ results, CSV and Excel exports stay in the pipeline repository.
 
 `meta.json`
 : `schema`, `built`, `data_generated`, `cfg` (rating weights and thresholds),
-  `check_order`, `model` (the layer model from `config/model.toml`), `counts`
+  `check_order`, `model` (layers and benchmark from `config/model.toml`; levers, implementations and aspects only in `infrastructure.json`, after approval and with sources), `counts`
   per level, `months` (the months with a run, `YYYY-MM`, oldest first),
   `mail_weights` (weight per mail check), `sources` (from
   `config/sources.toml`: `checked`, `rating` `{"title", "url"}`, `checks`

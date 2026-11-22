@@ -125,7 +125,7 @@ export default {
   dpi_title: "Digital public infrastructure",
   dpi_text: "The radar takes the term and the division into identity, payments and data exchange from UNDP; the distinction between identity and authentication follows NIST.",
   limits_title: "Limits of the measurement",
-  limits_text: "What is publicly visible is measured: DNS records, certificates from Certificate Transparency, networks and the answers of the services themselves. Internal systems, services behind an application, records management (GEVER), seals and timestamps are hardly or not visible from outside. The measurements run in GitHub data centres in the USA and Europe; a service that answers differently depending on origin may therefore appear differently than to users in Switzerland.",
+  limits_text: "What is publicly visible is measured: DNS records, certificates from Certificate Transparency, networks and the answers of the services themselves. Internal systems, services behind an application, records management applications (GEVER), seals and timestamps are hardly or not visible from outside. The measurements run in GitHub data centres in the USA and Europe; a service that answers differently depending on origin may therefore appear differently than to users in Switzerland.",
   raw_title: "Raw data",
   raw_text: "The website shows aggregated values. Specialists receive raw data on request from Accelerate GmbH under a written agreement.",
   map_title: "Map",
@@ -240,7 +240,7 @@ export default {
  level_many: { federal: "departments", canton: "cantons", municipality: "municipalities", organisation: "organisations" },
  level_dat: { federal: "departments", canton: "cantons", municipality: "municipalities", organisation: "organisations" },
  apps: {
-  website: "Website", portal: "Portal", login: "Login", mail: "Mail", gever: "GEVER", payment: "Payment", api: "Interface",
+  website: "Website", portal: "Portal", login: "Login", mail: "Mail", gever: "GEVER application", payment: "Payment", api: "Interface",
   remote: "Remote access", collab: "Collaboration", geo: "Geodata", intranet: "Internal", school: "School", test: "Test", other: "other",
  },
  cats: { ownership: "Ownership and control", sovereignty: "Sovereignty", security: "Security", privacy: "Privacy" },

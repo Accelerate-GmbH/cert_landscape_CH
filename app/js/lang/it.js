@@ -125,7 +125,7 @@ export default {
   dpi_title: "Infrastruttura pubblica digitale",
   dpi_text: "Il radar riprende dall'UNDP la nozione e la suddivisione in identità, pagamenti e scambio di dati; la distinzione tra identità e autenticazione segue il NIST.",
   limits_title: "Limiti della misurazione",
-  limits_text: "Si misura ciò che è visibile pubblicamente: voci DNS, certificati da Certificate Transparency, reti e le risposte dei servizi stessi. Sistemi interni, servizi sullo sfondo di un'applicazione, GEVER, sigilli e marche temporali sono poco o per nulla visibili dall'esterno. Le misurazioni avvengono in centri di calcolo di GitHub negli Stati Uniti e in Europa; un servizio che risponde in modo diverso a seconda della provenienza può quindi apparire diversamente rispetto agli utenti in Svizzera.",
+  limits_text: "Si misura ciò che è visibile pubblicamente: voci DNS, certificati da Certificate Transparency, reti e le risposte dei servizi stessi. Sistemi interni, servizi sullo sfondo di un'applicazione, applicazioni GEVER, sigilli e marche temporali sono poco o per nulla visibili dall'esterno. Le misurazioni avvengono in centri di calcolo di GitHub negli Stati Uniti e in Europa; un servizio che risponde in modo diverso a seconda della provenienza può quindi apparire diversamente rispetto agli utenti in Svizzera.",
   raw_title: "Dati grezzi",
   raw_text: "Il sito mostra valori aggregati. Gli specialisti ottengono i dati grezzi su richiesta presso Accelerate GmbH, con un accordo scritto.",
   map_title: "Carta",
@@ -240,7 +240,7 @@ export default {
  level_many: { federal: "dipartimenti", canton: "cantoni", municipality: "comuni", organisation: "organizzazioni" },
  level_dat: { federal: "dipartimenti", canton: "cantoni", municipality: "comuni", organisation: "organizzazioni" },
  apps: {
-  website: "Sito web", portal: "Portale", login: "Login", mail: "Posta", gever: "GEVER", payment: "Pagamento", api: "Interfaccia",
+  website: "Sito web", portal: "Portale", login: "Login", mail: "Posta", gever: "Applicazione GEVER", payment: "Pagamento", api: "Interfaccia",
   remote: "Accesso remoto", collab: "Collaborazione", geo: "Geodati", intranet: "Interno", school: "Scuola", test: "Test", other: "altri",
  },
  cats: { ownership: "Proprietà e controllo", sovereignty: "Sovranità", security: "Sicurezza", privacy: "Sfera privata" },

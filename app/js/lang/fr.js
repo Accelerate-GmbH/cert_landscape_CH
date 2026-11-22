@@ -125,7 +125,7 @@ export default {
   dpi_title: "Infrastructure publique numérique",
   dpi_text: "Le radar reprend de l'UNDP la notion et la répartition en identité, paiements et échange de données ; la distinction entre identité et authentification suit le NIST.",
   limits_title: "Limites de la mesure",
-  limits_text: "Est mesuré ce qui est visible publiquement : entrées DNS, certificats issus de Certificate Transparency, réseaux et réponses des services eux-mêmes. Les systèmes internes, les services en arrière-plan d'une application, la GEVER, les cachets et les horodatages ne sont guère ou pas visibles de l'extérieur. Les mesures sont effectuées dans des centres de calcul de GitHub aux États-Unis et en Europe ; un service qui répond différemment selon la provenance peut donc apparaître autrement que pour les utilisateurs en Suisse.",
+  limits_text: "Est mesuré ce qui est visible publiquement : entrées DNS, certificats issus de Certificate Transparency, réseaux et réponses des services eux-mêmes. Les systèmes internes, les services en arrière-plan d'une application, les applications GEVER, les cachets et les horodatages ne sont guère ou pas visibles de l'extérieur. Les mesures sont effectuées dans des centres de calcul de GitHub aux États-Unis et en Europe ; un service qui répond différemment selon la provenance peut donc apparaître autrement que pour les utilisateurs en Suisse.",
   raw_title: "Données brutes",
   raw_text: "Le site montre des valeurs agrégées. Les spécialistes obtiennent les données brutes sur demande auprès d'Accelerate GmbH, avec un accord écrit.",
   map_title: "Carte",
@@ -240,7 +240,7 @@ export default {
  level_many: { federal: "départements", canton: "cantons", municipality: "communes", organisation: "organisations" },
  level_dat: { federal: "départements", canton: "cantons", municipality: "communes", organisation: "organisations" },
  apps: {
-  website: "Site web", portal: "Portail", login: "Connexion", mail: "Courriel", gever: "GEVER", payment: "Paiement", api: "Interface",
+  website: "Site web", portal: "Portail", login: "Connexion", mail: "Courriel", gever: "Application GEVER", payment: "Paiement", api: "Interface",
   remote: "Accès à distance", collab: "Collaboration", geo: "Géodonnées", intranet: "Interne", school: "École", test: "Test", other: "autres",
  },
  cats: { ownership: "Propriété et contrôle", sovereignty: "Souveraineté", security: "Sécurité", privacy: "Sphère privée" },
