@@ -128,6 +128,12 @@ export async function render(el, params, role) {
       ${FN.map((f) => cell(x.cells[f])).join("")}<td class="muted small">${esc(t("mx_na"))}</td></tr>`).join("")}</tbody></table></div>`
     : `<p class="muted">${esc(t("mx_none"))}</p>`;
 
+  // a department by the domains of its offices (entity "parts", federal level)
+  const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))}</p>
+    <div class="scroll"><table class="hosts"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("parts_hosts"))}</th><th>${esc(t("parts_mean"))}</th><th>${esc(t("parts_ko"))}</th></tr></thead>
+    <tbody>${d.parts.map((x) => `<tr><td>${esc(x.domain)}</td><td class="num">${x.hosts}</td>
+      <td>${x.overall === null ? '<span class="muted">–</span>' : `${dot(light(x.overall, cfg))} ${fmt(x.overall)}`}</td><td class="num">${x.knockouts || ""}</td></tr>`).join("")}</tbody></table></div></section>` : "";
+
   const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
   const hostList = hosts.length ? `<table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th></tr></thead><tbody>${hosts.map((h) =>
     `<tr><td>${esc(h.host)}${h.critical ? ` <span class="tag">${esc(t("tag_critical"))}</span>` : ""}${h.knockout ? ` <span class="tag red">${esc(t("tag_ko"))}</span>` : ""}${h.unreachable ? ` <span class="tag">${esc(t("tag_unreachable"))}</span>` : ""}</td>
@@ -138,6 +144,7 @@ export async function render(el, params, role) {
      <section><h2>${esc(t("mx_title"))}</h2><p class="sub">${esc(t("mx_sub"))}</p>${matrix}</section>
      <div class="two"><section><h2>${esc(t("next_steps"))}</h2>${steps}</section>
      <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}<h2>${esc(t("deps_title"))}</h2>${deps}</section></div>
+     ${partsTbl}
      <section><h2>${esc(t("weakest"))}</h2>${hostList}</section>`;
 
   el.querySelector("[data-home]").addEventListener("click", (ev) => {
