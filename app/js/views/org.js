@@ -106,6 +106,26 @@ export async function render(el, params, role) {
     ${depRow(t("dep_idp"), dep.idp, false, "idp")}${depRow(t("dep_cloud"), dep.cloud, true, "cloud")}</tbody></table>
     <p class="muted small">${esc(t("deps_org_note"))}</p>`;
 
+  // services × functions (entity "services"): per service the provider of each basic function
+  const FN = ["resolve", "registrar", "secure", "operate", "identity"];
+  const LIGHT = { pass: "green", partial: "yellow", fail: "red" };
+  const short = (c) => {
+    const v = c.value || "";
+    if (c.check === "mail.dmarc") return (v.match(/p=(\w+)/) || [])[0] || v.slice(0, 24);
+    return v.length > 48 ? v.slice(0, 46) + "…" : v;
+  };
+  const cell = (c) => {
+    if (!c) return `<td class="muted">–</td>`;
+    const n = c.count.pass + c.count.partial + c.count.fail;
+    return `<td title="${esc(checkName(c.check))}${c.value ? ": " + esc(c.value) : ""}">${c.status ? `${dot(LIGHT[c.status])} ${esc(short(c))}` : '<span class="muted">–</span>'}
+      ${n > 1 ? `<div class="muted small">${esc(t("mx_count", { p: c.count.pass, n }))}</div>` : ""}</td>`;
+  };
+  const svc = d.services || [];
+  const matrix = svc.length ? `<div class="scroll"><table class="matrix"><thead><tr><th></th>${FN.map((f) => `<th>${esc(t("fn_" + f))}</th>`).join("")}<th>${esc(t("fn_proof"))}</th></tr></thead>
+    <tbody>${svc.map((x) => `<tr><th>${esc(APPS[x.service] || x.service)}<div class="muted small">${esc(x.host)}${x.hosts > 1 ? ` (+${x.hosts - 1})` : ""}</div></th>
+      ${FN.map((f) => cell(x.cells[f])).join("")}<td class="muted small">${esc(t("mx_na"))}</td></tr>`).join("")}</tbody></table></div>`
+    : `<p class="muted">${esc(t("mx_none"))}</p>`;
+
   const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
   const hostList = hosts.length ? `<table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th></tr></thead><tbody>${hosts.map((h) =>
     `<tr><td>${esc(h.host)}${h.critical ? ` <span class="tag">${esc(t("tag_critical"))}</span>` : ""}${h.knockout ? ` <span class="tag red">${esc(t("tag_ko"))}</span>` : ""}${h.unreachable ? ` <span class="tag">${esc(t("tag_unreachable"))}</span>` : ""}</td>
@@ -113,6 +133,7 @@ export async function render(el, params, role) {
 
   el.innerHTML = head + verdict + trend.render(hist, cfg) +
     `<section><h2>${esc(t("blocks_h"))}</h2><p class="sub">${esc(t("blocks_sub"))}</p><div class="model compact">${layers}</div></section>
+     <section><h2>${esc(t("mx_title"))}</h2><p class="sub">${esc(t("mx_sub"))}</p>${matrix}</section>
      <div class="two"><section><h2>${esc(t("next_steps"))}</h2>${steps}</section>
      <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}<h2>${esc(t("deps_title"))}</h2>${deps}</section></div>
      <section><h2>${esc(t("weakest"))}</h2>${hostList}</section>`;
