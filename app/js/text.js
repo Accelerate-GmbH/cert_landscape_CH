@@ -128,7 +128,12 @@ const T = {
     limits_title: "Grenzen der Messung",
     limits_text: "Gemessen wird, was öffentlich sichtbar ist: DNS-Einträge, Zertifikate aus Certificate Transparency, Netze und die Antworten der Dienste selbst. Interne Systeme, Dienste im Hintergrund einer Applikation, GEVER, Siegel und Zeitstempel sind von aussen kaum oder nicht sichtbar. Die Messungen laufen in Rechenzentren von GitHub in den USA und in Europa; ein Dienst, der je nach Herkunft anders antwortet, kann deshalb anders erscheinen als für Nutzer in der Schweiz.",
     raw_title: "Rohdaten",
-    raw_text: "Die Website zeigt verdichtete Werte. Rohdaten erhalten Fachleute auf Anfrage mit einer schriftlichen Vereinbarung.",
+    raw_text: "Die Website zeigt verdichtete Werte. Rohdaten erhalten Fachleute auf Anfrage bei der Accelerate GmbH mit einer schriftlichen Vereinbarung.",
+    map_title: "Karte", show: "Zeigen", no_value: "kein Wert",
+    lg_green: "ab {g}", lg_yellow: "{y} bis unter {g}", lg_red: "unter {y}",
+    map_aria: "Karte der Schweiz: {s}", map_missing: "Die Kartengrundlage fehlt in diesem Build.",
+    map_note: "Klick auf eine Fläche öffnet die Organisation. Gemeinden ohne Wert haben keine bewerteten Dienste oder sind in der Gemeindeliste des Radars nicht enthalten. Grenzen:",
+    on_map: "Auf der Karte zeigen",
     rated_of: "{r} von {n} bewertet", own_rank: "eigener Rang {r}", rank: "Rang", show_all: "Alle {n} anzeigen",
   },
 };

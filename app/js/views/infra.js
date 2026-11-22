@@ -59,6 +59,6 @@ export async function render(el, params) {
       <h1>${esc(BLOCKS[key])}</h1><p>${esc(LAYERS[lid].hint)}</p>
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
       ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(inf.source.title)}</a></p>` : ""}
-      <p><a href="#/">← ${esc(t("overview"))}</a></p></section>
+      <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>
     ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}`;
 }

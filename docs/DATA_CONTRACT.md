@@ -12,6 +12,7 @@ deploys it with the site; nothing is committed to the public repository.
 | --- | --- | --- |
 | `output/public/v2/` | `/v2/data/` | `app/` (`app/js/data.js`, `BASE = "data"`) |
 | `output/latest/map.json`, `hosts.json`, `search.json`, `resources/` | `/data/` | `web/` (current map) |
+| (none: built by `publish map` from swiss-maps 4.7.0 with `tools/build_map.mjs`) | `/v2/map-ch.json` | `app/` (map as a lens: SVG paths of cantons, municipalities and lakes) |
 
 Rule for anything added: a file the browser needs goes into the public folder
 with an entry below and into the list of files `publish map` reads. Raw

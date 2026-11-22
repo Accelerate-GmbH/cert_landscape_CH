@@ -35,8 +35,9 @@ export async function render(el, params) {
       const empty = !none && !count && (c.v === null || c.v === undefined);
       const val = none ? (nImpl ? t("use_unmeasured") : "noch nicht gemessen") : count ? "Typen pro Organisation" : empty ? "noch keine Daten" : fmt(c.v);
       // blocks of the digital public infrastructure open their own page
-      const tag = L.group === "dpi" ? "a" : "div";
-      return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" ${tag === "a" ? `href="#/baustein/${key}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
+      const href = L.group === "dpi" ? `#/baustein/${key}` : !none && !count && !empty ? `#/karte/${encodeURIComponent("blk:" + key)}?level=${level === "canton" ? "canton" : "municipality"}` : "";
+      const tag = href ? "a" : "div";
+      return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
         <div class="bn">${esc(BLOCKS[key] || key)}</div>
         <div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>
         ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${c.entities === 1 ? "Einheit" : "Einheiten"}</div>` : ""}

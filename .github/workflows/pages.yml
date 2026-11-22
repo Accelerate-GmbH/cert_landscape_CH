@@ -72,6 +72,8 @@ jobs:
           cp -r web/vendor site/
           sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/index.html
           curl -fsSL -o site/data/ch-combined.json https://unpkg.com/swiss-maps@4.7.0/2026/ch-combined.json
+          # the new frontend draws the map from SVG paths built here (no map library, no request to third parties)
+          node tools/build_map.mjs site/data/ch-combined.json site/v2/map-ch.json
           cp -r pub/map/. site/data/
           # new frontend (draft) under /v2, reading only its public data folder (docs/DATA_CONTRACT.md)
           cp -r app/. site/v2/

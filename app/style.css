@@ -174,3 +174,14 @@ summary { cursor: pointer; }
 .basics th, .basics td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
 .basics thead th { font-weight: 500; color: var(--text-2); font-size: 13px; }
 .basics td.num { width: 70px; }
+/* map as a lens */
+.chmap { width: 100%; height: auto; display: block; margin: 8px 0; }
+.chmap .ar { stroke: var(--card); stroke-width: 0.4; fill: var(--none); }
+.chmap .ar.green { fill: var(--good); } .chmap .ar.yellow { fill: var(--warn); } .chmap .ar.red { fill: var(--bad); }
+.chmap a:hover .ar, .chmap a:focus .ar { stroke: var(--text); stroke-width: 1.2; }
+.chmap .cb { fill: none; stroke: var(--text-2); stroke-width: 0.9; pointer-events: none; }
+.chmap .lk { fill: #b9d4ea; stroke: none; pointer-events: none; }
+@media (prefers-color-scheme: dark) { .chmap .lk { fill: #2b4256; } }
+.legend { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: 13px; color: var(--text-2); }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--none); margin-right: 4px; vertical-align: -1px; }
+.sw.green { background: var(--good); } .sw.yellow { background: var(--warn); } .sw.red { background: var(--bad); }
