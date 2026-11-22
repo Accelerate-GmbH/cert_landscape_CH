@@ -254,7 +254,7 @@ export default {
   "gov_provision": "Bestimmung und betroffene Bausteine",
   "gov_filtered": "Nur Bestimmungen zum Baustein «{b}».",
   "gov_show_all": "alle zeigen",
-  "gov_de_only": "Massgebend ist der Text auf Fedlex.",
+  "gov_de_only": "Massgebend ist der amtliche Text in der Sammlung des Bundes (Fedlex) bzw. des Kantons.",
   "gov_none": "Für diesen Baustein ist keine Rechtsgrundlage erfasst.",
   "gov_for_block": "Rechtsgrundlagen",
   "loading": "Lade …",
