@@ -5,8 +5,9 @@
 // Checks: every check the pipeline publishes (meta.json check_order, mail
 // checks of the model) has a simple and an expert text and labels in all four
 // languages; the four languages carry the same keys; web/app.js lists the
-// checks in the published order; every file the pages reference exists; no
-// file in the repository names an AI tool.
+// checks in the published order; the dependencies in the entity files follow
+// docs/DATA_CONTRACT.md; every file the pages reference exists; no file in the
+// repository names an AI tool.
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
@@ -56,7 +57,34 @@ if (!fs.existsSync(metaPath)) {
   if (JSON.stringify(ids) !== JSON.stringify(checks)) fail("web/app.js CHECK_IDS is not the published check order");
 }
 
-// 3. referenced files exist
+// 3. dependencies follow the data contract (docs/DATA_CONTRACT.md, «Dependencies»)
+const entDir = path.join(PUB, "v2", "entities");
+if (fs.existsSync(entDir)) {
+  const SHAPE = { mail: 3, send: 2, saas: 2, idp: 2, cloud: 3 };
+  const KINDS = new Set(["mx", "spf", "txt", "dkim", "cname", "redirect", "path"]);
+  let bad = 0;
+  const report = (f, m) => { if (++bad <= 5) fail(`v2/entities/${f}: dependencies ${m}`); };
+  for (const f of fs.readdirSync(entDir).filter((x) => x.endsWith(".json"))) {
+    const dep = JSON.parse(fs.readFileSync(path.join(entDir, f), "utf8")).dependencies || {};
+    const extra = Object.keys(dep).filter((k) => !(k in SHAPE) && k !== "apps" && k !== "via");
+    if (extra.length) report(f, `unknown parts ${extra.join(", ")}`);
+    const names = new Set();
+    for (const [part, n] of Object.entries(SHAPE)) {
+      for (const row of dep[part] || []) {
+        if (!Array.isArray(row) || row.length !== n || typeof row[0] !== "string" || typeof row[1] !== "string") { report(f, `${part}: malformed entry`); break; }
+        names.add(part + "\u0000" + row[0]);
+      }
+    }
+    for (const v of dep.via || []) {
+      if (!v || !["mail", "send", "saas", "idp"].includes(v.part) || typeof v.provider !== "string") { report(f, "via: malformed entry"); continue; }
+      if (!names.has(v.part + "\u0000" + v.name)) report(f, `via: ${v.part} ${v.name} not in the part`);
+      for (const ev of v.ev || []) if (!Array.isArray(ev) || ev.length !== 3 || !KINDS.has(ev[0])) report(f, "via: proof is not [kind, where, what]");
+    }
+  }
+  if (bad > 5) fail(`… ${bad - 5} more dependency problems`);
+}
+
+// 4. referenced files exist
 for (const [dir, file] of [["web", "index.html"], ["app", "index.html"]]) {
   const html = fs.readFileSync(path.join(ROOT, dir, file), "utf8");
   for (const [, ref] of html.matchAll(/(?:src|href)="([^":#?]+)(?:\?[^"]*)?"/g)) {
@@ -65,7 +93,7 @@ for (const [dir, file] of [["web", "index.html"], ["app", "index.html"]]) {
   }
 }
 
-// 4. no AI tool named anywhere in the repository
+// 5. no AI tool named anywhere in the repository
 const files = execSync("git ls-files", { cwd: ROOT }).toString().split("\n").filter(Boolean);
 const word = new RegExp(["cla", "ude|anth", "ropic"].join(""), "i");
 for (const f of files) {

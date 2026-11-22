@@ -88,10 +88,19 @@ export async function render(el, params, role) {
     ${B["cat:" + c] ? `<span class="muted"> · ${bestLabel(B["cat:" + c])} ${fmt(bestVal(B["cat:" + c]))}</span>` : ""}</div>`).join("");
 
   const dep = d.dependencies || {};
-  const depRow = (label, arr, withN) => (arr && arr.length ? `<tr><th>${esc(label)}</th><td>${arr.slice(0, 6).map((x) => `${esc(x[0])} ${cc(x[1])}${withN && x[2] ? ` <span class="muted">${x[2]}</span>` : ""}`).join("<br>")}</td></tr>` : "");
-  const deps = `<table class="deps"><tbody>${depRow("Mail-Plattform", dep.mail, false)}${depRow("Versand und Mail-Dienste", dep.send)}${depRow("SaaS", dep.saas)}
-    ${depRow("Login-Anbieter", dep.idp)}${depRow("Cloud und Hosting (Hosts)", dep.cloud, true)}</tbody></table>
-    <p class="muted small">Aus öffentlichen DNS-Einträgen und Netzwerken. Interne Nutzung ist nicht sichtbar.</p>`;
+  // what each provider was recognised by (docs/DATA_CONTRACT.md, «Dependencies»)
+  const PROOF = { mx: "MX", spf: "SPF", txt: "TXT-Nachweis", dkim: "DKIM-Schlüssel", cname: "CNAME", redirect: "Weiterleitung", path: "Login-Pfad" };
+  const proof = (part, name) => {
+    const v = (dep.via || []).find((x) => x.part === part && x.name === name);
+    return v ? v.ev.map(([k, where, what]) => `${PROOF[k] || k}: ${where} → ${what}`).join("; ") : "";
+  };
+  const depRow = (label, arr, withN, part) => (arr && arr.length ? `<tr><th>${esc(label)}</th><td>${arr.slice(0, 6).map((x) => {
+    const pr = part ? proof(part, x[0]) : "";
+    return `<span${pr ? ` class="proof" title="${esc(pr)}"` : ""}>${esc(x[0])}</span> ${cc(x[1])}${withN && x[2] ? ` <span class="muted">${x[2]}</span>` : ""}`;
+  }).join("<br>")}</td></tr>` : "");
+  const deps = `<table class="deps"><tbody>${depRow("Mail-Plattform", dep.mail, false, "mail")}${depRow("Versand und Mail-Dienste", dep.send, false, "send")}${depRow("SaaS", dep.saas, false, "saas")}
+    ${depRow("Login-Anbieter", dep.idp, false, "idp")}${depRow("Cloud und Hosting (Hosts)", dep.cloud, true)}</tbody></table>
+    <p class="muted small">Aus öffentlichen DNS-Einträgen, Netzwerken und Weiterleitungen. Nachweis beim Zeigen auf den Namen. Interne Nutzung ist nicht sichtbar.</p>`;
 
   const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
   const hostList = hosts.length ? `<table class="hosts"><thead><tr><th>Dienst</th><th>Wert</th></tr></thead><tbody>${hosts.map((h) =>
