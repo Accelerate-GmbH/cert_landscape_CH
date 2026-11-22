@@ -79,6 +79,27 @@ results, CSV and Excel exports stay in the pipeline repository.
 : one provider: the row above plus `"entities": {function: [key, …]}`, the
   entities of all levels that depend on it for that function.
 
+`infrastructure.json`
+: the digital public infrastructure (layers with `"group": "dpi"` in `model`:
+  trust infrastructure; identity, data exchange, value exchange):
+  `{"schema": 2, "source": {"title", "url"}, "blocks": {"<layer>.<block>": {"implementations": [...], "alternatives": [...]}}, "control": [...]}`.
+  `aspects`: labels of the aspects of the identity block (identity,
+  authentication, authority, agency), `aspect_sources` the sources for this
+  distinction. An implementation: `name`, `aspect` (identity block only),
+  `operator`, `role`, `sources` (`[{"title", "url"}]`),
+  `checked`, `providers` (keys in `config/stack.toml` through which use is
+  recognised), `hosts` (number of its measured hosts), `overall` (mean value
+  of these hosts), `rests_on` (per check `sov.ca`, `sov.dns`, `sov.hosting`,
+  `sov.registrar`: `[{"value", "hosts", "status", "evidence"}]`, what its hosts
+  rest on, with the evidence of the check), `examples` (up to 12 host names),
+  `users` (`{level: n_entities}` seen to use it). An implementation can
+  appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (identity
+  only): foreign login providers used instead, `{"id", "name", "country",
+  "users"}`. Only implementations with sources and a check date appear.
+  `control`: the lever per building block of the control layer, a view
+  across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`);
+  only approved entries with sources appear.
+
 `benchmarks.json`. Values 0–100 with
   one decimal.
 

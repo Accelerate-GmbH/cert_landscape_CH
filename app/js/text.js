@@ -2,18 +2,26 @@
 // so both versions of the map explain a check in the same words.
 export const LAYERS = {
   apps: { name: "Applikationen", hint: "Websites, Portale, Logins und weitere Dienste" },
-  control: { name: "Kontrollschicht", hint: "Identität, Datenaustausch, Werteaustausch: hält die strategischen Kontrollpunkte und macht Grunddienste austauschbar. Gibt es heute nicht." },
+  dpi: { name: "Identität, Daten- und Werteaustausch", hint: "Fähigkeiten, die Applikationen einbauen: Identität (E-ID), Authentifizierung (AGOV), Datenaustausch (sedex, I14Y), Zahlungen" },
   ext: { name: "Erweiterte Dienste", hint: "Transportsicherheit, Mail, Privatsphäre, Sicherheitskontakt" },
-  trust: { name: "Vertrauensinfrastruktur", hint: "swiyu mit Trust Protocol, Siegel, Zeitstempel" },
+  trust: { name: "Vertrauensinfrastruktur", hint: "swiyu mit Base und Trust Registry, Siegel, Zeitstempel: Grundlage für Identität und rechtssicheren Geschäfts- und Datenverkehr" },
   cloud: { name: "Cloud-Dienste", hint: "Infrastruktur, Plattformen und Dienste aus der Cloud" },
   net: { name: "Netz-Grundbausteine", hint: "Registrar, DNS, Zertifikat, Hosting" },
+};
+// layers that form the digital public infrastructure (group "dpi" in the model)
+export const GROUPS = {
+  dpi: { name: "Digitale öffentliche Infrastruktur (DPI)", hint: "Bausteine, auf denen viele Dienste aufbauen und die in Schweizer Kontrolle betrieben werden müssen" },
+};
+export const CONTROL = {
+  name: "Kontrollschicht",
+  hint: "Quer durch alle Schichten: pro Baustein der Hebel, den eine Organisation halten muss, um selbst handeln zu können. Entwurf, erscheint nach Prüfung der Quellen.",
 };
 export const BLOCKS = {
   "net.registrar": "Registrar", "net.dns": "DNS", "net.cert": "Zertifikat und CA", "net.hosting": "Hosting",
   "cloud.infra": "Infrastruktur", "cloud.platform": "Plattform und SaaS",
   "trust.swiyu": "swiyu", "trust.seal": "Siegel, QES", "trust.timestamp": "Zeitstempel",
   "ext.transport": "TLS, HSTS, PQC", "ext.mail": "Mail", "ext.privacy": "Privatsphäre", "ext.contact": "Sicherheitskontakt",
-  "control.identity": "Identität", "control.exchange": "Datenaustausch", "control.value": "Werteaustausch",
+  "dpi.identity": "Identität", "dpi.exchange": "Datenaustausch", "dpi.value": "Werteaustausch",
   "apps.services": "Dienste",
 };
 export const BLOCK_WHAT = {
@@ -27,7 +35,7 @@ export const BLOCK_WHAT = {
   "ext.mail": "Sechs Mail-Prüfungen von Serverstandort bis DMARC",
   "ext.privacy": "Encrypted Client Hello verbirgt die besuchte Adresse",
   "ext.contact": "security.txt mit Kontakt für Sicherheitsmeldungen",
-  "control.identity": "Anteil erkannter Login-Anbieter aus der Schweiz",
+  "dpi.identity": "nur die Authentifizierung: Anteil erkannter Login-Anbieter aus der Schweiz",
 };
 export const LEVELS = [
   ["federal", "Bund"], ["canton", "Kantone"], ["municipality", "Gemeinden"], ["organisation", "Kritische Dienste"],
@@ -89,6 +97,19 @@ const T = {
     kind_saas: "SaaS", kind_sending: "Versanddienst", kind_send: "Versanddienst", kind_idp: "Login-Anbieter", kind_cloud: "Cloud",
     kind_cdn: "Content Delivery Network", kind_hosting: "Hosting", kind_mailsec: "Mail-Filter", kind_network: "Netz (Hosting)",
     kind_ca: "Zertifizierungsstelle", kind_dns: "DNS-Betreiber", kind_mail: "Mail-Betreiber",
+    rests_on: "Worauf die Hosts ruhen", used_by: "Wer es nutzt (erkannt)",
+    "rest_sov.ca": "Zertifizierungsstelle", "rest_sov.dns": "DNS-Betrieb", "rest_sov.hosting": "Hosting", "rest_sov.registrar": "Registrar",
+    hosts: "Hosts", mean_of_hosts: "Durchschnitt von {n} gemessenen Hosts", no_hosts: "Keine Hosts gemessen.",
+    measured_hosts: "Gemessene Hosts", users_none: "noch keine erkannt; Weiterleitungen werden ab dem Monatslauf vom 2.12.2026 erhoben",
+    use_unmeasured: "Nutzung noch nicht gemessen",
+    impl_count: "{n} Umsetzungen erfasst", impl_one: "1 Umsetzung erfasst",
+    instead: "Stattdessen genutzt: ausländische Login-Anbieter",
+    aspect_identity: "Wer eine Person oder Organisation ist.",
+    aspect_authentication: "Der Nachweis beim Zugang, dass jemand diese Identität besitzt.",
+    aspect_authority: "Was jemand darf, etwa eine Zeichnungsberechtigung oder eine Rolle in einer Behörde.",
+    aspect_agency: "Handeln im Auftrag eines anderen, etwa mit Vollmacht oder Delegation.",
+    aspects_note: "Das interne Zugangs- und Berechtigungssystem einer Organisation (IAM) gehört zu keinem dieser Aspekte; es ist ein Hebel der Kontrollschicht.", measured_as: "Gemessen als",
+    dpi_term: "Begriff", overview: "Überblick", no_implementation: "Noch keine Umsetzung mit Quelle erfasst.",
     rated_of: "{r} von {n} bewertet", own_rank: "eigener Rang {r}", rank: "Rang", show_all: "Alle {n} anzeigen",
   },
 };

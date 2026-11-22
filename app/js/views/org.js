@@ -5,7 +5,7 @@ import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CAT
 import { esc, fmt, light, dot, bar, cc, uidLink, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
 import * as trend from "./trend.js";
 
-const ORDER = ["apps", "control", "ext", "trust", "cloud", "net"];
+const ORDER = ["apps", "dpi", "ext", "trust", "cloud", "net"];
 const share = (k) => {
   if (!k) return null;
   const n = k.assessed ?? (k.pass || 0) + (k.partial || 0) + (k.fail || 0);
@@ -70,7 +70,7 @@ export async function render(el, params, role) {
         <div class="bv">${v.v === null || v.v === undefined ? "" : `${dot(l)} <b>${fmt(v.v)}</b>`}${bb ? `<span class="bb"> · ${bestLabel(bb)} ${fmt(bestVal(bb))}</span>` : ""}</div>
         ${v.v !== null && v.v !== undefined ? bar(v.v, bestVal(bb), bestLabel(bb)) : `<div class="bs muted">noch keine Daten</div>`}</div>`;
     }).join("");
-    return `<div class="layer ${lid}${lid === "control" ? " control" : ""}"><div class="ln"><b>${esc(LAYERS[lid].name)}</b></div>
+    return `<div class="layer ${lid}${L.group ? " " + L.group : ""}"><div class="ln"><b>${esc(LAYERS[lid].name)}</b></div>
       <div class="blocks" style="--n:${L.blocks.length}">${blocks}</div></div>`;
   }).join("");
 

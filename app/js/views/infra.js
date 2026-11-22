@@ -1,0 +1,61 @@
+// A building block of the digital public infrastructure (#/baustein/<layer.block>):
+// its implementations with what their hosts rest on (CA, DNS, hosting, registrar)
+// and who is seen to use them; for identity also the foreign login providers used
+// instead. Reads infrastructure.json; every implementation carries its sources.
+import * as data from "../data.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, t } from "../text.js";
+import { esc, fmt, light, dot, cc } from "../ui.js";
+
+const REST = ["sov.ca", "sov.dns", "sov.hosting", "sov.registrar"];
+const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
+const src = (list) => (list || []).map((s) => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`).join(" · ");
+const STATUS = { pass: "green", partial: "yellow", fail: "red" };
+
+function users(u) {
+  const parts = LEVELS.filter(([k]) => u && u[k]).map(([k, nm]) => `${esc(nm)} ${u[k]}`);
+  return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
+}
+
+export async function render(el, params) {
+  const key = params.key || "";
+  const [inf, meta] = await Promise.all([data.infrastructure(), data.meta()]);
+  const [lid] = key.split(".");
+  const layer = (meta.model.layer || []).find((L) => L.id === lid);
+  if (!layer || !BLOCKS[key]) {
+    el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(key)}</p></section>`;
+    return;
+  }
+  const b = (inf.blocks || {})[key] || { implementations: [], alternatives: [] };
+  const cfg = meta.cfg;
+  const one = (i) => {
+    const rest = REST.map((c) => {
+      const rows = (i.rests_on || {})[c] || [];
+      return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value)} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
+    }).join("");
+    return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>
+      <p class="sub">${esc(i.operator || "")}${i.role ? " · " + esc(i.role) : ""}</p>
+      <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
+      ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
+      ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}
+      <h3>${esc(t("used_by"))}</h3><p>${users(i.users)}</p>
+      <p class="muted small">${esc(t("checked_on", { d: date(i.checked) }))} · ${esc(t("sources"))}: ${src(i.sources)}</p></section>`;
+  };
+  // the identity block in its aspects: identity, authentication, authority, agency are distinct functions
+  const aspects = key === "dpi.identity" ? Object.entries(inf.aspects || {}) : [];
+  const imps = aspects.length
+    ? aspects.map(([a, label]) => {
+        const list = b.implementations.filter((i) => i.aspect === a);
+        return `<section class="aspect"><h2 class="asp">${esc(label)}</h2><p class="sub">${esc(t("aspect_" + a))}</p>
+          ${list.length ? list.map(one).join("") : `<p class="muted">${esc(t("no_implementation"))}</p>`}</section>`;
+      }).join("") + `<p class="muted small">${esc(t("aspects_note"))} ${esc(t("sources"))}: ${src(inf.aspect_sources)}</p>`
+    : b.implementations.map(one).join("");
+  const alt = (b.alternatives || []).length ? `<section><h2>${esc(t("instead"))}</h2><table class="deps"><tbody>${b.alternatives.map((a) =>
+    `<tr><th><a href="#/anbieter/${encodeURIComponent(a.id)}">${esc(a.name)}</a> ${cc(a.country)}</th><td>${users(a.users)}</td></tr>`).join("")}</tbody></table></section>` : "";
+  const grp = layer.group && GROUPS[layer.group];
+  el.innerHTML = `<section class="lead org"><div class="kind">${esc(grp ? grp.name : "")} · ${esc(LAYERS[lid].name)}</div>
+      <h1>${esc(BLOCKS[key])}</h1><p>${esc(LAYERS[lid].hint)}</p>
+      ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
+      ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(inf.source.title)}</a></p>` : ""}
+      <p><a href="#/">← ${esc(t("overview"))}</a></p></section>
+    ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}`;
+}
