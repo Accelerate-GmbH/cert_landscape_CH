@@ -128,6 +128,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   `layers` (`{layer: {block: {"v", "m", "n"}}}`, same blocks as `model`);
   `dependencies` (see below); `stack`
   (TLD, DNS, hosting, CA, root); `no_data` (reason when unrated);
+  `ct_stale` (true when Certificate Transparency failed for at least one
+  domain and its hosts and certificates come from the previous snapshot;
+  DNS, network and live checks are current);
   `hosts` (`host`, `overall`, `cats`, `status`, `critical`, `knockout`,
   `unreachable`).
 
