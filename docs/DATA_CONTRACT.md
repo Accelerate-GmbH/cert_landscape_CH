@@ -22,7 +22,7 @@ results, CSV and Excel exports stay in the pipeline repository.
 `meta.json`
 : `schema`, `built`, `data_generated`, `cfg` (rating weights and thresholds),
   `check_order`, `model` (the layer model from `config/model.toml`), `counts`
-  per level.
+  per level, `months` (the months with a run, `YYYY-MM`, oldest first).
 
 `index.json`
 : `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector], …]}` for
@@ -41,7 +41,19 @@ results, CSV and Excel exports stay in the pipeline repository.
   `series` in this order: `overall`, `cat:<category>` (ownership,
   sovereignty, security, privacy), `mail`, then `blk:<layer>.<block>` for
   every measured building block of `model` (not `none`, not the count of
-  service types); the same names as in `benchmarks.json`. Values 0–100 with
+  service types); the same names as in `history/<level>-<id>.json`
+: the time series of one entity, one point per month:
+  `{"schema": 2, "key", "points": [point, …], "predecessors": [{"key", "name", "merged", "points": [point, …]}, …]}`.
+  A point: `{"month": "YYYY-MM", "run": "YYYY-MM-DD", "overall", "categories": {ownership, sovereignty, security, privacy}, "light", "knockouts", "mail"}`,
+  values 0–100 with one decimal or `null`. Read from the dated run folders of
+  the pipeline (`output/YYYY-MM-DD/entities.csv`); within a month the latest
+  run that contains the entity counts. `predecessors`: municipalities merged
+  into this one (BFS register of municipalities, `data/municipalities/mutations.json`
+  in the pipeline repository), each with its own series up to the merge;
+  `merged` is the date of the merge. Every entity of `index.json` has a file,
+  also with no point yet.
+
+`benchmarks.json`. Values 0–100 with
   one decimal.
 
 `benchmarks.json`

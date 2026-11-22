@@ -71,6 +71,9 @@ const T = {
     no_home: "Wählen Sie oben eine Organisation oder legen Sie eine Heim-Organisation fest, um sie mit den Besten zu vergleichen. Die Rangliste unten gilt für alle.",
     does_differently: "Was {n} anders macht", no_difference: "Bei keiner Prüfung mindestens 20 Punkte besser.",
     ranking: "Rangliste", sort_by: "Sortiert nach", canton: "Kanton", sector: "Sektor", all: "alle",
+    trend: "Entwicklung", trend_one: "Erster Stand {m}. Der Verlauf erscheint ab dem nächsten Monatslauf.",
+    trend_none: "Noch kein Monatslauf mit einem Wert.", month: "Monat", trend_chart: "Gesamtwert pro Monat, 0 bis 100",
+    merged_into: "Seit {d} Teil dieser Gemeinde: {n}", last_value: "letzter Wert {v} ({m})", change: "{d} Punkte seit {m}",
     rated_of: "{r} von {n} bewertet", own_rank: "eigener Rang {r}", rank: "Rang", show_all: "Alle {n} anzeigen",
   },
 };
@@ -79,3 +82,7 @@ export function t(key, vars = {}) {
   const s = (T[LANG] || T.de)[key] ?? T.de[key] ?? key;
   return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
 }
+export const monthName = (m) => {
+  const [y, mo] = (m || "").split("-").map(Number);
+  return y ? new Date(Date.UTC(y, mo - 1, 1)).toLocaleDateString("de-CH", { month: "short", year: "numeric", timeZone: "UTC" }) : m;
+};

@@ -125,3 +125,16 @@ table { border-collapse: collapse; width: 100%; }
   .filters select { max-width: 100%; }
   .filters label { display: flex; flex-wrap: wrap; gap: 4px; max-width: 100%; }
 }
+.trend { width: 100%; max-width: 720px; height: auto; display: block; margin: 6px 0 10px; }
+.trend .grid { stroke: var(--line); stroke-width: 1; }
+.trend .ax { fill: var(--muted); font-size: 11px; }
+.trend .ln { fill: none; stroke: var(--text-2); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.trend .mk { fill: var(--none); stroke: var(--bg); stroke-width: 2; }
+.trend .mk.green { fill: var(--good); } .trend .mk.yellow { fill: var(--warn); } .trend .mk.red { fill: var(--bad); }
+.trend .hit { fill: transparent; }
+.trend .pt:hover .mk, .trend .pt:focus .mk { stroke: var(--text); }
+.trend .pt:focus { outline: none; }
+.trend .val { fill: var(--text); font-size: 13px; font-weight: 650; }
+.trendtab th, .trendtab td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; font-size: 13.5px; }
+.trendtab thead th { font-weight: 500; color: var(--text-2); }
+.preds { color: var(--text-2); padding-left: 18px; }

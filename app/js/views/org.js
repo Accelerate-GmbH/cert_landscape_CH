@@ -3,6 +3,7 @@
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CATS, WHY, checkName, checkText } from "../text.js";
 import { esc, fmt, light, dot, bar, cc, uidLink, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
+import * as trend from "./trend.js";
 
 const ORDER = ["apps", "control", "ext", "trust", "cloud", "net"];
 const share = (k) => {
@@ -26,7 +27,7 @@ export async function render(el, params, role) {
     el.innerHTML = `<section class="lead"><h1>Nicht gefunden</h1><p>${esc(key)}</p></section>`;
     return;
   }
-  const [meta, bm] = await Promise.all([data.meta(), data.benchmarks()]);
+  const [meta, bm, hist] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null)]);
   const cfg = meta.cfg, B = bm[d.kind] || {};
   const p = d.posture || {};
   const home = store.get(HOME_KEY) === d.key;
@@ -108,7 +109,7 @@ export async function render(el, params, role) {
     `<tr><td>${esc(h.host)}${h.critical ? ' <span class="tag">kritisch</span>' : ""}${h.knockout ? ' <span class="tag red">K.-o.</span>' : ""}${h.unreachable ? ' <span class="tag">nicht erreichbar</span>' : ""}</td>
      <td>${dot(light(h.overall, cfg))} ${fmt(h.overall)}</td></tr>`).join("")}</tbody></table>` : "<p>–</p>";
 
-  el.innerHTML = head + verdict +
+  el.innerHTML = head + verdict + trend.render(hist, cfg) +
     `<section><h2>Bausteine</h2><p class="sub">Eigener Wert, darunter der Balken; der Strich zeigt, was die Besten erreichen.</p><div class="model compact">${layers}</div></section>
      <div class="two"><section><h2>Nächste Schritte</h2>${steps}</section>
      <section><h2>Bereiche</h2>${cats || "<p>–</p>"}<h2>Abhängigkeiten</h2>${deps}</section></div>

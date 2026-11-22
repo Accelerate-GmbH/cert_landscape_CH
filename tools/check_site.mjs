@@ -83,6 +83,9 @@ if (fs.existsSync(entDir)) {
     }
   }
   if (bad > 5) fail(`… ${bad - 5} more dependency problems`);
+  const histDir = path.join(PUB, "v2", "history");
+  const missing = fs.readdirSync(entDir).filter((f) => f.endsWith(".json") && !fs.existsSync(path.join(histDir, f)));
+  if (missing.length) fail(`v2/history: ${missing.length} entities without a time series, e.g. ${missing.slice(0, 3).join(", ")}`);
 }
 
 // 4. referenced files exist

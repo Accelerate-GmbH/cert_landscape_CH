@@ -20,3 +20,4 @@ export const benchmarks = () => get("benchmarks.json");
 export const index = () => get("index.json");
 export const scores = () => get("scores.json");
 export const entity = (key) => get(`entities/${key.replace(":", "-")}.json`);
+export const history = (key) => get(`history/${key.replace(":", "-")}.json`);
