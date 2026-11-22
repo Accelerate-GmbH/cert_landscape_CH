@@ -42,6 +42,7 @@ export async function render(el, params, role) {
     <button class="home${home ? " on" : ""}" data-home="${esc(d.key)}">${esc(home ? t("home_set") : t("home_make"))}</button>
     <a class="tocmp" href="#/vergleich/${encodeURIComponent(d.key)}">${esc(t("to_compare"))}</a>
     <a class="tocmp" href="#/org/${encodeURIComponent(d.key)}/bericht">${esc(t("rep_link"))}</a>
+    ${d.canton ? `<a class="tocmp" href="#/governance?canton=${encodeURIComponent(d.canton)}">${esc(t("gov_for_org"))}</a>` : ""}
   </section>`;
 
   const verdict = p.overall === null || p.overall === undefined

@@ -40,9 +40,13 @@ export function provisionRows(law, only) {
 export async function render(el, params) {
   const g = await data.governance();
   const only = params.blk && BLOCKS[params.blk] ? params.blk : "";
-  const laws = g.laws.filter((l) => !only || l.blocks.includes(only));
+  const cantons = [...new Set(g.laws.filter((l) => l.level === "canton").map((l) => l.canton))].sort();
+  const kt = cantons.includes(params.canton) ? params.canton : "";
+  const laws = g.laws.filter((l) => (!only || l.blocks.includes(only)) && (l.level !== "canton" || !kt || l.canton === kt));
+  const fed = laws.filter((l) => l.level !== "canton"), can = laws.filter((l) => l.level === "canton");
+  const qs = (o) => "#/governance?" + new URLSearchParams(Object.entries(o).filter(([, v]) => v)).toString();
   const one = (l) => `<section class="law" id="law-${esc(l.id)}">
-      <h2>${esc(lawText(l, "abbr"))} <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h2>
+      <h2>${l.canton ? `<span class="kt">${esc(l.canton)}</span> ` : ""}${esc(lawText(l, "abbr"))} <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h2>
       <p class="sub"><a href="${esc(fedlex(l.url))}" rel="noopener">${esc(lawText(l, "name"))}</a> · ${esc(refLabel(l.ref))}</p>
       <p class="small">${esc(lawText(l, "status_text"))} <span class="muted">${esc(t("sources"))}: ${(l.status_sources || []).map((s, i) => link({ ...s, title: (lawText(l, "status_sources") || [])[i] || s.title })).join(" · ")}</span></p>
       <p><b>${esc(t("gov_scope"))}:</b> ${esc(lawText(l, "scope"))}</p>
@@ -50,8 +54,13 @@ export async function render(el, params) {
         <tbody>${provisionRows(l, only)}</tbody></table></section>`;
   el.innerHTML = `<section class="lead"><h1>${esc(t("gov_h1"))}</h1>
       <p>${esc(t("gov_intro"))}</p>
-      ${only ? `<p>${esc(t("gov_filtered", { b: BLOCKS[only] }))} · <a href="#/governance">${esc(t("gov_show_all"))}</a></p>` : ""}
+      ${only ? `<p>${esc(t("gov_filtered", { b: BLOCKS[only] }))} · <a href="${qs({ canton: kt })}">${esc(t("gov_show_all"))}</a></p>` : ""}
+      ${cantons.length ? `<p><label>${esc(t("gov_canton"))} <select id="govkt"><option value="">${esc(t("gov_all_cantons"))}</option>
+        ${cantons.map((c) => `<option${c === kt ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label></p>` : ""}
       <p class="muted small">${esc(t("checked_on", { d: date(g.checked) }))} · ${esc(t("gov_de_only"))}</p></section>
-    ${laws.map(one).join("") || `<p class="muted">${esc(t("gov_none"))}</p>`}`;
+    ${fed.length ? `<h2 class="lvl">${esc(t("gov_federal"))}</h2>${fed.map(one).join("")}` : ""}
+    ${can.length ? `<h2 class="lvl">${esc(t("gov_cantonal"))}</h2><p class="sub">${esc(t("gov_cantonal_note"))}</p>${can.map(one).join("")}` : ""}
+    ${laws.length ? "" : `<p class="muted">${esc(t("gov_none"))}</p>`}`;
+  el.querySelector("#govkt")?.addEventListener("change", (ev) => { location.hash = qs({ blk: only, canton: ev.target.value }); });
   if (params.law) document.getElementById("law-" + params.law)?.scrollIntoView();
 }
