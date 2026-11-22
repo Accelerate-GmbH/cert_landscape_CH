@@ -160,6 +160,18 @@ results, CSV and Excel exports stay in the pipeline repository.
   DNS, network and live checks are current);
   `hosts` (`host`, `overall`, `cats`, `status`, `critical`, `knockout`,
   `unreachable`).
+  `services`: the matrix services × functions, `[{"service", "host",
+  "hosts", "cells"}]`. `service` is `website`, `portal`, `login`, `gever`
+  (GEVER application) or `mail`, recognised by host name
+  (`[apps]` in `config/stack.toml`) or, for mail, the mail domain; `host`
+  the host (or mail domain) shown, `hosts` how many hosts of this kind were
+  rated. `cells` per function `resolve` (check `sov.dns`), `registrar`
+  (`sov.registrar`), `secure` (`sov.ca`; mail: `mail.starttls`), `operate`
+  (`sov.hosting`; mail: `mail.mx`), `identity` (`own.identity`; mail:
+  `mail.dmarc`): `{"check", "status", "value", "count": {"pass", "partial",
+  "fail"}}`, where `status` and `value` are those of `host` and `count`
+  covers all hosts of the kind; `null` where no check applies. Seals and
+  time stamps are not measurable from outside and have no cell.
 
 ## Dependencies
 

@@ -200,3 +200,9 @@ summary { cursor: pointer; }
 .legend { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: 13px; color: var(--text-2); }
 .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--none); margin-right: 4px; vertical-align: -1px; }
 .sw.green { background: var(--good); } .sw.yellow { background: var(--warn); } .sw.red { background: var(--bad); }
+
+/* services × functions on the organisation page */
+table.matrix { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14px; }
+table.matrix th, table.matrix td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+table.matrix thead th { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+table.matrix tbody th { font-weight: 600; white-space: nowrap; }

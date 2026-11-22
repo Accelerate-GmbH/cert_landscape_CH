@@ -83,6 +83,19 @@ if (fs.existsSync(entDir)) {
     }
   }
   if (bad > 5) fail(`… ${bad - 5} more dependency problems`);
+  // services × functions (docs/DATA_CONTRACT.md, «services»)
+  const SVC = new Set(["website", "portal", "login", "gever", "mail"]);
+  const FN = new Set(["resolve", "registrar", "secure", "operate", "identity"]);
+  let badS = 0;
+  for (const f of fs.readdirSync(entDir).filter((x) => x.endsWith(".json"))) {
+    const svc = JSON.parse(fs.readFileSync(path.join(entDir, f), "utf8")).services;
+    const problem = !Array.isArray(svc) ? "missing" : svc.map((x) =>
+      !SVC.has(x.service) || !x.host || !Number.isInteger(x.hosts) ? `bad entry ${x.service}`
+        : Object.entries(x.cells || {}).map(([k, c]) => !FN.has(k) ? `unknown function ${k}`
+          : c && (![null, "pass", "partial", "fail"].includes(c.status) || !c.count) ? `${x.service}.${k}: bad cell` : "").find(Boolean) || "").find(Boolean);
+    if (problem && ++badS <= 5) fail(`v2/entities/${f}: services ${problem}`);
+  }
+  if (badS > 5) fail(`… ${badS - 5} more service problems`);
   const histDir = path.join(PUB, "v2", "history");
   const missing = fs.readdirSync(entDir).filter((f) => f.endsWith(".json") && !fs.existsSync(path.join(histDir, f)));
   if (missing.length) fail(`v2/history: ${missing.length} entities without a time series, e.g. ${missing.slice(0, 3).join(", ")}`);
