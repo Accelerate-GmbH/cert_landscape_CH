@@ -171,3 +171,6 @@ summary { cursor: pointer; }
 .asp { margin-bottom: 2px; }
 .imp-name { font-size: 16px; margin: 14px 0 4px; }
 .imp h3:not(.imp-name) { font-size: 14px; color: var(--text-2); margin: 12px 0 4px; }
+.basics th, .basics td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+.basics thead th { font-weight: 500; color: var(--text-2); font-size: 13px; }
+.basics td.num { width: 70px; }
