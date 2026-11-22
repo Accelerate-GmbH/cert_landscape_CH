@@ -41,6 +41,7 @@ export async function render(el, params, role) {
     <p class="sub">${d.uid ? uidLink(d.uid) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     <button class="home${home ? " on" : ""}" data-home="${esc(d.key)}">${esc(home ? t("home_set") : t("home_make"))}</button>
     <a class="tocmp" href="#/vergleich/${encodeURIComponent(d.key)}">${esc(t("to_compare"))}</a>
+    <a class="tocmp" href="#/org/${encodeURIComponent(d.key)}/bericht">${esc(t("rep_link"))}</a>
   </section>`;
 
   const verdict = p.overall === null || p.overall === undefined
