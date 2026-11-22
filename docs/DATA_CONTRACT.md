@@ -53,6 +53,25 @@ results, CSV and Excel exports stay in the pipeline repository.
   `merged` is the date of the merge. Every entity of `index.json` has a file,
   also with no point yet.
 
+`providers.json`
+: the provider directory for the view «Abhängigkeiten»:
+  `{"schema": 2, "functions": {function: {"model", "swap"}}, "rows": [row, …]}`.
+  `function` is one of `mail`, `send`, `saas`, `idp`, `cloud`, `ca`, `dns`.
+  A row: `{"id", "name", "country", "parent", "parent_country", "kind",
+  "counts": {level: {function: n_entities}}, "hosts": {level: {function: n_hosts}}}`.
+  `id` is the key in `config/stack.toml` where the provider is listed there,
+  else `x-<slug of the name>` (networks, CAs and DNS operators by name);
+  `parent` is the controlling group where known (`config/stack.toml`, later
+  GLEIF), else `null`. `hosts` only for `cloud` and `ca`. Rows sorted by the
+  number of dependent entities, most first. `functions`: whether the function
+  runs over an open protocol or a platform (`model`: `protocol` | `platform`)
+  and how easily a provider can be replaced (`swap`: `easy` | `effort` |
+  `hard`), from `[functions]` in `config/stack.toml`.
+
+`providers/<id>.json`
+: one provider: the row above plus `"entities": {function: [key, …]}`, the
+  entities of all levels that depend on it for that function.
+
 `benchmarks.json`. Values 0–100 with
   one decimal.
 

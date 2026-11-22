@@ -3,6 +3,7 @@ import * as data from "./data.js";
 import * as start from "./views/start.js";
 import * as org from "./views/org.js";
 import * as compare from "./views/compare.js";
+import * as deps from "./views/deps.js";
 import { esc, store } from "./ui.js";
 import { LEVEL_ONE } from "./text.js";
 
@@ -16,6 +17,8 @@ function parse() {
   const [path, qs] = h.split("?");
   const params = Object.fromEntries(new URLSearchParams(qs || ""));
   const parts = path.split("/").filter(Boolean);
+  if (parts[0] === "abhaengigkeiten") return { name: "deps", params };
+  if (parts[0] === "anbieter") return { name: "deps", params: { ...params, id: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "vergleich") return { name: "compare", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "org") return { name: "org", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   return { name: "start", params };
@@ -27,6 +30,7 @@ async function route() {
   view.innerHTML = '<p class="muted">Lade …</p>';
   try {
     if (r.name === "org") await org.render(view, r.params, roleSel.value);
+    else if (r.name === "deps") await (r.params.id ? deps.renderProvider(view, r.params) : deps.renderList(view, r.params));
     else if (r.name === "compare") await compare.render(view, r.params, roleSel.value);
     else await start.render(view, r.params, roleSel.value);
   } catch (e) {

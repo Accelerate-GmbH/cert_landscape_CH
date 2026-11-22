@@ -27,7 +27,8 @@ export async function render(el, params, role) {
     el.innerHTML = `<section class="lead"><h1>Nicht gefunden</h1><p>${esc(key)}</p></section>`;
     return;
   }
-  const [meta, bm, hist] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null)]);
+  const [meta, bm, hist, dir] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null), data.providers().catch(() => null)]);
+  const provId = new Map((dir ? dir.rows : []).map((r) => [r.name, r.id]));
   const cfg = meta.cfg, B = bm[d.kind] || {};
   const p = d.posture || {};
   const home = store.get(HOME_KEY) === d.key;
@@ -98,10 +99,13 @@ export async function render(el, params, role) {
   };
   const depRow = (label, arr, withN, part) => (arr && arr.length ? `<tr><th>${esc(label)}</th><td>${arr.slice(0, 6).map((x) => {
     const pr = part ? proof(part, x[0]) : "";
-    return `<span${pr ? ` class="proof" title="${esc(pr)}"` : ""}>${esc(x[0])}</span> ${cc(x[1])}${withN && x[2] ? ` <span class="muted">${x[2]}</span>` : ""}`;
+    const v = part && (dep.via || []).find((y) => y.part === part && y.name === x[0]);
+    const id = v ? v.provider : provId.get(x[0]);
+    const nm = id ? `<a href="#/anbieter/${encodeURIComponent(id)}">${esc(x[0])}</a>` : esc(x[0]);
+    return `<span${pr ? ` class="proof" title="${esc(pr)}"` : ""}>${nm}</span> ${cc(x[1])}${withN && x[2] ? ` <span class="muted">${x[2]}</span>` : ""}`;
   }).join("<br>")}</td></tr>` : "");
   const deps = `<table class="deps"><tbody>${depRow("Mail-Plattform", dep.mail, false, "mail")}${depRow("Versand und Mail-Dienste", dep.send, false, "send")}${depRow("SaaS", dep.saas, false, "saas")}
-    ${depRow("Login-Anbieter", dep.idp, false, "idp")}${depRow("Cloud und Hosting (Hosts)", dep.cloud, true)}</tbody></table>
+    ${depRow("Login-Anbieter", dep.idp, false, "idp")}${depRow("Cloud und Hosting (Hosts)", dep.cloud, true, "cloud")}</tbody></table>
     <p class="muted small">Aus öffentlichen DNS-Einträgen, Netzwerken und Weiterleitungen. Nachweis beim Zeigen auf den Namen. Interne Nutzung ist nicht sichtbar.</p>`;
 
   const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
