@@ -185,6 +185,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   "fail"}}`, where `status` and `value` are those of `host` and `count`
   covers all hosts of the kind; `null` where no check applies. Seals and
   time stamps are not measurable from outside and have no cell.
+  `identity`: the LEI of the entity, matched by its UID in the GLEIF
+  data (`data/gleif/lei.json`, CC0): `{"lei", "name", "entity_status",
+  "registration_status" (ISSUED, LAPSED …), "next_renewal", "src" (link to
+  the GLEIF record), "fetched"}`, `null` without an LEI.
   `parts` (federal level only): the department by the domains of its
   offices as listed in `config/entities.toml`, `[{"domain", "hosts",
   "overall", "knockouts"}]`; a host counts for the longest matching domain;
