@@ -3,11 +3,13 @@
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, LEVELS, LEVEL_MANY, GROUPS, CONTROL, t } from "../text.js";
 import { esc, fmt, light, dot, store, HOME_KEY } from "../ui.js";
+import { statusWord } from "./gov.js";
 
 const ORDER = ["apps", "dpi", "ext", "trust", "cloud", "net"];
 
 export async function render(el, params) {
-  const [ov, meta, inf] = await Promise.all([data.overview(), data.meta(), data.infrastructure().catch(() => ({ blocks: {} }))]);
+  const [ov, meta, inf, gov] = await Promise.all([data.overview(), data.meta(), data.infrastructure().catch(() => ({ blocks: {} })),
+    data.governance().catch(() => ({ laws: [] }))]);
   const level = params.level && ov[params.level] ? params.level : "municipality";
   const o = ov[level], cfg = meta.cfg;
   const model = Object.fromEntries(meta.model.layer.map((L) => [L.id, L]));
@@ -36,7 +38,7 @@ export async function render(el, params) {
       // blocks of the digital public infrastructure open their own page
       const href = L.group === "dpi" ? `#/baustein/${key}` : !none && !count && !empty ? `#/karte/${encodeURIComponent("blk:" + key)}?level=${level === "canton" ? "canton" : "municipality"}` : "";
       const tag = href ? "a" : "div";
-      return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
+      return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" data-key="${esc(key)}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
         <div class="bn">${esc(BLOCKS[key] || key)}</div>
         <div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>
         ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${esc(c.entities === 1 ? t("unit_one") : t("unit_many"))}</div>` : ""}
@@ -50,6 +52,25 @@ export async function render(el, params) {
   }).join("");
 
   el.innerHTML = head + `<div class="modelwrap"><section class="model" aria-label="${esc(t("layer_model"))}">${rows}</section>
-    <div class="ctrl" tabindex="0" title="${esc(CONTROL.hint)}" aria-label="${esc(CONTROL.name + ": " + CONTROL.hint)}"><span>${esc(CONTROL.name)}</span></div></div>
+    <aside class="ctrl" aria-label="${esc(CONTROL.name + ": " + CONTROL.hint)}">
+      <div class="ch" title="${esc(CONTROL.hint)}">${esc(CONTROL.name)}</div>
+      <div class="cg">${esc(t("gov_name"))}</div>
+      <p class="muted small">${esc(t("gov_box_hint"))}</p>
+      <ul>${gov.laws.map((l) => `<li><a href="#/governance/${encodeURIComponent(l.id)}" data-blocks="${esc(l.blocks.join(" "))}" title="${esc(l.name)}">
+        <b>${esc(l.abbr)}</b> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></a></li>`).join("")}</ul>
+      <a class="small" href="#/governance">${esc(t("gov_all"))} ›</a></aside></div>
     <section class="note"><p>${esc(t("start_note", { d: (meta.data_generated || "").slice(0, 10).split("-").reverse().map(Number).join(".") }))}</p></section>`;
+  // a law in the governance box marks the building blocks it concerns
+  const modelEl = el.querySelector(".model");
+  const mark = (blocks) => {
+    modelEl.classList.toggle("gov-on", !!blocks);
+    modelEl.querySelectorAll(".block").forEach((b) => b.classList.toggle("hit", !!blocks && blocks.includes(b.dataset.key)));
+  };
+  el.querySelectorAll(".ctrl [data-blocks]").forEach((a) => {
+    const blocks = a.dataset.blocks.split(" ");
+    a.addEventListener("mouseenter", () => mark(blocks));
+    a.addEventListener("focus", () => mark(blocks));
+    a.addEventListener("mouseleave", () => mark(null));
+    a.addEventListener("blur", () => mark(null));
+  });
 }

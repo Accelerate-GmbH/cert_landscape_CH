@@ -5,6 +5,7 @@
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, t } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
+import { provisionRows, statusWord } from "./gov.js";
 
 const REST = ["sov.ca", "sov.dns", "sov.hosting", "sov.registrar"];
 const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
@@ -16,9 +17,18 @@ function users(u) {
   return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
 }
 
+// the legal bases concerning this block (governance.json)
+function legal(gov, key) {
+  const laws = (gov.laws || []).filter((l) => l.blocks.includes(key));
+  if (!laws.length) return "";
+  return `<section><h2>${esc(t("gov_for_block"))}</h2>${laws.map((l) =>
+    `<h3><a href="#/governance/${encodeURIComponent(l.id)}">${esc(l.abbr)}</a> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h3>
+     <table class="deps gov"><tbody>${provisionRows(l, key)}</tbody></table>`).join("")}</section>`;
+}
+
 export async function render(el, params) {
   const key = params.key || "";
-  const [inf, meta] = await Promise.all([data.infrastructure(), data.meta()]);
+  const [inf, meta, gov] = await Promise.all([data.infrastructure(), data.meta(), data.governance().catch(() => ({ laws: [] }))]);
   const [lid] = key.split(".");
   const layer = (meta.model.layer || []).find((L) => L.id === lid);
   if (!layer || !BLOCKS[key]) {
@@ -60,5 +70,5 @@ export async function render(el, params) {
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
       ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(inf.source.title)}</a></p>` : ""}
       <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>
-    ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}`;
+    ${imps || `<p class="muted">${esc(t("no_implementation"))}</p>`}${alt}${legal(gov, key)}`;
 }

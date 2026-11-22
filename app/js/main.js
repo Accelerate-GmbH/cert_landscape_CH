@@ -6,6 +6,7 @@ import * as compare from "./views/compare.js";
 import * as deps from "./views/deps.js";
 import * as infra from "./views/infra.js";
 import * as basics from "./views/basics.js";
+import * as gov from "./views/gov.js";
 import * as lens from "./views/lens.js";
 import { esc, store } from "./ui.js";
 import { LEVEL_ONE, LANG, LANGS, setLang, t } from "./text.js";
@@ -34,6 +35,7 @@ function parse() {
   const parts = path.split("/").filter(Boolean);
   if (parts[0] === "karte") return { name: "start", sub: "lens", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "grundlagen") return { name: "basics", params };
+  if (parts[0] === "governance") return { name: "gov", params: { ...params, law: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "baustein") return { name: "start", sub: "infra", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "abhaengigkeiten") return { name: "deps", params };
   if (parts[0] === "anbieter") return { name: "deps", params: { ...params, id: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
@@ -50,6 +52,7 @@ async function route() {
     if (r.name === "org") await org.render(view, r.params, roleSel.value);
     else if (r.sub === "lens") await lens.render(view, r.params);
     else if (r.name === "basics") await basics.render(view, r.params);
+    else if (r.name === "gov") await gov.render(view, r.params);
     else if (r.sub === "infra") await infra.render(view, r.params, roleSel.value);
     else if (r.name === "deps") await (r.params.id ? deps.renderProvider(view, r.params) : deps.renderList(view, r.params));
     else if (r.name === "compare") await compare.render(view, r.params, roleSel.value);
@@ -57,7 +60,7 @@ async function route() {
   } catch (e) {
     view.innerHTML = `<p>${esc(t("load_error", { e: e.message }))}</p>`;
   }
-  window.scrollTo(0, 0);
+  if (!(r.name === "gov" && r.params.law)) window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", route);
 

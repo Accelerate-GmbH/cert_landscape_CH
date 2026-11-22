@@ -21,6 +21,7 @@ export const index = () => get("index.json");
 export const scores = () => get("scores.json");
 export const providers = () => get("providers.json");
 export const infrastructure = () => get("infrastructure.json");
+export const governance = () => get("governance.json");
 export const provider = (id) => get(`providers/${encodeURIComponent(id)}.json`);
 export const entity = (key) => get(`entities/${key.replace(":", "-")}.json`);
 export const history = (key) => get(`history/${key.replace(":", "-")}.json`);

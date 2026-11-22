@@ -110,6 +110,16 @@ results, CSV and Excel exports stay in the pipeline repository.
   across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`);
   only approved entries with sources appear.
 
+`governance.json`
+: the legal bases of the governance view, from `config/governance.toml`:
+  `{"schema": 2, "checked", "laws": [law, …]}`. A law: `id`, `abbr`,
+  `name`, `ref` (SR or BBl number), `url`, `status` (`in_force` |
+  `angenommen` | …), `status_text`, `status_sources` (`[{"title", "url"}]`),
+  `scope` (who it applies to), `provisions` (`[{"art", "text", "url",
+  "blocks"}]`: article, short summary close to its wording, link to the
+  article, building blocks of `model` it concerns), `blocks` (union of the
+  provisions' blocks). Only laws whose provisions all carry a link appear.
+
 `benchmarks.json`. Values 0–100 with
   one decimal.
 
