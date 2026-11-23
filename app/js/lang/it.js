@@ -249,6 +249,8 @@ export default {
   um_points_list: "Formazione e servizi critici per cantone",
   um_note: "La mappa mostra l’utilizzo rilevato, non il valore degli utenti. Non rilevato non significa «non utilizzato»: si rileva solo ciò che appare nel DNS, nei certificati, nei reindirizzamenti o in un registro.",
   um_all: "Tutte le funzioni",
+  um_none: "nessun utilizzo rilevato",
+  um_none_d: "Per questo servizio non è ancora attestato alcun utilizzo. Si rileva solo ciò che appare nel DNS, nei certificati, nei reindirizzamenti o in un registro; non esiste un elenco pubblico degli utenti.",
   um_points_list_reg: "Organizzazioni e partecipanti per cantone",
   um_points_reg: "Organizzazioni e partecipanti del registro alla sede secondo il registro IDI (numero); senza sede nota, al centro del cantone",
   um_registered: "Partecipanti del registro",

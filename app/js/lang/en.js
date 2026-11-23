@@ -249,6 +249,8 @@ export default {
   um_points_list: "Education and critical services by canton",
   um_note: "The map shows detected use, not the users' value. Not detected does not mean «not used»: only what shows in DNS, certificates, redirects or a register is detected.",
   um_all: "All functions",
+  um_none: "no use detected",
+  um_none_d: "No use of this service is documented yet. Only what shows in DNS, certificates, redirects or a register is detected; there is no public list of its users.",
   um_points_list_reg: "Organisations and participants by canton",
   um_points_reg: "Organisations and registry participants at their seat in the UID register (number); at the centre of the canton where the seat is unknown",
   um_registered: "Registry participants",
