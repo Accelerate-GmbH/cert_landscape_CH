@@ -25,3 +25,4 @@ export const governance = () => get("governance.json");
 export const provider = (id) => get(`providers/${encodeURIComponent(id)}.json`);
 export const entity = (key) => get(`entities/${key.replace(":", "-")}.json`);
 export const history = (key) => get(`history/${key.replace(":", "-")}.json`);
+export const evidence = (key) => get(`evidence/${key.replace(":", "-")}.json`);
