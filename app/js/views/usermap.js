@@ -51,12 +51,23 @@ export async function usersMap(keys, ix) {
       const g = m ? "m" + m : "c" + c;
       (at[g] ||= { c, m, ks: [] }).ks.push(k);
     }));
-    const pts = Object.values(at).filter((g) => g.m || (ctId[g.c] && map.cantons[ctId[g.c]])).sort((a, b) => b.ks.length - a.ks.length).map((g) => {
-      const [x, y] = centre(g.m ? map.municipalities[g.m] : map.cantons[ctId[g.c]]), r = 5 + 2.5 * Math.sqrt(g.ks.length);
+    // points that would overlap are merged into one, at their weighted centre (as the current map does when zoomed out)
+    const rad = (n) => 5 + 2.5 * Math.sqrt(n);
+    const placed = [];
+    Object.values(at).filter((g) => g.m || (ctId[g.c] && map.cantons[ctId[g.c]])).sort((a, b) => b.ks.length - a.ks.length).forEach((g) => {
+      const [x, y] = centre(g.m ? map.municipalities[g.m] : map.cantons[ctId[g.c]]);
       const place = g.m ? (row["municipality:" + g.m] || [])[1] || g.c : g.c;
-      const label = t("um_point", { n: g.ks.length, c: place });
-      return `<a href="#um-${esc(g.c)}" data-um="${esc(g.c)}" aria-label="${esc(label)}"><g class="um-pt"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"/>
-        ${g.ks.length > 1 ? `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" dy="0.35em" text-anchor="middle">${g.ks.length}</text>` : ""}<title>${esc(label)}</title></g></a>`;
+      const hit = placed.find((p) => Math.hypot(p.x - x, p.y - y) < rad(p.ks.length) + rad(g.ks.length) + 1);
+      if (!hit) return placed.push({ x, y, c: g.c, ks: [...g.ks], places: [place] });
+      const n = hit.ks.length, m = g.ks.length;
+      hit.x = (hit.x * n + x * m) / (n + m); hit.y = (hit.y * n + y * m) / (n + m);
+      hit.ks.push(...g.ks); hit.places.push(place);
+    });
+    const pts = placed.map((p) => {
+      const r = rad(p.ks.length), x = p.x.toFixed(1), y = p.y.toFixed(1);
+      const label = t("um_point", { n: p.ks.length, c: p.places.slice(0, 4).join(", ") + (p.places.length > 4 ? " …" : "") });
+      return `<a href="#um-${esc(p.c)}" data-um="${esc(p.c)}" aria-label="${esc(label)}"><g class="um-pt"><circle cx="${x}" cy="${y}" r="${r.toFixed(1)}"/>
+        ${p.ks.length > 1 ? `<text x="${x}" y="${y}" dy="0.35em" text-anchor="middle">${p.ks.length}</text>` : ""}<title>${esc(label)}</title></g></a>`;
     }).join("");
     svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}">${ct}${mu}${borders}${lakes}${pts}</svg>`;
   }
