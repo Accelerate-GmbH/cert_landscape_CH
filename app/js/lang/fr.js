@@ -172,7 +172,7 @@ export default {
   parts_ko: "certificats non valables",
   gov_federal: "Confédération",
   gov_cantonal: "Cantons",
-  gov_cantonal_note: "Le droit cantonal s’applique au canton et, selon l’acte, à ses communes ; le champ d’application figure pour chaque acte. Ne sont pas saisis les Grisons et Vaud, dont les recueils n’ont pas pu être lus automatiquement. Les actes figurent dans les langues dans lesquelles le canton les publie ; ils ne sont pas traduits.",
+  gov_cantonal_note: "Le droit cantonal s’applique au canton et, selon l’acte, à ses communes ; le champ d’application figure pour chaque acte. Les Grisons et Vaud sont vérifiés sur les copies de LexFind, leurs recueils n’ayant pas pu être lus depuis l’environnement de mesure. Les actes figurent dans les langues dans lesquelles le canton les publie ; ils ne sont pas traduits.",
   gov_act_lang: "Publié officiellement en {l} ; texte et résumé en {s}, non traduits.",
   gov_canton: "Canton",
   gov_all_cantons: "tous les cantons",
