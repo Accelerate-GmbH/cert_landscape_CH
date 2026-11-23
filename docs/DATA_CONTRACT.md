@@ -231,7 +231,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   "overall", "knockouts"}]`; `office` the administrative unit whose
   abbreviation equals the first label of the domain, from Annex 1 of the
   RVOV (`data/federal/units.json`): `{"abbr", "name", "i18n": {fr, it},
-  "src", "version"}`, else `null`; a host counts for the longest matching domain;
+  "src", "version"}`; where the first label is no abbreviation, the unit
+  named in the title of the domain's start page or by the first label of its
+  redirect target (`data/federal/by_title.json`), then with `via`
+  `{"title", "url", "checked"}`; else `null`; a host counts for the longest matching domain;
   `overall` is the mean of its rated hosts, `null` without one.
 
 ## Dependencies
