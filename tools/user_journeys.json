@@ -1,0 +1,454 @@
+{
+ "about": "User stories of docs/PRODUCT.md (private repository, section 7) as journeys through /v2, each played from the position of a user group: its role (lay or tech), language and home organisation. target = true: the journey needs the proposal (service and provider pages, map of users, UID pages) and is expected to fail until it is built; proposal: what would close the gap. Steps: go (hash route), fill [selector, text], click (selector), expect (visible selector), text (text in main).",
+ "personas": {
+  "gemeinde": {
+   "name": "Gemeinde-Informatik",
+   "role": "tech",
+   "lang": "de",
+   "home": "municipality:295",
+   "max_clicks": 4
+  },
+  "kanton": {
+   "name": "Kantonsinformatik",
+   "role": "tech",
+   "lang": "de",
+   "home": "canton:1",
+   "max_clicks": 4
+  },
+  "beschaffung": {
+   "name": "E-Procurement und E-Operations",
+   "role": "tech",
+   "lang": "de",
+   "max_clicks": 4
+  },
+  "bund": {
+   "name": "Stakeholder in Bundesdepartementen",
+   "role": "lay",
+   "lang": "de",
+   "home": "federal:EFD",
+   "max_clicks": 3
+  },
+  "privat": {
+   "name": "Private Organisationen",
+   "role": "lay",
+   "lang": "de",
+   "home": "organisation:che-105-956-490",
+   "max_clicks": 3
+  },
+  "kritisch": {
+   "name": "Betreiber kritischer Dienste",
+   "role": "tech",
+   "lang": "de",
+   "max_clicks": 4
+  },
+  "fach": {
+   "name": "Fachleute",
+   "role": "tech",
+   "lang": "fr",
+   "max_clicks": 5
+  },
+  "medien": {
+   "name": "Medien und Politik",
+   "role": "lay",
+   "lang": "it",
+   "max_clicks": 2
+  },
+  "buerger": {
+   "name": "Bürgerinnen, Bürger und Konsumenten",
+   "role": "lay",
+   "lang": "fr",
+   "max_clicks": 3
+  }
+ },
+ "ignore": {
+  "about": "Tokens that look like text keys but are data or technical terms shown on purpose: purpose scopes of the swiyu Trust Registry, the CT fallback marker and rating parameters on the methods page.",
+  "tokens": [
+   "betaid_",
+   "ct_stale",
+   "min_scts",
+   "min_orgs_per_sector",
+   "critical_resource_weight",
+   "category_weights"
+  ]
+ },
+ "journeys": [
+  {
+   "id": "G1",
+   "story": "Ich will meine Gemeinde finden und sehen, wo sie rot ist.",
+   "steps": [
+    {
+     "go": "#/"
+    },
+    {
+     "fill": [
+      "#q",
+      "Horgen"
+     ]
+    },
+    {
+     "click": "#sugg li"
+    },
+    {
+     "expect": ".verdict"
+    },
+    {
+     "expect": ".block.red"
+    }
+   ],
+   "persona": "gemeinde"
+  },
+  {
+   "id": "G2",
+   "story": "Ich will sehen, auf welchen Anbietern Mail, Website und GEVER-Applikation ruhen.",
+   "steps": [
+    {
+     "go": "#/org/municipality:295"
+    },
+    {
+     "expect": "#depsec"
+    },
+    {
+     "expect": "table.deps a[href^='#/anbieter/']"
+    }
+   ],
+   "persona": "gemeinde"
+  },
+  {
+   "id": "G3",
+   "story": "Ich will mich mit den Besten vergleichen und sehen, was sie anders machen.",
+   "steps": [
+    {
+     "go": "#/org/municipality:295"
+    },
+    {
+     "click": "a.tocmp[href^='#/vergleich/']"
+    },
+    {
+     "expect": "table.cmp"
+    }
+   ],
+   "persona": "gemeinde"
+  },
+  {
+   "id": "G4",
+   "story": "Ich will die Entwicklung von Monat zu Monat sehen (Monatsbericht).",
+   "steps": [
+    {
+     "go": "#/org/municipality:295"
+    },
+    {
+     "click": "a.tocmp[href$='/bericht']"
+    },
+    {
+     "expect": ".report"
+    }
+   ],
+   "persona": "gemeinde"
+  },
+  {
+   "id": "G5",
+   "story": "Ich will von einem Baustein bis zum Nachweis eines Hosts kommen.",
+   "steps": [
+    {
+     "go": "#/org/municipality:295"
+    },
+    {
+     "click": "[data-blk='net.cert']"
+    },
+    {
+     "expect": "#blkdetail"
+    },
+    {
+     "click": "#blkdetail [data-ev]"
+    },
+    {
+     "expect": "#blkdetail tr.evrow"
+    }
+   ],
+   "persona": "gemeinde"
+  },
+  {
+   "id": "K1",
+   "story": "Ich will den Kanton mit allen Gemeinden auf einen Blick sehen.",
+   "steps": [
+    {
+     "go": "#/karte/canton:1"
+    },
+    {
+     "expect": "svg.chmap"
+    }
+   ],
+   "persona": "kanton"
+  },
+  {
+   "id": "K2",
+   "story": "Ich will sehen, welche Anbieter viele Gemeinden gleichzeitig nutzen.",
+   "steps": [
+    {
+     "go": "#/abhaengigkeiten?level=municipality"
+    },
+    {
+     "expect": "a[href^='#/anbieter/']"
+    }
+   ],
+   "persona": "kanton"
+  },
+  {
+   "id": "B1",
+   "story": "Ich will mein Departement mit allen Ämtern auf einen Blick sehen.",
+   "steps": [
+    {
+     "go": "#/org/federal:EFD"
+    },
+    {
+     "expect": "a[href^='#/org/office']"
+    }
+   ],
+   "persona": "bund"
+  },
+  {
+   "id": "B2",
+   "story": "Ich will verstehen, welche Bundesdienste Kantone, Gemeinden und Private nutzen.",
+   "target": true,
+   "steps": [
+    {
+     "go": "#/"
+    },
+    {
+     "click": "a[href='#/baustein/trust.swiyu']"
+    },
+    {
+     "expect": "[data-service]"
+    },
+    {
+     "expect": "[data-users-map]"
+    }
+   ],
+   "persona": "bund",
+   "proposal": "Seite «Dienst/Anbieter» mit Beschreibung, Betrieb und Karte der Nutzenden; der Baustein im Überblick verlinkt dorthin."
+  },
+  {
+   "id": "B3",
+   "story": "Ich will die Abhängigkeit von ausländischen Anbietern sehen (Zertifikate, Cloud).",
+   "steps": [
+    {
+     "go": "#/org/federal:EFD"
+    },
+    {
+     "click": "[data-blk='net.cert']"
+    },
+    {
+     "expect": "#blkdetail .bd-card"
+    }
+   ],
+   "persona": "bund"
+  },
+  {
+   "id": "P1",
+   "story": "Ich will sehen, wie vertrauenswürdig die öffentlichen Bausteine sind, auf denen ich aufbaue (swiyu).",
+   "steps": [
+    {
+     "go": "#/baustein/trust.swiyu"
+    },
+    {
+     "text": "Betrieb des Dienstes"
+    }
+   ],
+   "persona": "privat"
+  },
+  {
+   "id": "P2",
+   "story": "Ich will meine Posture sehen und mit meiner Branche vergleichen.",
+   "steps": [
+    {
+     "go": "#/org/organisation:che-105-956-490"
+    },
+    {
+     "expect": ".verdict"
+    },
+    {
+     "click": "a.tocmp[href^='#/vergleich/']"
+    },
+    {
+     "expect": "table.cmp"
+    }
+   ],
+   "persona": "privat"
+  },
+  {
+   "id": "P3",
+   "story": "Ich will die genutzten öffentlichen Dienste mit ihrem Betrieb sehen (Lieferkette).",
+   "steps": [
+    {
+     "go": "#/org/organisation:che-105-956-490"
+    },
+    {
+     "text": "Genutzte Dienste der Bausteine"
+    }
+   ],
+   "persona": "privat"
+  },
+  {
+   "id": "E1",
+   "story": "Ich will sehen, wie Anbieter bei anderen Kunden abschneiden.",
+   "target": true,
+   "steps": [
+    {
+     "go": "#/anbieter/swisscom"
+    },
+    {
+     "expect": "[data-provider-posture]"
+    },
+    {
+     "expect": "[data-provider-customers]"
+    }
+   ],
+   "persona": "beschaffung",
+   "proposal": "Anbieterseite mit Betrieb (Posture) des Anbieters und Liste der Kunden mit deren Werten."
+  },
+  {
+   "id": "E2",
+   "story": "Ich will wissen, welche Bausteine austauschbar sind.",
+   "steps": [
+    {
+     "go": "#/baustein/dpi.authentication"
+    },
+    {
+     "text": "Nutzung"
+    }
+   ],
+   "persona": "beschaffung"
+  },
+  {
+   "id": "KD1",
+   "story": "Ich will erkennen, welche Anbieter viele kritische Dienste gleichzeitig tragen.",
+   "steps": [
+    {
+     "go": "#/abhaengigkeiten?level=organisation"
+    },
+    {
+     "expect": "a[href^='#/anbieter/']"
+    }
+   ],
+   "persona": "kritisch"
+  },
+  {
+   "id": "F1",
+   "story": "Ich will jeden Wert bis zur Quelle zurückverfolgen (Host, Prüfung, Zeitpunkt).",
+   "steps": [
+    {
+     "go": "#/org/municipality:295"
+    },
+    {
+     "click": "#hostrows [data-ev]"
+    },
+    {
+     "expect": "tr.evrow"
+    }
+   ],
+   "persona": "fach"
+  },
+  {
+   "id": "F2",
+   "story": "Ich will Methode und Gewichtung nachlesen.",
+   "steps": [
+    {
+     "go": "#/grundlagen"
+    },
+    {
+     "expect": "main h1"
+    }
+   ],
+   "persona": "fach"
+  },
+  {
+   "id": "M1",
+   "story": "Ich will in einer Minute verstehen, wo die Schweiz ihre Kontrollpunkte hält.",
+   "steps": [
+    {
+     "go": "#/"
+    },
+    {
+     "expect": ".model"
+    }
+   ],
+   "persona": "medien"
+  },
+  {
+   "id": "M2",
+   "story": "Ich will von einem Baustein im Überblick zur Karte der Nutzenden.",
+   "target": true,
+   "steps": [
+    {
+     "go": "#/"
+    },
+    {
+     "click": "a[href='#/baustein/dpi.authentication']"
+    },
+    {
+     "expect": "[data-users-map]"
+    }
+   ],
+   "persona": "medien",
+   "proposal": "Karte der Nutzenden auf der Seite des Dienstes (Bund und Ämter als Liste, Kantone und Gemeinden als Fläche, Bildung und kritische Dienste als Punkte)."
+  },
+  {
+   "id": "C1",
+   "story": "Ich will in Laiensprache verstehen, ob die Schule meines Kindes sicher kommuniziert.",
+   "steps": [
+    {
+     "go": "#/"
+    },
+    {
+     "fill": [
+      "#q",
+      "Kantonsschule"
+     ]
+    },
+    {
+     "click": "#sugg li"
+    },
+    {
+     "expect": ".verdict"
+    }
+   ],
+   "persona": "buerger"
+  },
+  {
+   "id": "U1",
+   "story": "Wo eine UID steht, will ich zur eigenen Seite der Organisation mit allen Rollen.",
+   "target": true,
+   "steps": [
+    {
+     "go": "#/org/organisation:che-105-956-490"
+    },
+    {
+     "click": "a[href^='#/uid/']"
+    },
+    {
+     "expect": "[data-uid-page]"
+    }
+   ],
+   "persona": "privat",
+   "proposal": "Seite pro UID mit allen Rollen; überall Name mit Link auf diese Seite."
+  },
+  {
+   "id": "U2",
+   "story": "Ein Anbieter mit UID hat eine eigene Seite, auch ohne gemessene Domain («nicht gemessen»).",
+   "target": true,
+   "steps": [
+    {
+     "go": "#/baustein/trust.seal"
+    },
+    {
+     "click": "a[href^='#/uid/']"
+    },
+    {
+     "expect": "[data-uid-page]"
+    }
+   ],
+   "persona": "privat",
+   "proposal": "Seite pro UID auch ohne gemessene Domain («nicht gemessen»); Hosts später suchen."
+  }
+ ]
+}
