@@ -2,7 +2,7 @@
 // the weakest checks as next steps, dependencies and the weakest services.
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CATS, WHY, checkName, checkText, t, tx } from "../text.js";
-import { esc, fmt, light, dot, bar, cc, uidLink, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
+import { esc, fmt, light, dot, bar, cc, uidRef, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
 import * as trend from "./trend.js";
 import * as evid from "./evidence.js";
 
@@ -26,8 +26,8 @@ export async function render(el, params, role) {
     el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(key)}</p></section>`;
     return;
   }
-  const [meta, bm, hist, dir, idx] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null), data.providers().catch(() => null),
-    d.parent ? data.index().catch(() => null) : null]);
+  const [meta, bm, hist, dir, idx, uidSet] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null), data.providers().catch(() => null),
+    d.parent ? data.index().catch(() => null) : null, data.uids()]);
   // an office: its department, and the source of its name (Annex 1 RVOV)
   const parentName = d.parent ? ((idx && idx.rows.find((r) => r[0] === d.parent)) || [])[1] || d.parent.split(":")[1] : "";
   const ofLine = d.parent ? ` · ${esc(t("office_of"))} <a href="#/org/${encodeURIComponent(d.parent)}">${esc(parentName)}</a>`
@@ -44,7 +44,7 @@ export async function render(el, params, role) {
   const head = `<section class="lead org">
     <div class="kind">${esc(LEVEL_ONE[d.kind] || d.kind)}${ofLine}${d.canton ? " · " + esc(d.canton) : ""}${d.sector ? " · " + esc(d.kind === "education" ? [t("edu_" + d.sector), d.subsector ? t("edu_" + d.subsector) : ""].filter(Boolean).join(", ") : d.sector) : ""}</div>
     <h1>${esc(d.office ? tx(d.office, "name") : d.name)}</h1>
-    <p class="sub">${d.uid ? uidLink(d.uid) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
+    <p class="sub">${d.uid ? uidRef(d.uid, uidSet) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
       · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}</p>` : ""}
     ${(d.swiyu || []).length ? `<p class="sub">${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(t("env_" + x.env))}</a>`).join(", ")} · <a href="#/baustein/trust.swiyu">swiyu</a></p>` : ""}

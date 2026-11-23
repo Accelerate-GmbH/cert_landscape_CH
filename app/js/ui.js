@@ -24,6 +24,10 @@ export function bar(own, best, bestLabel) {
 }
 
 export const cc = (c) => (c ? `<span class="cc${c === "CH" ? "" : " abroad"}">${esc(c)}</span>` : "");
+// a UID with a page (uids.json) links to it; the name too where given
+export const hasUid = (u, set) => !!(u && set && set.has(String(u).replace(/\D/g, "")));
+export const uidName = (u, name, set) => (hasUid(u, set) ? `<a href="#/uid/${encodeURIComponent(u)}">${esc(name)}</a>` : esc(name));
+export const uidRef = (u, set) => (!u ? "" : hasUid(u, set) ? `<a href="#/uid/${encodeURIComponent(u)}">${esc(u)}</a>` : uidLink(u));
 export const uidLink = (u) => (u ? `<a href="https://www.uid.admin.ch/Detail.aspx?uid_id=${encodeURIComponent(u)}" target="_blank" rel="noopener" title="${esc(t("uid_title"))}">${esc(u)}</a>` : "");
 
 export const HOME_KEY = "tp.home";
