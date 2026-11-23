@@ -196,8 +196,11 @@ results, CSV and Excel exports stay in the pipeline repository.
   "registration_status" (ISSUED, LAPSED …), "next_renewal", "src" (link to
   the GLEIF record), "fetched"}`, `null` without an LEI.
   `parts` (federal level only): the department by the domains of its
-  offices as listed in `config/entities.toml`, `[{"domain", "hosts",
-  "overall", "knockouts"}]`; a host counts for the longest matching domain;
+  offices as listed in `config/entities.toml`, `[{"domain", "office", "hosts",
+  "overall", "knockouts"}]`; `office` the administrative unit whose
+  abbreviation equals the first label of the domain, from Annex 1 of the
+  RVOV (`data/federal/units.json`): `{"abbr", "name", "i18n": {fr, it},
+  "src", "version"}`, else `null`; a host counts for the longest matching domain;
   `overall` is the mean of its rated hosts, `null` without one.
 
 ## Dependencies
