@@ -66,7 +66,7 @@ export async function render(el, params) {
       <ul>${gov.laws.filter((l) => l.level !== "canton").map((l) => `<li><a href="#/governance/${encodeURIComponent(l.id)}" data-blocks="${esc(l.blocks.join(" "))}" title="${esc(lawText(l, "name"))}">
         <b>${esc(lawText(l, "abbr"))}</b> <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></a></li>`).join("")}</ul>
       ${(() => { const c = [...new Set(gov.laws.filter((l) => l.level === "canton").map((l) => l.canton))].sort();
-        return c.length ? `<p class="small">${esc(t("gov_cantonal_box", { c: c.join(", ") }))}</p>` : ""; })()}
+        return c.length ? `<p class="small">${esc(t("gov_cantonal_n", { n: c.length }))}</p>` : ""; })()}
       <a class="small" href="#/governance">${esc(t("gov_all"))} ›</a></aside></div>
     <section class="note"><p>${esc(t("start_note", { d: (meta.data_generated || "").slice(0, 10).split("-").reverse().map(Number).join(".") }))}</p></section>`;
   // a law in the governance box marks the building blocks it concerns

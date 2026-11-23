@@ -229,3 +229,6 @@ tr.evrow > td { background: var(--bg); padding: 8px 10px; }
 table.evt { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 13px; }
 table.evt th, table.evt td { text-align: left; vertical-align: top; padding: 4px 8px; border-bottom: 1px solid var(--line); }
 #hostq { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; width: min(100%, 360px); }
+
+details.kt-group { border-top: 1px solid var(--line); padding: 8px 0; }
+details.kt-group > summary { cursor: pointer; }
