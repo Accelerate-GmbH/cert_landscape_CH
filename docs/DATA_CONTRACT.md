@@ -188,7 +188,13 @@ results, CSV and Excel exports stay in the pipeline repository.
   `uid_name`, `sector`, `subsector`, `place`;
   `posture` (`overall`, `categories`, `lights`, `checks` with
   pass/partial/fail/assessed, `resources`, `knockouts`, `distribution`);
-  `mail` (`overall`, `checks`, `domains`, `detail` per domain);
+  `mail` (`overall`, `checks`, `domains`, `detail` per domain; each detail
+  check `{"check", "status", "value", "src"}`, `src` the DNS query the value
+  was read from, `null` for `mail.starttls`);
+  `src` where the entity's values come from: `{"evidence"` (path of the
+  evidence file of its hosts), `"checks"`, `"scores"`, `"aggregation"`,
+  `"mail"}` (links to the sections of the rating rules that define the
+  checks, turn them into scores and combine hosts into the entity's values);
   `layers` (`{layer: {block: {"v", "m", "n"}}}`, same blocks as `model`);
   `dependencies` (see below); `stack`
   (TLD, DNS, hosting, CA, root); `no_data` (reason when unrated);

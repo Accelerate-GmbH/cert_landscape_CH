@@ -27,6 +27,9 @@ export const artLabel = (a) => (ART[LANG] || []).reduce((s, [re, r]) => s.replac
 const REF = { fr: [[/^SR /, "RS "], [/^BBl /, "FF "]], it: [[/^SR /, "RS "], [/^BBl /, "FF "]] };
 const refLabel = (r) => (REF[LANG] || []).reduce((s, [re, x]) => s.replace(re, x), r || "");
 
+// cantonal abbreviations that already start with the canton (TG DSG) lose it next to the canton badge
+const ktAbbr = (l) => { const a = lawText(l, "abbr") || ""; return l.canton && a.startsWith(l.canton + " ") ? a.slice(l.canton.length + 1) : a; };
+
 export const statusWord = (law) => t(law.status === "in_force" ? "gov_in_force" : "gov_adopted");
 
 // a block name that leads to the laws concerning it
@@ -48,7 +51,7 @@ export async function render(el, params) {
   const fed = laws.filter((l) => l.level !== "canton"), can = laws.filter((l) => l.level === "canton");
   const qs = (o) => "#/governance?" + new URLSearchParams(Object.entries(o).filter(([, v]) => v)).toString();
   const one = (l) => `<section class="law" id="law-${esc(l.id)}">
-      <h2>${l.canton ? `<span class="kt">${esc(l.canton)}</span> ` : ""}${esc(lawText(l, "abbr"))} <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h2>
+      <h2>${l.canton ? `<span class="kt">${esc(l.canton)}</span> ` : ""}${esc(ktAbbr(l))} <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h2>
       <p class="sub"><a href="${esc(fedlex(l.url))}" rel="noopener">${esc(lawText(l, "name"))}</a> · ${esc(refLabel(l.ref))}</p>
       <p class="small">${esc(lawText(l, "status_text"))} <span class="muted">${esc(t("sources"))}: ${(l.status_sources || []).map((s, i) => link({ ...s, title: (lawText(l, "status_sources") || [])[i] || s.title })).join(" · ")}</span></p>
       <p><b>${esc(t("gov_scope"))}:</b> ${esc(lawText(l, "scope"))}</p>
@@ -81,7 +84,7 @@ export async function render(el, params) {
       ? can.map(one).join("")
       // without a chosen canton: one collapsed section per canton
       : [...new Set(can.map((l) => l.canton))].map((c) => { const ls = can.filter((l) => l.canton === c);
-          return `<details class="kt-group"><summary><span class="kt">${esc(c)}</span> ${ls.map((l) => esc(lawText(l, "abbr"))).join(", ")}
+          return `<details class="kt-group"><summary><span class="kt">${esc(c)}</span> ${ls.map((l) => esc(ktAbbr(l))).join(", ")}
             <span class="muted small">· ${esc(t("gov_acts", { n: ls.length }))}</span></summary>${ls.map(one).join("")}</details>`; }).join("")}` : ""}
     ${laws.length ? "" : `<p class="muted">${esc(t("gov_none"))}</p>`}`;
   el.querySelector("#govkt")?.addEventListener("change", (ev) => { location.hash = qs({ blk: only, canton: ev.target.value }); });

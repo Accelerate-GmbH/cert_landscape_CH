@@ -240,3 +240,6 @@ figure.levels .lvh { font-weight: 600; margin-bottom: 6px; }
 figure.levels .lvarrow { text-align: center; color: var(--muted); line-height: 1; }
 figure.levels .chip.off { opacity: .45; border-style: dashed; }
 figure.levels figcaption { margin-top: 4px; }
+
+/* raw values (DNS records) in the mail table */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }

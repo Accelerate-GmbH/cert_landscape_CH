@@ -77,6 +77,8 @@ export async function render(el, params, role) {
       <div class="blocks" style="--n:${L.blocks.length}">${blocks}</div></div>`;
   }).join("");
 
+  // where the values come from (entity "src"): evidence per host and the rating rules
+  const src = d.src || {};
   // next steps: the weakest checks, with the reason for the chosen role and why it matters
   const checks = Object.entries(p.checks || {}).map(([id, k]) => [id, share(k), k]).filter(([, v]) => v !== null);
   const mailChecks = Object.entries((d.mail || {}).checks || {}).map(([id, k]) => [id, share(k), k]).filter(([, v]) => v !== null);
@@ -86,13 +88,16 @@ export async function render(el, params, role) {
     ? `<ol class="steps">${weakest.map(([id, v]) => {
         const bb = B["chk:" + id];
         return `<li><div class="st">${dot(light(v, cfg))} <b>${esc(checkName(id))}</b> <span class="muted">${fmt(v)} %${bb ? ` · ${bestLabel(bb)}: ${fmt(bestVal(bb))} %` : ""}</span></div>
-          <p>${esc(checkText(id, role))}</p><p class="why">${esc(WHY[cat(id)] || "")}</p></li>`;
+          <p>${esc(checkText(id, role))}</p><p class="why">${esc(WHY[cat(id)] || "")}</p>
+          <p class="small">${id.startsWith("mail.") ? `<a href="#mailsrc" data-jump="mailsrc">${esc(t("src_mail_values"))}</a>` : `<button class="link" data-fail="${esc(id)}">${esc(t("src_hosts"))}</button>`}
+            ${src[id.startsWith("mail.") ? "mail" : "checks"] ? ` · <a href="${esc(src[id.startsWith("mail.") ? "mail" : "checks"])}" rel="noopener">${esc(t("src_rule"))}</a>` : ""}</p></li>`;
       }).join("")}</ol>`
     : `<p>${esc(t("none_below", { g: cfg.green || 80 }))}</p>`;
 
   const cats = Object.entries(p.categories || {}).map(([c, v]) => `<div class="cat">${dot(light(v, cfg))} <span>${esc(CATS[c] || c)}</span> <b>${fmt(v)}</b>
     ${B["cat:" + c] ? `<span class="muted"> · ${bestLabel(B["cat:" + c])} ${fmt(bestVal(B["cat:" + c]))}</span>` : ""}</div>`).join("");
 
+  const calc = src.scores ? `<p class="muted small">${esc(t("src_calc_note", { n: (d.hosts || []).length }))} <a href="${esc(src.scores)}" rel="noopener">${esc(t("src_calc"))}</a>${src.aggregation ? ` · <a href="${esc(src.aggregation)}" rel="noopener">${esc(t("src_agg"))}</a>` : ""}</p>` : "";
   const dep = d.dependencies || {};
   // what each provider was recognised by (docs/DATA_CONTRACT.md, «Dependencies»)
   const PROOF = { mx: "MX", spf: "SPF", txt: t("proof_txt"), dkim: t("proof_dkim"), cname: "CNAME", redirect: t("proof_redirect"), path: t("proof_path") };
@@ -131,6 +136,15 @@ export async function render(el, params, role) {
       ${FN.map((f) => cell(x.cells[f])).join("")}<td class="muted small">${esc(t("mx_na"))}</td></tr>`).join("")}</tbody></table></div>`
     : `<p class="muted">${esc(t("mx_none"))}</p>`;
 
+  // mail values per domain, each with the DNS query it was read from
+  const MLIGHT = { pass: "green", partial: "yellow", fail: "red" };
+  const mailRows = ((d.mail || {}).detail || []).flatMap((x) => x.checks.map((c, i) =>
+    `<tr>${i === 0 ? `<td rowspan="${x.checks.length}">${esc(x.domain)}</td>` : ""}<td>${c.status in MLIGHT ? dot(MLIGHT[c.status]) : '<span class="muted">–</span>'} ${esc(checkName(c.check))}</td>
+      <td class="small mono">${esc((c.value || "").length > 90 ? c.value.slice(0, 88) + "…" : c.value || "")}</td>
+      <td>${c.src ? `<a href="${esc(c.src)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</td></tr>`)).join("");
+  const mailTbl = mailRows ? `<section id="mailsrc"><h2>${esc(t("src_mail_title"))}</h2><p class="sub">${esc(t("src_mail_sub"))}</p>
+    <div class="scroll"><table class="evt"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody>${mailRows}</tbody></table></div></section>` : "";
+
   // a department by the domains of its offices (entity "parts", federal level)
   const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))} ${esc(t("parts_names"))}</p>
     <div class="scroll"><table class="hosts"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("parts_hosts"))}</th><th>${esc(t("parts_mean"))}</th><th>${esc(t("parts_ko"))}</th></tr></thead>
@@ -150,9 +164,9 @@ export async function render(el, params, role) {
     `<section><h2>${esc(t("blocks_h"))}</h2><p class="sub">${esc(t("blocks_sub"))}</p><div class="model compact">${layers}</div></section>
      <section><h2>${esc(t("mx_title"))}</h2><p class="sub">${esc(t("mx_sub"))}</p>${matrix}</section>
      <div class="two"><section><h2>${esc(t("next_steps"))}</h2>${steps}</section>
-     <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}<h2>${esc(t("deps_title"))}</h2>${deps}</section></div>
-     ${partsTbl}
-     <section><h2>${esc(t("weakest"))}</h2>${hostList}</section>`;
+     <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}${calc}<h2>${esc(t("deps_title"))}</h2>${deps}</section></div>
+     ${mailTbl}${partsTbl}
+     <section id="hostsec"><h2>${esc(t("weakest"))}</h2><p id="hostnote" class="small" hidden></p>${hostList}</section>`;
 
   evid.wire(el, d.key);
   const hq = el.querySelector("#hostq");
@@ -162,6 +176,21 @@ export async function render(el, params, role) {
     tb.innerHTML = hostRows(v ? rated.filter((h) => h.host.includes(v)).slice(0, 50) : rated.slice(0, 10));
     evid.wire(tb, d.key);
   });
+  // a next step opens the hosts that do not (fully) meet its check, from the evidence file
+  el.querySelectorAll("[data-fail]").forEach((b) => b.addEventListener("click", async () => {
+    const id = b.dataset.fail, note = el.querySelector("#hostnote"), tb = el.querySelector("#hostrows");
+    if (!tb) return;
+    let ev = {};
+    try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
+    const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((c) => c[0] === id && (c[1] === "fail" || c[1] === "partial")));
+    tb.innerHTML = hostRows(bad.slice(0, 100));
+    evid.wire(tb, d.key);
+    note.hidden = false;
+    note.innerHTML = `${esc(t("src_filtered", { c: checkName(id), n: bad.length }))}${bad.length > 100 ? " " + esc(t("src_first", { n: 100 })) : ""} · <button class="link" id="hostreset">${esc(t("src_reset"))}</button>`;
+    note.querySelector("#hostreset").addEventListener("click", () => { tb.innerHTML = hostRows(rated.slice(0, 10)); evid.wire(tb, d.key); note.hidden = true; });
+    el.querySelector("#hostsec").scrollIntoView();
+  }));
+  el.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); el.querySelector("#" + a.dataset.jump)?.scrollIntoView(); }));
   el.querySelector("[data-home]").addEventListener("click", (ev) => {
     const k = ev.currentTarget.dataset.home;
     store.set(HOME_KEY, store.get(HOME_KEY) === k ? null : k);
