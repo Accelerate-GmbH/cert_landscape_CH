@@ -31,7 +31,7 @@ function register(r) {
       <td>${r.kind === "vlei" ? esc(t("reg_qualified", { d: date(p.services[0].since) })) : Object.entries(kinds).map(([k, n]) => `${k}: ${n}`).join("<br>")}${p.withdrawn ? `<div class="muted small">${esc(t("reg_withdrawn", { n: p.withdrawn }))}</div>` : ""}</td></tr>`;
   }).join("");
   const k = r.kind || "zertes";
-  return `<section><h2>${esc(t("reg_title_" + k))}</h2><p>${esc(t("reg_intro_" + k))}</p>
+  return `<section><h2>${esc(t("reg_title_" + k))}</h2><p>${esc(t("reg_intro_" + k))}${k === "vlei" && !r.providers.some((p) => p.country === "CH") ? " " + esc(t("reg_vlei_no_ch")) : ""}</p>
     <table class="deps"><thead><tr><th></th><td>${esc(t("reg_services"))}</td></tr></thead><tbody>${rows}</tbody></table>
     <p class="muted small">${esc(r.sequence ? t("reg_list", { s: r.sequence, d: date(r.issued), n: date(r.next_update) })
       : r.issued ? t("reg_recognised", { d: date(r.issued), c: date(r.checked) }) : t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}:
