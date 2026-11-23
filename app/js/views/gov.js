@@ -13,7 +13,10 @@ const link = (s) => `<a href="${esc(fedlex(s.url))}" rel="noopener">${esc(s.titl
 // an act not published in the chosen language is shown in its own language (German
 // if published in German, else its first language); acts are not translated
 const own = (law) => { const ls = law.languages || ["de"];
-  return law.level !== "canton" || ls.includes(LANG) ? LANG : ls.includes("de") ? "de" : ls[0]; };
+  // the chosen language only where the act is published in it and its texts are recorded (GR: de only)
+  const has = (l) => l === "de" ? !!law.name : !!((law.i18n || {})[l] || {}).name;
+  if (law.level !== "canton" || (ls.includes(LANG) && has(LANG))) return LANG;
+  return ls.includes("de") ? "de" : ls.find(has) || ls[0]; };
 export const lawText = (law, k) => ((law.i18n || {})[own(law)] || {})[k] || (k === "status_sources" ? null : law[k]);
 const provText = (p, law) => (p.i18n || {})[law ? own(law) : LANG] || p.text;
 // "only in German" when the act is not published in the chosen language

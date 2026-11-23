@@ -172,7 +172,7 @@ export default {
   parts_ko: "invalid certificates",
   gov_federal: "Confederation",
   gov_cantonal: "Cantons",
-  gov_cantonal_note: "Cantonal law applies to the canton and, depending on the act, to its communes; the scope is given for each act. Not included are Graubünden and Vaud, whose collections could not be read automatically. Acts appear in the languages in which the canton publishes them; they are not translated.",
+  gov_cantonal_note: "Cantonal law applies to the canton and, depending on the act, to its communes; the scope is given for each act. Graubünden and Vaud are checked against the copies held by LexFind, as their collections could not be read from the measuring environment. Acts appear in the languages in which the canton publishes them; they are not translated.",
   gov_act_lang: "Officially published in {l}; text and summary in {s}, not translated.",
   gov_canton: "Canton",
   gov_all_cantons: "all cantons",
