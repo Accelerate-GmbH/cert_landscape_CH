@@ -65,21 +65,20 @@ export async function render(el, params, role) {
 
   // drill-down: a building block leads to the hosts that fail its checks, to the
   // mail values per domain, or to the dependencies it is measured from
-  const drillAttr = (b) => (b.checks && b.checks.length ? `data-fail="${esc(b.checks.join(","))}" role="button" tabindex="0"`
-    : b.mail ? `data-jump="mailsrc" role="button" tabindex="0"` : b.deps ? `data-jump="depsec" role="button" tabindex="0"` : "");
+  const drillAttr = (b, k) => `data-blk="${esc(k)}" role="button" tabindex="0" aria-controls="blkdetail"`;
   // the layer model with the entity's own values and the benchmark
   const layers = ORDER.map((lid) => {
     const L = meta.model.layer.find((x) => x.id === lid);
     const blocks = L.blocks.map((b) => {
       const k = `${lid}.${b.id}`, v = (d.layers[lid] || {})[b.id] || {};
-      if (v.m === "none") return `<div class="block unmeasured"><div class="bn">${esc(BLOCKS[k])}</div><div class="bv muted">${esc(t("not_measured"))}</div></div>`;
+      if (v.m === "none") return `<div class="block unmeasured drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div><div class="bv muted">${esc(t("not_measured"))}</div></div>`;
       if (v.m === "count") {
         const apps = Object.entries(d.dependencies.apps || {}).sort((a, b) => b[1] - a[1]).slice(0, 4);
-        return `<div class="block none drill" ${drillAttr(b)}><div class="bn">${esc(BLOCKS[k])}</div><div class="bs">${apps.map(([a, n]) => `${esc(APPS[a] || a)} ${n}`).join(" · ") || "–"}</div></div>`;
+        return `<div class="block none drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div><div class="bs">${apps.map(([a, n]) => `${esc(APPS[a] || a)} ${n}`).join(" · ") || "–"}</div></div>`;
       }
       const bb = B["blk:" + k];
       const l = light(v.v, cfg);
-      return `<div class="block ${l}${drillAttr(b) ? " drill" : ""}" ${drillAttr(b)} title="${esc(BLOCK_WHAT[k] || "")}"><div class="bn">${esc(BLOCKS[k])}</div>
+      return `<div class="block ${l} drill" ${drillAttr(b, k)} title="${esc(BLOCK_WHAT[k] || "")}"><div class="bn">${esc(BLOCKS[k])}</div>
         <div class="bv">${v.v === null || v.v === undefined ? "" : `${dot(l)} <b>${fmt(v.v)}</b>`}${bb ? `<span class="bb"> · ${bestLabel(bb)} ${fmt(bestVal(bb))}</span>` : ""}</div>
         ${v.v !== null && v.v !== undefined ? bar(v.v, bestVal(bb), bestLabel(bb)) : `<div class="bs muted">${esc(t("no_data_yet"))}</div>`}</div>`;
     }).join("");
@@ -156,7 +155,7 @@ export async function render(el, params, role) {
       <td class="small mono">${esc((c.value || "").length > 90 ? c.value.slice(0, 88) + "…" : c.value || "")}</td>
       <td>${c.src ? `<a href="${esc(c.src)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</td></tr>`)).join("");
   const mailTbl = mailRows ? `<section id="mailsrc"><h2>${esc(t("src_mail_title"))}</h2><p class="sub">${esc(t("src_mail_sub"))}</p>
-    <div class="scroll"><table class="evt"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody>${mailRows}</tbody></table></div></section>` : "";
+    <div class="scroll"><table class="evt"><thead><tr><th>${esc(t("domain_col"))}</th><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody>${mailRows}</tbody></table></div></section>` : "";
 
   // a department by the domains of its offices (entity "parts", federal level)
   const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))} ${esc(t("parts_names"))}</p>
@@ -173,8 +172,53 @@ export async function render(el, params, role) {
   const hostList = rated.length ? `${rated.length > 10 ? `<p><input id="hostq" type="search" placeholder="${esc(t("ev_search", { n: rated.length }))}" aria-label="${esc(t("ev_search", { n: rated.length }))}"></p>` : ""}
     <table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody id="hostrows">${hostRows(rated.slice(0, 10))}</tbody></table>` : "<p>–</p>";
 
+  // detail of one building block: how its value is computed and the evidence
+  // behind it, each with a place to check it by hand
+  const DNSQ = { spf: "TXT", txt: "TXT", mx: "MX", dkim: "CNAME", cname: "CNAME" };
+  const verify = (k, where) => DNSQ[k] ? `https://dns.google/query?name=${encodeURIComponent(where)}&type=${DNSQ[k]}`
+    : (k === "redirect" || k === "path") ? `https://${where}` : "";
+  const blockOf = (key) => { const [lid, bid] = key.split("."); const L = meta.model.layer.find((x) => x.id === lid); return L && L.blocks.find((x) => x.id === bid); };
+  const blockDetail = async (key) => {
+    const b = blockOf(key) || {}, [lid, bid] = key.split("."), v = (d.layers[lid] || {})[bid] || {};
+    const val = v.v === null || v.v === undefined ? "–" : fmt(v.v);
+    let body = "";
+    if (v.m === "none") {
+      body = `<p>${esc(t("blk_how_none"))}</p>`;
+      if (key === "trust.swiyu" && (d.swiyu || []).length) body += `<p>${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(x.name)} (${esc(t("env_" + x.env))})</a>`).join(", ")}</p>`;
+    } else if (b.checks) {
+      const rows = b.checks.map((c) => { const k = (p.checks || {})[c] || {};
+        return `<tr><td>${esc(checkName(c))}</td><td class="num">${k.pass ?? "–"}</td><td class="num">${k.partial ?? "–"}</td><td class="num">${k.fail ?? "–"}</td>
+          <td>${src.checks ? `<a href="${esc(src.checks)}" rel="noopener">${esc(t("src_rule"))}</a>` : ""}</td></tr>`; }).join("");
+      let ev = {};
+      try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
+      const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((c) => b.checks.includes(c[0]) && (c[1] === "fail" || c[1] === "partial")));
+      body = `<p>${esc(t("blk_how_checks", { v: val, n: v.n || 0 }))}</p>
+        <table class="deps"><thead><tr><th>${esc(t("check"))}</th><td>${esc(t("blk_pass"))}</td><td>${esc(t("blk_partial"))}</td><td>${esc(t("blk_fail"))}</td><td></td></tr></thead><tbody>${rows}</tbody></table>
+        <h3>${esc(t("blk_hosts", { n: bad.length }))}</h3>${bad.length ? `<table class="hosts"><tbody>${hostRows(bad.slice(0, 50))}</tbody></table>${bad.length > 50 ? `<p class="muted small">${esc(t("src_first", { n: 50 }))}</p>` : ""}` : `<p>${esc(t("blk_all_ok"))}</p>`}`;
+    } else if (b.mail) {
+      body = `<p>${esc(t("blk_how_mail", { v: val, n: v.n || 0 }))}</p>${mailRows ? `<div class="scroll"><table class="evt"><thead><tr><th>${esc(t("domain_col"))}</th><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody>${mailRows}</tbody></table></div>` : ""}`;
+    } else if (b.deps === "apps") {
+      body = `<p>${esc(t("blk_how_count"))}</p><p>${Object.entries(dep.apps || {}).sort((a, c) => c[1] - a[1]).map(([a, n]) => `${esc(APPS[a] || a)} ${n}`).join(" · ") || "–"}</p>`;
+    } else if (b.deps) {
+      const part = b.deps, list = dep[part] || [];
+      const rows = list.map((x) => {
+        const via = (dep.via || []).find((y) => y.part === part && y.name === x[0]);
+        const id = via ? via.provider : provId.get(x[0]);
+        const ev = via ? via.ev.map(([k, where, what]) => { const u = verify(k, where);
+          return `<div class="small">${esc(PROOF[k] || k)}: <span class="mono">${esc(where)}</span> → <span class="mono">${esc(what)}</span>${u ? ` · <a href="${esc(u)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</div>`; }).join("") : "";
+        return `<tr><th>${id ? `<a href="#/anbieter/${encodeURIComponent(id)}">${esc(x[0])}</a>` : esc(x[0])} ${cc(x[1])}${part === "cloud" && x[2] ? ` <span class="muted small">${esc(t("blk_n_hosts", { n: x[2] }))}</span>` : ""}</th><td>${ev || (part === "cloud" ? `<span class="muted small">${esc(t("blk_cloud_ev"))}</span>` : "")}</td></tr>`;
+      }).join("");
+      body = `<p>${esc(t(part === "cloud" ? "blk_how_cloud" : "blk_how_share", { v: val, n: v.n || 0 }))}</p>${rows ? `<table class="deps"><tbody>${rows}</tbody></table>` : "<p>–</p>"}
+        ${part === "cloud" && rated.length ? `<h3>${esc(t("blk_cloud_hosts"))}</h3><table class="hosts"><tbody>${hostRows(rated.slice(0, 50))}</tbody></table>` : ""}`;
+    }
+    return `<h2>${esc(BLOCKS[key] || key)} <button class="link small" data-blkclose>${esc(t("blk_close"))}</button></h2>
+      ${BLOCK_WHAT[key] ? `<p class="sub">${esc(BLOCK_WHAT[key])}</p>` : ""}${body}
+      <p class="muted small"><a href="#/baustein/${encodeURIComponent(key)}">${esc(t("blk_block_page"))}</a>${src.aggregation ? ` · <a href="${esc(src.aggregation)}" rel="noopener">${esc(t("src_agg"))}</a>` : ""}</p>`;
+  };
+
   el.innerHTML = head + verdict + trend.render(hist, cfg) +
     `<section><h2>${esc(t("blocks_h"))}</h2><p class="sub">${esc(t("blocks_sub"))}</p><div class="model compact">${layers}</div></section>
+     <section id="blkdetail" class="blkdetail" hidden></section>
      <section><h2>${esc(t("mx_title"))}</h2><p class="sub">${esc(t("mx_sub"))}</p>${matrix}</section>
      <div class="two"><section><h2>${esc(t("next_steps"))}</h2>${steps}</section>
      <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}${calc}<h2 id="depsec">${esc(t("deps_title"))}</h2>${deps}</section></div>
@@ -204,6 +248,17 @@ export async function render(el, params, role) {
     el.querySelector("#hostsec").scrollIntoView();
   }));
   el.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); el.querySelector("#" + a.dataset.jump)?.scrollIntoView(); }));
+  const panel = el.querySelector("#blkdetail");
+  el.querySelectorAll("[data-blk]").forEach((x) => x.addEventListener("click", async () => {
+    el.querySelectorAll("[data-blk].on").forEach((y) => y.classList.remove("on"));
+    x.classList.add("on");
+    panel.hidden = false;
+    panel.innerHTML = `<p class="muted">${esc(t("loading"))}</p>`;
+    panel.innerHTML = await blockDetail(x.dataset.blk);
+    evid.wire(panel, d.key);
+    panel.querySelector("[data-blkclose]").addEventListener("click", () => { panel.hidden = true; x.classList.remove("on"); });
+    panel.scrollIntoView({ block: "start" });
+  }));
   el.querySelectorAll('div[role="button"]').forEach((x) => x.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); x.click(); } }));
   el.querySelector("[data-home]").addEventListener("click", (ev) => {
     const k = ev.currentTarget.dataset.home;
