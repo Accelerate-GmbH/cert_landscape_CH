@@ -224,6 +224,20 @@ results, CSV and Excel exports stay in the pipeline repository.
   DNS, network and live checks are current);
   `hosts` (`host`, `overall`, `cats`, `status`, `critical`, `knockout`,
   `unreachable`).
+  `plan` (Phase 3, not shown on the site before the good practice is
+  approved): `{"base", "target", "target_kind": "benchmark", "goal": null,
+  "proposed_value", "reaches", "items": [{"check", "hosts", "sample",
+  "value", "gain", "effort", "practice", "proposed"}]}` or null without
+  rated resources. Per check that fails or partly passes on at least one
+  rated resource (and `knockout` for invalid or revoked certificates): the
+  entity value if it passed on every affected resource (`value`, `gain`
+  against `base`), the number of affected hosts and up to 20 of them
+  (`sample`). Same rules as the rating (check and category weights, points,
+  critical resources three times). `target`: the benchmark of the level
+  (mean of the best 5 %, or the best) until a yearly goal is agreed (`goal`).
+  `proposed`: the smallest set in order of gain that reaches `target`;
+  `reaches` false when all measures together stay below it. `effort` and
+  `practice` (id in `config/practice.toml`) only for approved entries, else null.
   `services`: the matrix services × functions, `[{"service", "host",
   "hosts", "cells"}]`. `service` is `website`, `portal`, `login`, `gever`
   (GEVER application) or `mail`, recognised by host name
