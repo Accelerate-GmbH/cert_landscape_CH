@@ -91,6 +91,7 @@ export async function render(el, params) {
   const grp = layer.group && GROUPS[layer.group];
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(grp ? grp.name : "")} · ${esc(LAYERS[lid].name)}</div>
       <h1>${esc(BLOCKS[key])}</h1><p>${esc(LAYERS[lid].hint)}</p>
+      ${{ "dpi.identity": "def_identity", "dpi.authentication": "def_authentication" }[key] ? `<p><b>${esc(t({ "dpi.identity": "def_identity", "dpi.authentication": "def_authentication" }[key]))}</b></p>` : ""}
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
       ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(tx(inf.source, "title"))}</a></p>` : ""}
       <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>

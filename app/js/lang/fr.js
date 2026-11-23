@@ -234,6 +234,8 @@ export default {
   instead: "Utilisés à la place : fournisseurs de connexion étrangers",
   aspect_identity: "Qui est une personne ou une organisation.",
   aspect_authentication: "La preuve, lors de l'accès, que quelqu'un possède cette identité.",
+  def_identity: "L’identité est la capacité d’agir numériquement : qui est une personne ou une organisation, ce qu’elle peut faire et pour qui elle agit. La preuve lors de l’accès (connexion) est une brique distincte, l’authentification.",
+  def_authentication: "L’authentification est la preuve, lors de l’accès, que quelqu’un détient une identité (connexion). Elle suppose une identité mais ne fonde pas de capacité d’agir ; celle-ci relève de la brique identité.",
   aspect_authority: "Ce que quelqu'un a le droit de faire, par exemple un droit de signature ou un rôle dans une autorité.",
   aspect_agency: "Agir pour le compte d'autrui, par exemple avec une procuration ou une délégation.",
   aspects_note: "Le système interne de gestion des accès et des autorisations d'une organisation (IAM) ne relève d'aucun de ces aspects ; c'est un levier de la couche de contrôle.",
