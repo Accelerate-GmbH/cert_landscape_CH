@@ -63,7 +63,7 @@ async function route() {
   } catch (e) {
     view.innerHTML = `<p>${esc(t("load_error", { e: e.message }))}</p>`;
   }
-  if (!(r.name === "gov" && r.params.law)) window.scrollTo(0, 0);
+  if (!(r.name === "gov" && r.params.law) && r.params.to !== "rank") window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", route);
 

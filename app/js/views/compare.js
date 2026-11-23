@@ -93,7 +93,7 @@ export async function render(el, params) {
     <td>${d && k !== d.key && d.kind === level ? `<a class="small" href="${hash(d.key, { ...keep, mit: k })}" title="${esc(t("compare_with", { n: names[k] || k }))}">⇄</a>` : ""}</td></tr>`;
   const mine = d ? rows.findIndex((r) => r[0] === d.key) : -1;
   const sel = (name, opts, cur, all) => `<select data-f="${name}"><option value="">${esc(all)}</option>${opts.map((o) => `<option${o === cur ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
-  const ranking = `<section><h2>${esc(t("ranking"))}</h2>
+  const ranking = `<section id="rank"><h2>${esc(t("ranking"))}</h2>
     <div class="tabs">${LEVELS.map(([k, nm]) => `<a class="tab${k === level ? " on" : ""}" href="${hash(key, { level: k })}">${esc(nm)}</a>`).join("")}</div>
     <div class="filters">
       <label>${esc(t("sort_by"))} <select data-f="sort">${[...new Set(S.map(group))].map((g) => `<optgroup label="${esc(groupName(g))}">${S.filter((s) => group(s) === g)
@@ -113,4 +113,6 @@ export async function render(el, params) {
     if (s.dataset.f !== "sort") p.n = undefined;
     location.hash = hash(key, p);
   }));
+  // from a building block on the start page: straight to the ranking
+  if (params.to === "rank") el.querySelector("#rank")?.scrollIntoView();
 }
