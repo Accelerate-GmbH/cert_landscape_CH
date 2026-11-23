@@ -173,7 +173,7 @@ export default {
   gov_federal: "Confederazione",
   gov_cantonal: "Cantoni",
   gov_cantonal_note: "Il diritto cantonale si applica al Cantone e, a seconda dell’atto, ai suoi Comuni; il campo d’applicazione è indicato per ogni atto. Non sono registrati i Grigioni e Vaud, le cui raccolte non hanno potuto essere lette automaticamente. Gli atti figurano nelle lingue in cui il Cantone li pubblica; non sono tradotti.",
-  gov_act_lang: "Pubblicato ufficialmente in {l}; testo e riassunto in questa lingua.",
+  gov_act_lang: "Pubblicato ufficialmente in {l}; testo e riassunto in {s}, non tradotti.",
   gov_canton: "Cantone",
   gov_all_cantons: "tutti i Cantoni",
   gov_cantonal_box: "Diritto cantonale: {c}",

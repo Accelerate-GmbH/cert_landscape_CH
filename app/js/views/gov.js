@@ -12,14 +12,15 @@ const link = (s) => `<a href="${esc(fedlex(s.url))}" rel="noopener">${esc(s.titl
 // texts in the chosen language (governance.json "i18n"), else German
 // an act not published in the chosen language is shown in its own language (German
 // if published in German, else its first language); acts are not translated
-const own = (law) => ((law.languages || ["de"]).includes(LANG) || (law.languages || ["de"]).includes("de") ? LANG : law.languages[0]);
+const own = (law) => { const ls = law.languages || ["de"];
+  return law.level !== "canton" || ls.includes(LANG) ? LANG : ls.includes("de") ? "de" : ls[0]; };
 export const lawText = (law, k) => ((law.i18n || {})[own(law)] || {})[k] || (k === "status_sources" ? null : law[k]);
 const provText = (p, law) => (p.i18n || {})[law ? own(law) : LANG] || p.text;
 // "only in German" when the act is not published in the chosen language
 const langNames = (codes) => { let dn = null; try { dn = new Intl.DisplayNames([LANG], { type: "language" }); } catch { /* old browser */ }
   return codes.map((c) => (dn ? dn.of(c) : c)).join(", "); };
-const actLang = (law) => (law.languages && !law.languages.includes(LANG)
-  ? `<p class="muted small">${esc(t("gov_act_lang", { l: langNames(law.languages) }))}</p>` : "");
+const actLang = (law) => (law.level === "canton" && law.languages && own(law) !== LANG
+  ? `<p class="muted small">${esc(t("gov_act_lang", { l: langNames(law.languages), s: langNames([own(law)]) }))}</p>` : "");
 // Fedlex has every act in German, French and Italian: same link, other language
 // the collections of Bern (BELEX), Fribourg (BDLF) and Valais (Lex VS) are German and
 // French: French readers get the French version (article routes tested 23.11.2026)

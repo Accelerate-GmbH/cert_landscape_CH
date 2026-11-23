@@ -173,7 +173,7 @@ export default {
   "gov_federal": "Bund",
   "gov_cantonal": "Kantone",
   "gov_cantonal_note": "Kantonales Recht gilt für den Kanton und je nach Erlass für seine Gemeinden; der Geltungsbereich steht bei jedem Erlass. Nicht erfasst sind Graubünden und Waadt, deren Sammlungen sich nicht automatisch lesen liessen. Erlasse erscheinen in den Sprachen, in denen der Kanton sie veröffentlicht; sie werden nicht übersetzt.",
-  "gov_act_lang": "Amtlich veröffentlicht auf {l}; Text und Zusammenfassung in dieser Sprache.",
+  "gov_act_lang": "Amtlich veröffentlicht auf {l}; Text und Zusammenfassung auf {s}, nicht übersetzt.",
   "gov_canton": "Kanton",
   "gov_all_cantons": "alle Kantone",
   "gov_cantonal_box": "Kantonales Recht: {c}",
