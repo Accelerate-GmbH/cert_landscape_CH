@@ -20,6 +20,7 @@ function users(u) {
 // a register of a block: providers recognised under ZertES (Swiss Trusted List),
 // recognised delivery platforms (BJ) or qualified vLEI issuers (GLEIF)
 function register(r) {
+  if (r && r.kind === "swiyu") return swiyuRegister(r);
   if (!r || !(r.providers || []).length) return "";
   const svc = (s) => `${esc(t("kind_" + s.kind) || s.kind)}${(s.for || []).length ? " (" + s.for.map((f) => esc(t("for_" + f))).join(", ") + ")" : ""}`;
   const rows = r.providers.map((p) => {
@@ -36,6 +37,22 @@ function register(r) {
     <p class="muted small">${esc(r.sequence ? t("reg_list", { s: r.sequence, d: date(r.issued), n: date(r.next_update) })
       : r.issued ? t("reg_recognised", { d: date(r.issued), c: date(r.checked) }) : t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}:
       <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a> · <a href="${esc(r.rules)}" rel="noopener">${esc(t("reg_rules"))}</a>${r.api ? ` · <a href="${esc(r.api)}" rel="noopener">API</a>` : ""}</p></section>`;
+}
+
+// participants and verifiers of the swiyu Trust Registry, per environment
+function swiyuRegister(r) {
+  const envs = Object.entries(r.envs || {}).map(([env, e]) => {
+    const ps = r.providers.filter((p) => p.env === env);
+    const rows = ps.map((p) => `<tr><th>${esc(p.name)}${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${esc(p.uid)}</div>` : ""}</th>
+      <td>${p.state_actor ? esc(t("reg_swiyu_state")) + " · " : ""}${esc(t("reg_since", { d: date(p.services[0].since) }))} · <a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
+    const vs = (e.verifiers || []).map((v) => `<tr><th>${v.name ? esc(v.name) : `<span class="muted">${esc(t("reg_swiyu_unnamed"))}</span>`}</th>
+      <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}<div class="muted small">${esc(t("reg_swiyu_n", { n: v.statements }))} · <a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></div></td></tr>`).join("");
+    return `<h3>${esc(t("env_" + env))}</h3><p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
+      ${rows ? `<table class="deps"><tbody>${rows}</tbody></table>` : ""}
+      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><table class="deps"><tbody>${vs}</tbody></table>` : ""}`;
+  }).join("");
+  return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${envs}
+    <p class="muted small">${esc(t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}: <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a></p></section>`;
 }
 
 // the legal bases concerning this block (governance.json)
