@@ -180,40 +180,69 @@ export async function render(el, params, role) {
   const blockOf = (key) => { const [lid, bid] = key.split("."); const L = meta.model.layer.find((x) => x.id === lid); return L && L.blocks.find((x) => x.id === bid); };
   const blockDetail = async (key) => {
     const b = blockOf(key) || {}, [lid, bid] = key.split("."), v = (d.layers[lid] || {})[bid] || {};
-    const val = v.v === null || v.v === undefined ? "–" : fmt(v.v);
-    let body = "";
+    const val = v.v === null || v.v === undefined ? null : v.v;
+    const bb = B["blk:" + key];
+    const sec = (title, inner, id) => `<div class="bd-sec"${id ? ` id="${id}"` : ""}><h3>${esc(title)}</h3>${inner}</div>`;
+    const share = (k) => { const n = (k.pass || 0) + (k.partial || 0) + (k.fail || 0); return n ? (100 * ((k.pass || 0) + 0.5 * (k.partial || 0))) / n : null; };
+    let desc = "", how = "", parts = "";
     if (v.m === "none") {
-      body = `<p>${esc(t("blk_how_none"))}</p>`;
-      if (key === "trust.swiyu" && (d.swiyu || []).length) body += `<p>${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(x.name)} (${esc(t("env_" + x.env))})</a>`).join(", ")}</p>`;
+      desc = t("blk_desc_none");
+      if (key === "trust.swiyu") parts = sec(t("org_swiyu"), (d.swiyu || []).length
+        ? `<div class="bd-cards">${d.swiyu.map((x) => `<div class="bd-card"><b>${esc(x.name)}</b><div class="muted small">${esc(t("env_" + x.env))}${x.state_actor ? " · " + esc(t("reg_swiyu_state")) : ""}</div>
+            <div class="mono small">${esc(x.did)}</div><div class="bd-act"><a href="${esc(x.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></div></div>`).join("")}</div>`
+        : `<p class="muted">${esc(t("blk_swiyu_none"))}</p>`);
     } else if (b.checks) {
-      const rows = b.checks.map((c) => { const k = (p.checks || {})[c] || {};
-        return `<tr><td>${esc(checkName(c))}</td><td class="num">${k.pass ?? "–"}</td><td class="num">${k.partial ?? "–"}</td><td class="num">${k.fail ?? "–"}</td>
-          <td>${src.checks ? `<a href="${esc(src.checks)}" rel="noopener">${esc(t("src_rule"))}</a>` : ""}</td></tr>`; }).join("");
+      desc = t("blk_desc_checks");
+      how = t("blk_how_checks", { v: val === null ? "–" : fmt(val), n: v.n || 0 });
+      const cards = b.checks.map((c) => { const k = (p.checks || {})[c] || {}, sh = share(k), bad = (k.partial || 0) + (k.fail || 0);
+        return `<div class="bd-card"><div><b>${dot(light(sh, cfg))} ${esc(checkName(c))}</b></div>
+          ${checkText(c, role) ? `<p class="small">${esc(checkText(c, role))}</p>` : ""}
+          <div class="muted small">${sh === null ? esc(t("blk_not_assessed")) : `${esc(t("blk_pass"))} ${k.pass || 0} · ${esc(t("blk_partial"))} ${k.partial || 0} · ${esc(t("blk_fail"))} ${k.fail || 0}`}</div>
+          <div class="bd-act">${bad ? `<button class="link" data-pfail="${esc(c)}">${esc(t("blk_show_hosts", { n: bad }))}</button>` : ""}${src.checks ? `${bad ? " · " : ""}<a href="${esc(src.checks)}" rel="noopener">${esc(t("src_rule"))}</a>` : ""}</div></div>`; }).join("");
       let ev = {};
       try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
       const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((c) => b.checks.includes(c[0]) && (c[1] === "fail" || c[1] === "partial")));
-      body = `<p>${esc(t("blk_how_checks", { v: val, n: v.n || 0 }))}</p>
-        <table class="deps"><thead><tr><th>${esc(t("check"))}</th><td>${esc(t("blk_pass"))}</td><td>${esc(t("blk_partial"))}</td><td>${esc(t("blk_fail"))}</td><td></td></tr></thead><tbody>${rows}</tbody></table>
-        <h3>${esc(t("blk_hosts", { n: bad.length }))}</h3>${bad.length ? `<table class="hosts"><tbody>${hostRows(bad.slice(0, 50))}</tbody></table>${bad.length > 50 ? `<p class="muted small">${esc(t("src_first", { n: 50 }))}</p>` : ""}` : `<p>${esc(t("blk_all_ok"))}</p>`}`;
+      parts = sec(t("blk_sec_checks"), `<div class="bd-cards">${cards}</div>`)
+        + sec(t("blk_sec_ev"), `<p class="muted small" id="bdnote">${esc(t("blk_hosts", { n: bad.length }))}</p>${bad.length
+          ? `<table class="hosts"><tbody id="bdrows">${hostRows(bad.slice(0, 50))}</tbody></table>${bad.length > 50 ? `<p class="muted small">${esc(t("src_first", { n: 50 }))}</p>` : ""}`
+          : `<p>${esc(t("blk_all_ok"))}</p><table class="hosts"><tbody id="bdrows"></tbody></table>`}`, "bdhosts");
     } else if (b.mail) {
-      body = `<p>${esc(t("blk_how_mail", { v: val, n: v.n || 0 }))}</p>${mailRows ? `<div class="scroll"><table class="evt"><thead><tr><th>${esc(t("domain_col"))}</th><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody>${mailRows}</tbody></table></div>` : ""}`;
+      desc = t("blk_desc_mail");
+      how = t("blk_how_mail", { v: val === null ? "–" : fmt(val), n: v.n || 0 });
+      const MLIGHT = { pass: "green", partial: "yellow", fail: "red" };
+      const cards = ((d.mail || {}).detail || []).map((x) => `<div class="bd-card"><b>${esc(x.domain)}</b>${x.overall !== null && x.overall !== undefined ? ` <span class="muted small">${dot(light(x.overall, cfg))} ${fmt(x.overall)}</span>` : ""}
+        <table class="bd-list"><tbody>${x.checks.map((c) => `<tr><td>${c.status in MLIGHT ? dot(MLIGHT[c.status]) : '<span class="muted">–</span>'} ${esc(checkName(c.check))}</td>
+          <td class="mono small">${esc((c.value || "").length > 60 ? c.value.slice(0, 58) + "…" : c.value || "")}</td>
+          <td>${c.src ? `<a href="${esc(c.src)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</td></tr>`).join("")}</tbody></table></div>`).join("");
+      parts = sec(t("blk_sec_mail"), cards ? `<div class="bd-cards wide">${cards}</div>` : "<p>–</p>")
+        + (src.mail ? `<p class="muted small"><a href="${esc(src.mail)}" rel="noopener">${esc(t("src_rule"))}</a></p>` : "");
     } else if (b.deps === "apps") {
-      body = `<p>${esc(t("blk_how_count"))}</p><p>${Object.entries(dep.apps || {}).sort((a, c) => c[1] - a[1]).map(([a, n]) => `${esc(APPS[a] || a)} ${n}`).join(" · ") || "–"}</p>`;
+      desc = t("blk_desc_apps");
+      how = t("blk_how_count");
+      parts = sec(t("blk_sec_apps"), `<div class="bd-cards">${Object.entries(dep.apps || {}).sort((a, c) => c[1] - a[1]).map(([a, n]) => `<div class="bd-card"><b>${esc(APPS[a] || a)}</b><div class="bd-num">${n}</div></div>`).join("") || "<p>–</p>"}</div>`);
     } else if (b.deps) {
       const part = b.deps, list = dep[part] || [];
-      const rows = list.map((x) => {
+      desc = t(part === "cloud" ? "blk_desc_cloud" : "blk_desc_deps");
+      how = t(part === "cloud" ? "blk_how_cloud" : "blk_how_share", { v: val === null ? "–" : fmt(val), n: v.n || 0 });
+      const cards = list.map((x) => {
         const via = (dep.via || []).find((y) => y.part === part && y.name === x[0]);
         const id = via ? via.provider : provId.get(x[0]);
         const ev = via ? via.ev.map(([k, where, what]) => { const u = verify(k, where);
-          return `<div class="small">${esc(PROOF[k] || k)}: <span class="mono">${esc(where)}</span> → <span class="mono">${esc(what)}</span>${u ? ` · <a href="${esc(u)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</div>`; }).join("") : "";
-        return `<tr><th>${id ? `<a href="#/anbieter/${encodeURIComponent(id)}">${esc(x[0])}</a>` : esc(x[0])} ${cc(x[1])}${part === "cloud" && x[2] ? ` <span class="muted small">${esc(t("blk_n_hosts", { n: x[2] }))}</span>` : ""}</th><td>${ev || (part === "cloud" ? `<span class="muted small">${esc(t("blk_cloud_ev"))}</span>` : "")}</td></tr>`;
+          return `<li><span class="muted">${esc(PROOF[k] || k)}</span> <span class="mono">${esc(where)}</span> → <span class="mono">${esc(what)}</span>${u ? ` · <a href="${esc(u)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</li>`; }).join("") : "";
+        return `<div class="bd-card"><b>${id ? `<a href="#/anbieter/${encodeURIComponent(id)}">${esc(x[0])}</a>` : esc(x[0])}</b> ${cc(x[1])}
+          ${part === "cloud" && x[2] ? `<div class="muted small">${esc(t("blk_n_hosts", { n: x[2] }))}</div>` : ""}
+          ${ev ? `<div class="muted small">${esc(t("blk_recognised"))}</div><ul class="bd-ev">${ev}</ul>` : part === "cloud" ? `<div class="muted small">${esc(t("blk_cloud_ev"))}</div>` : ""}
+          ${id ? `<div class="bd-act"><a href="#/anbieter/${encodeURIComponent(id)}">${esc(t("blk_provider_page"))}</a></div>` : ""}</div>`;
       }).join("");
-      body = `<p>${esc(t(part === "cloud" ? "blk_how_cloud" : "blk_how_share", { v: val, n: v.n || 0 }))}</p>${rows ? `<table class="deps"><tbody>${rows}</tbody></table>` : "<p>–</p>"}
-        ${part === "cloud" && rated.length ? `<h3>${esc(t("blk_cloud_hosts"))}</h3><table class="hosts"><tbody>${hostRows(rated.slice(0, 50))}</tbody></table>` : ""}`;
+      parts = sec(t("blk_sec_prov"), cards ? `<div class="bd-cards">${cards}</div>` : `<p class="muted">${esc(t("blk_none_found"))}</p>`)
+        + (part === "cloud" && rated.length ? sec(t("blk_cloud_hosts"), `<table class="hosts"><tbody id="bdrows">${hostRows(rated.slice(0, 50))}</tbody></table>`, "bdhosts") : "");
     }
-    return `<h2>${esc(BLOCKS[key] || key)} <button class="link small" data-blkclose>${esc(t("blk_close"))}</button></h2>
-      ${BLOCK_WHAT[key] ? `<p class="sub">${esc(BLOCK_WHAT[key])}</p>` : ""}${body}
-      <p class="muted small"><a href="#/baustein/${encodeURIComponent(key)}">${esc(t("blk_block_page"))}</a>${src.aggregation ? ` · <a href="${esc(src.aggregation)}" rel="noopener">${esc(t("src_agg"))}</a>` : ""}</p>`;
+    return `<div class="bd-head"><div><div class="kind">${esc(t("blk_kind"))} · ${esc((LAYERS[lid] || {}).name || lid)}</div><h2>${esc(BLOCKS[key] || key)}</h2>
+        ${BLOCK_WHAT[key] ? `<p class="sub">${esc(BLOCK_WHAT[key])}</p>` : ""}</div>
+      <div class="bd-val">${val === null ? `<span class="muted">${esc(t(v.m === "none" ? "not_measured" : "no_data_yet"))}</span>` : `${dot(light(val, cfg))} <b>${fmt(val)}</b>${bb ? `<div class="muted small">${bestLabel(bb)} ${fmt(bestVal(bb))}</div>` : ""}`}</div>
+      <button class="link" data-blkclose aria-label="${esc(t("blk_close"))}">✕</button></div>
+      ${desc ? sec(t("blk_sec_what"), `<p>${esc(desc)}</p>`) : ""}${how ? sec(t("blk_sec_how"), `<p>${esc(how)}</p>`) : ""}${parts}
+      <p class="bd-foot muted small"><a href="#/baustein/${encodeURIComponent(key)}">${esc(t("blk_block_page"))}</a>${src.aggregation ? ` · <a href="${esc(src.aggregation)}" rel="noopener">${esc(t("src_agg"))}</a>` : ""}</p>`;
   };
 
   el.innerHTML = head + verdict + trend.render(hist, cfg) +
@@ -256,7 +285,17 @@ export async function render(el, params, role) {
     panel.innerHTML = `<p class="muted">${esc(t("loading"))}</p>`;
     panel.innerHTML = await blockDetail(x.dataset.blk);
     evid.wire(panel, d.key);
-    panel.querySelector("[data-blkclose]").addEventListener("click", () => { panel.hidden = true; x.classList.remove("on"); });
+    panel.querySelector("[data-blkclose]").addEventListener("click", () => { panel.hidden = true; x.classList.remove("on"); x.focus(); });
+    panel.querySelectorAll("[data-pfail]").forEach((btn) => btn.addEventListener("click", async () => {
+      const c = btn.dataset.pfail, tb = panel.querySelector("#bdrows"), note = panel.querySelector("#bdnote");
+      let ev = {};
+      try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
+      const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((k) => k[0] === c && (k[1] === "fail" || k[1] === "partial")));
+      tb.innerHTML = hostRows(bad.slice(0, 50));
+      evid.wire(tb, d.key);
+      if (note) note.textContent = t("src_filtered", { c: checkName(c), n: bad.length });
+      panel.querySelector("#bdhosts").scrollIntoView({ block: "start" });
+    }));
     panel.scrollIntoView({ block: "start" });
   }));
   el.querySelectorAll('div[role="button"]').forEach((x) => x.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); x.click(); } }));
