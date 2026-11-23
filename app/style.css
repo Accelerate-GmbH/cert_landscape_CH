@@ -209,6 +209,11 @@ summary { cursor: pointer; }
 .chmap .ar.green { fill: var(--good); } .chmap .ar.yellow { fill: var(--warn); } .chmap .ar.red { fill: var(--bad); }
 .chmap a:hover .ar, .chmap a:focus .ar { stroke: var(--text); stroke-width: 1.2; }
 .chmap .cb { fill: none; stroke: var(--text-2); stroke-width: 0.9; pointer-events: none; }
+.umap { max-width: 820px; }
+.umap .ar.use-ct { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 0.8; } .umap .ar.use-mu { fill: var(--accent); }
+.umap .um-pt circle { fill: var(--card); stroke: var(--accent); stroke-width: 2.5; } .umap .um-pt text { font-size: 12px; font-weight: 600; fill: var(--text); }
+.umap a:hover .um-pt circle { fill: var(--accent-soft); }
+.sw.um-ct { background: var(--accent-soft); border: 1px solid var(--accent); } .sw.um-mu { background: var(--accent); } .sw.um-pt { background: var(--card); border: 2px solid var(--accent); border-radius: 50%; }
 .chmap .lk { fill: #b9d4ea; stroke: none; pointer-events: none; }
 @media (prefers-color-scheme: dark) { .chmap .lk { fill: #2b4256; } }
 .legend { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: 13px; color: var(--text-2); }

@@ -10,7 +10,7 @@ import { seriesName } from "./compare.js";
 // the levels with a map: municipalities and cantons, named in the current language
 const mapLevels = () => ALL_LEVELS.filter(([k]) => k === "municipality" || k === "canton");
 let mapCache = null;
-const loadMap = () => (mapCache ||= fetch(`map-ch.json?v=${window.BUILD || ""}`).then((r) => {
+export const loadMap = () => (mapCache ||= fetch(`map-ch.json?v=${window.BUILD || ""}`).then((r) => {
   if (!r.ok) throw new Error(`map-ch.json: ${r.status}`);
   return r.json();
 }));
