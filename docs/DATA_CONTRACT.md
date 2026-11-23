@@ -36,7 +36,12 @@ results, CSV and Excel exports stay in the pipeline repository.
 `index.json`
 : `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector], …]}` for
   the search. `key` = `<level>:<id>`, levels `federal`, `canton`,
-  `municipality`, `organisation`.
+  `municipality`, `organisation`, `education` (schools and education
+  agencies from `data/education/institutions.csv`, measured like an
+  administration: every name under their domains; `sector` is the type
+  `hochschule`, `sek2`, `volksschule` or `agentur`, the entity's `subsector`
+  the kind of Hochschule `uh`, `fh` or `ph`; `canton` and `uid` from the UID
+  register where it has a clear match, else null).
 
 `overview.json`
 : per level: `entities`, `rated`, `overall` (mean), `lights` (count per

@@ -37,7 +37,7 @@ export async function render(el, params, role) {
   const bo = B.overall;
 
   const head = `<section class="lead org">
-    <div class="kind">${esc(LEVEL_ONE[d.kind] || d.kind)}${d.canton ? " · " + esc(d.canton) : ""}${d.sector ? " · " + esc(d.sector) : ""}</div>
+    <div class="kind">${esc(LEVEL_ONE[d.kind] || d.kind)}${d.canton ? " · " + esc(d.canton) : ""}${d.sector ? " · " + esc(d.kind === "education" ? [t("edu_" + d.sector), d.subsector ? t("edu_" + d.subsector) : ""].filter(Boolean).join(", ") : d.sector) : ""}</div>
     <h1>${esc(d.name)}</h1>
     <p class="sub">${d.uid ? uidLink(d.uid) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
