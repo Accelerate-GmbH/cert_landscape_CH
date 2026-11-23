@@ -1,5 +1,5 @@
 {
- "about": "User stories of docs/PRODUCT.md (private repository, section 7) as journeys through /v2, each played from the position of a user group: its role (lay or tech), language and home organisation. target = true: the journey needs the proposal (service and provider pages, map of users, UID pages) and is expected to fail until it is built; proposal: what would close the gap. Steps: go (hash route), fill [selector, text], click (selector), expect (visible selector), text (text in main).",
+ "about": "User stories of docs/PRODUCT.md (private repository, section 7) as journeys through /v2, each played from the position of a user group: its role (lay or tech), language and home organisation. target = true: the journey needs the proposal (map of users, UID pages) and is expected to fail until it is built; proposal: what would close the gap. Steps: go (hash route), fill [selector, text], click (selector), expect (visible selector), text (text in main).",
  "personas": {
   "gemeinde": {
    "name": "Gemeinde-Informatik",
@@ -218,6 +218,9 @@
      "click": "a[href='#/baustein/trust.swiyu']"
     },
     {
+     "click": "a[href^='#/dienst/']"
+    },
+    {
      "expect": "[data-service]"
     },
     {
@@ -225,7 +228,7 @@
     }
    ],
    "persona": "bund",
-   "proposal": "Seite «Dienst/Anbieter» mit Beschreibung, Betrieb und Karte der Nutzenden; der Baustein im Überblick verlinkt dorthin."
+   "proposal": "Karte der Nutzenden auf der Seite des Dienstes (Bund und Ämter als Liste, Kantone und Gemeinden als Fläche, Bildung und kritische Dienste als Punkte)."
   },
   {
    "id": "B3",
@@ -249,6 +252,12 @@
    "steps": [
     {
      "go": "#/baustein/trust.swiyu"
+    },
+    {
+     "click": "a[href^='#/dienst/']"
+    },
+    {
+     "expect": "[data-provider-posture]"
     },
     {
      "text": "Betrieb des Dienstes"
@@ -291,7 +300,6 @@
   {
    "id": "E1",
    "story": "Ich will sehen, wie Anbieter bei anderen Kunden abschneiden.",
-   "target": true,
    "steps": [
     {
      "go": "#/anbieter/swisscom"
@@ -303,8 +311,7 @@
      "expect": "[data-provider-customers]"
     }
    ],
-   "persona": "beschaffung",
-   "proposal": "Anbieterseite mit Betrieb (Posture) des Anbieters und Liste der Kunden mit deren Werten."
+   "persona": "beschaffung"
   },
   {
    "id": "E2",
@@ -312,6 +319,9 @@
    "steps": [
     {
      "go": "#/baustein/dpi.authentication"
+    },
+    {
+     "expect": "[data-svc]"
     },
     {
      "text": "Nutzung"
@@ -384,6 +394,9 @@
     },
     {
      "click": "a[href='#/baustein/dpi.authentication']"
+    },
+    {
+     "click": "a[href='#/dienst/agov']"
     },
     {
      "expect": "[data-users-map]"

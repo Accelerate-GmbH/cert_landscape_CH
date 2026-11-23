@@ -124,7 +124,7 @@ results, CSV and Excel exports stay in the pipeline repository.
   authority, agency), `aspects_i18n` `{lang: {aspect: label}}`,
   `aspect_sources` the sources for this distinction; `source` carries
   `i18n` for its `title`; each implementation carries `i18n` for `operator`
-  and `role` (from `config/model.i18n.toml`). An implementation: `name`, `aspect` (identity block only),
+  and `role` (from `config/model.i18n.toml`). An implementation: `id` (stable key of the service, `id` in `config/model.toml` or the name in lower case with `-`; the same in every block it appears in; equal to a provider key where the service is also recognised as provider, e.g. `agov`; page `#/dienst/<id>`), `name`, `aspect` (identity block only),
   `environment` (`production`, `sandbox` or `null`; swiyu: the sandbox or
   public beta and the announced production are separate implementations),
   `environment_assessment` (true where the assignment of hosts to the
@@ -268,10 +268,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   covers all hosts of the kind; `null` where no check applies. Seals and
   time stamps are not measurable from outside and have no cell.
   `uses`: the services of the building blocks the entity uses,
-  `[{"service", "block", "role", "env", "evidence", "service_posture",
+  `[{"id", "service", "block", "role", "env", "evidence", "service_posture",
   "service_hosts"}]`; `service_posture` is the posture value (`overall`) of
   the service, shown beside the entity's own value as part of its supply
-  chain, never part of it (decision 23.11.2026).
+  chain, never part of it (decision 23.11.2026); `id` is the implementation `id` (page `#/dienst/<id>`).
   `swiyu`: the entity's identity trust statements in the swiyu Trust
   Registry, matched by its UID: `[{"env", "name", "did", "src",
   "state_actor"}]`, empty without one.

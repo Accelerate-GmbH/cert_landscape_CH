@@ -175,7 +175,7 @@ export async function render(el, params, role) {
   // services of the building blocks the entity uses: its role, the evidence, and the
   // posture of the service as part of its supply chain (not part of its own value)
   const usesTbl = (d.uses || []).length ? `<h3>${esc(t("uses_title"))}</h3><p class="muted small">${esc(t("uses_sub"))}</p>
-    <table class="deps"><tbody>${d.uses.map((u) => `<tr><th><a href="#/baustein/${encodeURIComponent(u.block)}">${esc(u.service)}</a>
+    <table class="deps"><tbody>${d.uses.map((u) => `<tr><th><a href="${u.id ? "#/dienst/" + encodeURIComponent(u.id) : "#/baustein/" + encodeURIComponent(u.block)}">${esc(u.service)}</a>
       <div class="muted small">${esc(t("role_" + u.role) || u.role)}${u.env ? " · " + esc(t("env_" + u.env)) : ""}</div></th>
       <td>${u.service_posture === null || u.service_posture === undefined ? `<span class="muted small">${esc(t("no_hosts"))}</span>` : `${dot(light(u.service_posture, cfg))} ${fmt(u.service_posture)} <span class="muted small">${esc(t("uses_posture", { n: u.service_hosts || 0 }))}</span>`}
       ${u.evidence.map((e) => e.src ? `<div class="small"><a href="${esc(e.src)}" rel="noopener">${esc(t("ev_kind_" + e.kind) || e.kind)}</a></div>` : `<div class="small mono">${esc(e.where)}${e.what ? " → " + esc(e.what) : ""}</div>`).join("")}</td></tr>`).join("")}</tbody></table>` : "";

@@ -1,7 +1,8 @@
 // A building block of the digital public infrastructure (#/baustein/<layer.block>):
-// its implementations with what their hosts rest on (CA, DNS, hosting, registrar)
-// and who is seen to use them; for identity also the foreign login providers used
-// instead. Reads infrastructure.json; every implementation carries its sources.
+// its services with value and use in short, each linking to its own page
+// (#/dienst/<id>, service.js); for identity also the foreign login providers used
+// instead; registers and legal bases. Reads infrastructure.json; every
+// implementation carries its sources.
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, LANG, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
@@ -26,6 +27,28 @@ function users(u) {
   const parts = LEVELS.filter(([k]) => u && u[k]).map(([k, nm]) => `${esc(nm)} ${u[k]}`);
   return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
 }
+
+// environment of a service: production or sandbox, with what each means
+export const envBadge = (i) => (i.environment ? `<p class="small"><span class="badge ${i.environment === "production" ? "ok" : "wait"}">${esc(t("env_" + i.environment))}</span>
+      ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "");
+
+// the posture of a service: value of its own hosts and what they rest on (part of its users' supply chain)
+export function posture(i, cfg) {
+  const rest = REST.map((c) => {
+    const rows = (i.rests_on || {})[c] || [];
+    return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
+  }).join("");
+  return `<p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
+      <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
+          + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
+        : i.hosts ? esc(t("unclassified")) : ""}</p>
+      ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
+      ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}`;
+}
+
+// who uses a service: counts per level and the list with role and evidence
+export const use = (i) => `<p>${users(i.users)}</p>${usersList(i.users_list)}`;
+export const sourceLine = (i) => `<p class="muted small">${esc(t("checked_on", { d: date(i.checked) }))} · ${esc(t("sources"))}: ${src(i.sources)}</p>`;
 
 // a register of a block: providers recognised under ZertES (Swiss Trusted List),
 // recognised delivery platforms (BJ) or qualified vLEI issuers (GLEIF)
@@ -87,27 +110,12 @@ export async function render(el, params) {
   }
   const b = (inf.blocks || {})[key] || { implementations: [], alternatives: [] };
   const cfg = meta.cfg;
-  const one = (i) => {
-    const rest = REST.map((c) => {
-      const rows = (i.rests_on || {})[c] || [];
-      return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
-    }).join("");
-    // environment: production or sandbox, with what each means
-    const env = i.environment ? `<p class="small"><span class="badge ${i.environment === "production" ? "ok" : "wait"}">${esc(t("env_" + i.environment))}</span>
-      ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "";
-    return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>${env}
+  // the block lists its services; posture, use and map are on the page of each service
+  const one = (i) => `<section class="imp" data-svc="${esc(i.id)}"><h3 class="imp-name"><a href="#/dienst/${encodeURIComponent(i.id)}">${esc(i.name)}</a></h3>${envBadge(i)}
       <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + esc(tx(i, "role")) : ""}</p>
-      <h4 class="imp-part">${esc(t("svc_posture"))}</h4><p class="muted small">${esc(t("svc_posture_d"))}</p>
-      <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
-      <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
-          + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
-        : i.hosts ? esc(t("unclassified")) : ""}</p>
-      ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
-      ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}
-      <h4 class="imp-part">${esc(t("svc_use"))}</h4><p class="muted small">${esc(t("svc_use_d"))}</p>
-      <p>${users(i.users)}</p>${usersList(i.users_list)}
-      <p class="muted small">${esc(t("checked_on", { d: date(i.checked) }))} · ${esc(t("sources"))}: ${src(i.sources)}</p></section>`;
-  };
+      <p><span class="muted">${esc(t("svc_posture"))}:</span> ${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
+      <p><span class="muted">${esc(t("svc_use"))}:</span> ${users(i.users)}</p>
+      <p><a href="#/dienst/${encodeURIComponent(i.id)}">${esc(t("svc_page"))} ›</a></p></section>`;
   // the identity block in its aspects: identity, authentication, authority, agency are distinct functions
   const aspects = key === "dpi.identity"
     ? Object.entries(inf.aspects || {}).map(([a, label]) => [a, ((inf.aspects_i18n || {})[LANG] || {})[a] || label]) : [];
