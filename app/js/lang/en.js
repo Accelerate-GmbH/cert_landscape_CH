@@ -111,6 +111,7 @@ export default {
   edu_uh: "university",
   edu_fh: "university of applied sciences",
   edu_ph: "university of teacher education",
+  edu_bfs: "Vocational school",
   edu_gym: "upper secondary school (Matura)",
   src_hosts: "Show affected hosts",
   src_mail_values: "Values per mail domain",

@@ -111,6 +111,7 @@ export default {
   edu_uh: "haute école universitaire",
   edu_fh: "haute école spécialisée",
   edu_ph: "haute école pédagogique",
+  edu_bfs: "École professionnelle",
   edu_gym: "gymnase (école de maturité)",
   src_hosts: "Afficher les hôtes concernés",
   src_mail_values: "Valeurs par domaine de messagerie",
