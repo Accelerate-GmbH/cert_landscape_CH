@@ -164,6 +164,8 @@ export default {
   "m_crl": "Sperrliste (CRL)",
   "m_ocsp_crl": "OCSP oder Sperrliste",
   "m_none": "nicht geprüft",
+  "office_of": "Teil von",
+  "office_src": "Name nach Anhang 1 RVOV",
   "parts_names": "Namen der Ämter gemäss Anhang 1 RVOV, wo die Domain der Abkürzung entspricht.",
   "op_company": "Gesellschaft",
   "op_parent": "oberste Muttergesellschaft",
@@ -437,6 +439,10 @@ export default {
    "Bund"
   ],
   [
+   "office",
+   "Ämter"
+  ],
+  [
    "canton",
    "Kantone"
   ],
@@ -455,6 +461,7 @@ export default {
  ],
  "level_one": {
   "federal": "Departement",
+  "office": "Amt",
   "canton": "Kanton",
   "municipality": "Gemeinde",
   "organisation": "Organisation",
@@ -462,6 +469,7 @@ export default {
  },
  "level_many": {
   "federal": "Departemente",
+  "office": "Ämter",
   "canton": "Kantone",
   "municipality": "Gemeinden",
   "organisation": "Organisationen",
@@ -469,6 +477,7 @@ export default {
  },
  "level_dat": {
   "federal": "Departementen",
+  "office": "Ämtern",
   "canton": "Kantonen",
   "municipality": "Gemeinden",
   "organisation": "Organisationen",

@@ -26,7 +26,12 @@ export async function render(el, params, role) {
     el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(key)}</p></section>`;
     return;
   }
-  const [meta, bm, hist, dir] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null), data.providers().catch(() => null)]);
+  const [meta, bm, hist, dir, idx] = await Promise.all([data.meta(), data.benchmarks(), data.history(d.key).catch(() => null), data.providers().catch(() => null),
+    d.parent ? data.index().catch(() => null) : null]);
+  // an office: its department, and the source of its name (Annex 1 RVOV)
+  const parentName = d.parent ? ((idx && idx.rows.find((r) => r[0] === d.parent)) || [])[1] || d.parent.split(":")[1] : "";
+  const ofLine = d.parent ? ` · ${esc(t("office_of"))} <a href="#/org/${encodeURIComponent(d.parent)}">${esc(parentName)}</a>`
+    + (d.office ? ` · <a href="${esc(d.office.src)}" rel="noopener" title="${esc(t("office_src"))}">${esc(tx(d.office, "abbr"))}</a>` : "") : "";
   const provId = new Map((dir ? dir.rows : []).map((r) => [r.name, r.id]));
   const cfg = meta.cfg, B = bm[d.kind] || {};
   const p = d.posture || {};
@@ -37,8 +42,8 @@ export async function render(el, params, role) {
   const bo = B.overall;
 
   const head = `<section class="lead org">
-    <div class="kind">${esc(LEVEL_ONE[d.kind] || d.kind)}${d.canton ? " · " + esc(d.canton) : ""}${d.sector ? " · " + esc(d.kind === "education" ? [t("edu_" + d.sector), d.subsector ? t("edu_" + d.subsector) : ""].filter(Boolean).join(", ") : d.sector) : ""}</div>
-    <h1>${esc(d.name)}</h1>
+    <div class="kind">${esc(LEVEL_ONE[d.kind] || d.kind)}${ofLine}${d.canton ? " · " + esc(d.canton) : ""}${d.sector ? " · " + esc(d.kind === "education" ? [t("edu_" + d.sector), d.subsector ? t("edu_" + d.subsector) : ""].filter(Boolean).join(", ") : d.sector) : ""}</div>
+    <h1>${esc(d.office ? tx(d.office, "name") : d.name)}</h1>
     <p class="sub">${d.uid ? uidLink(d.uid) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
       · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}</p>` : ""}
@@ -148,7 +153,7 @@ export async function render(el, params, role) {
   // a department by the domains of its offices (entity "parts", federal level)
   const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))} ${esc(t("parts_names"))}</p>
     <div class="scroll"><table class="hosts"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("parts_hosts"))}</th><th>${esc(t("parts_mean"))}</th><th>${esc(t("parts_ko"))}</th></tr></thead>
-    <tbody>${d.parts.map((x) => `<tr><td>${x.office ? `<a href="${esc(x.office.src)}" rel="noopener">${esc(tx(x.office, "name"))}</a> <span class="muted small">${esc(tx(x.office, "abbr"))}</span><div class="muted small">${esc(x.domain)}</div>` : esc(x.domain)}</td><td class="num">${x.hosts}</td>
+    <tbody>${d.parts.map((x) => `<tr><td>${x.office ? `${x.key ? `<a href="#/org/${encodeURIComponent(x.key)}">${esc(tx(x.office, "name"))}</a>` : esc(tx(x.office, "name"))} <a class="muted small" href="${esc(x.office.src)}" rel="noopener">${esc(tx(x.office, "abbr"))}</a><div class="muted small">${esc(x.domain)}</div>` : esc(x.domain)}</td><td class="num">${x.hosts}</td>
       <td>${x.overall === null ? '<span class="muted">–</span>' : `${dot(light(x.overall, cfg))} ${fmt(x.overall)}`}</td><td class="num">${x.knockouts || ""}</td></tr>`).join("")}</tbody></table></div></section>` : "";
 
   // hosts: the ten weakest, or those matching the search; each opens its evidence
