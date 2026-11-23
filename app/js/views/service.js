@@ -81,8 +81,9 @@ export async function render(el, params, kind) {
   // map of the users: for a service those with evidence of use, for a provider its customers (per function)
   // swiyu: every registered participant of the service's environment; those that are measured entities appear as such,
   // others at their seat from the UID register, without UID in a list below the map
-  const userKeys = svcs.flatMap((s) => (s.users_list || []).filter((u) => u.role !== "hint").map((u) => u.key));
-  const extra = { points: [], unplaced: [] };
+  const userKeys = svcs.flatMap((s) => (s.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key));
+  const lawKeys = svcs.flatMap((s) => (s.users_list || []).filter((u) => u.role === "law").map((u) => u.key));
+  const extra = { points: [], unplaced: [], law: lawKeys };
   const swyReg = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
   if (swyReg && swyReg[0].environment) {
     const byUid = new Set(ix.rows.filter((r) => userKeys.includes(r[0])).map((r) => r[4]).filter(Boolean));

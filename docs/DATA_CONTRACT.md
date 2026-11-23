@@ -173,9 +173,13 @@ results, CSV and Excel exports stay in the pipeline repository.
   redirect chain across hosts: `what` is the chain, e.g. `login.kanton.ch →
   idp.agov.admin.ch`), `hint` (the service is named in the
   Content-Security-Policy of a page, kind `csp`; listed, not counted in
-  `users` and not on the map of users), `participant` or
+  `users` and not on the map of users), `law` (a cantonal enactment names
+  the service, from `legal` in `config/model.toml`: evidence kind `law` with
+  `where` = reference and article, `what` = quote, `src` = the enactment,
+  `title`; the entry carries `scope`; a legal basis, not detected use, so not
+  counted in `users` and shown apart on the map), `participant` or
   `verifier` (swiyu Trust Registry, matched by UID), `kind` of evidence
-  `registry`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
+  `registry`, `law`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.
