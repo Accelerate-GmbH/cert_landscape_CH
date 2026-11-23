@@ -148,7 +148,7 @@ results, CSV and Excel exports stay in the pipeline repository.
   (`federal` | `canton`), `canton` (code, cantonal law only), `abbr`,
   `name`, `ref` (SR, BBl or cantonal systematic number), `url`, `status` (`in_force` |
   `angenommen` | …), `status_text`, `status_sources` (`[{"title", "url"}]`),
-  `scope` (who it applies to), `provisions` (`[{"art", "text", "url",
+  `scope` (who it applies to), `languages` (languages in which the act is officially published; cantonal acts are not translated into other languages), `provisions` (`[{"art", "text", "url",
   "blocks"}]`: article, short summary close to its wording, link to the
   article, building blocks of `model` it concerns, `i18n` `{fr, it, en}` the
   summary in other languages), `blocks` (union of the provisions' blocks),

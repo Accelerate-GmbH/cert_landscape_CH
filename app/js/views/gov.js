@@ -10,8 +10,17 @@ const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
 const link = (s) => `<a href="${esc(fedlex(s.url))}" rel="noopener">${esc(s.title)}</a>`;
 
 // texts in the chosen language (governance.json "i18n"), else German
-export const lawText = (law, k) => ((law.i18n || {})[LANG] || {})[k] || (k === "status_sources" ? null : law[k]);
-const provText = (p) => (p.i18n || {})[LANG] || p.text;
+// an act not published in the chosen language is shown in its own language (German
+// if published in German, else its first language); acts are not translated
+const own = (law) => { const ls = law.languages || ["de"];
+  return law.level !== "canton" || ls.includes(LANG) ? LANG : ls.includes("de") ? "de" : ls[0]; };
+export const lawText = (law, k) => ((law.i18n || {})[own(law)] || {})[k] || (k === "status_sources" ? null : law[k]);
+const provText = (p, law) => (p.i18n || {})[law ? own(law) : LANG] || p.text;
+// "only in German" when the act is not published in the chosen language
+const langNames = (codes) => { let dn = null; try { dn = new Intl.DisplayNames([LANG], { type: "language" }); } catch { /* old browser */ }
+  return codes.map((c) => (dn ? dn.of(c) : c)).join(", "); };
+const actLang = (law) => (law.level === "canton" && law.languages && own(law) !== LANG
+  ? `<p class="muted small">${esc(t("gov_act_lang", { l: langNames(law.languages), s: langNames([own(law)]) }))}</p>` : "");
 // Fedlex has every act in German, French and Italian: same link, other language
 // the collections of Bern (BELEX), Fribourg (BDLF) and Valais (Lex VS) are German and
 // French: French readers get the French version (article routes tested 23.11.2026)
@@ -39,7 +48,7 @@ export const blockChip = (key, on) =>
 
 export function provisionRows(law, only) {
   return law.provisions.filter((p) => !only || p.blocks.includes(only)).map((p) =>
-    `<tr><th><a href="${esc(fedlex(p.url))}" rel="noopener">${esc(artLabel(p.art))}</a></th><td>${esc(provText(p))}
+    `<tr><th><a href="${esc(fedlex(p.url))}" rel="noopener">${esc(artLabel(p.art))}</a></th><td>${esc(provText(p, law))}
       <div class="chips">${p.blocks.map((b) => blockChip(b, b === only)).join("")}</div></td></tr>`).join("");
 }
 
@@ -53,7 +62,7 @@ export async function render(el, params) {
   const qs = (o) => "#/governance?" + new URLSearchParams(Object.entries(o).filter(([, v]) => v)).toString();
   const one = (l) => `<section class="law" id="law-${esc(l.id)}">
       <h2>${l.canton ? `<span class="kt">${esc(l.canton)}</span> ` : ""}${esc(ktAbbr(l))} <span class="badge ${l.status === "in_force" ? "ok" : "wait"}">${esc(statusWord(l))}</span></h2>
-      <p class="sub"><a href="${esc(fedlex(l.url))}" rel="noopener">${esc(lawText(l, "name"))}</a> · ${esc(refLabel(l.ref))}</p>
+      <p class="sub"><a href="${esc(fedlex(l.url))}" rel="noopener">${esc(lawText(l, "name"))}</a> · ${esc(refLabel(l.ref))}</p>${actLang(l)}
       <p class="small">${esc(lawText(l, "status_text"))} <span class="muted">${esc(t("sources"))}: ${(l.status_sources || []).map((s, i) => link({ ...s, title: (lawText(l, "status_sources") || [])[i] || s.title })).join(" · ")}</span></p>
       <p><b>${esc(t("gov_scope"))}:</b> ${esc(lawText(l, "scope"))}</p>
       <table class="deps gov"><thead><tr><th>${esc(t("gov_art"))}</th><td>${esc(t("gov_provision"))}</td></tr></thead>
