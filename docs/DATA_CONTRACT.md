@@ -199,7 +199,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   "trade_names", "services": [{"name", "kind", "for", "since"}], "withdrawn"}]}`;
   `kind` `certificates` (qualified certificates, `for` `signatures` and/or
   `seals`), `remote_qscd` or `timestamp`; only granted services, `withdrawn`
-  counts the withdrawn ones.
+  counts the withdrawn ones. A provider or participant with a UID that has a
+  page also carries `seat` `{"bfs", "canton", "town"}` from the UID register
+  (for the map of the users of swiyu).
   `control`: the lever per building block of the control layer, a view
   across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`,
   `assessment`: true when the lever is the radar's assessment and the

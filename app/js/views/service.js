@@ -79,7 +79,24 @@ export async function render(el, params, kind) {
     ? svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${posture(s, cfg)}</div>`).join("")
     : `<p><span class="badge wait">${esc(t("not_measured"))}</span> ${esc(t("prov_not_measured"))}</p>`;
   // map of the users: for a service those with evidence of use, for a provider its customers (per function)
-  const svcMap = svcs.length ? await usersMap(svcs.flatMap((s) => (s.users_list || []).map((u) => u.key)), ix) : null;
+  // swiyu: every registered participant of the service's environment; those that are measured entities appear as such,
+  // others at their seat from the UID register, without UID in a list below the map
+  const userKeys = svcs.flatMap((s) => (s.users_list || []).map((u) => u.key));
+  const extra = { points: [], unplaced: [] };
+  const swyReg = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
+  if (swyReg && swyReg[0].environment) {
+    const byUid = new Set(ix.rows.filter((r) => userKeys.includes(r[0])).map((r) => r[4]).filter(Boolean));
+    const seen = new Set();
+    swyReg[1].providers.filter((p) => p.env === swyReg[0].environment).forEach((p) => {
+      const id = p.uid || p.name;
+      if (seen.has(id) || (p.uid && byUid.has(p.uid))) return;
+      seen.add(id);
+      const href = p.uid && uids.has(p.uid.replace(/\D/g, "")) ? `#/uid/${encodeURIComponent(p.uid)}` : p.src;
+      if (p.seat) extra.points.push({ name: p.name, href, bfs: p.seat.bfs, canton: p.seat.canton });
+      else extra.unplaced.push({ name: p.name, href });
+    });
+  }
+  const svcMap = svcs.length ? await usersMap(userKeys, ix, extra) : null;
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
