@@ -155,7 +155,7 @@ export default {
   parts_ko: "invalid certificates",
   gov_federal: "Confederation",
   gov_cantonal: "Cantons",
-  gov_cantonal_note: "Cantonal law applies to the canton and, depending on the act, to its communes; the scope is given for each act. Not included are Graubünden and Vaud, whose collections could not be read automatically. Except for Zurich, Bern and Aargau, the summaries are in German only.",
+  gov_cantonal_note: "Cantonal law applies to the canton and, depending on the act, to its communes; the scope is given for each act. Not included are Graubünden and Vaud, whose collections could not be read automatically. Summaries exist in all four languages for Zurich, Bern and Aargau, in the language of the act for Neuchâtel, Geneva, Jura and Ticino, otherwise in German.",
   gov_canton: "Canton",
   gov_all_cantons: "all cantons",
   gov_cantonal_box: "Cantonal law: {c}",
