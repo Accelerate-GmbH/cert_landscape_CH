@@ -249,6 +249,8 @@ export default {
   um_points_list: "Formation et services critiques par canton",
   um_note: "La carte montre l’utilisation détectée, pas la valeur des utilisateurs. Non détecté ne signifie pas « non utilisé » : seul ce qui apparaît dans le DNS, les certificats, les redirections ou un registre est détecté.",
   um_all: "Toutes les fonctions",
+  role_hint: "Indice (CSP), non compté comme utilisation",
+  ev_kind_csp: "En-tête CSP de la page",
   um_none: "aucune utilisation détectée",
   um_none_d: "Aucune utilisation de ce service n’est encore attestée. Seul ce qui apparaît dans le DNS, les certificats, les redirections ou un registre est détecté ; il n’existe pas de liste publique des utilisateurs.",
   um_points_list_reg: "Organisations et participants par canton",
