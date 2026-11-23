@@ -156,10 +156,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   `data/swiyu/trust_registry.json`, read from the public API of production
   and sandbox; per provider also `env` (`production` | `sandbox`), `did`,
   `state_actor` and `src` (the API query returning the statement); the
-  service `since` is the date of the statement. Names are published only
-  for participants with a UID or marked as state actor; the register's
+  service `since` is the date of the statement. Every name the registry
+  publishes is shown, names of persons included; the register's
   `envs` gives per environment `api`, `participants` (all), `unnamed`
-  (without published name) and `verifiers` `[{"did", "name" (null when not
+  (entries without a name) and `verifiers` `[{"did", "name" (null when not
   published), "statements", "purposes": [{"scope", "name", "description"}],
   "src"}]` with names and descriptions per language `de`, `fr`, `rm`, `en`),
   `{"kind", "source", "rules",
