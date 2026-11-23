@@ -1,7 +1,7 @@
 // «Meine Organisation»: the entity's own layers against the best of its level,
 // the weakest checks as next steps, dependencies and the weakest services.
 import * as data from "../data.js";
-import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CATS, WHY, checkName, checkText, t } from "../text.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CATS, WHY, checkName, checkText, t, tx } from "../text.js";
 import { esc, fmt, light, dot, bar, cc, uidLink, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
 import * as trend from "./trend.js";
 
@@ -131,9 +131,9 @@ export async function render(el, params, role) {
     : `<p class="muted">${esc(t("mx_none"))}</p>`;
 
   // a department by the domains of its offices (entity "parts", federal level)
-  const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))}</p>
+  const partsTbl = (d.parts || []).length ? `<section><h2>${esc(t("parts_title"))}</h2><p class="sub">${esc(t("parts_sub"))} ${esc(t("parts_names"))}</p>
     <div class="scroll"><table class="hosts"><thead><tr><th>${esc(t("parts_domain"))}</th><th>${esc(t("parts_hosts"))}</th><th>${esc(t("parts_mean"))}</th><th>${esc(t("parts_ko"))}</th></tr></thead>
-    <tbody>${d.parts.map((x) => `<tr><td>${esc(x.domain)}</td><td class="num">${x.hosts}</td>
+    <tbody>${d.parts.map((x) => `<tr><td>${x.office ? `<a href="${esc(x.office.src)}" rel="noopener">${esc(tx(x.office, "name"))}</a> <span class="muted small">${esc(tx(x.office, "abbr"))}</span><div class="muted small">${esc(x.domain)}</div>` : esc(x.domain)}</td><td class="num">${x.hosts}</td>
       <td>${x.overall === null ? '<span class="muted">–</span>' : `${dot(light(x.overall, cfg))} ${fmt(x.overall)}`}</td><td class="num">${x.knockouts || ""}</td></tr>`).join("")}</tbody></table></div></section>` : "";
 
   const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
