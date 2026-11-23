@@ -13,10 +13,11 @@ const link = (s) => `<a href="${esc(fedlex(s.url))}" rel="noopener">${esc(s.titl
 export const lawText = (law, k) => ((law.i18n || {})[LANG] || {})[k] || (k === "status_sources" ? null : law[k]);
 const provText = (p) => (p.i18n || {})[LANG] || p.text;
 // Fedlex has every act in German, French and Italian: same link, other language
-// BELEX (Bern) is German and French: French readers get the French version
+// the collections of Bern (BELEX), Fribourg (BDLF) and Valais (Lex VS) are German and
+// French: French readers get the French version (article routes tested 23.11.2026)
 export const fedlex = (u) => (LANG === "fr" || LANG === "it") && /fedlex\.admin\.ch\/eli\//.test(u || "")
   ? u.replace(/\/de(?=#|$)/, "/" + LANG)
-  : LANG === "fr" && /belex\.sites\.be\.ch\/app\/de\//.test(u || "") ? u.replace("/app/de/", "/app/fr/") : u;
+  : LANG === "fr" && /(belex\.sites\.be\.ch|bdlf\.fr\.ch|lex\.vs\.ch)\/app\/de\//.test(u || "") ? u.replace("/app/de/", "/app/fr/") : u;
 // article labels in the notation of the language (Art. 2 Abs. 1 Bst. b)
 const ART = {
   fr: [[/^Art\./, "art."], [/ Abs\. /g, ", al. "], [/ Bst\. /g, ", let. "], [/ und /g, " et "]],
