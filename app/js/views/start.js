@@ -37,7 +37,12 @@ export async function render(el, params) {
       const empty = !none && !count && (c.v === null || c.v === undefined);
       const val = none ? (nImpl || nReg ? t("use_unmeasured") : t("not_measured")) : count ? t("types_per_org") : empty ? t("no_data_yet") : fmt(c.v);
       // blocks of the digital public infrastructure open their own page
-      const href = L.group === "dpi" ? `#/baustein/${key}` : !none && !count && !empty ? `#/karte/${encodeURIComponent("blk:" + key)}?level=${level === "canton" ? "canton" : "municipality"}` : "";
+      // details: the map exists only for cantons and municipalities; departments and
+      // critical services have no area, so they open the ranking of their level sorted by the block
+      const detail = level === "canton" || level === "municipality"
+        ? `#/karte/${encodeURIComponent("blk:" + key)}?level=${level}`
+        : `#/vergleich?level=${level}&sort=${encodeURIComponent("blk:" + key)}&to=rank`;
+      const href = L.group === "dpi" ? `#/baustein/${key}` : !none && !count && !empty ? detail : "";
       const tag = href ? "a" : "div";
       return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" data-key="${esc(key)}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
         <div class="bn">${esc(BLOCKS[key] || key)}</div>
