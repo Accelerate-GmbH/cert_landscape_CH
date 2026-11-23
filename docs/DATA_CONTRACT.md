@@ -159,8 +159,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   `seals`), `remote_qscd` or `timestamp`; only granted services, `withdrawn`
   counts the withdrawn ones.
   `control`: the lever per building block of the control layer, a view
-  across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`);
-  only approved entries with sources appear.
+  across all layers (`blocks`, `lever`, `checks`, `sources`, `checked`,
+  `assessment`: true when the lever is the radar's assessment and the
+  sources state the mechanism only); only approved entries with sources appear.
 
 `governance.json`
 : the legal bases of the governance view, from `config/governance.toml`:
