@@ -116,7 +116,10 @@ export async function renderProvider(el, params) {
   const cantons = !["municipality", "organisation"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(t("kind_" + p.kind) || p.kind)}</div>
     <h1>${esc(p.name)} ${cc(p.country)}</h1>
-    ${p.parent ? `<p class="sub">${esc(t("part_of", { p: p.parent }))} ${cc(p.parent_country)}</p>` : ""}
+    ${p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
+      · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
+        : esc(t("op_no_parent", { r: p.operator.parent_reason || "–" }))}</p>
+      <p class="muted small">${esc(t("op_note", { d: (p.operator.fetched || "").split("-").reverse().map(Number).join(".") }))}</p>` : ""}
     <p><a href="${hash("abhaengigkeiten", { level })}">← ${esc(t("deps_title"))}</a></p></section>
     <section><h2>${esc(t("who_depends"))}</h2>${counts}</section>
     <section><div class="tabs">${used.map(([k, nm]) => `<a class="tab${k === level ? " on" : ""}" href="${hash("anbieter/" + encodeURIComponent(p.id), { level: k })}">${esc(nm)}</a>`).join("")}</div>
