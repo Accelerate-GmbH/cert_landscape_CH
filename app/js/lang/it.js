@@ -370,7 +370,7 @@ export default {
   "cloud.infra": "Infrastruttura", "cloud.platform": "Piattaforma e SaaS",
   "trust.swiyu": "swiyu", "trust.seal": "Sigillo, QES", "trust.timestamp": "Marca temporale",
   "ext.transport": "TLS, HSTS, PQC", "ext.mail": "Posta", "ext.privacy": "Sfera privata", "ext.contact": "Contatto di sicurezza",
-  "dpi.identity": "Identità", "dpi.exchange": "Scambio di dati", "dpi.value": "Scambio di valori",
+  "dpi.identity": "Identità e autenticazione", "dpi.exchange": "Scambio di dati", "dpi.value": "Scambio di valori",
   "apps.services": "Servizi",
  },
  block_what: {

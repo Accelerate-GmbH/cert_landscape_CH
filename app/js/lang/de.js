@@ -405,7 +405,7 @@ export default {
   "ext.mail": "Mail",
   "ext.privacy": "Privatsphäre",
   "ext.contact": "Sicherheitskontakt",
-  "dpi.identity": "Identität",
+  "dpi.identity": "Identität und Authentifizierung",
   "dpi.exchange": "Datenaustausch",
   "dpi.value": "Werteaustausch",
   "apps.services": "Dienste"
