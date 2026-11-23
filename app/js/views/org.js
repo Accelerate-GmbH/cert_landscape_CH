@@ -55,7 +55,7 @@ export async function render(el, params, role) {
   </section>`;
 
   const verdict = p.overall === null || p.overall === undefined
-    ? `<section class="verdict none"><p>${esc(t("no_rating", { r: d.no_data || t("no_rating_default") }))}</p></section>`
+    ? `<section class="verdict none"><p>${esc(t("no_rating", { r: d.no_data ? t("nr_" + d.no_data) : t("no_rating_default") }))}</p></section>`
     : `<section class="verdict ${light(p.overall, cfg)}">
       <div class="big">${fmt(p.overall)}<small>/100</small></div>
       <div><div class="vt">${esc(LIGHT_WORD[light(p.overall, cfg)])}</div>
