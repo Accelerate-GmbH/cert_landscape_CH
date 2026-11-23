@@ -406,6 +406,7 @@ export default {
   "ext.privacy": "Privatsphäre",
   "ext.contact": "Sicherheitskontakt",
   "dpi.identity": "Identität",
+  "dpi.authentication": "Authentifizierung",
   "dpi.exchange": "Datenaustausch",
   "dpi.value": "Werteaustausch",
   "apps.services": "Dienste"
@@ -421,7 +422,7 @@ export default {
   "ext.mail": "Sechs Mail-Prüfungen von Serverstandort bis DMARC",
   "ext.privacy": "Encrypted Client Hello verbirgt die besuchte Adresse",
   "ext.contact": "security.txt mit Kontakt für Sicherheitsmeldungen",
-  "dpi.identity": "nur die Authentifizierung: Anteil erkannter Login-Anbieter aus der Schweiz"
+  "dpi.authentication": "Anteil erkannter Login-Anbieter aus der Schweiz"
  },
  "levels": [
   [

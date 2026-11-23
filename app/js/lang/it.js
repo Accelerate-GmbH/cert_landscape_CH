@@ -370,7 +370,7 @@ export default {
   "cloud.infra": "Infrastruttura", "cloud.platform": "Piattaforma e SaaS",
   "trust.swiyu": "swiyu", "trust.seal": "Sigillo, QES", "trust.timestamp": "Marca temporale",
   "ext.transport": "TLS, HSTS, PQC", "ext.mail": "Posta", "ext.privacy": "Sfera privata", "ext.contact": "Contatto di sicurezza",
-  "dpi.identity": "Identità", "dpi.exchange": "Scambio di dati", "dpi.value": "Scambio di valori",
+  "dpi.identity": "Identità", "dpi.authentication": "Autenticazione", "dpi.exchange": "Scambio di dati", "dpi.value": "Scambio di valori",
   "apps.services": "Servizi",
  },
  block_what: {
@@ -384,7 +384,7 @@ export default {
   "ext.mail": "Sei controlli di posta, dall'ubicazione dei server a DMARC",
   "ext.privacy": "Encrypted Client Hello nasconde l'indirizzo visitato",
   "ext.contact": "security.txt con un contatto per le segnalazioni di sicurezza",
-  "dpi.identity": "solo l'autenticazione: quota di fornitori di login rilevati provenienti dalla Svizzera",
+  "dpi.authentication": "quota di fornitori di login rilevati provenienti dalla Svizzera",
  },
  levels: [["federal", "Confederazione"], ["canton", "Cantoni"], ["municipality", "Comuni"], ["organisation", "Servizi critici"], ["education", "Formazione"]],
  level_one: { federal: "Dipartimento", canton: "Cantone", municipality: "Comune", organisation: "Organizzazione", education: "Istituto" },

@@ -107,10 +107,12 @@ results, CSV and Excel exports stay in the pipeline repository.
 
 `infrastructure.json`
 : the digital public infrastructure (layers with `"group": "dpi"` in `model`:
-  trust infrastructure; identity, data exchange, value exchange):
+  trust infrastructure; identity, authentication, data exchange, value
+  exchange; identity as digital capacity to act and authentication as proof
+  at access are separate blocks `dpi.identity` and `dpi.authentication`):
   `{"schema": 2, "source": {"title", "url"}, "blocks": {"<layer>.<block>": {"implementations": [...], "alternatives": [...]}}, "control": [...]}`.
   `aspects`: labels of the aspects of the identity block (identity,
-  authentication, authority, agency), `aspects_i18n` `{lang: {aspect: label}}`,
+  authority, agency), `aspects_i18n` `{lang: {aspect: label}}`,
   `aspect_sources` the sources for this distinction; `source` carries
   `i18n` for its `title`; each implementation carries `i18n` for `operator`
   and `role` (from `config/model.i18n.toml`). An implementation: `name`, `aspect` (identity block only),
@@ -125,7 +127,7 @@ results, CSV and Excel exports stay in the pipeline repository.
   `sov.registrar`: `[{"value", "hosts", "status", "evidence"}]`, what its hosts
   rest on, with the evidence of the check), `examples` (up to 12 host names),
   `users` (`{level: n_entities}` seen to use it). An implementation can
-  appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (identity
+  appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.
   `register`: an official list of recognised providers for the block,
