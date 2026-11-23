@@ -33,6 +33,31 @@ results, CSV and Excel exports stay in the pipeline repository.
   `title`, `use`; from `config/sources.i18n.toml`); the frontend shows
   `i18n[lang][field]`, else the German field.
 
+`uids.json`
+: `{"schema": 2, "uids": ["105956490", …]}`: the UIDs (digits only) that
+  have a page; the frontend links a UID only when it is listed here.
+
+`uid/<digits>.json`
+: one organisation with a UID and all its roles (docs/PRODUCT.md, section
+  8.1): `uid` (`CHE-…`), `name`, `town`, `canton`, `bfs` (seat
+  municipality, BFS number), `lei`, `hr` (commercial register number),
+  `checked` (date of the register lookup, `null` for the administration),
+  `src` (entry in the UID register), `measured` (true when a role is a
+  measured entity), `roles`: `{"kind": "entity", "key", "name", "level",
+  "value"}`, `{"kind": "provider", "id", "name", "provider_kind"}` (matched
+  by LEI), `{"kind": "zertes" | "delivery", "block", "name", "services":
+  [{"name", "kind", "since"}]}`, `{"kind": "swiyu", "block", "name", "env",
+  "did", "src", "state_actor"}`. Seat, legal form and LEI come from the UID
+  register (`data/uid/details.json`, `tlsmap uiddetails`). No page for a
+  sole proprietorship (legal form 0101) or an entry the register does not
+  publish; the administration (cantons, municipalities, federal
+  departments) needs no register lookup.
+
+`places.json`
+: `{"schema": 2, "places": {key: bfs}}`: seat municipality (BFS number)
+  of organisations and educational institutions from the UID register,
+  for the points on the map of users. Missing where the UID has no page.
+
 `index.json`
 : `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector(, parent)], …]}` for
   the search. `key` = `<level>:<id>`, levels `federal`, `office`, `canton`,

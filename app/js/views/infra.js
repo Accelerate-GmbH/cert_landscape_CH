@@ -5,7 +5,9 @@
 // implementation carries its sources.
 import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, LANG, t, tx } from "../text.js";
-import { esc, fmt, light, dot, cc } from "../ui.js";
+import { esc, fmt, light, dot, cc, uidName, uidRef } from "../ui.js";
+
+let UIDS = new Set();
 import { provisionRows, statusWord, lawText } from "./gov.js";
 
 const REST = ["sov.ca", "sov.dns", "sov.hosting", "sov.registrar"];
@@ -59,8 +61,8 @@ function register(r) {
   const rows = r.providers.map((p) => {
     const kinds = {};
     p.services.forEach((s) => { const k = svc(s); kinds[k] = (kinds[k] || 0) + 1; });
-    return `<tr><th>${esc(p.name)}${p.trade_names && p.trade_names.length ? `<div class="muted small">${esc(p.trade_names.join(", "))}</div>` : ""}
-      ${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${esc(p.uid)}</div>` : ""}
+    return `<tr><th>${uidName(p.uid, p.name, UIDS)}${p.trade_names && p.trade_names.length ? `<div class="muted small">${esc(p.trade_names.join(", "))}</div>` : ""}
+      ${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${uidRef(p.uid, UIDS)}</div>` : ""}
       ${p.lei ? `<div class="muted small">LEI <a href="${esc(p.src)}" rel="noopener">${esc(p.lei)}</a>${p.country ? " · " + esc(p.country) : ""}</div>` : ""}</th>
       <td>${r.kind === "vlei" ? esc(t("reg_qualified", { d: date(p.services[0].since) })) : Object.entries(kinds).map(([k, n]) => `${k}: ${n}`).join("<br>")}${p.withdrawn ? `<div class="muted small">${esc(t("reg_withdrawn", { n: p.withdrawn }))}</div>` : ""}</td></tr>`;
   }).join("");
@@ -76,7 +78,7 @@ function register(r) {
 function swiyuRegister(r) {
   const envs = Object.entries(r.envs || {}).map(([env, e]) => {
     const ps = r.providers.filter((p) => p.env === env);
-    const rows = ps.map((p) => `<tr><th>${esc(p.name)}${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${esc(p.uid)}</div>` : ""}</th>
+    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${uidRef(p.uid, UIDS)}</div>` : ""}</th>
       <td>${p.state_actor ? esc(t("reg_swiyu_state")) + " · " : ""}${esc(t("reg_since", { d: date(p.services[0].since) }))} · <a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
     const vs = (e.verifiers || []).map((v) => `<tr><th>${v.name ? esc(v.name) : `<span class="muted">${esc(t("reg_swiyu_unnamed"))}</span>`}</th>
       <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}<div class="muted small">${esc(t("reg_swiyu_n", { n: v.statements }))} · <a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></div></td></tr>`).join("");
@@ -101,7 +103,8 @@ function legal(gov, key) {
 
 export async function render(el, params) {
   const key = params.key || "";
-  const [inf, meta, gov] = await Promise.all([data.infrastructure(), data.meta(), data.governance().catch(() => ({ laws: [] }))]);
+  const [inf, meta, gov, uids] = await Promise.all([data.infrastructure(), data.meta(), data.governance().catch(() => ({ laws: [] })), data.uids()]);
+  UIDS = uids;
   const [lid] = key.split(".");
   const layer = (meta.model.layer || []).find((L) => L.id === lid);
   if (!layer || !BLOCKS[key]) {

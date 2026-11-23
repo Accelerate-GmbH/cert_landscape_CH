@@ -1,13 +1,15 @@
 // Map of the users of a service or provider (docs/PRODUCT.md, section 8.1):
 // cantons and municipalities as areas, education and critical services as
-// points per canton with their number (as the organisations on the current
-// map), the Confederation and its offices as a list. The map shows use, not
+// points with their number at their seat municipality from the UID register
+// (places.json), at the centre of their canton where the seat is unknown (as
+// the organisations on the current map), the Confederation and its offices as a list. The map shows use, not
 // the users' value: colour means «use detected». Not detected is not the same
 // as not used; only what shows in DNS, certificates, redirects or a register
 // is detected.
 import { t, LEVEL_MANY } from "../text.js";
 import { esc } from "../ui.js";
 import { loadMap } from "./lens.js";
+import * as data from "../data.js";
 
 const POINTS = ["organisation", "education"];
 
@@ -28,6 +30,7 @@ export async function usersMap(keys, ix) {
   const ctId = Object.fromEntries(ix.rows.filter((r) => r[0].startsWith("canton:")).map((r) => [r[2], r[0].split(":")[1]]));
   let map = null;
   try { map = await loadMap(); } catch { /* map file missing: lists only */ }
+  const seat = await data.places();
   const link = (k) => `<a href="#/org/${encodeURIComponent(k)}">${esc(row[k][1])}</a>`;
   const list = (lv) => { const ks = by(lv); return ks.length ? `<h4>${esc(LEVEL_MANY[lv])} · ${ks.length}</h4><ul class="ents">${ks.map((k) => `<li>${link(k)}</li>`).join("")}</ul>` : ""; };
   // points: organisations and education grouped by canton
@@ -41,10 +44,19 @@ export async function usersMap(keys, ix) {
     const mu = [...munis].filter((id) => map.municipalities[id]).map((id) => `<a href="#/org/municipality:${id}" aria-label="${esc(row["municipality:" + id][1])}"><path class="ar use-mu" d="${map.municipalities[id]}"><title>${esc(row["municipality:" + id][1])}</title></path></a>`).join("");
     const borders = Object.values(map.cantons).map((d) => `<path class="cb" d="${d}"/>`).join("");
     const lakes = map.lakes.map((d) => `<path class="lk" d="${d}"/>`).join("");
-    const pts = Object.entries(groups).filter(([c]) => ctId[c] && map.cantons[ctId[c]]).map(([c, ks]) => {
-      const [x, y] = centre(map.cantons[ctId[c]]), r = 7 + 3 * Math.sqrt(ks.length);
-      return `<a href="#um-${esc(c)}" data-um="${esc(c)}" aria-label="${esc(t("um_point", { n: ks.length, c }))}"><g class="um-pt"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"/>
-        <text x="${x.toFixed(1)}" y="${y.toFixed(1)}" dy="0.35em" text-anchor="middle">${ks.length}</text><title>${esc(t("um_point", { n: ks.length, c }))}</title></g></a>`;
+    // one point per seat municipality; per canton where the seat is unknown
+    const at = {};
+    Object.entries(groups).forEach(([c, ks]) => ks.forEach((k) => {
+      const m = seat[k] && map.municipalities[seat[k]] ? seat[k] : null;
+      const g = m ? "m" + m : "c" + c;
+      (at[g] ||= { c, m, ks: [] }).ks.push(k);
+    }));
+    const pts = Object.values(at).filter((g) => g.m || (ctId[g.c] && map.cantons[ctId[g.c]])).sort((a, b) => b.ks.length - a.ks.length).map((g) => {
+      const [x, y] = centre(g.m ? map.municipalities[g.m] : map.cantons[ctId[g.c]]), r = 5 + 2.5 * Math.sqrt(g.ks.length);
+      const place = g.m ? (row["municipality:" + g.m] || [])[1] || g.c : g.c;
+      const label = t("um_point", { n: g.ks.length, c: place });
+      return `<a href="#um-${esc(g.c)}" data-um="${esc(g.c)}" aria-label="${esc(label)}"><g class="um-pt"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"/>
+        ${g.ks.length > 1 ? `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" dy="0.35em" text-anchor="middle">${g.ks.length}</text>` : ""}<title>${esc(label)}</title></g></a>`;
     }).join("");
     svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}">${ct}${mu}${borders}${lakes}${pts}</svg>`;
   }
