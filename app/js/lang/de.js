@@ -111,6 +111,7 @@ export default {
   "edu_uh": "universitäre Hochschule",
   "edu_fh": "Fachhochschule",
   "edu_ph": "Pädagogische Hochschule",
+  "edu_bfs": "Berufsfachschule",
   "edu_gym": "Gymnasium (Maturitätsschule)",
   "src_hosts": "Betroffene Hosts zeigen",
   "src_mail_values": "Werte pro Maildomain",
