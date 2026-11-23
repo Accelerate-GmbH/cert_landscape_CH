@@ -33,6 +33,10 @@ export async function render(el, params, role) {
   const ofLine = d.parent ? ` · ${esc(t("office_of"))} <a href="#/org/${encodeURIComponent(d.parent)}">${esc(parentName)}</a>`
     + (d.office ? ` · <a href="${esc(d.office.src)}" rel="noopener" title="${esc(t("office_src"))}">${esc(tx(d.office, "abbr"))}</a>` : "") : "";
   const kos = Object.fromEntries((d.hosts || []).filter((h) => h.knockout).map((h) => [h.host, h.knockout]));
+  // knock-outs by reason, in words (docs/RATING.md, Knock-outs)
+  const koCount = {};
+  Object.values(kos).forEach((r) => { const k = evid.koKind(r); koCount[k] = (koCount[k] || 0) + 1; });
+  const koSplit = Object.keys(koCount).length ? ` (${Object.entries(koCount).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${n} ${esc(t("ko_short_" + k))}`).join(", ")})` : "";
   const provId = new Map((dir ? dir.rows : []).map((r) => [r.name, r.id]));
   const cfg = meta.cfg, B = bm[d.kind] || {};
   const p = d.posture || {};
@@ -60,7 +64,7 @@ export async function render(el, params, role) {
     : `<section class="verdict ${light(p.overall, cfg)}">
       <div class="big">${fmt(p.overall)}<small>/100</small></div>
       <div><div class="vt">${esc(LIGHT_WORD[light(p.overall, cfg)])}</div>
-        <div class="sub">${esc(t("services_checked", { n: p.resources || 0 }))}${p.knockouts ? ` · ${esc(t("with_ko", { n: p.knockouts }))}` : ""}</div>
+        <div class="sub">${esc(t("services_checked", { n: p.resources || 0 }))}${p.knockouts ? ` · ${esc(t("with_ko", { n: p.knockouts }))}${koSplit}` : ""}</div>
         ${bo ? `<div class="sub">${esc(bo.mode === "top" ? t("top_reach", { p: Math.round(bo.share * 100), lv: LEVEL_MANY[d.kind], v: fmt(bo.value) }) : t("best_value", { lv: LEVEL_DAT[d.kind], v: fmt(bo.value) }))}</div>` : ""}
       </div></section>`;
 

@@ -33,6 +33,8 @@ function verify(c, host, ev) {
 const when = (s) => (s ? new Date(s).toISOString().replace("T", " ").slice(0, 16) + " UTC" : "–");
 
 // the reason of a knock-out in words (docs/RATING.md, Knock-outs); the measured message stays visible
+export const koKind = (ko) => (/hostname mismatch/i.test(ko) ? "mismatch" : /self-signed/i.test(ko) ? "selfsigned" : /expired/i.test(ko) ? "expired"
+  : /revoked/i.test(ko) ? "revoked" : /too weak/i.test(ko) ? "weak" : "other");
 export function koReason(ko) {
   const k = /hostname mismatch/i.test(ko) ? "mismatch" : /self-signed/i.test(ko) ? "selfsigned" : /expired/i.test(ko) ? "expired"
     : /revoked/i.test(ko) ? "revoked" : /too weak/i.test(ko) ? "weak" : "other";
@@ -42,7 +44,14 @@ export function koReason(ko) {
 export function table(host, ev, ko) {
   const koLine = ko ? `<p class="ko-line"><span class="tag red">${esc(t("tag_ko"))}</span> ${esc(koReason(ko))} ${esc(t("ko_effect"))}
       <span class="muted small">${esc(t("ko_measured"))}: <span class="mono">${esc(ko)}</span></span></p>` : "";
-  if (!ev) return koLine + `<p class="muted small">${esc(t("ev_none"))}</p>`;
+  // the certificate actually served at each address that does not validate (from the run of 2.12.2026 with its names)
+  const served = ((ev && ev.served) || []).map((x) => `<li><span class="mono">${esc(x.ip)}</span>: ${x.names && x.names.length
+      ? `${esc(t("ev_served_names"))} <span class="mono">${esc(x.names.slice(0, 6).join(", "))}${x.names.length > 6 ? " …" : ""}</span>` : x.subj ? `CN <span class="mono">${esc(x.subj)}</span>` : ""}
+      ${x.iss ? ` · ${esc(x.iss)}` : ""}${x.exp ? ` · ${esc(t("ev_until", { d: String(x.exp).slice(0, 10) }))}` : ""}
+      ${x.sha ? ` · <a href="${esc(x.src)}" rel="noopener noreferrer" title="SHA-256 ${esc(x.sha)}">${esc(t("ev_served_check"))}</a>` : ""}
+      ${x.name_ok ? ` <span class="tag">${esc(t("ev_served_suspect"))}</span>` : ""}</li>`).join("");
+  const koBlock = koLine + (served ? `<p class="small">${esc(t("ev_served"))}</p><ul class="bd-ev">${served}</ul>` : "");
+  if (!ev) return koBlock + `<p class="muted small">${esc(t("ev_none"))}</p>`;
   const rows = ev.chk.map((c) => {
     const [id, status, value, method, detail] = c;
     const link = verify(c, host, ev);
@@ -52,7 +61,7 @@ export function table(host, ev, ko) {
       <td>${link ? `<a href="${esc(link)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</td></tr>`;
   }).join("");
   const c = ev.cert;
-  return `<div class="ev">${koLine}<p class="small">${esc(t("ev_measured", { d: when(ev.at) }))}
+  return `<div class="ev">${koBlock}<p class="small">${esc(t("ev_measured", { d: when(ev.at) }))}
       ${ev.ips.length ? " · " + ev.ips.map((x) => `${esc(x[0])}${x[2] ? ` (AS${esc(x[1])} ${esc(x[2])}, ${esc(x[3])})` : ""}`).join(", ") : ""}</p>
     ${c ? `<p class="small">${esc(t(c.src === "crtsh" ? "ev_cert_ct" : "ev_cert"))}: ${esc(c.iss || "")}${c.org ? ` · ${esc(c.org)}` : ""}${c.val ? ` · ${esc(c.val)}` : ""}${c.exp ? ` · ${esc(t("ev_until", { d: c.exp.slice(0, 10) }))}` : ""}</p>` : ""}
     <div class="scroll"><table class="evt"><thead><tr><th>${esc(t("check"))}</th><th>${esc(t("value"))}</th><th>${esc(t("ev_method"))}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;

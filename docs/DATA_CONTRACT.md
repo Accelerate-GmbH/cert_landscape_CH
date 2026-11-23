@@ -239,7 +239,15 @@ results, CSV and Excel exports stay in the pipeline repository.
   `cert` `{"src" (crtsh | certspotter), "id", "iss", "org", "val", "exp"}`,
   `chk` `[[check, status, value, method, detail], …]` with `method` how the
   value was obtained (e.g. `dns-ns-asn`, `rdap`, `tls`) and `detail` the zone,
-  register entry or URL it refers to.
+  register entry or URL it refers to. `cert` is the certificate found in Certificate
+  Transparency, not necessarily the one served. Where an address serves a
+  certificate that does not validate, `served` lists it per address:
+  `[{"ip", "err" (message of the TLS library), "iss", "exp", "sha" (SHA-256 of
+  the certificate), "names" (its DNS names, at most 20), "subj" (common name),
+  "name_ok" (true when its names cover the host by RFC 6125 section 6.4.3
+  although the library reported a mismatch: a possible measurement error),
+  "src" (crt.sh by SHA-256)}]`; `names`, `subj` and `name_ok` from the run of
+  2.12.2026 on.
 
 `rss/<level>-<id>.xml`
 : RSS 2.0 feed of one entity, one item per month (newest first): value,
