@@ -32,6 +32,7 @@ export async function render(el, params, role) {
   const parentName = d.parent ? ((idx && idx.rows.find((r) => r[0] === d.parent)) || [])[1] || d.parent.split(":")[1] : "";
   const ofLine = d.parent ? ` · ${esc(t("office_of"))} <a href="#/org/${encodeURIComponent(d.parent)}">${esc(parentName)}</a>`
     + (d.office ? ` · <a href="${esc(d.office.src)}" rel="noopener" title="${esc(t("office_src"))}">${esc(tx(d.office, "abbr"))}</a>` : "") : "";
+  const kos = Object.fromEntries((d.hosts || []).filter((h) => h.knockout).map((h) => [h.host, h.knockout]));
   const provId = new Map((dir ? dir.rows : []).map((r) => [r.name, r.id]));
   const cfg = meta.cfg, B = bm[d.kind] || {};
   const p = d.posture || {};
@@ -166,7 +167,7 @@ export async function render(el, params, role) {
   // hosts: the ten weakest, or those matching the search; each opens its evidence
   const rated = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall);
   const hostRows = (list) => list.map((h) =>
-    `<tr><td>${esc(h.host)}${h.critical ? ` <span class="tag">${esc(t("tag_critical"))}</span>` : ""}${h.knockout ? ` <span class="tag red">${esc(t("tag_ko"))}</span>` : ""}${h.unreachable ? ` <span class="tag">${esc(t("tag_unreachable"))}</span>` : ""}</td>
+    `<tr><td>${esc(h.host)}${h.critical ? ` <span class="tag">${esc(t("tag_critical"))}</span>` : ""}${h.knockout ? ` <span class="tag red" title="${esc(evid.koReason(h.knockout))}">${esc(t("tag_ko"))}</span>` : ""}${h.unreachable ? ` <span class="tag">${esc(t("tag_unreachable"))}</span>` : ""}</td>
      <td>${dot(light(h.overall, cfg))} ${fmt(h.overall)}</td>
      <td><button class="link" data-ev="${esc(h.host)}" aria-expanded="false">${esc(t("ev_open"))}</button></td></tr>`).join("");
   const hostList = rated.length ? `${rated.length > 10 ? `<p><input id="hostq" type="search" placeholder="${esc(t("ev_search", { n: rated.length }))}" aria-label="${esc(t("ev_search", { n: rated.length }))}"></p>` : ""}
@@ -261,13 +262,13 @@ export async function render(el, params, role) {
      ${mailTbl}${partsTbl}
      <section id="hostsec"><h2>${esc(t("weakest"))}</h2><p id="hostnote" class="small" hidden></p>${hostList}</section>`;
 
-  evid.wire(el, d.key);
+  evid.wire(el, d.key, kos);
   const hq = el.querySelector("#hostq");
   if (hq) hq.addEventListener("input", () => {
     const v = hq.value.trim().toLowerCase();
     const tb = el.querySelector("#hostrows");
     tb.innerHTML = hostRows(v ? rated.filter((h) => h.host.includes(v)).slice(0, 50) : rated.slice(0, 10));
-    evid.wire(tb, d.key);
+    evid.wire(tb, d.key, kos);
   });
   // a next step opens the hosts that do not (fully) meet its check, from the evidence file
   el.querySelectorAll("[data-fail]").forEach((b) => b.addEventListener("click", async () => {
@@ -277,10 +278,10 @@ export async function render(el, params, role) {
     try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
     const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((c) => ids.includes(c[0]) && (c[1] === "fail" || c[1] === "partial")));
     tb.innerHTML = hostRows(bad.slice(0, 100));
-    evid.wire(tb, d.key);
+    evid.wire(tb, d.key, kos);
     note.hidden = false;
     note.innerHTML = `${esc(t("src_filtered", { c: ids.map(checkName).join(", "), n: bad.length }))}${bad.length > 100 ? " " + esc(t("src_first", { n: 100 })) : ""} · <button class="link" id="hostreset">${esc(t("src_reset"))}</button>`;
-    note.querySelector("#hostreset").addEventListener("click", () => { tb.innerHTML = hostRows(rated.slice(0, 10)); evid.wire(tb, d.key); note.hidden = true; });
+    note.querySelector("#hostreset").addEventListener("click", () => { tb.innerHTML = hostRows(rated.slice(0, 10)); evid.wire(tb, d.key, kos); note.hidden = true; });
     el.querySelector("#hostsec").scrollIntoView();
   }));
   el.querySelectorAll("[data-jump]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); el.querySelector("#" + a.dataset.jump)?.scrollIntoView(); }));
@@ -291,7 +292,7 @@ export async function render(el, params, role) {
     panel.hidden = false;
     panel.innerHTML = `<p class="muted">${esc(t("loading"))}</p>`;
     panel.innerHTML = await blockDetail(x.dataset.blk);
-    evid.wire(panel, d.key);
+    evid.wire(panel, d.key, kos);
     panel.querySelector("[data-blkclose]").addEventListener("click", () => { panel.hidden = true; x.classList.remove("on"); x.focus(); });
     panel.querySelectorAll("[data-pfail]").forEach((btn) => btn.addEventListener("click", async () => {
       const c = btn.dataset.pfail, tb = panel.querySelector("#bdrows"), note = panel.querySelector("#bdnote");
@@ -299,7 +300,7 @@ export async function render(el, params, role) {
       try { ev = (await data.evidence(d.key)).hosts || {}; } catch { /* no evidence file */ }
       const bad = rated.filter((h) => ((ev[h.host] || {}).chk || []).some((k) => k[0] === c && (k[1] === "fail" || k[1] === "partial")));
       tb.innerHTML = hostRows(bad.slice(0, 50));
-      evid.wire(tb, d.key);
+      evid.wire(tb, d.key, kos);
       if (note) note.textContent = t("src_filtered", { c: checkName(c), n: bad.length });
       panel.querySelector("#bdhosts").scrollIntoView({ block: "start" });
     }));
