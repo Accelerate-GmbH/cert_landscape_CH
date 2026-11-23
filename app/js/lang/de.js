@@ -104,6 +104,13 @@ export default {
   "reg_qualified": "qualifiziert seit {d}",
   "reg_vlei_no_ch": "Keiner dieser Aussteller hat seinen Sitz in der Schweiz.",
   "reg_fetched": "Liste abgefragt am {c}",
+  "edu_hochschule": "Hochschule",
+  "edu_sek2": "Sekundarstufe II",
+  "edu_volksschule": "Volksschule",
+  "edu_agentur": "Fachagentur",
+  "edu_uh": "universitäre Hochschule",
+  "edu_fh": "Fachhochschule",
+  "edu_ph": "Pädagogische Hochschule",
   "src_hosts": "Betroffene Hosts zeigen",
   "src_mail_values": "Werte pro Maildomain",
   "src_rule": "Regel",
@@ -431,25 +438,32 @@ export default {
   [
    "organisation",
    "Kritische Dienste"
+  ],
+  [
+   "education",
+   "Bildung"
   ]
  ],
  "level_one": {
   "federal": "Departement",
   "canton": "Kanton",
   "municipality": "Gemeinde",
-  "organisation": "Organisation"
+  "organisation": "Organisation",
+  "education": "Bildungseinrichtung"
  },
  "level_many": {
   "federal": "Departemente",
   "canton": "Kantone",
   "municipality": "Gemeinden",
-  "organisation": "Organisationen"
+  "organisation": "Organisationen",
+  "education": "Bildungseinrichtungen"
  },
  "level_dat": {
   "federal": "Departementen",
   "canton": "Kantonen",
   "municipality": "Gemeinden",
-  "organisation": "Organisationen"
+  "organisation": "Organisationen",
+  "education": "Bildungseinrichtungen"
  },
  "apps": {
   "website": "Website",

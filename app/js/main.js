@@ -74,7 +74,7 @@ const norm = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCa
 data.index().then((ix) => { rows = ix.rows.map((r) => [...r, norm(r[1] + " " + (r[4] || ""))]); });
 function show(list) {
   sugg.innerHTML = list.map((r, i) => `<li role="option" id="s${i}" data-key="${esc(r[0])}"${i === active ? ' aria-selected="true"' : ""}>
-    <b>${esc(r[1])}</b> <span class="muted">${esc(LEVEL_ONE[r[0].split(":")[0]])}${r[2] ? " · " + esc(r[2]) : ""}${r[5] ? " · " + esc(r[5]) : ""}</span></li>`).join("");
+    <b>${esc(r[1])}</b> <span class="muted">${esc(LEVEL_ONE[r[0].split(":")[0]])}${r[2] ? " · " + esc(r[2]) : ""}${r[5] ? " · " + esc(r[0].startsWith("education:") ? t("edu_" + r[5]) : r[5]) : ""}</span></li>`).join("");
   sugg.hidden = !list.length;
   q.setAttribute("aria-expanded", String(!!list.length));
 }

@@ -113,7 +113,7 @@ export async function renderProvider(el, params) {
       <span class="muted small">· ${esc(fnInfo(f, dir.functions))}</span></summary>${fnDetail(f, dir.functions)}
       <ul class="ents">${ks.map((k) => `<li><a href="#/org/${encodeURIComponent(k)}">${esc((names[k] || [k])[0])}</a>${(names[k] || [])[1] && level === "municipality" ? ` <span class="muted small">${esc(names[k][1])}</span>` : ""}</li>`).join("")}</ul></details>`;
   }).join("");
-  const cantons = !["municipality", "organisation"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
+  const cantons = !["municipality", "organisation", "education"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(t("kind_" + p.kind) || p.kind)}</div>
     <h1>${esc(p.name)} ${cc(p.country)}</h1>
     ${p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
