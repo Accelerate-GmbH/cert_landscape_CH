@@ -235,7 +235,7 @@ export default {
   aspect_identity: "Chi è una persona o un'organizzazione.",
   aspect_authentication: "La prova, all'accesso, che qualcuno possiede questa identità.",
   def_identity: "L’identità è la capacità di agire in digitale: chi è una persona o un’organizzazione, che cosa può fare e per conto di chi agisce. La prova al momento dell’accesso (login) è un elemento a sé, l’autenticazione.",
-  def_authentication: "L’autenticazione è la prova, al momento dell’accesso, che qualcuno possiede un’identità (login). Presuppone un’identità ma non fonda una capacità di agire; questa appartiene all’elemento identità.",
+  def_authentication: "L’autenticazione è la prova, al momento dell’accesso, che qualcuno possiede un’identità (login). Presuppone un’identità e si basa su ancore di fiducia come l’Id-e e i certificati, ma non fonda una capacità di agire; questa appartiene all’elemento identità.",
   aspect_authority: "Ciò che qualcuno può fare, ad esempio un diritto di firma o un ruolo in un'autorità.",
   aspect_agency: "Agire per conto di un altro, ad esempio con procura o delega.",
   aspects_note: "Il sistema interno di gestione degli accessi e delle autorizzazioni di un'organizzazione (IAM) non rientra in nessuno di questi aspetti; è una leva dello strato di controllo.",
