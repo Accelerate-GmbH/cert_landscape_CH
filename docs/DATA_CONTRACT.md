@@ -126,7 +126,12 @@ results, CSV and Excel exports stay in the pipeline repository.
   `register`: an official list of recognised providers for the block,
   `kind` `zertes` (seal and time stamp blocks, from the Swiss Trusted List of
   the SAS) or `delivery` (data exchange: delivery platforms recognised by the
-  EJPD, list of the BJ, kept by hand in `config/model.toml` with `checked`),
+  EJPD, list of the BJ, kept by hand in `config/model.toml` with `checked`)
+  or `vlei` (identity: qualified vLEI issuers from the GLEIF API,
+  `data/gleif/vlei_issuers.json`; per provider also `lei`, `country`, `src`
+  (GLEIF record), the service `since` is the qualification date; the register
+  carries `api` and `checked`, `issued` is null; whether an entity holds a vLEI
+  is not published and not measured),
   `{"kind", "source", "rules",
   "issued", "sequence", "next_update", "providers": [{"name", "uid",
   "trade_names", "services": [{"name", "kind", "for", "since"}], "withdrawn"}]}`;
