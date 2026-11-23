@@ -8,6 +8,7 @@ import * as infra from "./views/infra.js";
 import * as basics from "./views/basics.js";
 import * as gov from "./views/gov.js";
 import * as report from "./views/report.js";
+import * as plan from "./views/plan.js";
 import * as lens from "./views/lens.js";
 import { esc, store } from "./ui.js";
 import { LEVEL_ONE, LANG, LANGS, setLang, t } from "./text.js";
@@ -41,6 +42,7 @@ function parse() {
   if (parts[0] === "abhaengigkeiten") return { name: "deps", params };
   if (parts[0] === "anbieter") return { name: "deps", params: { ...params, id: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   if (parts[0] === "vergleich") return { name: "compare", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
+  if (parts[0] === "org" && parts[2] === "plan") return { name: "org", sub: "plan", params: { ...params, key: decodeURIComponent(parts[1] || "") } };
   if (parts[0] === "org" && parts[2] === "bericht") return { name: "org", sub: "report", params: { ...params, key: decodeURIComponent(parts[1] || "") } };
   if (parts[0] === "org") return { name: "org", params: { ...params, key: parts[1] ? decodeURIComponent(parts[1]) : undefined } };
   return { name: "start", params };
@@ -52,6 +54,7 @@ async function route() {
   view.innerHTML = `<p class="muted">${esc(t("loading"))}</p>`;
   try {
     if (r.sub === "report") await report.render(view, r.params, roleSel.value);
+    else if (r.sub === "plan") await plan.render(view, r.params);
     else if (r.name === "org") await org.render(view, r.params, roleSel.value);
     else if (r.sub === "lens") await lens.render(view, r.params);
     else if (r.name === "basics") await basics.render(view, r.params);
