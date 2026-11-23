@@ -23,9 +23,9 @@ h2 { font-size: 17px; margin: 28px 0 10px; }
 
 .top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 12px 24px; background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
 /* publisher logo before the title, links to accelerate.swiss (served from the site, no third-party request) */
-.org { display: inline-flex; align-items: center; padding-right: 14px; border-right: 1px solid var(--line); }
-.org img { display: block; height: 28px; width: auto; }
-@media (max-width: 600px) { .org { border-right: 0; padding-right: 0; } }
+.brandlogo { display: inline-flex; align-items: center; padding-right: 14px; border-right: 1px solid var(--line); }
+.brandlogo img { display: block; height: 28px; width: auto; }
+@media (max-width: 600px) { .brandlogo { border-right: 0; padding-right: 0; } }
 .brand { font-weight: 650; font-size: 17px; color: var(--text); text-decoration: none; }
 .beta { white-space: nowrap; font-size: 11px; font-weight: 500; color: var(--muted); border: 1px solid var(--line); border-radius: 10px; padding: 1px 7px; margin-left: 6px; }
 .top nav { display: flex; flex-wrap: wrap; gap: 4px; }
@@ -133,6 +133,11 @@ table { border-collapse: collapse; width: 100%; }
 .note { margin-top: 20px; color: var(--text-2); font-size: 13.5px; max-width: 760px; }
 .proof { text-decoration: underline dotted; cursor: help; }
 .tocmp { margin-left: 12px; font-size: 13px; }
+/* organisation page: actions below the identification, wrapping with even gaps */
+.org .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 10px; }
+.org .actions .tocmp { margin-left: 0; }
+.org .actions button.home { margin-top: 0; }
+.org .sub { overflow-wrap: anywhere; }
 .cmp th, .cmp td, .rank th, .rank td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .cmp thead th, .rank thead th { font-weight: 500; color: var(--text-2); font-size: 13px; }
 .cmp tbody th { font-weight: 500; }
