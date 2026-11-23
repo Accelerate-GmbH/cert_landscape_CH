@@ -83,7 +83,7 @@ export async function usersMap(keys, ix, extra = {}) {
   const html = `<div data-users-map>
     <p class="legend"><span><span class="sw um-ct"></span>${esc(t("um_canton"))}</span><span><span class="sw um-mu"></span>${esc(t("um_muni"))}</span>
       <span><span class="sw um-pt"></span>${esc(t(xs.length ? "um_points_reg" : "um_points"))}</span></p>
-    ${svg}
+    ${set.size ? svg : `<p class="empty-map"><span class="badge wait">${esc(t("um_none"))}</span> ${esc(t("um_none_d"))}</p>`}
     <p class="muted small">${esc(t("um_note"))}${counts.length ? " " + counts.map(([lv, n]) => `${esc(many(lv))} ${n}`).join(" · ") : ""}</p>
     ${list("federal")}${list("office")}
     ${pointList ? `<h4>${esc(t(xs.length ? "um_points_list_reg" : "um_points_list"))}</h4>${pointList}` : ""}
