@@ -155,7 +155,7 @@ export default {
   "parts_ko": "ungültige Zertifikate",
   "gov_federal": "Bund",
   "gov_cantonal": "Kantone",
-  "gov_cantonal_note": "Kantonales Recht gilt für den Kanton und je nach Erlass für seine Gemeinden; der Geltungsbereich steht bei jedem Erlass. Nicht erfasst sind Graubünden und Waadt, deren Sammlungen sich nicht automatisch lesen liessen. Die Zusammenfassungen liegen ausser für Zürich, Bern und Aargau nur auf Deutsch vor.",
+  "gov_cantonal_note": "Kantonales Recht gilt für den Kanton und je nach Erlass für seine Gemeinden; der Geltungsbereich steht bei jedem Erlass. Nicht erfasst sind Graubünden und Waadt, deren Sammlungen sich nicht automatisch lesen liessen. Zusammenfassungen gibt es in allen vier Sprachen für Zürich, Bern und Aargau, in der Sprache des Erlasses für Neuenburg, Genf, Jura und Tessin, sonst auf Deutsch.",
   "gov_canton": "Kanton",
   "gov_all_cantons": "alle Kantone",
   "gov_cantonal_box": "Kantonales Recht: {c}",

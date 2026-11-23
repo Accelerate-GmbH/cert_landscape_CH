@@ -155,7 +155,7 @@ export default {
   parts_ko: "certificats non valables",
   gov_federal: "Confédération",
   gov_cantonal: "Cantons",
-  gov_cantonal_note: "Le droit cantonal s’applique au canton et, selon l’acte, à ses communes ; le champ d’application figure pour chaque acte. Ne sont pas saisis les Grisons et Vaud, dont les recueils n’ont pas pu être lus automatiquement. Sauf pour Zurich, Berne et Argovie, les résumés n’existent qu’en allemand.",
+  gov_cantonal_note: "Le droit cantonal s’applique au canton et, selon l’acte, à ses communes ; le champ d’application figure pour chaque acte. Ne sont pas saisis les Grisons et Vaud, dont les recueils n’ont pas pu être lus automatiquement. Les résumés existent dans les quatre langues pour Zurich, Berne et Argovie, dans la langue de l’acte pour Neuchâtel, Genève, le Jura et le Tessin, sinon en allemand.",
   gov_canton: "Canton",
   gov_all_cantons: "tous les cantons",
   gov_cantonal_box: "Droit cantonal : {c}",

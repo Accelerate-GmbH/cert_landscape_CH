@@ -155,7 +155,7 @@ export default {
   parts_ko: "certificati non validi",
   gov_federal: "Confederazione",
   gov_cantonal: "Cantoni",
-  gov_cantonal_note: "Il diritto cantonale si applica al Cantone e, a seconda dell’atto, ai suoi Comuni; il campo d’applicazione è indicato per ogni atto. Non sono registrati i Grigioni e Vaud, le cui raccolte non hanno potuto essere lette automaticamente. Tranne che per Zurigo, Berna e Argovia, i riassunti esistono solo in tedesco.",
+  gov_cantonal_note: "Il diritto cantonale si applica al Cantone e, a seconda dell’atto, ai suoi Comuni; il campo d’applicazione è indicato per ogni atto. Non sono registrati i Grigioni e Vaud, le cui raccolte non hanno potuto essere lette automaticamente. I riassunti esistono nelle quattro lingue per Zurigo, Berna e Argovia, nella lingua dell’atto per Neuchâtel, Ginevra, Giura e Ticino, altrimenti in tedesco.",
   gov_canton: "Cantone",
   gov_all_cantons: "tutti i Cantoni",
   gov_cantonal_box: "Diritto cantonale: {c}",
