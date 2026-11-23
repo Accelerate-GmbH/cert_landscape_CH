@@ -28,9 +28,10 @@ function register(r) {
       ${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${esc(p.uid)}</div>` : ""}</th>
       <td>${Object.entries(kinds).map(([k, n]) => `${k}: ${n}`).join("<br>")}${p.withdrawn ? `<div class="muted small">${esc(t("reg_withdrawn", { n: p.withdrawn }))}</div>` : ""}</td></tr>`;
   }).join("");
-  return `<section><h2>${esc(t("reg_title"))}</h2><p>${esc(t("reg_intro"))}</p>
+  const k = r.kind || "zertes";
+  return `<section><h2>${esc(t("reg_title_" + k))}</h2><p>${esc(t("reg_intro_" + k))}</p>
     <table class="deps"><thead><tr><th></th><td>${esc(t("reg_services"))}</td></tr></thead><tbody>${rows}</tbody></table>
-    <p class="muted small">${esc(t("reg_list", { s: r.sequence, d: date(r.issued), n: date(r.next_update) }))} · ${esc(t("sources"))}:
+    <p class="muted small">${esc(r.sequence ? t("reg_list", { s: r.sequence, d: date(r.issued), n: date(r.next_update) }) : t("reg_recognised", { d: date(r.issued), c: date(r.checked) }))} · ${esc(t("sources"))}:
       <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a> · <a href="${esc(r.rules)}" rel="noopener">${esc(t("reg_rules"))}</a></p></section>`;
 }
 

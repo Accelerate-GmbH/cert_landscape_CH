@@ -31,7 +31,8 @@ export async function render(el, params) {
     const blocks = L.blocks.map((b) => {
       const key = `${lid}.${b.id}`, c = o.cells[key] || {};
       const nImpl = (((inf.blocks || {})[key] || {}).implementations || []).length;
-      const nReg = ((((inf.blocks || {})[key] || {}).register || {}).providers || []).length;
+      const reg = ((inf.blocks || {})[key] || {}).register || {};
+      const nReg = (reg.providers || []).length;
       const none = c.m === "none", count = c.m === "count";
       const l = none || count ? "none" : light(c.v, cfg);
       const empty = !none && !count && (c.v === null || c.v === undefined);
@@ -49,7 +50,7 @@ export async function render(el, params) {
         <div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>
         ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${esc(c.entities === 1 ? t("unit_one") : t("unit_many"))}</div>` : ""}
         ${nImpl ? `<div class="bs">${esc(nImpl === 1 ? t("impl_one") : t("impl_count", { n: nImpl }))} ›</div>` : ""}
-        ${nReg ? `<div class="bs">${esc(t("reg_count", { n: nReg }))} ›</div>` : ""}
+        ${nReg ? `<div class="bs">${esc(t("reg_count_" + (reg.kind || "zertes"), { n: nReg }))} ›</div>` : ""}
       </${tag}>`;
     }).join("");
     return `<div class="layer ${lid}${L.group ? " " + L.group : ""}">
