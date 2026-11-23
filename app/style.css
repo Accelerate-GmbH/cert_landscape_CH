@@ -258,3 +258,23 @@ figure.levels figcaption { margin-top: 4px; }
 .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
 
 #mailsrc, #depsec, #hostsec { scroll-margin-top: 180px; }
+
+/* detail of one building block on the organisation page */
+.blkdetail { margin: 24px 0 32px; padding: 20px 24px 16px; }
+.bd-head { display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: start; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.bd-head h2 { margin: 2px 0 4px; }
+.bd-val { font-size: 1.6rem; text-align: right; white-space: nowrap; }
+.bd-sec { margin-top: 22px; }
+.bd-sec h3 { margin: 0 0 8px; font-size: 1rem; }
+.bd-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.bd-cards.wide { grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
+.bd-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; background: var(--bg, transparent); }
+.bd-card p { margin: 6px 0; }
+.bd-act { margin-top: 8px; }
+.bd-num { font-size: 1.4rem; margin-top: 4px; }
+.bd-ev { margin: 4px 0 0; padding-left: 18px; font-size: .9em; }
+.bd-ev li { margin: 2px 0; overflow-wrap: anywhere; }
+.bd-list { width: 100%; margin-top: 6px; border-collapse: collapse; }
+.bd-list td { padding: 3px 6px 3px 0; vertical-align: top; }
+.bd-foot { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 10px; }
+@media (max-width: 640px) { .bd-head { grid-template-columns: 1fr auto; } .bd-val { grid-column: 1; text-align: left; } .bd-cards.wide { grid-template-columns: 1fr; } .blkdetail { padding: 16px; } }
