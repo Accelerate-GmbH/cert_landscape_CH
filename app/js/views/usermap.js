@@ -43,10 +43,11 @@ export async function usersMap(keys, ix, extra = {}) {
   const groups = {};
   [...POINTS, "x"].forEach((lv) => by(lv).forEach((k) => { const c = row[k][2] || "–"; (groups[c] ||= []).push(k); }));
   const cantons = new Set(by("canton").map((k) => k.split(":")[1]));
+  const lawCt = new Set((extra.law || []).filter((k) => k.startsWith("canton:")).map((k) => k.split(":")[1]));
   const munis = new Set(by("municipality").map((k) => k.split(":")[1]));
   let svg = "";
   if (map) {
-    const ct = Object.entries(map.cantons).map(([id, d]) => `<a href="#/org/canton:${id}" aria-label="${esc((row["canton:" + id] || [])[1] || id)}"><path class="ar${cantons.has(id) ? " use-ct" : ""}" d="${d}"><title>${esc((row["canton:" + id] || [])[1] || id)}</title></path></a>`).join("");
+    const ct = Object.entries(map.cantons).map(([id, d]) => `<a href="#/org/canton:${id}" aria-label="${esc((row["canton:" + id] || [])[1] || id)}"><path class="ar${cantons.has(id) ? " use-ct" : lawCt.has(id) ? " law-ct" : ""}" d="${d}"><title>${esc((row["canton:" + id] || [])[1] || id)}</title></path></a>`).join("");
     const mu = [...munis].filter((id) => map.municipalities[id]).map((id) => `<a href="#/org/municipality:${id}" aria-label="${esc(row["municipality:" + id][1])}"><path class="ar use-mu" d="${map.municipalities[id]}"><title>${esc(row["municipality:" + id][1])}</title></path></a>`).join("");
     const borders = Object.values(map.cantons).map((d) => `<path class="cb" d="${d}"/>`).join("");
     const lakes = map.lakes.map((d) => `<path class="lk" d="${d}"/>`).join("");
@@ -75,15 +76,16 @@ export async function usersMap(keys, ix, extra = {}) {
       return `<a href="#um-${esc(p.c)}" data-um="${esc(p.c)}" aria-label="${esc(label)}"><g class="um-pt"><circle cx="${x}" cy="${y}" r="${r.toFixed(1)}"/>
         ${p.ks.length > 1 ? `<text x="${x}" y="${y}" dy="0.35em" text-anchor="middle">${p.ks.length}</text>` : ""}<title>${esc(label)}</title></g></a>`;
     }).join("");
-    svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}">${ct}${mu}${borders}${lakes}${pts}</svg>`;
+    svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}"><defs><pattern id="um-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="um-hatch-bg"/><line x1="0" y1="0" x2="0" y2="6" class="um-hatch-ln"/></pattern></defs>${ct}${mu}${borders}${lakes}${pts}</svg>`;
   }
   const pointList = Object.keys(groups).sort().map((c) => `<details id="um-${esc(c)}"><summary><b>${esc(c)}</b> · ${groups[c].length}</summary>
     <ul class="ents">${groups[c].map((k) => `<li>${link(k)} <span class="muted small">${esc(many(k.split(":")[0]))}</span></li>`).join("")}</ul></details>`).join("");
   const counts = [["canton", cantons.size], ["municipality", munis.size], ...[...POINTS, "x"].map((lv) => [lv, by(lv).length])].filter(([, n]) => n);
   const html = `<div data-users-map>
     <p class="legend"><span><span class="sw um-ct"></span>${esc(t("um_canton"))}</span><span><span class="sw um-mu"></span>${esc(t("um_muni"))}</span>
+      ${lawCt.size ? `<span><span class="sw um-law"></span>${esc(t("um_law"))}</span>` : ""}
       <span><span class="sw um-pt"></span>${esc(t(xs.length ? "um_points_reg" : "um_points"))}</span></p>
-    ${set.size ? svg : `<p class="empty-map"><span class="badge wait">${esc(t("um_none"))}</span> ${esc(t("um_none_d"))}</p>`}
+    ${set.size || lawCt.size ? svg : `<p class="empty-map"><span class="badge wait">${esc(t("um_none"))}</span> ${esc(t("um_none_d"))}</p>`}
     <p class="muted small">${esc(t("um_note"))}${counts.length ? " " + counts.map(([lv, n]) => `${esc(many(lv))} ${n}`).join(" · ") : ""}</p>
     ${list("federal")}${list("office")}
     ${pointList ? `<h4>${esc(t(xs.length ? "um_points_list_reg" : "um_points_list"))}</h4>${pointList}` : ""}

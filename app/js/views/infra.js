@@ -20,8 +20,9 @@ const DNSQ = { spf: "TXT", txt: "TXT", mx: "MX", dkim: "CNAME", cname: "CNAME" }
 function usersList(list) {
   if (!(list || []).length) return "";
   const evl = (e) => { const u = e.src || (DNSQ[e.kind] ? `https://dns.google/query?name=${encodeURIComponent(e.where)}&type=${DNSQ[e.kind]}` : (e.kind === "path" || e.kind === "redirect" || e.kind === "csp") ? `https://${e.where}` : "");
+    if (e.kind === "law") return `<li><span class="muted">${esc(t("ev_kind_law"))}</span> <a href="${esc(e.src)}" rel="noopener">${esc(e.title || e.where)}</a>, ${esc(e.where)}: «${esc(e.what)}»</li>`;
     return `<li><span class="muted">${esc(t("ev_kind_" + e.kind) || e.kind)}</span> <span class="mono">${esc(e.where)}</span>${e.what ? ` → <span class="mono">${esc(e.what)}</span>` : ""}${u ? ` · <a href="${esc(u)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</li>`; };
-  return `<table class="deps"><tbody>${list.map((x) => `<tr><th><a href="#/org/${encodeURIComponent(x.key)}">${esc(x.name)}</a><div class="muted small">${esc(t("role_" + x.role) || x.role)}</div></th>
+  return `<table class="deps"><tbody>${list.map((x) => `<tr><th><a href="#/org/${encodeURIComponent(x.key)}">${esc(x.name)}</a><div class="muted small">${esc(t("role_" + x.role) || x.role)}${x.scope ? " · " + esc(x.scope) : ""}</div></th>
     <td><ul class="bd-ev">${x.evidence.map(evl).join("")}</ul></td></tr>`).join("")}</tbody></table>`;
 }
 

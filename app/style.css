@@ -211,6 +211,9 @@ summary { cursor: pointer; }
 .chmap a:hover .ar, .chmap a:focus .ar { stroke: var(--text); stroke-width: 1.2; }
 .chmap .cb { fill: none; stroke: var(--text-2); stroke-width: 0.9; pointer-events: none; }
 .umap { max-width: 820px; }
+.umap .um-hatch-bg { fill: var(--none); } .umap .um-hatch-ln { stroke: var(--accent); stroke-width: 2.5; }
+.umap .ar.law-ct { fill: url(#um-hatch); stroke: var(--accent); stroke-width: 0.8; stroke-dasharray: 3 2; }
+.sw.um-law { background: repeating-linear-gradient(45deg, var(--accent) 0 2px, transparent 2px 5px); border: 1px dashed var(--accent); }
 .umap .ar.use-ct { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 0.8; } .umap .ar.use-mu { fill: var(--accent); }
 .umap .um-pt circle { fill: var(--card); stroke: var(--accent); stroke-width: 2.5; } .umap .um-pt text { font-size: 12px; font-weight: 600; fill: var(--text); }
 .umap a:hover .um-pt circle { fill: var(--accent-soft); }
