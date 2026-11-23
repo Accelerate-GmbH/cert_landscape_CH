@@ -4,6 +4,7 @@ import * as data from "../data.js";
 import { LAYERS, BLOCKS, BLOCK_WHAT, LEVEL_ONE, LEVEL_MANY, LEVEL_DAT, APPS, CATS, WHY, checkName, checkText, t, tx } from "../text.js";
 import { esc, fmt, light, dot, bar, cc, uidLink, store, HOME_KEY, LIGHT_WORD } from "../ui.js";
 import * as trend from "./trend.js";
+import * as evid from "./evidence.js";
 
 const ORDER = ["apps", "dpi", "ext", "trust", "cloud", "net"];
 const share = (k) => {
@@ -136,10 +137,14 @@ export async function render(el, params, role) {
     <tbody>${d.parts.map((x) => `<tr><td>${x.office ? `<a href="${esc(x.office.src)}" rel="noopener">${esc(tx(x.office, "name"))}</a> <span class="muted small">${esc(tx(x.office, "abbr"))}</span><div class="muted small">${esc(x.domain)}</div>` : esc(x.domain)}</td><td class="num">${x.hosts}</td>
       <td>${x.overall === null ? '<span class="muted">–</span>' : `${dot(light(x.overall, cfg))} ${fmt(x.overall)}`}</td><td class="num">${x.knockouts || ""}</td></tr>`).join("")}</tbody></table></div></section>` : "";
 
-  const hosts = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall).slice(0, 10);
-  const hostList = hosts.length ? `<table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th></tr></thead><tbody>${hosts.map((h) =>
+  // hosts: the ten weakest, or those matching the search; each opens its evidence
+  const rated = (d.hosts || []).filter((h) => h.overall !== null && h.overall !== undefined).sort((a, b) => a.overall - b.overall);
+  const hostRows = (list) => list.map((h) =>
     `<tr><td>${esc(h.host)}${h.critical ? ` <span class="tag">${esc(t("tag_critical"))}</span>` : ""}${h.knockout ? ` <span class="tag red">${esc(t("tag_ko"))}</span>` : ""}${h.unreachable ? ` <span class="tag">${esc(t("tag_unreachable"))}</span>` : ""}</td>
-     <td>${dot(light(h.overall, cfg))} ${fmt(h.overall)}</td></tr>`).join("")}</tbody></table>` : "<p>–</p>";
+     <td>${dot(light(h.overall, cfg))} ${fmt(h.overall)}</td>
+     <td><button class="link" data-ev="${esc(h.host)}" aria-expanded="false">${esc(t("ev_open"))}</button></td></tr>`).join("");
+  const hostList = rated.length ? `${rated.length > 10 ? `<p><input id="hostq" type="search" placeholder="${esc(t("ev_search", { n: rated.length }))}" aria-label="${esc(t("ev_search", { n: rated.length }))}"></p>` : ""}
+    <table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody id="hostrows">${hostRows(rated.slice(0, 10))}</tbody></table>` : "<p>–</p>";
 
   el.innerHTML = head + verdict + trend.render(hist, cfg) +
     `<section><h2>${esc(t("blocks_h"))}</h2><p class="sub">${esc(t("blocks_sub"))}</p><div class="model compact">${layers}</div></section>
@@ -149,6 +154,14 @@ export async function render(el, params, role) {
      ${partsTbl}
      <section><h2>${esc(t("weakest"))}</h2>${hostList}</section>`;
 
+  evid.wire(el, d.key);
+  const hq = el.querySelector("#hostq");
+  if (hq) hq.addEventListener("input", () => {
+    const v = hq.value.trim().toLowerCase();
+    const tb = el.querySelector("#hostrows");
+    tb.innerHTML = hostRows(v ? rated.filter((h) => h.host.includes(v)).slice(0, 50) : rated.slice(0, 10));
+    evid.wire(tb, d.key);
+  });
   el.querySelector("[data-home]").addEventListener("click", (ev) => {
     const k = ev.currentTarget.dataset.home;
     store.set(HOME_KEY, store.get(HOME_KEY) === k ? null : k);

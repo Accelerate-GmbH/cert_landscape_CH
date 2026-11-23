@@ -222,3 +222,10 @@ table.rep td, table.rep th { padding: 6px 10px; }
 
 h2.lvl { margin-top: 30px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
 .kt { font-size: 12px; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); vertical-align: middle; }
+
+/* evidence per host */
+button.link { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 13px; text-decoration: underline; }
+tr.evrow > td { background: var(--bg); padding: 8px 10px; }
+table.evt { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 13px; }
+table.evt th, table.evt td { text-align: left; vertical-align: top; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+#hostq { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; width: min(100%, 360px); }

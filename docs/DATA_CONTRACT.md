@@ -150,6 +150,16 @@ results, CSV and Excel exports stay in the pipeline repository.
   Italian follow the official texts). Only laws whose provisions all carry a
   link appear.
 
+`evidence/<level>-<id>.json`
+: the evidence behind the values of one entity, loaded only when a host is
+  opened: `{"schema": 2, "key", "hosts": {host: {"at", "ips", "cert",
+  "chk"}}}`, only for hosts listed in its entity file. `at` the time of the
+  first live measurement (UTC), `ips` `[[ip, asn, as_name, country], …]`,
+  `cert` `{"src" (crtsh | certspotter), "id", "iss", "org", "val", "exp"}`,
+  `chk` `[[check, status, value, method, detail], …]` with `method` how the
+  value was obtained (e.g. `dns-ns-asn`, `rdap`, `tls`) and `detail` the zone,
+  register entry or URL it refers to.
+
 `rss/<level>-<id>.xml`
 : RSS 2.0 feed of one entity, one item per month (newest first): value,
   change to the previous month, categories, mail; link to the report page
