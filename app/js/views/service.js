@@ -11,6 +11,7 @@ import { LEVELS, LEVEL_MANY, BLOCKS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
 import { envBadge, posture, use, sourceLine } from "./infra.js";
+import { usersMap } from "./usermap.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
 function services(inf, id) {
@@ -26,7 +27,7 @@ function services(inf, id) {
   return [...out.values()];
 }
 
-function customers(p, params, dir, meta, names, cfg, route) {
+function customers(p, params, dir, meta, names, cfg, route, um) {
   const used = LEVELS.filter(([k]) => p.counts[k]);
   const level = levelOf(params, used.length ? used[0][0] : "municipality");
   const fns = FUNCS.filter((f) => (p.entities || {})[f]);
@@ -46,8 +47,9 @@ function customers(p, params, dir, meta, names, cfg, route) {
       <ul class="ents val">${ks.map((k) => `<li>${val(k)} <a href="#/org/${encodeURIComponent(k)}">${esc((names[k] || [k])[0])}</a>${(names[k] || [])[1] && level === "municipality" ? ` <span class="muted small">${esc(names[k][1])}</span>` : ""}</li>`).join("")}</ul></details>`;
   }).join("");
   const cantons = !["municipality", "organisation", "education"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
-  return { level, html: `<section data-provider-customers><h2>${esc(t("who_depends"))}</h2><p class="muted small">${esc(t("cust_value_note"))}</p>${counts}
-    <div class="tabs">${used.map(([k, nm]) => `<a class="tab${k === level ? " on" : ""}" href="${hash(route, { level: k })}">${esc(nm)}</a>`).join("")}</div>
+  return { level, html: `<section data-provider-customers><h2>${esc(t("who_depends"))}</h2>${um ? `<div class="tabs">${["", ...fns].map((f) => `<a class="tab${f === (params.fn || "") ? " on" : ""}" href="${hash(route, { level, fn: f })}">${esc(f ? fname(f) : t("um_all"))}</a>`).join("")}</div>${um.html}` : ""}
+    <p class="muted small">${esc(t("cust_value_note"))}</p>${counts}
+    <div class="tabs">${used.map(([k, nm]) => `<a class="tab${k === level ? " on" : ""}" href="${hash(route, { level: k, fn: params.fn })}">${esc(nm)}</a>`).join("")}</div>
     ${cantons.length > 1 ? `<div class="filters"><label>${esc(t("canton"))} <select data-f="kt"><option value="">${esc(t("all"))}</option>${cantons.map((c) => `<option${c === params.kt ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label></div>` : ""}
     ${lists || `<p class="muted">–</p>`}<p class="muted small">${esc(t("deps_note"))}</p></section>` };
 }
@@ -75,7 +77,10 @@ export async function render(el, params, kind) {
   const post = svcs.length
     ? svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${posture(s, cfg)}</div>`).join("")
     : `<p><span class="badge wait">${esc(t("not_measured"))}</span> ${esc(t("prov_not_measured"))}</p>`;
-  const cust = p ? customers(p, params, dir, meta, names, cfg, route) : null;
+  // map of the users: for a service those with evidence of use, for a provider its customers (per function)
+  const svcMap = svcs.length ? await usersMap(svcs.flatMap((s) => (s.users_list || []).map((u) => u.key)), ix) : null;
+  const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
+  const cust = p ? customers(p, params, dir, meta, names, cfg, route, provMap) : null;
   const op = p && p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
       · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
         : esc(t("op_no_parent", { r: p.operator.parent_reason || "–" }))}</p>
@@ -86,9 +91,10 @@ export async function render(el, params, kind) {
       <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p></section>
     ${svcs.length ? `<section data-service><h2>${esc(t("svc_about"))}</h2>${desc}</section>` : ""}
     <section data-provider-posture><h2>${esc(svcs.length ? t("svc_posture") : t("prov_posture"))}</h2><p class="muted small">${esc(svcs.length ? t("svc_posture_d") : t("prov_posture_d"))}</p>${post}</section>
-    ${svcs.some((s) => (s.users_list || []).length || Object.keys(s.users || {}).length) || !p
-      ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${use(s)}</div>`).join("")}</section>` : ""}
+    ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
+      ${svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${use(s)}</div>`).join("")}</section>` : ""}
     ${cust ? cust.html : ""}`;
+  [svcMap, provMap].forEach((m) => m && m.bind(el));
   const sel = el.querySelector("[data-f=kt]");
-  if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value }); });
+  if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value, fn: params.fn }); });
 }
