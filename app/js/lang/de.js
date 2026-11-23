@@ -234,6 +234,8 @@ export default {
   "instead": "Stattdessen genutzt: ausländische Login-Anbieter",
   "aspect_identity": "Wer eine Person oder Organisation ist.",
   "aspect_authentication": "Der Nachweis beim Zugang, dass jemand diese Identität besitzt.",
+  "def_identity": "Identität ist die digitale Handlungsfähigkeit: wer eine Person oder Organisation ist, was sie darf und für wen sie handelt. Der Nachweis beim Zugang (Login) ist ein eigener Baustein, die Authentifizierung.",
+  "def_authentication": "Authentifizierung ist der Nachweis beim Zugang, dass jemand eine Identität besitzt (Login). Sie setzt eine Identität voraus, begründet aber keine Handlungsfähigkeit; diese gehört zum Baustein Identität.",
   "aspect_authority": "Was jemand darf, etwa eine Zeichnungsberechtigung oder eine Rolle in einer Behörde.",
   "aspect_agency": "Handeln im Auftrag eines anderen, etwa mit Vollmacht oder Delegation.",
   "aspects_note": "Das interne Zugangs- und Berechtigungssystem einer Organisation (IAM) gehört zu keinem dieser Aspekte; es ist ein Hebel der Kontrollschicht.",
@@ -406,6 +408,7 @@ export default {
   "ext.privacy": "Privatsphäre",
   "ext.contact": "Sicherheitskontakt",
   "dpi.identity": "Identität",
+  "dpi.authentication": "Authentifizierung",
   "dpi.exchange": "Datenaustausch",
   "dpi.value": "Werteaustausch",
   "apps.services": "Dienste"
@@ -421,7 +424,7 @@ export default {
   "ext.mail": "Sechs Mail-Prüfungen von Serverstandort bis DMARC",
   "ext.privacy": "Encrypted Client Hello verbirgt die besuchte Adresse",
   "ext.contact": "security.txt mit Kontakt für Sicherheitsmeldungen",
-  "dpi.identity": "nur die Authentifizierung: Anteil erkannter Login-Anbieter aus der Schweiz"
+  "dpi.authentication": "Anteil erkannter Login-Anbieter aus der Schweiz"
  },
  "levels": [
   [
