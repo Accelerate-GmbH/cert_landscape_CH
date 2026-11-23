@@ -12,6 +12,16 @@ const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
 const src = (list) => (list || []).map((s) => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`).join(" · ");
 const STATUS = { pass: "green", partial: "yellow", fail: "red" };
 
+// who uses a service, with role and the evidence of the use (docs/DATA_CONTRACT.md, users_list)
+const DNSQ = { spf: "TXT", txt: "TXT", mx: "MX", dkim: "CNAME", cname: "CNAME" };
+function usersList(list) {
+  if (!(list || []).length) return "";
+  const evl = (e) => { const u = e.src || (DNSQ[e.kind] ? `https://dns.google/query?name=${encodeURIComponent(e.where)}&type=${DNSQ[e.kind]}` : (e.kind === "path" || e.kind === "redirect") ? `https://${e.where}` : "");
+    return `<li><span class="muted">${esc(t("ev_kind_" + e.kind) || e.kind)}</span> <span class="mono">${esc(e.where)}</span>${e.what ? ` → <span class="mono">${esc(e.what)}</span>` : ""}${u ? ` · <a href="${esc(u)}" rel="noopener noreferrer">${esc(t("ev_check"))}</a>` : ""}</li>`; };
+  return `<table class="deps"><tbody>${list.map((x) => `<tr><th><a href="#/org/${encodeURIComponent(x.key)}">${esc(x.name)}</a><div class="muted small">${esc(t("role_" + x.role) || x.role)}</div></th>
+    <td><ul class="bd-ev">${x.evidence.map(evl).join("")}</ul></td></tr>`).join("")}</tbody></table>`;
+}
+
 function users(u) {
   const parts = LEVELS.filter(([k]) => u && u[k]).map(([k, nm]) => `${esc(nm)} ${u[k]}`);
   return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
@@ -87,13 +97,15 @@ export async function render(el, params) {
       ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "";
     return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>${env}
       <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + esc(tx(i, "role")) : ""}</p>
+      <h4 class="imp-part">${esc(t("svc_posture"))}</h4><p class="muted small">${esc(t("svc_posture_d"))}</p>
       <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
       <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
           + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
         : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
       ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}
-      <h3>${esc(t("used_by"))}</h3><p>${users(i.users)}</p>
+      <h4 class="imp-part">${esc(t("svc_use"))}</h4><p class="muted small">${esc(t("svc_use_d"))}</p>
+      <p>${users(i.users)}</p>${usersList(i.users_list)}
       <p class="muted small">${esc(t("checked_on", { d: date(i.checked) }))} · ${esc(t("sources"))}: ${src(i.sources)}</p></section>`;
   };
   // the identity block in its aspects: identity, authentication, authority, agency are distinct functions
