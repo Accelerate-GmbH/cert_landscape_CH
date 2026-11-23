@@ -111,6 +111,7 @@ export default {
   edu_uh: "scuola universitaria",
   edu_fh: "scuola universitaria professionale",
   edu_ph: "alta scuola pedagogica",
+  edu_gym: "liceo (scuola di maturità)",
   src_hosts: "Mostra gli host interessati",
   src_mail_values: "Valori per dominio di posta",
   src_rule: "Regola",
