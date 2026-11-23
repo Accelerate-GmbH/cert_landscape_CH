@@ -235,7 +235,7 @@ export default {
   aspect_identity: "Who a person or organisation is.",
   aspect_authentication: "Proof at access that someone holds this identity.",
   def_identity: "Identity is the digital capacity to act: who a person or organisation is, what it may do and on whose behalf it acts. Proof at access (login) is a separate building block, authentication.",
-  def_authentication: "Authentication is proof at access that someone holds an identity (login). It presupposes an identity but does not establish a capacity to act; that belongs to the identity building block.",
+  def_authentication: "Authentication is proof at access that someone holds an identity (login). It presupposes an identity and relies on trust anchors such as the e-ID and certificates, but does not establish a capacity to act; that belongs to the identity building block.",
   aspect_authority: "What someone may do, for example signing rights or a role in an authority.",
   aspect_agency: "Acting on behalf of someone else, for example with power of attorney or delegation.",
   aspects_note: "An organisation's internal identity and access management (IAM) belongs to none of these aspects; it is a lever of the control layer.",
