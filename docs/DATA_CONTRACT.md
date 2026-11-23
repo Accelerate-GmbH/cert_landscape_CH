@@ -34,14 +34,23 @@ results, CSV and Excel exports stay in the pipeline repository.
   `i18n[lang][field]`, else the German field.
 
 `index.json`
-: `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector], …]}` for
-  the search. `key` = `<level>:<id>`, levels `federal`, `canton`,
+: `{"schema": 2, "rows": [[key, name, canton, overall, uid, sector(, parent)], …]}` for
+  the search. `key` = `<level>:<id>`, levels `federal`, `office`, `canton`,
   `municipality`, `organisation`, `education` (schools and education
   agencies from `data/education/institutions.csv`, measured like an
   administration: every name under their domains; `sector` is the type
   `hochschule`, `sek2`, `volksschule` or `agentur`, the entity's `subsector`
   the kind of Hochschule `uh`, `fh` or `ph`; `canton` and `uid` from the UID
-  register where it has a clear match, else null).
+  register where it has a clear match, else null). `office`: an office
+  of a department as its own entity, id `<department>-<abbreviation>`
+  (e.g. `EFD-ESTV`), derived when the runs are merged from the hosts and
+  mail domains of the department that fall under the office's domains (a
+  host counts for the longest matching domain); no measurement of its own,
+  same rules as every entity. Only domains with a unit from Annex 1 of the
+  RVOV (see `parts`), not the department's own domain. Its row carries the
+  department's key as `parent`. Offices repeat the hosts of their
+  department: `providers.json` and the sector aggregates count them once,
+  with the department.
 
 `overview.json`
 : per level: `entities`, `rated`, `overall` (mean), `lights` (count per
@@ -239,7 +248,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   named in the title of the domain's start page or by the first label of its
   redirect target (`data/federal/by_title.json`), then with `via`
   `{"title", "url", "checked"}`; else `null`; a host counts for the longest matching domain;
-  `overall` is the mean of its rated hosts, `null` without one.
+  `overall` is the mean of its rated hosts, `null` without one; `key` the
+  key of the office entity (`office:<department>-<abbr>`) where there is one.
+  Office entities (level `office`) carry `parent` (key of the department)
+  and `office` (the unit as in `parts`); `canton` is null.
 
 ## Dependencies
 
