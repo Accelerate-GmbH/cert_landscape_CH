@@ -1,28 +1,28 @@
 // «Abhängigkeiten»: thought from the provider. Who carries how many cantons,
 // municipalities, departments or critical services, per function (mail, sending,
 // SaaS, login, cloud and hosting, CA, DNS), how replaceable the function is, and
-// per provider the list of the entities that depend on it.
+// the page of each provider is service.js (#/anbieter/<id>).
 import * as data from "../data.js";
 import { LEVELS, LEVEL_ONE, LEVEL_MANY, t } from "../text.js";
 import { esc, cc } from "../ui.js";
 
 export const FUNCS = ["mail", "send", "saas", "idp", "cloud", "ca", "dns"];
 const PAGE = 50;
-const pct = (n, of) => (of ? Math.round((100 * n) / of) : 0);
-const fname = (f) => t("fn_" + f);
+export const pct = (n, of) => (of ? Math.round((100 * n) / of) : 0);
+export const fname = (f) => t("fn_" + f);
 
-function hash(path, p) {
+export function hash(path, p) {
   const q = new URLSearchParams(Object.entries(p).filter(([, v]) => v !== undefined && v !== null && v !== ""));
   return `#/${path}${q.toString() ? "?" + q : ""}`;
 }
-const levelOf = (params, fallback = "municipality") => (LEVELS.some(([k]) => k === params.level) ? params.level : fallback);
+export const levelOf = (params, fallback = "municipality") => (LEVELS.some(([k]) => k === params.level) ? params.level : fallback);
 
 // protocol or platform always; replaceability (swap, data, export, costs) once approved
-function fnInfo(f, funcs) {
+export function fnInfo(f, funcs) {
   const x = funcs[f] || {};
   return [x.model && t("model_" + x.model), x.swap && t("swap_" + x.swap)].filter(Boolean).join(" · ");
 }
-function fnDetail(f, funcs) {
+export function fnDetail(f, funcs) {
   const x = funcs[f] || {};
   if (!x.data && !x.export && !x.costs) return "";
   const src = (x.sources || []).map((s) => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`).join(" · ");
@@ -85,47 +85,4 @@ export async function renderList(el, params) {
     const v = s.type === "checkbox" ? (s.checked ? "1" : "") : s.value;
     location.hash = hash("abhaengigkeiten", { ...keep, [s.dataset.f]: v });
   }));
-}
-
-export async function renderProvider(el, params) {
-  let p;
-  try {
-    p = await data.provider(params.id);
-  } catch {
-    el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(params.id)}</p></section>`;
-    return;
-  }
-  const [dir, meta, ix] = await Promise.all([data.providers(), data.meta(), data.index()]);
-  const names = Object.fromEntries(ix.rows.map((r) => [r[0], [r[1], r[2]]]));
-  const used = LEVELS.filter(([k]) => p.counts[k]);
-  const level = levelOf(params, used.length ? used[0][0] : "municipality");
-  const counts = `<table class="cnt"><thead><tr><th></th>${FUNCS.filter((f) => (p.entities || {})[f]).map((f) => `<th>${esc(fname(f))}</th>`).join("")}</tr></thead>
-    <tbody>${used.map(([k, nm]) => `<tr><th>${esc(nm)}</th>${FUNCS.filter((f) => (p.entities || {})[f]).map((f) => {
-      const c = (p.counts[k] || {})[f] || 0, tot = (meta.counts || {})[k] || 0;
-      return `<td>${c ? `${c} <span class="muted small">${pct(c, tot)} %</span>` : "–"}</td>`;
-    }).join("")}</tr>`).join("")}</tbody></table>`;
-  const lists = FUNCS.filter((f) => (p.entities || {})[f]).map((f) => {
-    let ks = p.entities[f].filter((k) => k.startsWith(level + ":"));
-    if (params.kt) ks = ks.filter((k) => (names[k] || [])[1] === params.kt);
-    if (!ks.length) return "";
-    ks.sort((a, b) => ((names[a] || [a])[0]).localeCompare((names[b] || [b])[0]));
-    return `<details${ks.length <= 30 ? " open" : ""}><summary><b>${esc(fname(f))}</b> · ${ks.length} ${esc(LEVEL_MANY[level])}
-      <span class="muted small">· ${esc(fnInfo(f, dir.functions))}</span></summary>${fnDetail(f, dir.functions)}
-      <ul class="ents">${ks.map((k) => `<li><a href="#/org/${encodeURIComponent(k)}">${esc((names[k] || [k])[0])}</a>${(names[k] || [])[1] && level === "municipality" ? ` <span class="muted small">${esc(names[k][1])}</span>` : ""}</li>`).join("")}</ul></details>`;
-  }).join("");
-  const cantons = !["municipality", "organisation", "education"].includes(level) ? [] : [...new Set(Object.values(p.entities || {}).flat().filter((k) => k.startsWith(level + ":")).map((k) => (names[k] || [])[1]).filter(Boolean))].sort();
-  el.innerHTML = `<section class="lead org"><div class="kind">${esc(t("kind_" + p.kind) || p.kind)}</div>
-    <h1>${esc(p.name)} ${cc(p.country)}</h1>
-    ${p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
-      · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
-        : esc(t("op_no_parent", { r: p.operator.parent_reason || "–" }))}</p>
-      <p class="muted small">${esc(t("op_note", { d: (p.operator.fetched || "").split("-").reverse().map(Number).join(".") }))}</p>` : ""}
-    <p><a href="${hash("abhaengigkeiten", { level })}">← ${esc(t("deps_title"))}</a></p></section>
-    <section><h2>${esc(t("who_depends"))}</h2>${counts}</section>
-    <section><div class="tabs">${used.map(([k, nm]) => `<a class="tab${k === level ? " on" : ""}" href="${hash("anbieter/" + encodeURIComponent(p.id), { level: k })}">${esc(nm)}</a>`).join("")}</div>
-      ${cantons.length > 1 ? `<div class="filters"><label>${esc(t("canton"))} <select data-f="kt"><option value="">${esc(t("all"))}</option>${cantons.map((c) => `<option${c === params.kt ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label></div>` : ""}
-      ${lists || `<p class="muted">–</p>`}</section>
-    <p class="muted small">${esc(t("deps_note"))}</p>`;
-  const sel = el.querySelector("[data-f=kt]");
-  if (sel) sel.addEventListener("change", () => { location.hash = hash("anbieter/" + encodeURIComponent(p.id), { level, kt: sel.value }); });
 }
