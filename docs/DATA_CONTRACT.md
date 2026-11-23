@@ -72,13 +72,19 @@ results, CSV and Excel exports stay in the pipeline repository.
 : the provider directory for the view «Abhängigkeiten»:
   `{"schema": 2, "functions": {function: {"model", "swap"}}, "rows": [row, …]}`.
   `function` is one of `mail`, `send`, `saas`, `idp`, `cloud`, `ca`, `dns`.
-  A row: `{"id", "name", "country", "parent", "parent_country", "kind",
+  A row: `{"id", "name", "country", "operator", "parent", "parent_country", "parent_source", "kind",
   "counts": {level: {function: n_entities}}, "hosts": {level: {function: n_hosts}}}`.
   `id` is the key in `config/stack.toml` where the provider is listed there,
   else `x-<slug of the name>` (networks, CAs and DNS operators by name);
-  `parent` and `parent_country`: the controlling group, only where a source
-  for it is recorded (`parent_source`, a link to the register entry, e.g.
-  GLEIF), else `null`. `hosts` only for `cloud` and `ca`. Rows sorted by the
+  `operator`: the company operating the product, where `config/stack.toml`
+  assigns its LEI (assignment by the radar, only where the product carries
+  the company's name): `{"lei", "name", "country", "src", "parent",
+  "parent_reason", "fetched"}` from GLEIF (`data/gleif/providers.json`),
+  `parent` the ultimate parent GLEIF reports (`{"lei", "name", "country",
+  "src"}`) or `null`, then `parent_reason` the reporting exception GLEIF
+  records (e.g. `NON_CONSOLIDATING`), not interpreted. `parent`,
+  `parent_country` and `parent_source` of the row repeat the ultimate parent
+  from GLEIF with the link to its record, else `null`. `hosts` only for `cloud` and `ca`. Rows sorted by the
   number of dependent entities, most first. `functions`: whether the function
   runs over an open protocol or a platform (`model`: `protocol` | `platform`),
   and, once approved, how replaceable a provider is: `swap` (`easy` |
