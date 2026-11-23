@@ -47,6 +47,7 @@ export async function render(el, params, role) {
     <p class="sub">${d.uid ? uidLink(d.uid) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
       · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}</p>` : ""}
+    ${(d.swiyu || []).length ? `<p class="sub">${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(t("env_" + x.env))}</a>`).join(", ")} · <a href="#/baustein/trust.swiyu">swiyu</a></p>` : ""}
     <div class="actions"><button class="home${home ? " on" : ""}" data-home="${esc(d.key)}">${esc(home ? t("home_set") : t("home_make"))}</button>
     <a class="tocmp" href="#/vergleich/${encodeURIComponent(d.key)}">${esc(t("to_compare"))}</a>
     <a class="tocmp" href="#/org/${encodeURIComponent(d.key)}/bericht">${esc(t("rep_link"))}</a>

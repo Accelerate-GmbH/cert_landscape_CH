@@ -152,6 +152,16 @@ results, CSV and Excel exports stay in the pipeline repository.
   (GLEIF record), the service `since` is the qualification date; the register
   carries `api` and `checked`, `issued` is null; whether an entity holds a vLEI
   is not published and not measured),
+  or `swiyu` (trust infrastructure: participants of the swiyu Trust Registry,
+  `data/swiyu/trust_registry.json`, read from the public API of production
+  and sandbox; per provider also `env` (`production` | `sandbox`), `did`,
+  `state_actor` and `src` (the API query returning the statement); the
+  service `since` is the date of the statement. Names are published only
+  for participants with a UID or marked as state actor; the register's
+  `envs` gives per environment `api`, `participants` (all), `unnamed`
+  (without published name) and `verifiers` `[{"did", "name" (null when not
+  published), "statements", "purposes": [{"scope", "name", "description"}],
+  "src"}]` with names and descriptions per language `de`, `fr`, `rm`, `en`),
   `{"kind", "source", "rules",
   "issued", "sequence", "next_update", "providers": [{"name", "uid",
   "trade_names", "services": [{"name", "kind", "for", "since"}], "withdrawn"}]}`;
@@ -250,6 +260,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   "fail"}}`, where `status` and `value` are those of `host` and `count`
   covers all hosts of the kind; `null` where no check applies. Seals and
   time stamps are not measurable from outside and have no cell.
+  `swiyu`: the entity's identity trust statements in the swiyu Trust
+  Registry, matched by its UID: `[{"env", "name", "did", "src",
+  "state_actor"}]`, empty without one.
   `identity`: the LEI of the entity, matched by its UID in the GLEIF
   data (`data/gleif/lei.json`, CC0): `{"lei", "name", "entity_status",
   "registration_status" (ISSUED, LAPSED …), "next_renewal", "src" (link to
