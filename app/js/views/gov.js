@@ -61,7 +61,12 @@ export async function render(el, params) {
         ${cantons.map((c) => `<option${c === kt ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label></p>` : ""}
       <p class="muted small">${esc(t("checked_on", { d: date(g.checked) }))} · ${esc(t("gov_de_only"))}</p></section>
     ${fed.length ? `<h2 class="lvl">${esc(t("gov_federal"))}</h2>${fed.map(one).join("")}` : ""}
-    ${can.length ? `<h2 class="lvl">${esc(t("gov_cantonal"))}</h2><p class="sub">${esc(t("gov_cantonal_note"))}</p>${can.map(one).join("")}` : ""}
+    ${can.length ? `<h2 class="lvl">${esc(t("gov_cantonal"))}</h2><p class="sub">${esc(t("gov_cantonal_note"))}</p>${kt || only
+      ? can.map(one).join("")
+      // without a chosen canton: one collapsed section per canton
+      : [...new Set(can.map((l) => l.canton))].map((c) => { const ls = can.filter((l) => l.canton === c);
+          return `<details class="kt-group"><summary><span class="kt">${esc(c)}</span> ${ls.map((l) => esc(lawText(l, "abbr"))).join(", ")}
+            <span class="muted small">· ${esc(t("gov_acts", { n: ls.length }))}</span></summary>${ls.map(one).join("")}</details>`; }).join("")}` : ""}
     ${laws.length ? "" : `<p class="muted">${esc(t("gov_none"))}</p>`}`;
   el.querySelector("#govkt")?.addEventListener("change", (ev) => { location.hash = qs({ blk: only, canton: ev.target.value }); });
   if (params.law) document.getElementById("law-" + params.law)?.scrollIntoView();
