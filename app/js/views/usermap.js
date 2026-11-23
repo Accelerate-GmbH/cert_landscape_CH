@@ -22,20 +22,26 @@ function centre(d) {
   return [x / k, y / k];
 }
 
-// keys: entity keys that use the service; ix: index.json rows
-export async function usersMap(keys, ix) {
+// keys: entity keys that use the service; ix: index.json rows; extra: further
+// points that are not measured entities (participants of a register with a seat:
+// {name, href, bfs, canton}) and entries without a place ({name, href})
+export async function usersMap(keys, ix, extra = {}) {
   const set = new Set(keys);
   const row = Object.fromEntries(ix.rows.map((r) => [r[0], r]));
+  const xs = (extra.points || []).map((p, i) => ["x:" + i, p]);
+  xs.forEach(([k, p]) => { set.add(k); row[k] = [k, p.name, p.canton, null, null, null, p.href]; });
   const by = (lv) => [...set].filter((k) => k.startsWith(lv + ":") && row[k]).sort((a, b) => row[a][1].localeCompare(row[b][1]));
   const ctId = Object.fromEntries(ix.rows.filter((r) => r[0].startsWith("canton:")).map((r) => [r[2], r[0].split(":")[1]]));
   let map = null;
   try { map = await loadMap(); } catch { /* map file missing: lists only */ }
-  const seat = await data.places();
-  const link = (k) => `<a href="#/org/${encodeURIComponent(k)}">${esc(row[k][1])}</a>`;
+  const seat = { ...(await data.places()), ...Object.fromEntries(xs.map(([k, p]) => [k, p.bfs])) };
+  const many = (lv) => (lv === "x" ? t("um_registered") : LEVEL_MANY[lv]);
+  const link = (k) => (k.startsWith("x:") ? (row[k][6] ? `<a href="${esc(row[k][6])}">${esc(row[k][1])}</a>` : esc(row[k][1]))
+    : `<a href="#/org/${encodeURIComponent(k)}">${esc(row[k][1])}</a>`);
   const list = (lv) => { const ks = by(lv); return ks.length ? `<h4>${esc(LEVEL_MANY[lv])} · ${ks.length}</h4><ul class="ents">${ks.map((k) => `<li>${link(k)}</li>`).join("")}</ul>` : ""; };
   // points: organisations and education grouped by canton
   const groups = {};
-  POINTS.forEach((lv) => by(lv).forEach((k) => { const c = row[k][2] || "–"; (groups[c] ||= []).push(k); }));
+  [...POINTS, "x"].forEach((lv) => by(lv).forEach((k) => { const c = row[k][2] || "–"; (groups[c] ||= []).push(k); }));
   const cantons = new Set(by("canton").map((k) => k.split(":")[1]));
   const munis = new Set(by("municipality").map((k) => k.split(":")[1]));
   let svg = "";
@@ -72,15 +78,17 @@ export async function usersMap(keys, ix) {
     svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}">${ct}${mu}${borders}${lakes}${pts}</svg>`;
   }
   const pointList = Object.keys(groups).sort().map((c) => `<details id="um-${esc(c)}"><summary><b>${esc(c)}</b> · ${groups[c].length}</summary>
-    <ul class="ents">${groups[c].map((k) => `<li>${link(k)} <span class="muted small">${esc(LEVEL_MANY[k.split(":")[0]])}</span></li>`).join("")}</ul></details>`).join("");
-  const counts = [["canton", cantons.size], ["municipality", munis.size], ...POINTS.map((lv) => [lv, by(lv).length])].filter(([, n]) => n);
+    <ul class="ents">${groups[c].map((k) => `<li>${link(k)} <span class="muted small">${esc(many(k.split(":")[0]))}</span></li>`).join("")}</ul></details>`).join("");
+  const counts = [["canton", cantons.size], ["municipality", munis.size], ...[...POINTS, "x"].map((lv) => [lv, by(lv).length])].filter(([, n]) => n);
   const html = `<div data-users-map>
     <p class="legend"><span><span class="sw um-ct"></span>${esc(t("um_canton"))}</span><span><span class="sw um-mu"></span>${esc(t("um_muni"))}</span>
-      <span><span class="sw um-pt"></span>${esc(t("um_points"))}</span></p>
+      <span><span class="sw um-pt"></span>${esc(t(xs.length ? "um_points_reg" : "um_points"))}</span></p>
     ${svg}
-    <p class="muted small">${esc(t("um_note"))}${counts.length ? " " + counts.map(([lv, n]) => `${esc(LEVEL_MANY[lv])} ${n}`).join(" · ") : ""}</p>
+    <p class="muted small">${esc(t("um_note"))}${counts.length ? " " + counts.map(([lv, n]) => `${esc(many(lv))} ${n}`).join(" · ") : ""}</p>
     ${list("federal")}${list("office")}
-    ${pointList ? `<h4>${esc(t("um_points_list"))}</h4>${pointList}` : ""}</div>`;
+    ${pointList ? `<h4>${esc(t(xs.length ? "um_points_list_reg" : "um_points_list"))}</h4>${pointList}` : ""}
+    ${(extra.unplaced || []).length ? `<h4>${esc(t("um_unplaced"))} · ${extra.unplaced.length}</h4><ul class="ents">${extra.unplaced.map((u) =>
+      `<li>${u.href ? `<a href="${esc(u.href)}">${esc(u.name)}</a>` : esc(u.name)}</li>`).join("")}</ul>` : ""}</div>`;
   const bind = (el) => el.querySelectorAll("[data-um]").forEach((a) => a.addEventListener("click", (ev) => {
     ev.preventDefault();
     const d = el.querySelector(`#um-${CSS.escape(a.dataset.um)}`);
