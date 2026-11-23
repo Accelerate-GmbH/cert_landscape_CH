@@ -30,6 +30,10 @@ function users(u) {
   return parts.length ? parts.join(" · ") : `<span class="muted">${esc(t("users_none"))}</span>`;
 }
 
+// a description with "swiyu" (the wallet and trust infrastructure, not a host name) linked to the swiyu service page
+export const linkSwiyu = (text, selfId) => (/^swiyu/.test(selfId || "") ? esc(text)
+  : esc(text).replace(/\bswiyu\b(?![.\-])/g, '<a href="#/dienst/swiyu">swiyu</a>'));
+
 // environment of a service: production or sandbox, with what each means
 export const envBadge = (i) => (i.environment ? `<p class="small"><span class="badge ${i.environment === "production" ? "ok" : "wait"}">${esc(t("env_" + i.environment))}</span>
       ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "");
@@ -74,17 +78,24 @@ function register(r) {
       <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a> · <a href="${esc(r.rules)}" rel="noopener">${esc(t("reg_rules"))}</a>${r.api ? ` · <a href="${esc(r.api)}" rel="noopener">API</a>` : ""}</p></section>`;
 }
 
-// participants and verifiers of the swiyu Trust Registry, per environment
-function swiyuRegister(r) {
-  const envs = Object.entries(r.envs || {}).map(([env, e]) => {
+// participants and verifiers of the swiyu Trust Registry, per environment, as tables
+export const useUids = (set) => { UIDS = set; };
+export function swiyuRegister(r, only) {
+  const didEnd = (d) => (d || "").split(":").pop().slice(0, 8);
+  const envs = Object.entries(r.envs || {}).filter(([env]) => !only || env === only).map(([env, e]) => {
     const ps = r.providers.filter((p) => p.env === env);
-    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}${p.uid ? `<div class="muted small">${esc(t("reg_uid"))} ${uidRef(p.uid, UIDS)}</div>` : ""}</th>
-      <td>${p.state_actor ? esc(t("reg_swiyu_state")) + " · " : ""}${esc(t("reg_since", { d: date(p.services[0].since) }))} · <a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
+    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}</th><td>${p.uid ? uidRef(p.uid, UIDS) : "–"}</td>
+      <td>${p.state_actor ? esc(t("yes")) : ""}</td><td>${esc(date(p.services[0].since))}</td>
+      <td class="mono small" title="${esc(p.did)}">…${esc(didEnd(p.did))}</td><td><a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
+    const head = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("reg_uid"))}</th><th>${esc(t("reg_swiyu_state"))}</th><th>${esc(t("col_since"))}</th><th>DID</th><th>${esc(t("col_source"))}</th></tr></thead>`;
+    const table = rows ? `<div class="tblwrap"><table class="cnt reg">${head}<tbody>${rows}</tbody></table></div>` : "";
     const vs = (e.verifiers || []).map((v) => `<tr><th>${v.name ? esc(v.name) : `<span class="muted">${esc(t("reg_swiyu_unnamed"))}</span>`}</th>
-      <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}<div class="muted small">${esc(t("reg_swiyu_n", { n: v.statements }))} · <a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></div></td></tr>`).join("");
+      <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}</td>
+      <td>${v.statements}</td><td><a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
+    const vhead = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("col_purposes"))}</th><th>${esc(t("col_statements"))}</th><th>${esc(t("col_source"))}</th></tr></thead>`;
     return `<h3>${esc(t("env_" + env))}</h3><p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
-      ${rows ? `<table class="deps"><tbody>${rows}</tbody></table>` : ""}
-      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><table class="deps"><tbody>${vs}</tbody></table>` : ""}`;
+      ${ps.length > 30 ? `<details><summary>${esc(t("reg_swiyu_show", { n: ps.length }))}</summary>${table}</details>` : table}
+      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><div class="tblwrap"><table class="cnt reg">${vhead}<tbody>${vs}</tbody></table></div>` : ""}`;
   }).join("");
   return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${envs}
     <p class="muted small">${esc(t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}: <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a></p></section>`;
@@ -115,7 +126,7 @@ export async function render(el, params) {
   const cfg = meta.cfg;
   // the block lists its services; posture, use and map are on the page of each service
   const one = (i) => `<section class="imp" data-svc="${esc(i.id)}"><h3 class="imp-name"><a href="#/dienst/${encodeURIComponent(i.id)}">${esc(i.name)}</a></h3>${envBadge(i)}
-      <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + esc(tx(i, "role")) : ""}</p>
+      <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + linkSwiyu(tx(i, "role"), i.id) : ""}</p>
       <p><span class="muted">${esc(t("svc_posture"))}:</span> ${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
       <p><span class="muted">${esc(t("svc_use"))}:</span> ${users(i.users)}</p>
       <p><a href="#/dienst/${encodeURIComponent(i.id)}">${esc(t("svc_page"))} ›</a></p></section>`;

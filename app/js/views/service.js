@@ -10,7 +10,7 @@ import * as data from "../data.js";
 import { LEVELS, LEVEL_MANY, BLOCKS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
-import { envBadge, posture, use, sourceLine } from "./infra.js";
+import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids } from "./infra.js";
 import { usersMap } from "./usermap.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
@@ -56,8 +56,9 @@ function customers(p, params, dir, meta, names, cfg, route, um) {
 
 export async function render(el, params, kind) {
   const id = params.id || "";
-  const [inf, meta, dir, ix, p] = await Promise.all([data.infrastructure(), data.meta(), data.providers(), data.index(),
-    data.provider(id).catch(() => null)]);
+  const [inf, meta, dir, ix, p, uids] = await Promise.all([data.infrastructure(), data.meta(), data.providers(), data.index(),
+    data.provider(id).catch(() => null), data.uids()]);
+  useUids(uids);
   const svcs = services(inf, id);
   if (!p && !svcs.length) {
     el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(id)}</p></section>`;
@@ -71,7 +72,7 @@ export async function render(el, params, kind) {
   const blockLinks = (s) => s.blocks.map((b) => `<a href="#/baustein/${encodeURIComponent(b)}">${esc(BLOCKS[b] || b)}</a>`).join(" · ");
   // the service: what it is, where it belongs, which environment
   const desc = svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${envBadge(s)}
-      <p>${esc(tx(s, "operator") || "")}${s.role ? " · " + esc(tx(s, "role")) : ""}</p>
+      <p>${esc(tx(s, "operator") || "")}${s.role ? " · " + linkSwiyu(tx(s, "role"), s.id) : ""}</p>
       <p class="small"><span class="muted">${esc(t("svc_blocks"))}:</span> ${blockLinks(s)}</p>${sourceLine(s)}</div>`).join("");
   // posture: the service's own hosts; a provider without a measured service is not measured
   const post = svcs.length
@@ -80,6 +81,9 @@ export async function render(el, params, kind) {
   // map of the users: for a service those with evidence of use, for a provider its customers (per function)
   const svcMap = svcs.length ? await usersMap(svcs.flatMap((s) => (s.users_list || []).map((u) => u.key)), ix) : null;
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
+  // swiyu: the participants of the Trust Registry in the environment of this service
+  const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
+  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], swy[0].environment) : "";
   const cust = p ? customers(p, params, dir, meta, names, cfg, route, provMap) : null;
   const op = p && p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
       · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
@@ -93,7 +97,7 @@ export async function render(el, params, kind) {
     <section data-provider-posture><h2>${esc(svcs.length ? t("svc_posture") : t("prov_posture"))}</h2><p class="muted small">${esc(svcs.length ? t("svc_posture_d") : t("prov_posture_d"))}</p>${post}</section>
     ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
       ${svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${use(s)}</div>`).join("")}</section>` : ""}
-    ${cust ? cust.html : ""}`;
+    ${cust ? cust.html : ""}${reg}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
   const sel = el.querySelector("[data-f=kt]");
   if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value, fn: params.fn }); });

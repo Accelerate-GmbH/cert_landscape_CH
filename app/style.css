@@ -187,6 +187,7 @@ table { border-collapse: collapse; width: 100%; }
 .fn { display: inline-block; font-size: 12px; padding: 1px 7px; margin: 1px 2px 1px 0; border: 1px solid var(--line); border-radius: 10px; color: var(--text-2); white-space: nowrap; }
 .fn.on { border-color: var(--text); color: var(--text); }
 .cnt tbody th { font-weight: 500; }
+.tblwrap { overflow-x: auto; } table.reg { font-size: 14px; } table.reg td, table.reg th { white-space: normal; }
 details { margin: 10px 0; }
 summary { cursor: pointer; }
 .ents { columns: 3 220px; padding-left: 18px; margin: 8px 0; }
