@@ -172,6 +172,13 @@ export async function render(el, params, role) {
   const hostList = rated.length ? `${rated.length > 10 ? `<p><input id="hostq" type="search" placeholder="${esc(t("ev_search", { n: rated.length }))}" aria-label="${esc(t("ev_search", { n: rated.length }))}"></p>` : ""}
     <table class="hosts"><thead><tr><th>${esc(t("service"))}</th><th>${esc(t("value"))}</th><th></th></tr></thead><tbody id="hostrows">${hostRows(rated.slice(0, 10))}</tbody></table>` : "<p>–</p>";
 
+  // services of the building blocks the entity uses: its role, the evidence, and the
+  // posture of the service as part of its supply chain (not part of its own value)
+  const usesTbl = (d.uses || []).length ? `<h3>${esc(t("uses_title"))}</h3><p class="muted small">${esc(t("uses_sub"))}</p>
+    <table class="deps"><tbody>${d.uses.map((u) => `<tr><th><a href="#/baustein/${encodeURIComponent(u.block)}">${esc(u.service)}</a>
+      <div class="muted small">${esc(t("role_" + u.role) || u.role)}${u.env ? " · " + esc(t("env_" + u.env)) : ""}</div></th>
+      <td>${u.service_posture === null || u.service_posture === undefined ? `<span class="muted small">${esc(t("no_hosts"))}</span>` : `${dot(light(u.service_posture, cfg))} ${fmt(u.service_posture)} <span class="muted small">${esc(t("uses_posture", { n: u.service_hosts || 0 }))}</span>`}
+      ${u.evidence.map((e) => e.src ? `<div class="small"><a href="${esc(e.src)}" rel="noopener">${esc(t("ev_kind_" + e.kind) || e.kind)}</a></div>` : `<div class="small mono">${esc(e.where)}${e.what ? " → " + esc(e.what) : ""}</div>`).join("")}</td></tr>`).join("")}</tbody></table>` : "";
   // detail of one building block: how its value is computed and the evidence
   // behind it, each with a place to check it by hand
   const DNSQ = { spf: "TXT", txt: "TXT", mx: "MX", dkim: "CNAME", cname: "CNAME" };
@@ -250,7 +257,7 @@ export async function render(el, params, role) {
      <section id="blkdetail" class="blkdetail" hidden></section>
      <section><h2>${esc(t("mx_title"))}</h2><p class="sub">${esc(t("mx_sub"))}</p>${matrix}</section>
      <div class="two"><section><h2>${esc(t("next_steps"))}</h2>${steps}</section>
-     <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}${calc}<h2 id="depsec">${esc(t("deps_title"))}</h2>${deps}</section></div>
+     <section><h2>${esc(t("areas"))}</h2>${cats || "<p>–</p>"}${calc}<h2 id="depsec">${esc(t("deps_title"))}</h2>${deps}${usesTbl}</section></div>
      ${mailTbl}${partsTbl}
      <section id="hostsec"><h2>${esc(t("weakest"))}</h2><p id="hostnote" class="small" hidden></p>${hostList}</section>`;
 

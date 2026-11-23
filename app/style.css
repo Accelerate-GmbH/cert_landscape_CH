@@ -278,3 +278,5 @@ figure.levels figcaption { margin-top: 4px; }
 .bd-list td { padding: 3px 6px 3px 0; vertical-align: top; }
 .bd-foot { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 10px; }
 @media (max-width: 640px) { .bd-head { grid-template-columns: 1fr auto; } .bd-val { grid-column: 1; text-align: left; } .bd-cards.wide { grid-template-columns: 1fr; } .blkdetail { padding: 16px; } }
+
+.imp-part { margin: 18px 0 4px; font-size: .95rem; }

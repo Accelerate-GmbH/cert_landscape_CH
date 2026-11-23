@@ -139,7 +139,14 @@ results, CSV and Excel exports stay in the pipeline repository.
   unclassified), `overall` (mean value of the service hosts), `rests_on` (per check `sov.ca`, `sov.dns`, `sov.hosting`,
   `sov.registrar`: `[{"value", "hosts", "status", "evidence"}]`, what its hosts
   rest on, with the evidence of the check), `examples` (up to 12 host names),
-  `users` (`{level: n_entities}` seen to use it). An implementation can
+  `users` (`{level: n_entities}` seen to use it). Posture and use are kept
+  apart (docs/PRODUCT.md, section 5.1): `hosts`, `overall` and `rests_on`
+  are the posture of the service itself, part of the supply chain of its
+  users; `users_list` names the entities that use it,
+  `[{"key", "name", "role", "env", "evidence": [{"kind", "where", "what", "src"}]}]`,
+  `role` `login` (recognised as login provider), `participant` or
+  `verifier` (swiyu Trust Registry, matched by UID), `kind` of evidence
+  `registry`, `path`, `redirect`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.
@@ -260,6 +267,11 @@ results, CSV and Excel exports stay in the pipeline repository.
   "fail"}}`, where `status` and `value` are those of `host` and `count`
   covers all hosts of the kind; `null` where no check applies. Seals and
   time stamps are not measurable from outside and have no cell.
+  `uses`: the services of the building blocks the entity uses,
+  `[{"service", "block", "role", "env", "evidence", "service_posture",
+  "service_hosts"}]`; `service_posture` is the posture value (`overall`) of
+  the service, shown beside the entity's own value as part of its supply
+  chain, never part of it (decision 23.11.2026).
   `swiyu`: the entity's identity trust statements in the swiyu Trust
   Registry, matched by its UID: `[{"env", "name", "did", "src",
   "state_actor"}]`, empty without one.
