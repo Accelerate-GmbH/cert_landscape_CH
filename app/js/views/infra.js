@@ -65,7 +65,10 @@ export async function render(el, params) {
       const rows = (i.rests_on || {})[c] || [];
       return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
     }).join("");
-    return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>
+    // environment: production or sandbox, with what each means
+    const env = i.environment ? `<p class="small"><span class="badge ${i.environment === "production" ? "ok" : "wait"}">${esc(t("env_" + i.environment))}</span>
+      ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "";
+    return `<section class="imp"><h3 class="imp-name">${esc(i.name)}</h3>${env}
       <p class="sub">${esc(tx(i, "operator") || "")}${i.role ? " · " + esc(tx(i, "role")) : ""}</p>
       <p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
       <p class="muted small">${i.host_roles ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })

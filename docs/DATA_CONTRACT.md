@@ -116,6 +116,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   `aspect_sources` the sources for this distinction; `source` carries
   `i18n` for its `title`; each implementation carries `i18n` for `operator`
   and `role` (from `config/model.i18n.toml`). An implementation: `name`, `aspect` (identity block only),
+  `environment` (`production`, `sandbox` or `null`; swiyu: the sandbox or
+  public beta and the announced production are separate implementations),
+  `environment_assessment` (true where the assignment of hosts to the
+  environment is an assessment, not documented by the operator),
   `operator`, `role`, `sources` (`[{"title", "url"}]`),
   `checked`, `providers` (keys in `config/stack.toml` through which use is
   recognised), `hosts` (number of its measured hosts that run the service
