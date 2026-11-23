@@ -232,3 +232,11 @@ table.evt th, table.evt td { text-align: left; vertical-align: top; padding: 4px
 
 details.kt-group { border-top: 1px solid var(--line); padding: 8px 0; }
 details.kt-group > summary { cursor: pointer; }
+
+/* governance: levels of the state */
+figure.levels { margin: 18px 0 8px; display: grid; gap: 4px; max-width: 900px; }
+figure.levels .lv { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; background: var(--card); }
+figure.levels .lvh { font-weight: 600; margin-bottom: 6px; }
+figure.levels .lvarrow { text-align: center; color: var(--muted); line-height: 1; }
+figure.levels .chip.off { opacity: .45; border-style: dashed; }
+figure.levels figcaption { margin-top: 4px; }

@@ -54,12 +54,28 @@ export async function render(el, params) {
       <p><b>${esc(t("gov_scope"))}:</b> ${esc(lawText(l, "scope"))}</p>
       <table class="deps gov"><thead><tr><th>${esc(t("gov_art"))}</th><td>${esc(t("gov_provision"))}</td></tr></thead>
         <tbody>${provisionRows(l, only)}</tbody></table></section>`;
+  // the three levels of the Swiss state and the law recorded for each (own graphic, no third-party image)
+  const ALL = ["ZH", "BE", "LU", "UR", "SZ", "OW", "NW", "GL", "ZG", "FR", "SO", "BS", "BL", "SH", "AR", "AI", "SG", "GR", "AG", "TG", "TI", "VD", "VS", "NE", "GE", "JU"];
+  const fedAll = g.laws.filter((l) => l.level !== "canton");
+  const missing = ALL.filter((c) => !cantons.includes(c));
+  const levels = only || kt ? "" : `<figure class="levels" aria-label="${esc(t("lvl_title"))}">
+    <div class="lv"><div class="lvh">${esc(t("lvl_bund"))}</div>
+      <div class="chips">${fedAll.map((l) => `<a class="chip" href="#/governance/${encodeURIComponent(l.id)}">${esc(lawText(l, "abbr"))}</a>`).join("")}</div></div>
+    <div class="lvarrow" aria-hidden="true">↓</div>
+    <div class="lv"><div class="lvh">${esc(t("lvl_kt"))} <span class="muted small">${esc(t("lvl_kt_n", { n: cantons.length }))}</span></div>
+      <div class="chips">${ALL.map((c) => cantons.includes(c)
+        ? `<a class="chip" href="#/governance?canton=${c}">${c}</a>` : `<span class="chip off" title="${esc(t("lvl_missing"))}">${c}</span>`).join("")}</div>
+      ${missing.length ? `<p class="muted small">${esc(t("lvl_missing_list", { c: missing.join(", ") }))}</p>` : ""}</div>
+    <div class="lvarrow" aria-hidden="true">↓</div>
+    <div class="lv"><div class="lvh">${esc(t("lvl_gem"))}</div><p class="small">${esc(t("lvl_gem_t"))}</p></div>
+    <figcaption class="muted small">${esc(t("lvl_caption"))}</figcaption></figure>`;
   el.innerHTML = `<section class="lead"><h1>${esc(t("gov_h1"))}</h1>
       <p>${esc(t("gov_intro"))}</p>
       ${only ? `<p>${esc(t("gov_filtered", { b: BLOCKS[only] }))} · <a href="${qs({ canton: kt })}">${esc(t("gov_show_all"))}</a></p>` : ""}
       ${cantons.length ? `<p><label>${esc(t("gov_canton"))} <select id="govkt"><option value="">${esc(t("gov_all_cantons"))}</option>
         ${cantons.map((c) => `<option${c === kt ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label></p>` : ""}
       <p class="muted small">${esc(t("checked_on", { d: date(g.checked) }))} · ${esc(t("gov_de_only"))}</p></section>
+    ${levels}
     ${fed.length ? `<h2 class="lvl">${esc(t("gov_federal"))}</h2>${fed.map(one).join("")}` : ""}
     ${can.length ? `<h2 class="lvl">${esc(t("gov_cantonal"))}</h2><p class="sub">${esc(t("gov_cantonal_note"))}</p>${kt || only
       ? can.map(one).join("")
