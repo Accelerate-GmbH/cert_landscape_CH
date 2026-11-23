@@ -249,6 +249,8 @@ export default {
   "um_points_list": "Bildung und kritische Dienste nach Kanton",
   "um_note": "Die Karte zeigt erkannte Nutzung, nicht den Wert der Nutzenden. Nicht erkannt heisst nicht «nicht genutzt»: erkannt wird nur, was in DNS, Zertifikaten, Weiterleitungen oder einem Register sichtbar ist.",
   "um_all": "Alle Funktionen",
+  "role_hint": "Hinweis (CSP), nicht als Nutzung gezählt",
+  "ev_kind_csp": "CSP-Header der Seite",
   "um_none": "keine Nutzung erkannt",
   "um_none_d": "Für diesen Dienst ist noch keine Nutzung belegt. Erkannt wird nur, was in DNS, Zertifikaten, Weiterleitungen oder einem Register sichtbar ist; eine öffentliche Liste der Nutzenden gibt es nicht.",
   "um_points_list_reg": "Organisationen und Teilnehmende nach Kanton",

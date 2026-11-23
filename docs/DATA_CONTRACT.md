@@ -169,9 +169,13 @@ results, CSV and Excel exports stay in the pipeline repository.
   are the posture of the service itself, part of the supply chain of its
   users; `users_list` names the entities that use it,
   `[{"key", "name", "role", "env", "evidence": [{"kind", "where", "what", "src"}]}]`,
-  `role` `login` (recognised as login provider), `participant` or
+  `role` `login` (recognised as login provider, also further along a
+  redirect chain across hosts: `what` is the chain, e.g. `login.kanton.ch →
+  idp.agov.admin.ch`), `hint` (the service is named in the
+  Content-Security-Policy of a page, kind `csp`; listed, not counted in
+  `users` and not on the map of users), `participant` or
   `verifier` (swiyu Trust Registry, matched by UID), `kind` of evidence
-  `registry`, `path`, `redirect`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
+  `registry`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.

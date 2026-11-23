@@ -249,6 +249,8 @@ export default {
   um_points_list: "Education and critical services by canton",
   um_note: "The map shows detected use, not the users' value. Not detected does not mean «not used»: only what shows in DNS, certificates, redirects or a register is detected.",
   um_all: "All functions",
+  role_hint: "Hint (CSP), not counted as use",
+  ev_kind_csp: "CSP header of the page",
   um_none: "no use detected",
   um_none_d: "No use of this service is documented yet. Only what shows in DNS, certificates, redirects or a register is detected; there is no public list of its users.",
   um_points_list_reg: "Organisations and participants by canton",
