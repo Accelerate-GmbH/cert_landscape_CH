@@ -62,7 +62,7 @@ if (!fs.existsSync(metaPath)) {
 const entDir = path.join(PUB, "v2", "entities");
 if (fs.existsSync(entDir)) {
   const SHAPE = { mail: 3, send: 2, saas: 2, idp: 2, cloud: 3 };
-  const KINDS = new Set(["mx", "spf", "txt", "dkim", "cname", "redirect", "path"]);
+  const KINDS = new Set(["mx", "spf", "txt", "dkim", "cname", "redirect", "path", "csp"]);
   let bad = 0;
   const report = (f, m) => { if (++bad <= 5) fail(`v2/entities/${f}: dependencies ${m}`); };
   for (const f of fs.readdirSync(entDir).filter((x) => x.endsWith(".json"))) {
@@ -77,8 +77,9 @@ if (fs.existsSync(entDir)) {
       }
     }
     for (const v of dep.via || []) {
-      if (!v || !["mail", "send", "saas", "idp"].includes(v.part) || typeof v.provider !== "string") { report(f, "via: malformed entry"); continue; }
-      if (!names.has(v.part + "\u0000" + v.name)) report(f, `via: ${v.part} ${v.name} not in the part`);
+      if (!v || !["mail", "send", "saas", "idp", "idp_hint"].includes(v.part) || typeof v.provider !== "string") { report(f, "via: malformed entry"); continue; }
+      // a hint (login service named in a Content-Security-Policy) is not a dependency, so not in a part
+      if (v.part !== "idp_hint" && !names.has(v.part + "\u0000" + v.name)) report(f, `via: ${v.part} ${v.name} not in the part`);
       for (const ev of v.ev || []) if (!Array.isArray(ev) || ev.length !== 3 || !KINDS.has(ev[0])) report(f, "via: proof is not [kind, where, what]");
     }
   }

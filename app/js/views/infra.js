@@ -115,7 +115,8 @@ export function swiyuRegister(r, only, opts = {}) {
     const body = rows.map(({ p, v }) => {
       const name = p ? p.name : v.name || t("reg_swiyu_unnamed");
       const roles = p ? (p.roles || []).map((x) => t("role_" + x)).join(", ") : t("role_verifier");
-      const purposes = v ? v.purposes.map(pname).join(", ") : "";
+      // several scopes can carry the same purpose name: each name once
+      const purposes = v ? [...new Set(v.purposes.map(pname))].join(", ") : "";
       return `<tr>${cell(name.toLowerCase(), p ? uidName(p.uid, p.name, UIDS) : `<span class="muted">${esc(name)}</span>`)}
         ${cell(roles, `${esc(roles)}${p && (p.issues || []).length ? `<div class="muted small">${esc(p.issues.join(", "))}</div>` : ""}`)}
         ${cell(p && p.uid, p && p.uid ? uidRef(p.uid, UIDS) : "–")}
