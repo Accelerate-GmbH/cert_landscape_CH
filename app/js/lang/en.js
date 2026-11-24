@@ -343,6 +343,7 @@ export default {
   fb_source: "Source (optional)",
   fb_ctx: "Sent along: page {p}, language, role, data date",
   fb_ctx_ev: "evidence opened last {e} with links to check it",
+  fb_ctx_set: "settings {s}",
   fb_note: "«Send» opens a prefilled issue on GitHub; a GitHub account is needed. After submission the text is moved to the private repository and removed from the issue. The edit history of the issue stays visible to everyone on GitHub. Do not enter personal data.",
   fb_send: "Send",
   no_provider_found: "no provider recognised",

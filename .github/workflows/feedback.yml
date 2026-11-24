@@ -44,7 +44,7 @@ jobs:
               issue: issue.number, author: issue.user.login,
               kind: pick("Art"), text: pick("Was stimmt"), source: pick("Quelle"),
               page: ctx.page || "", lang: ctx.lang || "", role: ctx.role || "", data: ctx.data || "",
-              evidence: ctx.evidence || "", checks,
+              settings: ctx.settings || "", evidence: ctx.evidence || "", checks,
             };
             if (!rec.text) { core.setFailed("no text in the issue"); return; }
             const content = Buffer.from(JSON.stringify(rec, null, 1) + "\n").toString("base64");

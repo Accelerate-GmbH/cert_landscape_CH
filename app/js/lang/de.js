@@ -343,6 +343,7 @@ export default {
   "fb_source": "Quelle (freiwillig)",
   "fb_ctx": "Mitgegeben werden: Seite {p}, Sprache, Rolle, Datenstand",
   "fb_ctx_ev": "zuletzt geöffneter Beleg {e} mit Prüflinks",
+  "fb_ctx_set": "Einstellungen {s}",
   "fb_note": "«Senden» öffnet ein vorausgefülltes Issue auf GitHub; ein GitHub-Konto ist nötig. Nach dem Absenden wird der Text ins private Repository übernommen und im Issue entfernt. Die Bearbeitungshistorie des Issues bleibt bei GitHub für alle sichtbar. Keine Personendaten eingeben.",
   "fb_send": "Senden",
   "no_provider_found": "kein Anbieter erkannt",

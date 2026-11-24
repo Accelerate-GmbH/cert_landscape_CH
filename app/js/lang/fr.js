@@ -343,6 +343,7 @@ export default {
   fb_source: "Source (facultatif)",
   fb_ctx: "Transmis: page {p}, langue, rôle, état des données",
   fb_ctx_ev: "dernière preuve ouverte {e} avec liens de vérification",
+  fb_ctx_set: "réglages {s}",
   fb_note: "«Envoyer» ouvre une issue préremplie sur GitHub; un compte GitHub est nécessaire. Après l'envoi, le texte est transféré dans le dépôt privé et retiré de l'issue. L'historique des modifications de l'issue reste visible pour tous sur GitHub. Ne saisissez pas de données personnelles.",
   fb_send: "Envoyer",
   no_provider_found: "aucun fournisseur reconnu",

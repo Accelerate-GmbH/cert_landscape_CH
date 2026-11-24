@@ -343,6 +343,7 @@ export default {
   fb_source: "Fonte (facoltativa)",
   fb_ctx: "Trasmessi: pagina {p}, lingua, ruolo, stato dei dati",
   fb_ctx_ev: "ultima prova aperta {e} con link di verifica",
+  fb_ctx_set: "impostazioni {s}",
   fb_note: "«Invia» apre una issue precompilata su GitHub; serve un account GitHub. Dopo l'invio il testo viene trasferito nel repository privato e tolto dalla issue. La cronologia delle modifiche della issue resta visibile a tutti su GitHub. Non inserire dati personali.",
   fb_send: "Invia",
   no_provider_found: "nessun fornitore riconosciuto",
