@@ -34,6 +34,16 @@ export async function render(el, params) {
       const reg = ((inf.blocks || {})[key] || {}).register || {};
       const nReg = (reg.providers || []).length;
       const none = c.m === "none", count = c.m === "count";
+      // a block without a value per organisation: the posture of its service (production, mean over its hosts) and its use
+      const imps = (((inf.blocks || {})[key] || {}).implementations || []).filter((i) => i.environment !== "sandbox");
+      const nh = imps.reduce((a, i) => a + (i.hosts || 0), 0);
+      const svcPost = nh ? imps.reduce((a, i) => a + (i.overall || 0) * (i.hosts || 0), 0) / nh : null;
+      const swyReg = ((inf.blocks || {})["trust.swiyu"] || {}).register;
+      const svcUse = imps.some((i) => i.id.startsWith("swiyu")) && swyReg
+        ? new Set(swyReg.providers.filter((p) => p.env === "production").map((p) => p.uid || p.name)).size
+        : new Set(imps.flatMap((i) => (i.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key))).size;
+      const svcLine = none && imps.length ? `<div class="bv">${svcPost === null ? `<span class="muted">${esc(t("no_hosts"))}</span>` : `${dot(light(svcPost, cfg))} <b>${fmt(svcPost)}</b> <span class="muted small">${esc(t("ov_posture"))}</span>`}</div>
+        <div class="bs">${esc(t(imps.some((i) => i.id.startsWith("swiyu")) ? "ov_use_swiyu" : "ov_use", { n: svcUse }))}</div>` : "";
       const l = none || count ? "none" : light(c.v, cfg);
       const empty = !none && !count && (c.v === null || c.v === undefined);
       const val = none ? (nImpl || nReg ? t("use_unmeasured") : t("not_measured")) : count ? t("types_per_org") : empty ? t("no_data_yet") : fmt(c.v);
@@ -47,7 +57,7 @@ export async function render(el, params) {
       const tag = href ? "a" : "div";
       return `<${tag} class="block ${l}${none ? " unmeasured" : ""}" data-key="${esc(key)}" ${href ? `href="${href}"` : 'tabindex="0"'} title="${esc(BLOCK_WHAT[key] || "")}">
         <div class="bn">${esc(BLOCKS[key] || key)}</div>
-        <div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>
+        ${svcLine || `<div class="bv">${none || count || empty ? `<span class="muted">${esc(val)}</span>` : `${dot(l)} <b>${val}</b>`}</div>`}
         ${!none && !count && c.entities ? `<div class="bs">${c.entities} ${esc(c.entities === 1 ? t("unit_one") : t("unit_many"))}</div>` : ""}
         ${nImpl ? `<div class="bs">${esc(nImpl === 1 ? t("impl_one") : t("impl_count", { n: nImpl }))} ›</div>` : ""}
         ${nReg ? `<div class="bs">${esc(t("reg_count_" + (reg.kind || "zertes"), { n: nReg }))} ›</div>` : ""}
