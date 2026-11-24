@@ -178,7 +178,7 @@ results, CSV and Excel exports stay in the pipeline repository.
   `where` = reference and article, `what` = quote, `src` = the enactment,
   `title`; the entry carries `scope`; a legal basis, not detected use, so not
   counted in `users` and shown apart on the map), `participant` or
-  `verifier` (swiyu Trust Registry, matched by UID), `kind` of evidence
+  `issuer`, `verifier` or `issuer_or_verifier` (swiyu Trust Registry, matched by UID; roles as in the register), `kind` of evidence
   `registry`, `law`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
@@ -195,7 +195,12 @@ results, CSV and Excel exports stay in the pipeline repository.
   or `swiyu` (trust infrastructure: participants of the swiyu Trust Registry,
   `data/swiyu/trust_registry.json`, read from the public API of production
   and sandbox; per provider also `env` (`production` | `sandbox`), `did`,
-  `state_actor` and `src` (the API query returning the statement); the
+  `state_actor`, `src` (the API query returning the statement), `roles`
+  (`issuer` with a protected issuance authorisation, `verifier` with a
+  verification query or protected verification authorisation, else
+  `issuer_or_verifier`: the identity statement is provided by issuers and
+  verifiers, Trust Protocol 2.0) and `issues`
+  (credential types it is authorised to issue); the
   service `since` is the date of the statement. Every name the registry
   publishes is shown, names of persons included; the register's
   `envs` gives per environment `api`, `participants` (all), `unnamed`

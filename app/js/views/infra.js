@@ -9,6 +9,7 @@ import { esc, fmt, light, dot, cc, uidName, uidRef } from "../ui.js";
 
 let UIDS = new Set();
 import { provisionRows, statusWord, lawText } from "./gov.js";
+import { usersMap, swiyuExtra } from "./usermap.js";
 
 const REST = ["sov.ca", "sov.dns", "sov.hosting", "sov.registrar"];
 const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
@@ -85,10 +86,10 @@ export function swiyuRegister(r, only) {
   const didEnd = (d) => (d || "").split(":").pop().slice(0, 8);
   const envs = Object.entries(r.envs || {}).filter(([env]) => !only || env === only).map(([env, e]) => {
     const ps = r.providers.filter((p) => p.env === env);
-    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}</th><td>${p.uid ? uidRef(p.uid, UIDS) : "–"}</td>
+    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}</th><td>${(p.roles || []).map((r) => esc(t("role_" + r))).join(", ")}${(p.issues || []).length ? `<div class="muted small">${esc(p.issues.join(", "))}</div>` : ""}</td><td>${p.uid ? uidRef(p.uid, UIDS) : "–"}</td>
       <td>${p.state_actor ? esc(t("yes")) : ""}</td><td>${esc(date(p.services[0].since))}</td>
       <td class="mono small" title="${esc(p.did)}">…${esc(didEnd(p.did))}</td><td><a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
-    const head = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("reg_uid"))}</th><th>${esc(t("reg_swiyu_state"))}</th><th>${esc(t("col_since"))}</th><th>DID</th><th>${esc(t("col_source"))}</th></tr></thead>`;
+    const head = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("col_role"))}</th><th>${esc(t("reg_uid"))}</th><th>${esc(t("reg_swiyu_state"))}</th><th>${esc(t("col_since"))}</th><th>DID</th><th>${esc(t("col_source"))}</th></tr></thead>`;
     const table = rows ? `<div class="tblwrap"><table class="cnt reg">${head}<tbody>${rows}</tbody></table></div>` : "";
     const vs = (e.verifiers || []).map((v) => `<tr><th>${v.name ? esc(v.name) : `<span class="muted">${esc(t("reg_swiyu_unnamed"))}</span>`}</th>
       <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}</td>
@@ -143,6 +144,20 @@ export async function render(el, params) {
     : b.implementations.map(one).join("");
   const alt = (b.alternatives || []).length ? `<section><h2>${esc(t("instead"))}</h2><table class="deps"><tbody>${b.alternatives.map((a) =>
     `<tr><th><a href="#/anbieter/${encodeURIComponent(a.id)}">${esc(a.name)}</a> ${cc(a.country)}</th><td>${users(a.users)}</td></tr>`).join("")}</tbody></table></section>` : "";
+  // swiyu: all registered parties of one environment on the map (issuers and verifiers)
+  let swyMap = null, swyEnv = "";
+  if (b.register && b.register.kind === "swiyu") {
+    const ix = await data.index();
+    const envs = Object.keys(b.register.envs || {});
+    swyEnv = envs.includes(params.env) ? params.env : envs.includes("production") ? "production" : envs[0];
+    const imp = b.implementations.find((i) => i.environment === swyEnv) || { users_list: [] };
+    const keys = (imp.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key);
+    swyMap = await usersMap(keys, ix, swiyuExtra(b.register, swyEnv, keys, ix, UIDS));
+    swyMap.envs = envs;
+  }
+  const swyHtml = swyMap ? `<section><h2>${esc(t("um_overview_swiyu"))}</h2>
+      <div class="tabs">${swyMap.envs.map((e) => `<a class="tab${e === swyEnv ? " on" : ""}" href="#/baustein/${encodeURIComponent(key)}?env=${e}">${esc(t("env_" + e))}</a>`).join("")}</div>
+      ${swyMap.html}</section>` : "";
   const grp = layer.group && GROUPS[layer.group];
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(grp ? grp.name : "")} · ${esc(LAYERS[lid].name)}</div>
       <h1>${esc(BLOCKS[key])}</h1><p>${esc(LAYERS[lid].hint)}</p>
@@ -150,5 +165,6 @@ export async function render(el, params) {
       ${BLOCK_WHAT[key] ? `<p class="sub">${esc(t("measured_as"))}: ${esc(BLOCK_WHAT[key])}</p>` : ""}
       ${inf.source ? `<p class="muted small">${esc(t("dpi_term"))}: <a href="${esc(inf.source.url)}" rel="noopener">${esc(tx(inf.source, "title"))}</a></p>` : ""}
       <p><a href="#/">← ${esc(t("overview"))}</a>${BLOCK_WHAT[key] && layer.blocks.find((x) => `${lid}.${x.id}` === key && !x.none) ? ` · <a href="#/karte/${encodeURIComponent("blk:" + key)}">${esc(t("on_map"))}</a>` : ""}</p></section>
-    ${imps || (b.register ? "" : `<p class="muted">${esc(t("no_implementation"))}</p>`)}${register(b.register)}${alt}${legal(gov, key)}`;
+    ${imps || (b.register ? "" : `<p class="muted">${esc(t("no_implementation"))}</p>`)}${swyHtml}${register(b.register)}${alt}${legal(gov, key)}`;
+  if (swyMap) swyMap.bind(el);
 }
