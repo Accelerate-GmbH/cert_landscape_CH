@@ -1,5 +1,5 @@
-// Use of a data exchange service (sedex, I14Y; infrastructure.json, `usage`): a short summary, the
-// map of the cantons and municipalities, and a treemap of domains or themes whose fields are as large
+// Use of a service from its public sources (sedex, I14Y, vLEI; infrastructure.json, `usage`): the
+// map of the cantons and municipalities where use is placed, and a treemap of domains or themes whose fields are as large
 // as their use; a click on a field shows its detail. Aggregates only, no lists of entries.
 import { t, LANG } from "../text.js";
 import { esc } from "../ui.js";
@@ -60,11 +60,6 @@ function detail(u, tile) {
 }
 
 export async function usageView(u, ix) {
-  const s = u.summary || {};
-  const head = u.kind === "sedex"
-    ? t("us_sedex_sum", { p: s.participants, d: s.domains, m: s.message_types, t: s.test_participants })
-    : u.kind === "vlei" ? t("us_vlei_sum", { q: s.qvi, l: s.le, lr: s.le_revoked, o: s.oor, or: s.oor_revoked, c: s.countries, ch: s.ch })
-    : t("us_i14y_sum", { e: s.entries, p: s.publishers, ds: s.datasets, sv: s.dataservices, ps: s.publicservices, c: s.concepts });
   // a map only where use is placed on Swiss organisations of the radar
   const map = (u.map_keys || []).length ? await usersMap(u.map_keys, ix, { lists: false, note: "" }) : { html: "", bind: () => {} };
   const tmTitle = t({ sedex: "us_tm_sedex", i14y: "us_tm_i14y", vlei: "us_tm_vlei" }[u.kind]);
@@ -75,8 +70,7 @@ export async function usageView(u, ix) {
       title="${esc(`${txt(c.item.label)}: ${c.item.n}`)}">${big ? `<span>${esc(txt(c.item.label))}</span><b>${c.item.n}</b>` : ""}</button>`;
   });
   const order = squarify(u.tiles || [], 0, 0, W, H).map((c) => c.item);
-  const html = `<p>${esc(head)}</p>
-    ${u.kind === "i14y" || u.kind === "vlei" ? `<p class="muted small">${esc(t("us_" + u.kind + "_note"))}</p>` : ""}
+  const html = `    ${u.kind === "i14y" || u.kind === "vlei" ? `<p class="muted small">${esc(t("us_" + u.kind + "_note"))}</p>` : ""}
     ${map.html}
     ${u.map_assessment ? `<p class="muted small">${esc(t("us_sedex_map"))}</p>` : ""}
     <h3>${esc(tmTitle)}</h3>
