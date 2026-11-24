@@ -168,6 +168,15 @@ results, CSV and Excel exports stay in the pipeline repository.
   (`{check: {"pass", "partial", "fail"}}` over the service hosts),
   `service_hosts` (`[{"host", "overall", "ko", "key"}]`, `key` the entity
   whose `evidence/` file holds the host's evidence),
+  `usage` (sedex and I14Y only, from their public sources, `data/exchange/`,
+  `tlsmap exchange`): `{"kind" (sedex | i14y), "fetched", "sources",
+  "summary", "unit" (participants | entries), "tiles": [{"key", "label"
+  {lang: text}, "n", "detail"}], "map_keys", "map_assessment"}`; sedex tiles
+  are domains (participants of production, 30 largest and one tile for the
+  rest), I14Y tiles are themes (published entries; I14Y shows who publishes,
+  not who uses); `map_keys` are entity keys for the map of users,
+  `map_assessment` true where the place is derived from the sedex ID scheme,
+  which is not documented,
   `users` (`{level: n_entities}` seen to use it). Posture and use are kept
   apart (docs/PRODUCT.md, section 5.1): `hosts`, `overall` and `rests_on`
   are the posture of the service itself, part of the supply chain of its

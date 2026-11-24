@@ -42,8 +42,10 @@ export async function render(el, params) {
       const svcUse = imps.some((i) => i.id.startsWith("swiyu")) && swyReg
         ? new Set(swyReg.providers.filter((p) => p.env === "production").map((p) => p.uid || p.name)).size
         : new Set(imps.flatMap((i) => (i.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key))).size;
+      // services with use from their own public sources (sedex participants, I14Y publishers)
+      const useOwn = imps.filter((i) => i.usage).map((i) => t("ov_use_" + i.usage.kind, { n: i.usage.kind === "sedex" ? i.usage.summary.participants : i.usage.summary.publishers }));
       const svcLine = none && imps.length ? `<div class="bv">${svcPost === null ? `<span class="muted">${esc(t("no_hosts"))}</span>` : `${dot(light(svcPost, cfg))} <b>${fmt(svcPost)}</b> <span class="muted small">${esc(t("ov_posture"))}</span>`}</div>
-        <div class="bs">${esc(t(imps.some((i) => i.id.startsWith("swiyu")) ? "ov_use_swiyu" : "ov_use", { n: svcUse }))}</div>` : "";
+        <div class="bs">${esc(useOwn.length ? useOwn.join(" · ") : t(imps.some((i) => i.id.startsWith("swiyu")) ? "ov_use_swiyu" : "ov_use", { n: svcUse }))}</div>` : "";
       const l = none || count ? "none" : light(c.v, cfg);
       const empty = !none && !count && (c.v === null || c.v === undefined);
       const val = none ? (nImpl || nReg ? t("use_unmeasured") : t("not_measured")) : count ? t("types_per_org") : empty ? t("no_data_yet") : fmt(c.v);
