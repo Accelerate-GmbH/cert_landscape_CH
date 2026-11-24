@@ -334,7 +334,7 @@ export default {
   "uid_not_measured_d": "Für diese Organisation ist keine Domain erfasst. Ihre Hosts werden später gesucht.",
   "role_login": "Login",
   "us_vlei_sum": "{q} aktive QVI-Nachweise · {l} aktive Legal-Entity-Nachweise ({lr} widerrufen) in {c} Ländern, davon {ch} in der Schweiz · {o} aktive OOR-Nachweise ({or} widerrufen).",
-  "us_vlei_note": "Nutzung nach dem vLEI-Index der GLEIF: QVI-, Legal-Entity- und OOR-Nachweise. ECR-Nachweise enthält der Index nicht. Namen und Rollen aus OOR-Nachweisen liest der Radar nicht; gezeigt wird nur ihre Zahl.",
+  "us_vlei_note": "Nutzung nach dem vLEI-Index der GLEIF: QVI-, Legal-Entity- und OOR-Nachweise. ECR-Nachweise enthält der Index nicht. Personen in offizieller Funktion (OOR) stehen mit Name und Rolle, wie die GLEIF sie veröffentlicht.",
   "us_tm_vlei": "Länder nach Organisationen mit aktivem Legal-Entity-vLEI",
   "us_vlei_holders": "{n} Organisationen mit aktivem Legal-Entity-vLEI",
   "us_vlei_oor": "{n} aktive OOR-Nachweise",

@@ -180,8 +180,8 @@ results, CSV and Excel exports stay in the pipeline repository.
   `map_assessment` true where the place is derived from the sedex ID scheme,
   which is not documented; vLEI tiles are the countries of the holders of an
   active Legal Entity credential, `detail` `{"holders": [{"name", "lei",
-  "since", "qvi", "src", "record"}], "oor"}` (legal entities only; OOR as a
-  count), summary `{qvi, le, le_revoked, oor, oor_revoked, countries, ch}`,
+  "since", "qvi", "src", "record", "oor": [{"person", "role", "since",
+  "src"}]}], "oor"}` (`oor` of the tile: number of active OOR credentials), summary `{qvi, le, le_revoked, oor, oor_revoked, countries, ch}`,
   `map_keys` the radar's entities that hold one (none on the map otherwise),
   `users` (`{level: n_entities}` seen to use it). Posture and use are kept
   apart (docs/PRODUCT.md, section 5.1): `hosts`, `overall` and `rests_on`
@@ -361,8 +361,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   the GLEIF record), "fetched", "vlei"}`, `null` without an LEI. `vlei`: the
   active Legal Entity vLEI of the LEI in GLEIF's vLEI index
   (`data/gleif/vlei_credentials.json`): `{"said", "issued", "qvi" (LEI of the
-  issuer), "src" (the credential in the index), "oor" (number of active OOR
-  credentials of the LEI; names and roles are not read), "fetched"}`, `null`
+  issuer), "src" (the credential in the index), "oor" (active OOR credentials
+  of the LEI: `[{"person", "role", "since", "src"}]`, published as GLEIF
+  publishes them, decision 24.11.2026), "fetched"}`, `null`
   without one.
   `parts` (federal level only): the department by the domains of its
   offices as listed in `config/entities.toml`, `[{"domain", "office", "hosts",

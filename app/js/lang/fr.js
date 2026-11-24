@@ -334,7 +334,7 @@ export default {
   uid_not_measured_d: "Aucun domaine n’est saisi pour cette organisation. Ses hôtes seront recherchés plus tard.",
   role_login: "Connexion",
   us_vlei_sum: "{q} attestations QVI actives · {l} attestations Legal Entity actives ({lr} révoquées) dans {c} pays, dont {ch} en Suisse · {o} attestations OOR actives ({or} révoquées).",
-  us_vlei_note: "Utilisation selon l’index vLEI de la GLEIF : attestations QVI, Legal Entity et OOR. L’index ne contient pas d’attestations ECR. Le radar ne lit pas les noms ni les rôles des attestations OOR ; seul leur nombre est affiché.",
+  us_vlei_note: "Utilisation selon l’index vLEI de la GLEIF : attestations QVI, Legal Entity et OOR. L’index ne contient pas d’attestations ECR. Les personnes dans une fonction officielle (OOR) figurent avec nom et rôle, tels que la GLEIF les publie.",
   us_tm_vlei: "Pays selon les organisations avec un vLEI Legal Entity actif",
   us_vlei_holders: "{n} organisations avec un vLEI Legal Entity actif",
   us_vlei_oor: "{n} attestations OOR actives",

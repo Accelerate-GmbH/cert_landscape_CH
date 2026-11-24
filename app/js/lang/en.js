@@ -334,7 +334,7 @@ export default {
   uid_not_measured_d: "No domain is recorded for this organisation. Its hosts will be searched later.",
   role_login: "Login",
   us_vlei_sum: "{q} active QVI credentials · {l} active Legal Entity credentials ({lr} revoked) in {c} countries, {ch} of them in Switzerland · {o} active OOR credentials ({or} revoked).",
-  us_vlei_note: "Use according to GLEIF’s vLEI index: QVI, Legal Entity and OOR credentials. The index does not contain ECR credentials. The radar does not read names or roles from OOR credentials; only their number is shown.",
+  us_vlei_note: "Use according to GLEIF’s vLEI index: QVI, Legal Entity and OOR credentials. The index does not contain ECR credentials. Persons in an official role (OOR) are listed with name and role as GLEIF publishes them.",
   us_tm_vlei: "Countries by organisations with an active Legal Entity vLEI",
   us_vlei_holders: "{n} organisations with an active Legal Entity vLEI",
   us_vlei_oor: "{n} active OOR credentials",

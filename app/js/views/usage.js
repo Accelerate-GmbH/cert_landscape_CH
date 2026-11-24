@@ -43,7 +43,8 @@ function detail(u, tile) {
   if (u.kind === "vlei") {
     return `<p><b>${esc(txt(tile.label))}</b> · ${esc(t("us_vlei_holders", { n: tile.n }))}${d.oor ? ` · ${esc(t("us_vlei_oor", { n: d.oor }))}` : ""}</p>
       <table class="deps"><tbody>${(d.holders || []).map((h) => `<tr><th><a href="${esc(h.record)}" rel="noopener">${esc(h.name)}</a><div class="muted small">LEI ${esc(h.lei)}</div></th>
-        <td class="small">${esc(t("us_vlei_since", { d: date(h.since) }))} · QVI ${esc(h.qvi)} · <a href="${esc(h.src)}" rel="noopener">${esc(t("us_vlei_cred"))}</a></td></tr>`).join("")}</tbody></table>`;
+        <td class="small">${esc(t("us_vlei_since", { d: date(h.since) }))} · QVI ${esc(h.qvi)} · <a href="${esc(h.src)}" rel="noopener">${esc(t("us_vlei_cred"))}</a>
+          ${(h.oor || []).map((o) => `<div>${esc(o.person || "–")} <span class="muted">${esc(o.role || "")} · ${esc(t("us_vlei_since", { d: date(o.since) }))}</span> · <a href="${esc(o.src)}" rel="noopener">OOR</a></div>`).join("")}</td></tr>`).join("")}</tbody></table>`;
   }
   if (u.kind === "sedex") {
     if (d.domains) return `<p>${esc(d.domains.map(([n, c]) => `${n} ${c}`).join(" · "))}</p>`;
