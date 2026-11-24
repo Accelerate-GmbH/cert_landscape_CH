@@ -164,6 +164,10 @@ results, CSV and Excel exports stay in the pipeline repository.
   unclassified), `overall` (mean value of the service hosts), `rests_on` (per check `sov.ca`, `sov.dns`, `sov.hosting`,
   `sov.registrar`: `[{"value", "hosts", "status", "evidence"}]`, what its hosts
   rest on, with the evidence of the check), `examples` (up to 12 host names),
+  `categories` (mean category values of the service hosts), `checks`
+  (`{check: {"pass", "partial", "fail"}}` over the service hosts),
+  `service_hosts` (`[{"host", "overall", "ko", "key"}]`, `key` the entity
+  whose `evidence/` file holds the host's evidence),
   `users` (`{level: n_entities}` seen to use it). Posture and use are kept
   apart (docs/PRODUCT.md, section 5.1): `hosts`, `overall` and `rests_on`
   are the posture of the service itself, part of the supply chain of its

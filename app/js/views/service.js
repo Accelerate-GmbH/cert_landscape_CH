@@ -12,6 +12,7 @@ import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
 import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, blockService, legal } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
+import * as evid from "./evidence.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
 function services(inf, id) {
@@ -93,7 +94,7 @@ export async function render(el, params, kind) {
       <p class="small"><span class="muted">${esc(t("svc_blocks"))}:</span> ${blockLinks(s)}</p>${sourceLine(s)}</div>`).join("");
   // posture: the service's own hosts; a provider without a measured service is not measured
   const post = svcs.length
-    ? svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${posture(s, cfg)}</div>`).join("")
+    ? svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${posture(s, cfg, true)}</div>`).join("")
     : `<p><span class="badge wait">${esc(t("not_measured"))}</span> ${esc(t("prov_not_measured"))}</p>`;
   // map of the users: for a service those with evidence of use, for a provider its customers (per function)
   // swiyu: every registered participant of the service's environment; those that are measured entities appear as such,
@@ -141,6 +142,7 @@ export async function render(el, params, kind) {
     ${cust ? cust.html : ""}${reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
+  evid.wire(el, null);
   const sel = el.querySelector("[data-f=kt]");
   if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value, fn: params.fn }); });
 }

@@ -4,7 +4,7 @@
 // instead; registers and legal bases. Reads infrastructure.json; every
 // implementation carries its sources.
 import * as data from "../data.js";
-import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, LANG, t, tx } from "../text.js";
+import { LAYERS, BLOCKS, BLOCK_WHAT, GROUPS, LEVELS, LANG, CATS, t, tx, checkName } from "../text.js";
 import { esc, fmt, light, dot, cc, uidName, uidRef } from "../ui.js";
 
 let UIDS = new Set();
@@ -41,7 +41,8 @@ export const envBadge = (i) => (i.environment ? `<p class="small"><span class="b
       ${esc(t("env_" + i.environment + "_d"))}${i.environment_assessment ? " " + esc(t("env_assessment")) : ""}</p>` : "");
 
 // the posture of a service: value of its own hosts and what they rest on (part of its users' supply chain)
-export function posture(i, cfg) {
+// full: the posture in detail, as the supply chain of the service's users (categories, checks, hosts with evidence)
+export function posture(i, cfg, full = false) {
   const rest = REST.map((c) => {
     const rows = (i.rests_on || {})[c] || [];
     return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
@@ -51,7 +52,23 @@ export function posture(i, cfg) {
           + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
         : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
-      ${i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}`;
+      ${full && i.hosts ? postureDetail(i, cfg) : i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}`;
+}
+
+function postureDetail(i, cfg) {
+  const share = (k) => { const n = k.pass + k.partial + k.fail; return n ? Math.round(100 * (k.pass + 0.5 * k.partial) / n) : null; };
+  const cats = Object.entries(i.categories || {}).map(([c, v]) => `<tr><th>${esc(CATS[c] || c)}</th><td>${v === null ? `<span class="muted">${esc(t("not_checked"))}</span>` : `${dot(light(v, cfg))} <b>${fmt(v)}</b>`}</td></tr>`).join("");
+  const order = Object.keys(cfg.checks || {});
+  const checks = Object.entries(i.checks || {}).sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0])).map(([c, k]) => {
+    const v = share(k);
+    return `<tr><th>${esc(checkName(c))}</th><td>${dot(light(v, cfg))} ${fmt(v)}</td><td class="muted small">${esc(t("svc_chk_counts", { p: k.pass, h: k.partial, f: k.fail }))}</td></tr>`;
+  }).join("");
+  const hosts = (i.service_hosts || []).slice().sort((a, b) => (a.overall ?? 101) - (b.overall ?? 101)).map((h) =>
+    `<tr><td>${esc(h.host)}${h.ko ? ` <span class="tag red">${esc(t("tag_ko"))}</span>` : ""}</td><td>${dot(light(h.overall, cfg))} ${fmt(h.overall)}</td>
+      <td>${h.key ? `<button class="link" data-ev="${esc(h.host)}" data-evkey="${esc(h.key)}" aria-expanded="false">${esc(t("ev_open"))}</button>` : ""}</td></tr>`).join("");
+  return `<h3>${esc(t("svc_cats"))}</h3><table class="deps"><tbody>${cats}</tbody></table>
+    <h3>${esc(t("svc_checks"))}</h3><table class="deps"><tbody>${checks}</tbody></table>
+    <h3>${esc(t("svc_hosts"))}</h3><table class="hosts"><tbody>${hosts}</tbody></table>`;
 }
 
 // who uses a service: counts per level and the list with role and evidence

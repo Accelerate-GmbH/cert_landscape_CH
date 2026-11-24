@@ -74,7 +74,7 @@ export function wire(el, key, kos = {}) {
     const next = row.nextElementSibling;
     if (next && next.classList.contains("evrow")) { next.remove(); b.setAttribute("aria-expanded", "false"); return; }
     let ev = null;
-    try { ev = ((await data.evidence(key)).hosts || {})[host] || null; } catch { /* no evidence file */ }
+    try { ev = ((await data.evidence(b.dataset.evkey || key)).hosts || {})[host] || null; } catch { /* no evidence file */ }
     const tr = document.createElement("tr");
     tr.className = "evrow";
     tr.innerHTML = `<td colspan="${row.children.length}">${table(host, ev, kos[host])}</td>`;
