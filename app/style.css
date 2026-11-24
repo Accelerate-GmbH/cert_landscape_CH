@@ -291,7 +291,15 @@ figure.levels figcaption { margin-top: 4px; }
 
 .imp-part { margin: 18px 0 4px; font-size: .95rem; }
 .ko-line { margin: 4px 0 8px; padding: 6px 8px; border-left: 3px solid var(--bad); background: var(--card); }
-.reg .sort { font: inherit; font-weight: 500; color: var(--text-2); padding: 0; }
+.reg .sort { font: inherit; font-weight: 500; color: var(--text-2); padding: 0; white-space: nowrap; }
+/* register table: name and purposes take the room, short columns stay on one line */
+table.reg[data-regtable] { font-size: 13px; }
+table.reg[data-regtable] td:nth-child(1) { min-width: 150px; }
+table.reg[data-regtable] td:nth-child(2) { min-width: 90px; }
+table.reg[data-regtable] td:nth-child(4), table.reg[data-regtable] td:nth-child(9) { text-align: center; }
+table.reg[data-regtable] td:nth-child(3), table.reg[data-regtable] td:nth-child(4), table.reg[data-regtable] td:nth-child(5),
+table.reg[data-regtable] td:nth-child(6), table.reg[data-regtable] td:nth-child(7), table.reg[data-regtable] td:nth-child(9) { white-space: nowrap; }
+table.reg[data-regtable] td:nth-child(8) { min-width: 180px; }
 .reg .sort[data-dir="asc"]::after { content: " ▲"; } .reg .sort[data-dir="desc"]::after { content: " ▼"; }
 .regq { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--text); min-width: 260px; }
 .pdetail > summary { cursor: pointer; color: var(--accent); margin: 4px 0 8px; }

@@ -112,11 +112,13 @@ export async function render(el, params, kind) {
     for (const env of envs) {
       const imp = (inf.blocks["trust.swiyu"] || { implementations: [] }).implementations.find((i) => i.environment === env) || { users_list: [] };
       const keys = (imp.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key);
-      maps.push([env, await usersMap(keys, ix, swiyuExtra(swyReg[1], env, keys, ix, uids))]);
+      // the register table follows the map and lists every participant: map without lists
+      maps.push([env, await usersMap(keys, ix, { ...swiyuExtra(swyReg[1], env, keys, ix, uids), lists: false })]);
     }
     const first = envFirst || (envs.includes(params.env) ? params.env : swyReg[0].environment);
     svcMap = {
-      html: `<div class="tabs">${envs.map((e) => `<a class="tab${e === first ? " on" : ""}" href="#" data-regtab="${esc(e)}">${esc(t("env_" + e))}</a>`).join("")}</div>
+      // one selector, directly above the map: it switches map, register table, description and posture
+      html: `${envTabs || `<div class="tabs">${envs.map((e) => `<a class="tab${e === first ? " on" : ""}" href="#" data-regtab="${esc(e)}">${esc(t("env_" + e))}</a>`).join("")}</div>`}
         ${maps.map(([e, m]) => `<div data-regenv="${esc(e)}"${e === first ? "" : " hidden"}>${m.html}</div>`).join("")}`,
       bind: (root) => maps.forEach(([e, m]) => m.bind(root.querySelector(`[data-regenv="${e}"]`))),
     };
@@ -124,7 +126,7 @@ export async function render(el, params, kind) {
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
-  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], null, { tabs: envFirst || swy[0].environment, full: true }) : "";
+  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], null, { tabs: envFirst || swy[0].environment, full: true, noTabs: true }) : "";
   const cust = p ? customers(p, params, dir, meta, names, cfg, route, provMap) : null;
   const op = p && p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
       · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
@@ -134,12 +136,12 @@ export async function render(el, params, kind) {
   const back = main ? (backBlk ? `<a href="#/baustein/${encodeURIComponent(backBlk)}">← ${esc(BLOCKS[backBlk] || backBlk)}</a>` : `<a href="#/">← ${esc(t("overview"))}</a>`)
     : `<a href="${hash("abhaengigkeiten", { level: cust ? cust.level : "municipality" })}">← ${esc(t("deps_title"))}</a>`;
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(svcs.length ? t("svc_kind") : t("kind_" + p.kind) || p.kind)}</div>
-      <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p>${envTabs}</section>
+      <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p>${swyReg ? "" : envTabs}</section>
     ${svcs.length ? `<section data-service><h2>${esc(t("svc_about"))}</h2>${desc}</section>` : ""}
     <section data-provider-posture><h2>${esc(svcs.length ? t("svc_posture") : t("prov_posture"))}</h2><p class="muted small">${esc(svcs.length ? t("svc_posture_d") : t("prov_posture_d"))}</p>${post}</section>
     ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
-      ${svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
-    ${cust ? cust.html : ""}${reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
+      ${swyReg ? reg : svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
+    ${cust ? cust.html : ""}${swyReg ? "" : reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
   bindRegTables(el);

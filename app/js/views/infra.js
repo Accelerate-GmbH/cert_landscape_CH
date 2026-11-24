@@ -115,7 +115,8 @@ export function swiyuRegister(r, only, opts = {}) {
     const body = rows.map(({ p, v }) => {
       const name = p ? p.name : v.name || t("reg_swiyu_unnamed");
       const roles = p ? (p.roles || []).map((x) => t("role_" + x)).join(", ") : t("role_verifier");
-      const purposes = v ? v.purposes.map(pname).join(", ") : "";
+      // several scopes can carry the same purpose name: each name once
+      const purposes = v ? [...new Set(v.purposes.map(pname))].join(", ") : "";
       return `<tr>${cell(name.toLowerCase(), p ? uidName(p.uid, p.name, UIDS) : `<span class="muted">${esc(name)}</span>`)}
         ${cell(roles, `${esc(roles)}${p && (p.issues || []).length ? `<div class="muted small">${esc(p.issues.join(", "))}</div>` : ""}`)}
         ${cell(p && p.uid, p && p.uid ? uidRef(p.uid, UIDS) : "–")}
@@ -124,7 +125,7 @@ export function swiyuRegister(r, only, opts = {}) {
         ${cell(p ? p.did : v.did, `<span title="${esc(p ? p.did : v.did)}">…${esc(didEnd(p ? p.did : v.did))}</span>`, "mono small")}
         ${cell(p ? 1 : 0, p ? `<a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a>` : "–")}
         ${cell(purposes.toLowerCase(), esc(purposes))}
-        ${cell(v ? v.statements : 0, v ? `<a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_n", { n: v.statements }))}</a>` : "")}</tr>`;
+        ${cell(v ? v.statements : 0, v ? `<a href="${esc(v.src)}" rel="noopener" title="${esc(t("reg_swiyu_n", { n: v.statements }))}">${v.statements}</a>` : "")}</tr>`;
     }).join("");
     const cols = [t("col_name"), t("col_role"), t("reg_uid"), t("reg_swiyu_state"), t("col_since"), "DID", t("col_source"), t("col_purposes"), t("col_purpose_src")];
     const head = `<thead><tr>${cols.map((c, n) => `<th><button class="link sort" data-sort="${n}">${esc(c)}</button></th>`).join("")}</tr></thead>`;
@@ -133,7 +134,7 @@ export function swiyuRegister(r, only, opts = {}) {
       <p><input type="search" class="regq" data-regq placeholder="${esc(t("reg_search"))}" aria-label="${esc(t("reg_search"))}"> <span class="muted small" data-regn>${rows.length}</span></p>
       <div class="tblwrap"><table class="cnt reg" data-regtable>${head}<tbody>${body}</tbody></table></div></div>`;
   }).join("");
-  const tabs = opts.tabs ? `<div class="tabs">${Object.keys(r.envs || {}).map((env) => `<a class="tab${env === opts.tabs ? " on" : ""}" href="#" data-regtab="${esc(env)}">${esc(t("env_" + env))}</a>`).join("")}</div>` : "";
+  const tabs = opts.tabs && !opts.noTabs ? `<div class="tabs">${Object.keys(r.envs || {}).map((env) => `<a class="tab${env === opts.tabs ? " on" : ""}" href="#" data-regtab="${esc(env)}">${esc(t("env_" + env))}</a>`).join("")}</div>` : "";
   return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${tabs}${envs}
     <p class="muted small">${esc(t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}: <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a></p></section>`;
 }
