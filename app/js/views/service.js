@@ -138,7 +138,7 @@ export async function render(el, params, kind) {
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(svcs.length ? t("svc_kind") : t("kind_" + p.kind) || p.kind)}</div>
       <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p>${swyReg ? "" : envTabs}</section>
     ${svcs.length ? `<section data-service><h2>${esc(t("svc_about"))}</h2>${desc}</section>` : ""}
-    <section data-provider-posture><h2>${esc(svcs.length ? t("svc_posture") : t("prov_posture"))}</h2><p class="muted small">${esc(svcs.length ? t("svc_posture_d") : t("prov_posture_d"))}</p>${post}</section>
+    <section data-provider-posture>${svcs.length ? "" : `<h2>${esc(t("prov_posture"))}</h2><p class="muted small">${esc(t("prov_posture_d"))}</p>`}${post}</section>
     ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
       ${swyReg ? reg : svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
     ${cust ? cust.html : ""}${swyReg ? "" : reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
