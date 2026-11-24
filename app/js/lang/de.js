@@ -334,6 +334,7 @@ export default {
   "uid_not_measured_d": "Für diese Organisation ist keine Domain erfasst. Ihre Hosts werden später gesucht.",
   "role_login": "Login",
   "fb_title": "Feedback, Vorschlag oder falsche Daten melden",
+  "fb_btn": "Ihr Feedback ist willkommen!",
   "fb_kind": "Art",
   "fb_kind_wrong": "Falsche Daten",
   "fb_kind_missing": "Fehlende Daten",

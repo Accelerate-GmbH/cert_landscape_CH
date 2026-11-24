@@ -334,6 +334,7 @@ export default {
   uid_not_measured_d: "No domain is recorded for this organisation. Its hosts will be searched later.",
   role_login: "Login",
   fb_title: "Feedback, suggestion or wrong data",
+  fb_btn: "We want your feedback!",
   fb_kind: "Kind",
   fb_kind_wrong: "Wrong data",
   fb_kind_missing: "Missing data",
