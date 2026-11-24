@@ -73,8 +73,11 @@ export async function usersMap(keys, ix, extra = {}) {
     const pts = placed.map((p) => {
       const r = rad(p.ks.length), x = p.x.toFixed(1), y = p.y.toFixed(1);
       const label = t("um_point", { n: p.ks.length, c: p.places.slice(0, 4).join(", ") + (p.places.length > 4 ? " …" : "") });
+      // hover: the names behind the point
+      const names = p.ks.map((k) => row[k][1]).sort((a, b) => a.localeCompare(b));
+      const tip = `${names.slice(0, 10).join("\n")}${names.length > 10 ? `\n… (${names.length})` : ""}`;
       return `<a href="#um-${esc(p.c)}" data-um="${esc(p.c)}" aria-label="${esc(label)}"><g class="um-pt"><circle cx="${x}" cy="${y}" r="${r.toFixed(1)}"/>
-        ${p.ks.length > 1 ? `<text x="${x}" y="${y}" dy="0.35em" text-anchor="middle">${p.ks.length}</text>` : ""}<title>${esc(label)}</title></g></a>`;
+        ${p.ks.length > 1 ? `<text x="${x}" y="${y}" dy="0.35em" text-anchor="middle">${p.ks.length}</text>` : ""}<title>${esc(tip)}</title></g></a>`;
     }).join("");
     svg = `<svg class="chmap umap" viewBox="${map.viewBox}" aria-label="${esc(t("um_aria"))}"><defs><pattern id="um-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" class="um-hatch-bg"/><line x1="0" y1="0" x2="0" y2="6" class="um-hatch-ln"/></pattern></defs>${ct}${mu}${borders}${lakes}${pts}</svg>`;
   }

@@ -109,7 +109,7 @@ export function swiyuRegister(r, only, opts = {}) {
 export function bindRegTabs(el) {
   el.querySelectorAll("[data-regtab]").forEach((a) => a.addEventListener("click", (ev) => {
     ev.preventDefault();
-    el.querySelectorAll("[data-regtab]").forEach((x) => x.classList.toggle("on", x === a));
+    el.querySelectorAll("[data-regtab]").forEach((x) => x.classList.toggle("on", x.dataset.regtab === a.dataset.regtab));
     el.querySelectorAll("[data-regenv]").forEach((d) => { d.hidden = d.dataset.regenv !== a.dataset.regtab; });
   }));
 }
