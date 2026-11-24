@@ -10,7 +10,7 @@ import * as data from "../data.js";
 import { LEVELS, LEVEL_MANY, BLOCKS, LAYERS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
-import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, blockService, legal } from "./infra.js";
+import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, bindRegTables, blockService, legal } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
 import * as evid from "./evidence.js";
 
@@ -142,6 +142,7 @@ export async function render(el, params, kind) {
     ${cust ? cust.html : ""}${reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
+  bindRegTables(el);
   evid.wire(el, null);
   const sel = el.querySelector("[data-f=kt]");
   if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value, fn: params.fn }); });
