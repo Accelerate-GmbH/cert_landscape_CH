@@ -79,6 +79,8 @@ jobs:
           cp -r app/. site/v2/
           cp -r pub/v2 site/v2/data
           sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" site/v2/index.html
+          # every module import carries the build too, so browsers load the new views at once
+          find site/v2/js -name '*.js' -exec sed -i -E "s#(from \"\.{1,2}/[^\"?]+\.js)\"#\1?v=${GITHUB_SHA::8}\"#g" {} +
           echo "data from $(cat pub/SOURCE)"
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
