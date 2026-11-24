@@ -36,8 +36,15 @@ function squarify(items, x, y, w, h) {
   return out;
 }
 
+const date = (d) => (d || "").split("-").reverse().map(Number).join(".");
+
 function detail(u, tile) {
   const d = tile.detail || {};
+  if (u.kind === "vlei") {
+    return `<p><b>${esc(txt(tile.label))}</b> · ${esc(t("us_vlei_holders", { n: tile.n }))}${d.oor ? ` · ${esc(t("us_vlei_oor", { n: d.oor }))}` : ""}</p>
+      <table class="deps"><tbody>${(d.holders || []).map((h) => `<tr><th><a href="${esc(h.record)}" rel="noopener">${esc(h.name)}</a><div class="muted small">LEI ${esc(h.lei)}</div></th>
+        <td class="small">${esc(t("us_vlei_since", { d: date(h.since) }))} · QVI ${esc(h.qvi)} · <a href="${esc(h.src)}" rel="noopener">${esc(t("us_vlei_cred"))}</a></td></tr>`).join("")}</tbody></table>`;
+  }
   if (u.kind === "sedex") {
     if (d.domains) return `<p>${esc(d.domains.map(([n, c]) => `${n} ${c}`).join(" · "))}</p>`;
     const cant = Object.entries(d.cantons || {}).slice(0, 8).map(([c, n]) => `${c} ${n}`).join(" · ");
@@ -55,8 +62,11 @@ export async function usageView(u, ix) {
   const s = u.summary || {};
   const head = u.kind === "sedex"
     ? t("us_sedex_sum", { p: s.participants, d: s.domains, m: s.message_types, t: s.test_participants })
+    : u.kind === "vlei" ? t("us_vlei_sum", { q: s.qvi, l: s.le, lr: s.le_revoked, o: s.oor, or: s.oor_revoked, c: s.countries, ch: s.ch })
     : t("us_i14y_sum", { e: s.entries, p: s.publishers, ds: s.datasets, sv: s.dataservices, ps: s.publicservices, c: s.concepts });
-  const map = await usersMap(u.map_keys || [], ix, { lists: false, note: "" });
+  // a map only where use is placed on Swiss organisations of the radar
+  const map = (u.map_keys || []).length ? await usersMap(u.map_keys, ix, { lists: false, note: "" }) : { html: "", bind: () => {} };
+  const tmTitle = t({ sedex: "us_tm_sedex", i14y: "us_tm_i14y", vlei: "us_tm_vlei" }[u.kind]);
   const W = 1000, H = 420;
   const cells = squarify(u.tiles || [], 0, 0, W, H).map((c, i) => {
     const big = c.w > 90 && c.h > 34;
@@ -65,11 +75,11 @@ export async function usageView(u, ix) {
   });
   const order = squarify(u.tiles || [], 0, 0, W, H).map((c) => c.item);
   const html = `<p>${esc(head)}</p>
-    ${u.kind === "i14y" ? `<p class="muted small">${esc(t("us_i14y_note"))}</p>` : ""}
+    ${u.kind === "i14y" || u.kind === "vlei" ? `<p class="muted small">${esc(t("us_" + u.kind + "_note"))}</p>` : ""}
     ${map.html}
     ${u.map_assessment ? `<p class="muted small">${esc(t("us_sedex_map"))}</p>` : ""}
-    <h3>${esc(t(u.kind === "sedex" ? "us_tm_sedex" : "us_tm_i14y"))}</h3>
-    <div class="treemap" role="group" aria-label="${esc(t(u.kind === "sedex" ? "us_tm_sedex" : "us_tm_i14y"))}">${cells.join("")}</div>
+    <h3>${esc(tmTitle)}</h3>
+    <div class="treemap" role="group" aria-label="${esc(tmTitle)}">${cells.join("")}</div>
     <div class="tm-detail" data-tmdetail><p class="muted small">${esc(t("us_tm_hint"))}</p></div>
     <p class="muted small">${esc(t("reg_fetched", { c: (u.fetched || "").split("-").reverse().map(Number).join(".") }))} · ${esc(t("sources"))}: ${(u.sources || []).map((x) => `<a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a>`).join(" · ")}</p>`;
   const bind = (el) => {

@@ -170,15 +170,19 @@ results, CSV and Excel exports stay in the pipeline repository.
   (`{check: {"pass", "partial", "fail"}}` over the service hosts),
   `service_hosts` (`[{"host", "overall", "ko", "key"}]`, `key` the entity
   whose `evidence/` file holds the host's evidence),
-  `usage` (sedex and I14Y only, from their public sources, `data/exchange/`,
-  `tlsmap exchange`): `{"kind" (sedex | i14y), "fetched", "sources",
+  `usage` (sedex and I14Y from their public sources, `data/exchange/`,
+  `tlsmap exchange`; vLEI from GLEIF's vLEI index, `tlsmap gleif`): `{"kind" (sedex | i14y | vlei), "fetched", "sources",
   "summary", "unit" (participants | entries), "tiles": [{"key", "label"
   {lang: text}, "n", "detail"}], "map_keys", "map_assessment"}`; sedex tiles
   are domains (participants of production, 30 largest and one tile for the
   rest), I14Y tiles are themes (published entries; I14Y shows who publishes,
   not who uses); `map_keys` are entity keys for the map of users,
   `map_assessment` true where the place is derived from the sedex ID scheme,
-  which is not documented,
+  which is not documented; vLEI tiles are the countries of the holders of an
+  active Legal Entity credential, `detail` `{"holders": [{"name", "lei",
+  "since", "qvi", "src", "record"}], "oor"}` (legal entities only; OOR as a
+  count), summary `{qvi, le, le_revoked, oor, oor_revoked, countries, ch}`,
+  `map_keys` the radar's entities that hold one (none on the map otherwise),
   `users` (`{level: n_entities}` seen to use it). Posture and use are kept
   apart (docs/PRODUCT.md, section 5.1): `hosts`, `overall` and `rests_on`
   are the posture of the service itself, part of the supply chain of its
@@ -193,8 +197,9 @@ results, CSV and Excel exports stay in the pipeline repository.
   `where` = reference and article, `what` = quote, `src` = the enactment,
   `title`; the entry carries `scope`; a legal basis, not detected use, so not
   counted in `users` and shown apart on the map), `participant` or
-  `issuer`, `verifier` or `issuer_or_verifier` (swiyu Trust Registry, matched by UID; roles as in the register), `kind` of evidence
-  `registry`, `law`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
+  `issuer`, `verifier` or `issuer_or_verifier` (swiyu Trust Registry, matched by UID; roles as in the register), `holder`
+  (vLEI: active Legal Entity credential of the entity's LEI, evidence kind `vlei`), `kind` of evidence
+  `registry`, `vlei`, `law`, `path`, `redirect`, `csp`, `spf`, `txt`, `dkim`, `cname` or `mx`. An implementation can
   appear in more than one block (swiyu: trust infrastructure and identity). `alternatives` (authentication
   only): foreign login providers used instead, `{"id", "name", "country",
   "users"}`. Only implementations with sources and a check date appear.
@@ -202,7 +207,8 @@ results, CSV and Excel exports stay in the pipeline repository.
   `kind` `zertes` (seal and time stamp blocks, from the Swiss Trusted List of
   the SAS) or `delivery` (data exchange: delivery platforms recognised by the
   EJPD, list of the BJ, kept by hand in `config/model.toml` with `checked`)
-  or `vlei` (identity: qualified vLEI issuers from the GLEIF API,
+  or `vlei` (on the implementation `vlei` of the identity block, not on the
+  block: qualified vLEI issuers from the GLEIF API,
   `data/gleif/vlei_issuers.json`; per provider also `lei`, `country`, `src`
   (GLEIF record), the service `since` is the qualification date; the register
   carries `api` and `checked`, `issued` is null; whether an entity holds a vLEI
@@ -352,7 +358,12 @@ results, CSV and Excel exports stay in the pipeline repository.
   `identity`: the LEI of the entity, matched by its UID in the GLEIF
   data (`data/gleif/lei.json`, CC0): `{"lei", "name", "entity_status",
   "registration_status" (ISSUED, LAPSED …), "next_renewal", "src" (link to
-  the GLEIF record), "fetched"}`, `null` without an LEI.
+  the GLEIF record), "fetched", "vlei"}`, `null` without an LEI. `vlei`: the
+  active Legal Entity vLEI of the LEI in GLEIF's vLEI index
+  (`data/gleif/vlei_credentials.json`): `{"said", "issued", "qvi" (LEI of the
+  issuer), "src" (the credential in the index), "oor" (number of active OOR
+  credentials of the LEI; names and roles are not read), "fetched"}`, `null`
+  without one.
   `parts` (federal level only): the department by the domains of its
   offices as listed in `config/entities.toml`, `[{"domain", "office", "hosts",
   "overall", "knockouts"}]`; `office` the administrative unit whose

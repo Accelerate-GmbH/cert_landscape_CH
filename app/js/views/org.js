@@ -51,7 +51,8 @@ export async function render(el, params, role) {
     <h1>${esc(d.office ? tx(d.office, "name") : d.name)}</h1>
     <p class="sub">${d.uid ? uidRef(d.uid, uidSet) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
-      · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}</p>` : ""}
+      · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}
+      · ${d.identity.vlei ? `<a href="${esc(d.identity.vlei.src)}" rel="noopener">${esc(t("lei_vlei", { d: d.identity.vlei.issued.split("-").reverse().map(Number).join(".") }))}</a>` : esc(t("lei_no_vlei"))} (<a href="#/dienst/vlei">vLEI</a>)</p>` : ""}
     ${(d.swiyu || []).length ? `<p class="sub">${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(t("env_" + x.env))}</a>`).join(", ")} · <a href="#/dienst/swiyu">swiyu</a></p>` : ""}
     <div class="actions"><button class="home${home ? " on" : ""}" data-home="${esc(d.key)}">${esc(home ? t("home_set") : t("home_make"))}</button>
     <a class="tocmp" href="#/vergleich/${encodeURIComponent(d.key)}">${esc(t("to_compare"))}</a>
