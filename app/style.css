@@ -314,3 +314,11 @@ table.reg[data-regtable] td:nth-child(8) { min-width: 180px; }
 .tm-cell:hover, .tm-cell.on { background: var(--accent); color: var(--card); }
 .tm-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .tm-cell b { font-size: 14px; }
 .tm-detail { min-height: 48px; border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0 12px; }
+/* feedback on every page */
+.fb { max-width: 1180px; margin: 24px auto 0; padding: 0 24px; }
+.fb details { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); padding: 10px 14px; }
+.fb summary { cursor: pointer; font-weight: 600; }
+.fbf { display: grid; gap: 10px; margin-top: 10px; }
+.fbf label { display: grid; gap: 4px; font-size: 14px; }
+.fbf textarea, .fbf input, .fbf select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg, #fff); color: inherit; }
+.fbf button[type="submit"] { justify-self: start; padding: 6px 16px; }
