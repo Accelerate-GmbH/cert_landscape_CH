@@ -22,6 +22,14 @@ document.addEventListener("click", (ev) => {
   else last = { kind: "check", key: el.dataset.fail || el.dataset.pfail };
 }, true);
 window.addEventListener("hashchange", () => { last = null; });
+// the button at the top right opens the form at the foot of the page
+document.getElementById("fbbtn")?.addEventListener("click", () => {
+  const d = document.querySelector("#fb details");
+  if (!d) return;
+  d.open = true;
+  d.scrollIntoView({ behavior: "smooth", block: "center" });
+  d.querySelector("textarea")?.focus({ preventScroll: true });
+});
 
 // links to check the evidence by hand, where one exists
 function checks(e) {

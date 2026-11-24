@@ -334,6 +334,7 @@ export default {
   uid_not_measured_d: "Aucun domaine n’est saisi pour cette organisation. Ses hôtes seront recherchés plus tard.",
   role_login: "Connexion",
   fb_title: "Retour, proposition ou données erronées",
+  fb_btn: "Votre avis nous intéresse!",
   fb_kind: "Type",
   fb_kind_wrong: "Données erronées",
   fb_kind_missing: "Données manquantes",
