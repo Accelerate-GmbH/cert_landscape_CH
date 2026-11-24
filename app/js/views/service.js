@@ -12,6 +12,7 @@ import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
 import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, bindRegTables, blockService, legal } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
+import { usageView } from "./usage.js";
 import * as evid from "./evidence.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
@@ -123,6 +124,8 @@ export async function render(el, params, kind) {
       bind: (root) => maps.forEach(([e, m]) => m.bind(root.querySelector(`[data-regenv="${e}"]`))),
     };
   }
+  // sedex, I14Y: use from their public sources (summary, map, treemap with detail)
+  const usage = svcs.length === 1 && svcs[0].usage ? await usageView(svcs[0].usage, ix) : null;
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
@@ -139,10 +142,10 @@ export async function render(el, params, kind) {
       <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p>${swyReg ? "" : envTabs}</section>
     ${svcs.length ? `<section data-service><h2>${esc(t("svc_about"))}</h2>${desc}</section>` : ""}
     <section data-provider-posture>${svcs.length ? "" : `<h2>${esc(t("prov_posture"))}</h2><p class="muted small">${esc(t("prov_posture_d"))}</p>`}${post}</section>
-    ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
-      ${swyReg ? reg : svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
+    ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${usage ? usage.html : svcMap.html}
+      ${usage ? "" : swyReg ? reg : svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
     ${cust ? cust.html : ""}${swyReg ? "" : reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
-  [svcMap, provMap].forEach((m) => m && m.bind(el));
+  [usage || svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
   bindRegTables(el);
   evid.wire(el, null);

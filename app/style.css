@@ -306,3 +306,9 @@ table.reg[data-regtable] td:nth-child(8) { min-width: 180px; }
 .psec > summary { cursor: pointer; list-style-position: outside; }
 .psec > summary h2 { display: inline; margin-right: 12px; }
 .psec[open] > summary { margin-bottom: 8px; }
+.treemap { position: relative; width: 100%; max-width: 980px; aspect-ratio: 1000 / 420; margin: 8px 0; }
+.tm-cell { position: absolute; box-sizing: border-box; border: 2px solid var(--bg); background: var(--accent-soft); color: var(--text); font: inherit; font-size: 12px;
+  padding: 4px 6px; text-align: left; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+.tm-cell:hover, .tm-cell.on { background: var(--accent); color: var(--card); }
+.tm-cell span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .tm-cell b { font-size: 14px; }
+.tm-detail { min-height: 48px; border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0 12px; }

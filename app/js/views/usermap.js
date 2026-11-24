@@ -90,7 +90,7 @@ export async function usersMap(keys, ix, extra = {}) {
       <span><span class="sw um-pt"></span>${esc(t(xs.length ? "um_points_reg" : "um_points"))}</span></p>
     ${set.size || lawCt.size ? svg : `<p class="empty-map"><span class="badge wait">${esc(t("um_none"))}</span> ${esc(t("um_none_d"))}</p>`}
     <p class="muted small">${esc(t("um_note"))}${counts.length ? " " + counts.map(([lv, n]) => `${esc(many(lv))} ${n}`).join(" · ") : ""}</p>
-    ${extra.lists === false ? `<p class="muted small">${esc(t("um_see_table"))}</p>` : `${list("federal")}${list("office")}
+    ${extra.lists === false ? (extra.note === "" ? "" : `<p class="muted small">${esc(t("um_see_table"))}</p>`) : `${list("federal")}${list("office")}
     ${pointList ? `<h4>${esc(t(xs.length ? "um_points_list_reg" : "um_points_list"))}</h4>${pointList}` : ""}
     ${(extra.unplaced || []).length ? `<h4>${esc(t("um_unplaced"))} · ${extra.unplaced.length}</h4><ul class="ents">${extra.unplaced.map((u) =>
       `<li>${u.href ? `<a href="${esc(u.href)}">${esc(u.name)}</a>` : esc(u.name)}</li>`).join("")}</ul>` : ""}`}</div>`;
