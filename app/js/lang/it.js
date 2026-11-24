@@ -194,7 +194,7 @@ export default {
   plan_reached: "raggiunto",
   blk_how_none: "Questo componente non è ancora misurato.",
   blk_how_checks: "Valore {v}: quota di controlli superati su {n} risultati degli host valutati; parzialmente superato conta la metà.",
-  blk_how_mail: "Valore {v}: quota di controlli e-mail superati su {n} domini; parzialmente superato conta la metà.",
+  blk_how_mail: "Valore {v}: valore e-mail secondo le regole di valutazione, controlli ponderati per dominio, media su {n} domini.",
   blk_how_share: "Valore {v}: quota dei fornitori riconosciuti con paese CH, su {n}. Ogni fornitore è riconosciuto da una voce DNS, un reindirizzamento o un percorso; il link porta alla query.",
   blk_how_cloud: "Valore {v}: quota di host presso gestori con paese CH, su {n} host. Il gestore deriva dalla rete (AS) dell’indirizzo; le prove sono per host.",
   blk_how_count: "Contato per tipo di servizio; questo componente non ha valore.",

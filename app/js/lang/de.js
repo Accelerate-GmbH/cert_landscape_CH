@@ -194,7 +194,7 @@ export default {
   "plan_reached": "erreicht",
   "blk_how_none": "Dieser Baustein wird noch nicht gemessen.",
   "blk_how_checks": "Wert {v}: Anteil erfüllter Prüfungen über {n} Prüfergebnisse der bewerteten Hosts; teilweise erfüllt zählt halb.",
-  "blk_how_mail": "Wert {v}: Anteil erfüllter Mail-Prüfungen über {n} Mail-Domains; teilweise erfüllt zählt halb.",
+  "blk_how_mail": "Wert {v}: Mail-Wert nach den Bewertungsregeln, gewichtete Mail-Prüfungen pro Domain, Mittelwert über {n} Mail-Domains.",
   "blk_how_share": "Wert {v}: Anteil der erkannten Anbieter mit Land CH, von {n}. Jeder Anbieter ist an einem DNS-Eintrag, einer Weiterleitung oder einem Pfad erkannt; der Link führt zur Abfrage.",
   "blk_how_cloud": "Wert {v}: Anteil der Hosts bei Betreibern mit Land CH, von {n} Hosts. Der Betreiber folgt aus dem Netz (AS) der Adresse; die Nachweise stehen pro Host.",
   "blk_how_count": "Gezählt nach Art des Dienstes; dieser Baustein hat keinen Wert.",

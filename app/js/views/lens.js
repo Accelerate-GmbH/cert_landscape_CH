@@ -24,7 +24,9 @@ export async function render(el, params) {
     el.innerHTML = `<section class="lead"><h1>${esc(t("map_title"))}</h1><p>${esc(t("map_missing"))}</p></section>`;
     return;
   }
-  const series = sc.series.includes(params.key) ? params.key : "overall";
+  // «mail» was a series of its own until the block ext.mail carried the mail value (24.11.2026)
+  const key = params.key === "mail" ? "blk:ext.mail" : params.key;
+  const series = sc.series.includes(key) ? key : "overall";
   const level = mapLevels().some(([k]) => k === params.level) ? params.level : "municipality";
   const si = sc.series.indexOf(series), cfg = meta.cfg;
   const names = Object.fromEntries(ix.rows.map((r) => [r[0], r[1]]));

@@ -78,7 +78,7 @@ export async function render(el, params) {
   }
 
   // 3. ranking of the level by a series, filtered by canton or sector
-  const si = Math.max(0, S.indexOf(params.sort || "overall"));
+  const si = Math.max(0, S.indexOf(params.sort === "mail" ? "blk:ext.mail" : params.sort || "overall"));
   let rows = ix.rows.filter((r) => r[0].startsWith(level + ":"));
   const cantons = [...new Set(rows.map((r) => r[2]).filter(Boolean))].sort();
   const sectors = [...new Set(rows.map((r) => r[5]).filter(Boolean))].sort();
