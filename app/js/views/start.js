@@ -16,14 +16,11 @@ export async function render(el, params) {
   const home = store.get(HOME_KEY);
 
   const tabs = LEVELS.map(([k, n]) => `<a class="tab${k === level ? " on" : ""}" href="#/?level=${k}">${esc(n)}</a>`).join("");
-  const lights = o.lights || {};
   const head = `<section class="lead">
     <h1>${esc(t("start_h1"))}</h1>
     <p>${esc(t("start_intro", { lv: LEVEL_MANY[level] }))}</p>
     <div class="tabs" role="tablist">${tabs}</div>
-    <p class="sub">${esc(t("start_counts", { e: o.entities, r: o.rated, o: fmt(o.overall) }))} ·
-      ${dot("green")} ${lights.green || 0} ${dot("yellow")} ${lights.yellow || 0} ${dot("red")} ${lights.red || 0}
-      ${home ? ` · <a href="#/org/${encodeURIComponent(home)}">${esc(t("to_my_org"))}</a>` : ""}</p>
+    ${home ? `<p class="sub"><a href="#/org/${encodeURIComponent(home)}">${esc(t("to_my_org"))}</a></p>` : ""}
   </section>`;
 
   const rows = ORDER.map((lid) => {
@@ -43,7 +40,7 @@ export async function render(el, params) {
         ? new Set(swyReg.providers.filter((p) => p.env === "production").map((p) => p.uid || p.name)).size
         : new Set(imps.flatMap((i) => (i.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key))).size;
       // services with use from their own public sources (sedex participants, I14Y publishers)
-      const useOwn = imps.filter((i) => i.usage).map((i) => t("ov_use_" + i.usage.kind, { n: i.usage.kind === "sedex" ? i.usage.summary.participants : i.usage.summary.publishers }));
+      const useOwn = imps.filter((i) => i.usage).map((i) => t("ov_use_" + i.usage.kind, { n: { sedex: i.usage.summary.participants, i14y: i.usage.summary.publishers, vlei: i.usage.summary.le }[i.usage.kind] }));
       const svcLine = none && imps.length ? `<div class="bv">${svcPost === null ? `<span class="muted">${esc(t("no_hosts"))}</span>` : `${dot(light(svcPost, cfg))} <b>${fmt(svcPost)}</b> <span class="muted small">${esc(t("ov_posture"))}</span>`}</div>
         <div class="bs">${esc(useOwn.length ? useOwn.join(" · ") : t(imps.some((i) => i.id.startsWith("swiyu")) ? "ov_use_swiyu" : "ov_use", { n: svcUse }))}</div>` : "";
       const l = none || count ? "none" : light(c.v, cfg);
