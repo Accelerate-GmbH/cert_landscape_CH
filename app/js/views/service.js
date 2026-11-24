@@ -7,10 +7,10 @@
 // Posture and use stay apart (docs/PRODUCT.md, section 5.1): the posture of the
 // service is part of its users' supply chain and not in their value.
 import * as data from "../data.js";
-import { LEVELS, LEVEL_MANY, BLOCKS, t, tx } from "../text.js";
+import { LEVELS, LEVEL_MANY, BLOCKS, LAYERS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
-import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs } from "./infra.js";
+import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, blockService, legal } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
@@ -18,7 +18,7 @@ function services(inf, id) {
   const out = new Map();
   for (const [blk, b] of Object.entries(inf.blocks || {})) {
     for (const i of b.implementations || []) {
-      if (i.id !== id && !(i.providers || []).includes(id)) continue;
+      if (i.id !== id && !i.id.startsWith(id + "-") && !(i.providers || []).includes(id)) continue;
       const s = out.get(i.id) || { ...i, blocks: [] };
       s.blocks.push(blk);
       out.set(i.id, s);
@@ -59,6 +59,14 @@ export async function render(el, params, kind) {
   const [inf, meta, dir, ix, p, uids] = await Promise.all([data.infrastructure(), data.meta(), data.providers(), data.index(),
     data.provider(id).catch(() => null), data.uids()]);
   useUids(uids);
+  // another environment of a service (swiyu-sandbox) is shown on the page of the service
+  const parent = Object.values(inf.blocks || {}).flatMap((b) => b.implementations || []).find((i) => id.startsWith(i.id + "-"));
+  if (parent) {
+    const me = Object.values(inf.blocks || {}).flatMap((b) => b.implementations || []).find((i) => i.id === id);
+    location.replace(`#/dienst/${encodeURIComponent(parent.id)}${me && me.environment ? "?env=" + me.environment : ""}`);
+    return;
+  }
+  const gov = await data.governance().catch(() => ({ laws: [] }));
   const svcs = services(inf, id);
   if (!p && !svcs.length) {
     el.innerHTML = `<section class="lead"><h1>${esc(t("not_found"))}</h1><p>${esc(id)}</p></section>`;
@@ -69,14 +77,23 @@ export async function render(el, params, kind) {
   const route = `${kind === "dienst" ? "dienst" : "anbieter"}/${encodeURIComponent(id)}`;
   const main = svcs.find((s) => s.id === id) || svcs[0];
   const title = main && (main.id === id || !p) ? main.name : p.name;
-  const blockLinks = (s) => s.blocks.map((b) => `<a href="#/baustein/${encodeURIComponent(b)}">${esc(BLOCKS[b] || b)}</a>`).join(" · ");
+  // a block is named with its layer; a block whose page is this one is not linked
+  const blockName = (b) => `${(LAYERS[b.split(".")[0]] || {}).name || ""}: ${BLOCKS[b] || b}`;
+  const own = (b) => blockService((inf.blocks || {})[b] || {}) === id;
+  const blockLinks = (s) => s.blocks.map((b) => own(b) ? esc(blockName(b)) : `<a href="#/baustein/${encodeURIComponent(b)}">${esc(blockName(b))}</a>`).join(" · ");
+  // environments of one service (swiyu and its sandbox): one selector for the whole page
+  const byEnv = svcs.length > 1 && svcs.every((x) => x.environment);
+  const envFirst = byEnv ? (svcs.some((x) => x.environment === params.env) ? params.env : (svcs.find((x) => x.id === id) || svcs[0]).environment) : null;
+  const wrap = (x) => (byEnv ? `data-regenv="${esc(x.environment)}"${x.environment === envFirst ? "" : " hidden"}` : "");
+  const envTabs = byEnv ? `<div class="tabs">${svcs.map((x) => `<a class="tab${x.environment === envFirst ? " on" : ""}" href="#" data-regtab="${esc(x.environment)}">${esc(t("env_" + x.environment))}</a>`).join("")}</div>` : "";
+  const head3 = (x) => (svcs.length > 1 && !byEnv ? `<h3 class="imp-name">${esc(x.name)}</h3>` : "");
   // the service: what it is, where it belongs, which environment
-  const desc = svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${envBadge(s)}
+  const desc = svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${envBadge(s)}
       <p>${esc(tx(s, "operator") || "")}${s.role ? " · " + linkSwiyu(tx(s, "role"), s.id) : ""}</p>
       <p class="small"><span class="muted">${esc(t("svc_blocks"))}:</span> ${blockLinks(s)}</p>${sourceLine(s)}</div>`).join("");
   // posture: the service's own hosts; a provider without a measured service is not measured
   const post = svcs.length
-    ? svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${posture(s, cfg)}</div>`).join("")
+    ? svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${posture(s, cfg)}</div>`).join("")
     : `<p><span class="badge wait">${esc(t("not_measured"))}</span> ${esc(t("prov_not_measured"))}</p>`;
   // map of the users: for a service those with evidence of use, for a provider its customers (per function)
   // swiyu: every registered participant of the service's environment; those that are measured entities appear as such,
@@ -96,7 +113,7 @@ export async function render(el, params, kind) {
       const keys = (imp.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key);
       maps.push([env, await usersMap(keys, ix, swiyuExtra(swyReg[1], env, keys, ix, uids))]);
     }
-    const first = swyReg[0].environment;
+    const first = envFirst || (envs.includes(params.env) ? params.env : swyReg[0].environment);
     svcMap = {
       html: `<div class="tabs">${envs.map((e) => `<a class="tab${e === first ? " on" : ""}" href="#" data-regtab="${esc(e)}">${esc(t("env_" + e))}</a>`).join("")}</div>
         ${maps.map(([e, m]) => `<div data-regenv="${esc(e)}"${e === first ? "" : " hidden"}>${m.html}</div>`).join("")}`,
@@ -106,21 +123,22 @@ export async function render(el, params, kind) {
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
-  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], null, { tabs: swy[0].environment, full: true }) : "";
+  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], null, { tabs: envFirst || swy[0].environment, full: true }) : "";
   const cust = p ? customers(p, params, dir, meta, names, cfg, route, provMap) : null;
   const op = p && p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
       · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
         : esc(t("op_no_parent", { r: p.operator.parent_reason || "–" }))}</p>
       <p class="muted small">${esc(t("op_note", { d: (p.operator.fetched || "").split("-").reverse().map(Number).join(".") }))}</p>` : "";
-  const back = main ? `<a href="#/baustein/${encodeURIComponent(main.blocks[0])}">← ${esc(BLOCKS[main.blocks[0]] || main.blocks[0])}</a>`
+  const backBlk = main && main.blocks.find((b) => !own(b));
+  const back = main ? (backBlk ? `<a href="#/baustein/${encodeURIComponent(backBlk)}">← ${esc(BLOCKS[backBlk] || backBlk)}</a>` : `<a href="#/">← ${esc(t("overview"))}</a>`)
     : `<a href="${hash("abhaengigkeiten", { level: cust ? cust.level : "municipality" })}">← ${esc(t("deps_title"))}</a>`;
   el.innerHTML = `<section class="lead org"><div class="kind">${esc(svcs.length ? t("svc_kind") : t("kind_" + p.kind) || p.kind)}</div>
-      <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p></section>
+      <h1>${esc(title)} ${p ? cc(p.country) : ""}</h1>${op}<p>${back}</p>${envTabs}</section>
     ${svcs.length ? `<section data-service><h2>${esc(t("svc_about"))}</h2>${desc}</section>` : ""}
     <section data-provider-posture><h2>${esc(svcs.length ? t("svc_posture") : t("prov_posture"))}</h2><p class="muted small">${esc(svcs.length ? t("svc_posture_d") : t("prov_posture_d"))}</p>${post}</section>
     ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${svcMap.html}
-      ${svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${use(s)}</div>`).join("")}</section>` : ""}
-    ${cust ? cust.html : ""}${reg}`;
+      ${svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
+    ${cust ? cust.html : ""}${reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
   const sel = el.querySelector("[data-f=kt]");
