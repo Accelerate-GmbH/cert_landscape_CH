@@ -194,7 +194,7 @@ export default {
   plan_reached: "atteinte",
   blk_how_none: "Ce composant n’est pas encore mesuré.",
   blk_how_checks: "Valeur {v} : part des contrôles réussis sur {n} résultats des hôtes évalués ; partiellement réussi compte pour moitié.",
-  blk_how_mail: "Valeur {v} : part des contrôles de messagerie réussis sur {n} domaines ; partiellement réussi compte pour moitié.",
+  blk_how_mail: "Valeur {v} : valeur de messagerie selon les règles d’évaluation, contrôles pondérés par domaine, moyenne sur {n} domaines.",
   blk_how_share: "Valeur {v} : part des fournisseurs reconnus avec pays CH, sur {n}. Chaque fournisseur est reconnu à une entrée DNS, une redirection ou un chemin ; le lien mène à la requête.",
   blk_how_cloud: "Valeur {v} : part des hôtes chez des exploitants avec pays CH, sur {n} hôtes. L’exploitant découle du réseau (AS) de l’adresse ; les preuves figurent par hôte.",
   blk_how_count: "Compté par type de service ; ce composant n’a pas de valeur.",

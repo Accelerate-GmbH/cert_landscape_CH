@@ -194,7 +194,7 @@ export default {
   plan_reached: "reached",
   blk_how_none: "This building block is not measured yet.",
   blk_how_checks: "Value {v}: share of checks met over {n} results of the rated hosts; partly met counts half.",
-  blk_how_mail: "Value {v}: share of mail checks met over {n} mail domains; partly met counts half.",
+  blk_how_mail: "Value {v}: the mail value under the rating rules, weighted mail checks per domain, mean over {n} mail domains.",
   blk_how_share: "Value {v}: share of recognised providers with country CH, of {n}. Each provider is recognised by a DNS record, a redirect or a path; the link leads to the query.",
   blk_how_cloud: "Value {v}: share of hosts at operators with country CH, of {n} hosts. The operator follows from the network (AS) of the address; the evidence is given per host.",
   blk_how_count: "Counted by kind of service; this building block has no value.",

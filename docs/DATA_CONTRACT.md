@@ -87,9 +87,11 @@ results, CSV and Excel exports stay in the pipeline repository.
 : values per entity for the ranking in the view «Vergleich», loaded only
   there: `{"schema": 2, "series": [...], "rows": {key: [value | null, …]}}`.
   `series` in this order: `overall`, `cat:<category>` (ownership,
-  sovereignty, security, privacy), `mail`, then `blk:<layer>.<block>` for
+  sovereignty, security, privacy), then `blk:<layer>.<block>` for
   every measured building block of `model` (not `none`, not the count of
-  service types).
+  service types). The mail value is the series `blk:ext.mail`; the former
+  series `mail` (identical since 24.11.2026) is no longer written, and the
+  views read `mail` as `blk:ext.mail`.
 
 `history/<level>-<id>.json`
 : the time series of one entity, one point per month:
@@ -401,6 +403,7 @@ merges it into the entity file.
 ## Measures per building block
 
 Defined in `config/model.toml`: `checks` = share of hosts meeting the listed
-Trust & Sovereignty Posture checks (pass 1, partial ½); `mail` = share of mail domains
-meeting the mail checks; `deps` = share of Swiss providers among the
+Trust & Sovereignty Posture checks (pass 1, partial ½); `mail` = the mail value of
+the entity as rated (docs/RATING.md, Mail: weighted checks per domain, mean of
+the domains; decision 24.11.2026, before that the unweighted share of checks); `deps` = share of Swiss providers among the
 dependencies found; `none` = not measured yet.
