@@ -12,6 +12,7 @@ import * as gov from "./views/gov.js";
 import * as report from "./views/report.js";
 import * as plan from "./views/plan.js";
 import * as lens from "./views/lens.js";
+import * as feedback from "./feedback.js";
 import { esc, store } from "./ui.js";
 import { LEVEL_ONE, LANG, LANGS, setLang, t } from "./text.js";
 
@@ -73,6 +74,7 @@ async function route() {
   } catch (e) {
     view.innerHTML = `<p>${esc(t("load_error", { e: e.message }))}</p>`;
   }
+  feedback.render(() => asof);
   if (!(r.name === "gov" && r.params.law) && r.params.to !== "rank") window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", route);
@@ -109,5 +111,6 @@ q.addEventListener("keydown", (ev) => {
 sugg.addEventListener("mousedown", (ev) => { const li = ev.target.closest("li"); if (li) go(li.dataset.key); });
 function go(key) { q.value = ""; current = []; show([]); location.hash = `#/org/${encodeURIComponent(key)}`; }
 
-data.meta().then((m) => { document.getElementById("asof").textContent = (m.data_generated || "").slice(0, 10); });
+let asof = "";
+data.meta().then((m) => { asof = (m.data_generated || "").slice(0, 10); document.getElementById("asof").textContent = asof; });
 route();

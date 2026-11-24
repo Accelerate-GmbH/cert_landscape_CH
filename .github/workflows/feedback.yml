@@ -1,0 +1,61 @@
+name: feedback intake
+
+# An issue from the feedback form (label «feedback", .github/ISSUE_TEMPLATE/feedback.yml) is
+# stored in the private repository (data/reported/inbox/<id>.json, docs/PRODUCT.md section 15);
+# its text is then removed from the issue, which is closed and locked. Needs the secret
+# REPO_TOKEN with write access to the contents of Accelerate-GmbH/cert_landscape_CH_data.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: feedback
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    if: startsWith(github.event.issue.title, '[Feedback]') || contains(github.event.issue.labels.*.name, 'feedback')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          DATA_TOKEN: ${{ secrets.REPO_TOKEN || secrets.DATA_REPO_TOKEN }}
+        with:
+          script: |
+            const crypto = require("crypto");
+            const issue = context.payload.issue;
+            // sections of an issue form: "### <label>\n\n<value>"
+            const fields = {};
+            for (const part of (issue.body || "").split(/^### /m).slice(1)) {
+              const [label, ...rest] = part.split("\n");
+              let v = rest.join("\n").trim().replace(/^```\w*\n?|\n?```$/g, "").trim();
+              fields[label.trim()] = v === "_No response_" ? "" : v;
+            }
+            const pick = (prefix) => fields[Object.keys(fields).find((k) => k.startsWith(prefix)) || ""] || "";
+            const id = crypto.randomBytes(6).toString("hex");
+            const ctx = Object.fromEntries(pick("Kontext").split("\n").map((l) => l.match(/^(\w+): (.*)$/)).filter(Boolean).map((m) => [m[1], m[2]]));
+            const checks = pick("Kontext").split("\n").filter((l) => l.startsWith("check: ")).map((l) => l.slice(7));
+            const rec = {
+              id, received: new Date().toISOString(), status: "received", channel: "github-issue",
+              issue: issue.number, author: issue.user.login,
+              kind: pick("Art"), text: pick("Was stimmt"), source: pick("Quelle"),
+              page: ctx.page || "", lang: ctx.lang || "", role: ctx.role || "", data: ctx.data || "",
+              settings: ctx.settings || "", evidence: ctx.evidence || "", checks,
+            };
+            if (!rec.text) { core.setFailed("no text in the issue"); return; }
+            const content = Buffer.from(JSON.stringify(rec, null, 1) + "\n").toString("base64");
+            const res = await fetch(`https://api.github.com/repos/Accelerate-GmbH/cert_landscape_CH_data/contents/data/reported/inbox/${id}.json`, {
+              method: "PUT",
+              headers: { authorization: `Bearer ${process.env.DATA_TOKEN}`, accept: "application/vnd.github+json", "content-type": "application/json" },
+              body: JSON.stringify({ message: `Feedback ${id}`, content, branch: "main",
+                committer: { name: "github-actions[bot]", email: "41898282+github-actions[bot]@users.noreply.github.com" } }),
+            });
+            if (!res.ok) { core.setFailed(`storing failed: ${res.status} ${await res.text()}`); return; }
+            const repo = { owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number };
+            await github.rest.issues.update({ ...repo, title: `[Feedback] ${id}`,
+              body: `Übernommen ins private Repository als Beitrag \`${id}\`. Der Text wurde hier entfernt.`, state: "closed", state_reason: "completed" });
+            await github.rest.issues.lock({ ...repo, lock_reason: "resolved" });

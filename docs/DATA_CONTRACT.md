@@ -333,6 +333,17 @@ results, CSV and Excel exports stay in the pipeline repository.
   "service_hosts"}]`; `service_posture` is the posture value (`overall`) of
   the service, shown beside the entity's own value as part of its supply
   chain, never part of it (decision 23.11.2026); `id` is the implementation `id` (page `#/dienst/<id>`).
+  Besides the roles of `users_list`, two roles come from the data exchange
+  services (`data/exchange/`): `exchange_participant` (sedex: participants
+  whose sedex ID is `1-<BFS number>-n` for a municipality or `2-<canton>-n`
+  for a canton; `assessment: true` because the ID scheme is not documented;
+  evidence kind `sedex_dir` with `src` = the participant directory and kind
+  `sedex_id` with `where` = sedex ID, `what` = domain; no participant names)
+  and `publisher` (I14Y: publisher UID = entity UID, federal offices without
+  UID by name; `counts` per entry type; evidence kind `i14y_<type>` with `src`
+  = the API query for the publisher and `n` = number of entries). Both carry
+  `fetched`; `env` is `null`. A building block without a value of its own
+  (`m` `none`) shows these uses instead of a value.
   `swiyu`: the entity's identity trust statements in the swiyu Trust
   Registry, matched by its UID: `[{"env", "name", "did", "src",
   "state_actor"}]`, empty without one.
