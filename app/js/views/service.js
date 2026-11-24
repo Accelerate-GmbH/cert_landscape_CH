@@ -86,7 +86,23 @@ export async function render(el, params, kind) {
   const extra = { points: [], unplaced: [], law: lawKeys };
   const swyReg = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
   if (swyReg && swyReg[0].environment) Object.assign(extra, swiyuExtra(swyReg[1], swyReg[0].environment, userKeys, ix, uids));
-  const svcMap = svcs.length ? await usersMap(userKeys, ix, extra) : null;
+  let svcMap = svcs.length ? await usersMap(userKeys, ix, extra) : null;
+  // swiyu: one map per environment behind the same selector as the register tables
+  if (swyReg && swyReg[0].environment) {
+    const envs = Object.keys(swyReg[1].envs || {});
+    const maps = [];
+    for (const env of envs) {
+      const imp = (inf.blocks["trust.swiyu"] || { implementations: [] }).implementations.find((i) => i.environment === env) || { users_list: [] };
+      const keys = (imp.users_list || []).filter((u) => u.role !== "hint" && u.role !== "law").map((u) => u.key);
+      maps.push([env, await usersMap(keys, ix, swiyuExtra(swyReg[1], env, keys, ix, uids))]);
+    }
+    const first = swyReg[0].environment;
+    svcMap = {
+      html: `<div class="tabs">${envs.map((e) => `<a class="tab${e === first ? " on" : ""}" href="#" data-regtab="${esc(e)}">${esc(t("env_" + e))}</a>`).join("")}</div>
+        ${maps.map(([e, m]) => `<div data-regenv="${esc(e)}"${e === first ? "" : " hidden"}>${m.html}</div>`).join("")}`,
+      bind: (root) => maps.forEach(([e, m]) => m.bind(root.querySelector(`[data-regenv="${e}"]`))),
+    };
+  }
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
