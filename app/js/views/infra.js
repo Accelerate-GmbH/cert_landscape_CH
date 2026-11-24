@@ -80,7 +80,7 @@ export const sourceLine = (i) => `<p class="muted small">${esc(t("checked_on", {
 
 // a register of a block: providers recognised under ZertES (Swiss Trusted List),
 // recognised delivery platforms (BJ) or qualified vLEI issuers (GLEIF)
-function register(r) {
+export function register(r) {
   if (r && r.kind === "swiyu") return swiyuRegister(r);
   if (!r || !(r.providers || []).length) return "";
   const svc = (s) => `${esc(t("kind_" + s.kind) || s.kind)}${(s.for || []).length ? " (" + s.for.map((f) => esc(t("for_" + f))).join(", ") + ")" : ""}`;

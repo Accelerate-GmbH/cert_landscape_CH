@@ -10,7 +10,7 @@ import * as data from "../data.js";
 import { LEVELS, LEVEL_MANY, BLOCKS, LAYERS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
-import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, bindRegTables, blockService, legal } from "./infra.js";
+import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs, bindRegTables, blockService, legal, register } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
 import { usageView } from "./usage.js";
 import * as evid from "./evidence.js";
@@ -144,7 +144,7 @@ export async function render(el, params, kind) {
     <section data-provider-posture>${svcs.length ? "" : `<h2>${esc(t("prov_posture"))}</h2><p class="muted small">${esc(t("prov_posture_d"))}</p>`}${post}</section>
     ${svcs.length ? `<section data-service-use><h2>${esc(t("svc_use"))}</h2><p class="muted small">${esc(t("svc_use_d"))}</p>${usage ? usage.html : svcMap.html}
       ${usage ? "" : swyReg ? reg : svcs.map((s) => `<div class="imp" ${wrap(s)}>${head3(s)}${use(s)}</div>`).join("")}</section>` : ""}
-    ${cust ? cust.html : ""}${swyReg ? "" : reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
+    ${svcs.map((s) => register(s.register)).join("")}${cust ? cust.html : ""}${swyReg ? "" : reg}${[...new Set(svcs.flatMap((x) => x.blocks))].filter(own).map((b) => legal(gov, b)).join("")}`;
   [usage || svcMap, provMap].forEach((m) => m && m.bind(el));
   bindRegTabs(el);
   bindRegTables(el);
