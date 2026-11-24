@@ -11,7 +11,7 @@ import { LEVELS, LEVEL_MANY, BLOCKS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
 import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids } from "./infra.js";
-import { usersMap } from "./usermap.js";
+import { usersMap, swiyuExtra } from "./usermap.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
 function services(inf, id) {
@@ -85,18 +85,7 @@ export async function render(el, params, kind) {
   const lawKeys = svcs.flatMap((s) => (s.users_list || []).filter((u) => u.role === "law").map((u) => u.key));
   const extra = { points: [], unplaced: [], law: lawKeys };
   const swyReg = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
-  if (swyReg && swyReg[0].environment) {
-    const byUid = new Set(ix.rows.filter((r) => userKeys.includes(r[0])).map((r) => r[4]).filter(Boolean));
-    const seen = new Set();
-    swyReg[1].providers.filter((p) => p.env === swyReg[0].environment).forEach((p) => {
-      const id = p.uid || p.name;
-      if (seen.has(id) || (p.uid && byUid.has(p.uid))) return;
-      seen.add(id);
-      const href = p.uid && uids.has(p.uid.replace(/\D/g, "")) ? `#/uid/${encodeURIComponent(p.uid)}` : p.src;
-      if (p.seat) extra.points.push({ name: p.name, href, bfs: p.seat.bfs, canton: p.seat.canton });
-      else extra.unplaced.push({ name: p.name, href });
-    });
-  }
+  if (swyReg && swyReg[0].environment) Object.assign(extra, swiyuExtra(swyReg[1], swyReg[0].environment, userKeys, ix, uids));
   const svcMap = svcs.length ? await usersMap(userKeys, ix, extra) : null;
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service

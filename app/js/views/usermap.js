@@ -98,3 +98,22 @@ export async function usersMap(keys, ix, extra = {}) {
   }));
   return { html, bind };
 }
+
+// swiyu: the registered parties of one environment as map entries; measured entities with a use already
+// in userKeys are left out, others stand at their seat from the UID register or, without UID, in a list
+export function swiyuExtra(reg, env, userKeys, ix, uids) {
+  const out = { points: [], unplaced: [] };
+  if (!reg || reg.kind !== "swiyu") return out;
+  const byUid = new Set(ix.rows.filter((r) => userKeys.includes(r[0])).map((r) => r[4]).filter(Boolean));
+  const seen = new Set();
+  reg.providers.filter((p) => p.env === env).forEach((p) => {
+    const id = p.uid || p.name;
+    if (seen.has(id) || (p.uid && byUid.has(p.uid))) return;
+    seen.add(id);
+    const href = p.uid && uids.has(p.uid.replace(/\D/g, "")) ? `#/uid/${encodeURIComponent(p.uid)}` : p.src;
+    const name = `${p.name} · ${(p.roles || []).map((r) => t("role_" + r)).join(", ")}${(p.issues || []).length ? ` (${p.issues.join(", ")})` : ""}`;
+    if (p.seat) out.points.push({ name, href, bfs: p.seat.bfs, canton: p.seat.canton });
+    else out.unplaced.push({ name, href });
+  });
+  return out;
+}
