@@ -52,7 +52,7 @@ export async function render(el, params, role) {
     <p class="sub">${d.uid ? uidRef(d.uid, uidSet) + (d.uid_name ? " · " + esc(d.uid_name) : "") + " · " : ""}${esc((d.domains || []).slice(0, 4).join(", "))}</p>
     ${d.identity ? `<p class="sub">${esc(t("lei"))} <a href="${esc(d.identity.src)}" rel="noopener">${esc(d.identity.lei)}</a>
       · ${esc(d.identity.registration_status === "ISSUED" ? t("lei_valid", { d: (d.identity.next_renewal || "").split("-").reverse().map(Number).join(".") }) : t("lei_lapsed"))}</p>` : ""}
-    ${(d.swiyu || []).length ? `<p class="sub">${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(t("env_" + x.env))}</a>`).join(", ")} · <a href="#/baustein/trust.swiyu">swiyu</a></p>` : ""}
+    ${(d.swiyu || []).length ? `<p class="sub">${esc(t("org_swiyu"))}: ${d.swiyu.map((x) => `<a href="${esc(x.src)}" rel="noopener">${esc(t("env_" + x.env))}</a>`).join(", ")} · <a href="#/dienst/swiyu">swiyu</a></p>` : ""}
     <div class="actions"><button class="home${home ? " on" : ""}" data-home="${esc(d.key)}">${esc(home ? t("home_set") : t("home_make"))}</button>
     <a class="tocmp" href="#/vergleich/${encodeURIComponent(d.key)}">${esc(t("to_compare"))}</a>
     <a class="tocmp" href="#/org/${encodeURIComponent(d.key)}/bericht">${esc(t("rep_link"))}</a>
@@ -68,6 +68,9 @@ export async function render(el, params, role) {
         ${bo ? `<div class="sub">${esc(bo.mode === "top" ? t("top_reach", { p: Math.round(bo.share * 100), lv: LEVEL_MANY[d.kind], v: fmt(bo.value) }) : t("best_value", { lv: LEVEL_DAT[d.kind], v: fmt(bo.value) }))}</div>` : ""}
       </div></section>`;
 
+  const usesOf = (k) => (d.uses || []).filter((u) => u.block === k);
+  const useWord = (u) => (u.role === "publisher" && u.counts ? t("use_published", { n: Object.values(u.counts).reduce((a, n) => a + n, 0) }) : t("role_" + u.role) || u.role)
+    + (u.env && u.env !== "prod" ? " · " + t("env_" + u.env) : "");
   // drill-down: a building block leads to the hosts that fail its checks, to the
   // mail values per domain, or to the dependencies it is measured from
   const drillAttr = (b, k) => `data-blk="${esc(k)}" role="button" tabindex="0" aria-controls="blkdetail"`;
@@ -76,7 +79,11 @@ export async function render(el, params, role) {
     const L = meta.model.layer.find((x) => x.id === lid);
     const blocks = L.blocks.map((b) => {
       const k = `${lid}.${b.id}`, v = (d.layers[lid] || {})[b.id] || {};
-      if (v.m === "none") return `<div class="block unmeasured drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div><div class="bv muted">${esc(t("not_measured"))}</div></div>`;
+      // services of the block the organisation uses: shown as use, not as a value of its own
+      const bu = usesOf(k);
+      const useLine = bu.length ? `<div class="bs">${bu.map((u) => `${esc(u.service)} <span class="muted">${esc(useWord(u))}</span>`).join(" · ")}</div>` : "";
+      if (v.m === "none") return `<div class="block ${bu.length ? "used" : "unmeasured"} drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div>${useLine || `<div class="bv muted">${esc(t("not_measured"))}</div>`}</div>`;
+      if ((v.v === null || v.v === undefined) && v.m === "ch_share") return `<div class="block ${bu.length ? "used" : "none"} drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div>${useLine}<div class="bs muted">${esc(t("no_provider_found"))}</div></div>`;
       if (v.m === "count") {
         const apps = Object.entries(d.dependencies.apps || {}).sort((a, b) => b[1] - a[1]).slice(0, 4);
         return `<div class="block none drill" ${drillAttr(b, k)}><div class="bn">${esc(BLOCKS[k])}</div><div class="bs">${apps.map(([a, n]) => `${esc(APPS[a] || a)} ${n}`).join(" · ") || "–"}</div></div>`;
@@ -84,8 +91,8 @@ export async function render(el, params, role) {
       const bb = B["blk:" + k];
       const l = light(v.v, cfg);
       return `<div class="block ${l} drill" ${drillAttr(b, k)} title="${esc(BLOCK_WHAT[k] || "")}"><div class="bn">${esc(BLOCKS[k])}</div>
-        <div class="bv">${v.v === null || v.v === undefined ? "" : `${dot(l)} <b>${fmt(v.v)}</b>`}${bb ? `<span class="bb"> · ${bestLabel(bb)} ${fmt(bestVal(bb))}</span>` : ""}</div>
-        ${v.v !== null && v.v !== undefined ? bar(v.v, bestVal(bb), bestLabel(bb)) : `<div class="bs muted">${esc(t("no_data_yet"))}</div>`}</div>`;
+        <div class="bv">${v.v === null || v.v === undefined ? "" : `${dot(l)} <b>${fmt(v.v)}</b>`}${bb && v.v !== null && v.v !== undefined ? `<span class="bb"> · ${bestLabel(bb)} ${fmt(bestVal(bb))}</span>` : ""}</div>
+        ${v.v !== null && v.v !== undefined ? bar(v.v, bestVal(bb), bestLabel(bb)) : `<div class="bs muted">${esc(t("no_data_yet"))}</div>`}${useLine}</div>`;
     }).join("");
     return `<div class="layer ${lid}${L.group ? " " + L.group : ""}"><div class="ln"><b>${esc(LAYERS[lid].name)}</b></div>
       <div class="blocks" style="--n:${L.blocks.length}">${blocks}</div></div>`;
@@ -179,11 +186,14 @@ export async function render(el, params, role) {
 
   // services of the building blocks the entity uses: its role, the evidence, and the
   // posture of the service as part of its supply chain (not part of its own value)
-  const usesTbl = (d.uses || []).length ? `<h3>${esc(t("uses_title"))}</h3><p class="muted small">${esc(t("uses_sub"))}</p>
-    <table class="deps"><tbody>${d.uses.map((u) => `<tr><th><a href="${u.id ? "#/dienst/" + encodeURIComponent(u.id) : "#/baustein/" + encodeURIComponent(u.block)}">${esc(u.service)}</a>
+  const evLine = (e) => e.src ? `<div class="small"><a href="${esc(e.src)}" rel="noopener">${esc(t("ev_kind_" + e.kind) || e.kind)}</a>${e.n !== undefined ? ` ${e.n}` : ""}</div>`
+    : `<div class="small"><span class="muted">${esc(t("ev_kind_" + e.kind) || e.kind)}</span> <span class="mono">${esc(e.where)}</span>${e.what ? " → " + `<span class="mono">${esc(e.what)}</span>` : ""}</div>`;
+  const useRows = (list) => list.map((u) => `<tr><th><a href="${u.id ? "#/dienst/" + encodeURIComponent(u.id) : "#/baustein/" + encodeURIComponent(u.block)}">${esc(u.service)}</a>
       <div class="muted small">${esc(t("role_" + u.role) || u.role)}${u.env ? " · " + esc(t("env_" + u.env)) : ""}</div></th>
       <td>${u.service_posture === null || u.service_posture === undefined ? `<span class="muted small">${esc(t("no_hosts"))}</span>` : `${dot(light(u.service_posture, cfg))} ${fmt(u.service_posture)} <span class="muted small">${esc(t("uses_posture", { n: u.service_hosts || 0 }))}</span>`}
-      ${u.evidence.map((e) => e.src ? `<div class="small"><a href="${esc(e.src)}" rel="noopener">${esc(t("ev_kind_" + e.kind) || e.kind)}</a></div>` : `<div class="small mono">${esc(e.where)}${e.what ? " → " + esc(e.what) : ""}</div>`).join("")}</td></tr>`).join("")}</tbody></table>` : "";
+      ${u.evidence.map(evLine).join("")}${u.assessment ? `<div class="muted small">${esc(t("use_assess_" + u.id))}</div>` : ""}</td></tr>`).join("");
+  const usesTbl = (d.uses || []).length ? `<h3>${esc(t("uses_title"))}</h3><p class="muted small">${esc(t("uses_sub"))}</p>
+    <table class="deps"><tbody>${useRows(d.uses)}</tbody></table>` : "";
   // detail of one building block: how its value is computed and the evidence
   // behind it, each with a place to check it by hand
   const DNSQ = { spf: "TXT", txt: "TXT", mx: "MX", dkim: "CNAME", cname: "CNAME" };
@@ -197,9 +207,11 @@ export async function render(el, params, role) {
     const sec = (title, inner, id) => `<div class="bd-sec"${id ? ` id="${id}"` : ""}><h3>${esc(title)}</h3>${inner}</div>`;
     const share = (k) => { const n = (k.pass || 0) + (k.partial || 0) + (k.fail || 0); return n ? (100 * ((k.pass || 0) + 0.5 * (k.partial || 0))) / n : null; };
     let desc = "", how = "", parts = "";
+    const bu = usesOf(key);
+    const useSec = !bu.length ? "" : sec(t("uses_title"), `<p class="muted small">${esc(t("uses_sub"))}</p><table class="deps"><tbody>${useRows(bu)}</tbody></table>`);
     if (v.m === "none") {
-      desc = t("blk_desc_none");
-      if (key === "trust.swiyu") parts = sec(t("org_swiyu"), (d.swiyu || []).length
+      desc = t(bu.length ? "blk_desc_use" : "blk_desc_none");
+      if (key === "trust.swiyu" && !bu.length) parts = sec(t("org_swiyu"), (d.swiyu || []).length
         ? `<div class="bd-cards">${d.swiyu.map((x) => `<div class="bd-card"><b>${esc(x.name)}</b><div class="muted small">${esc(t("env_" + x.env))}${x.state_actor ? " · " + esc(t("reg_swiyu_state")) : ""}</div>
             <div class="mono small">${esc(x.did)}</div><div class="bd-act"><a href="${esc(x.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></div></div>`).join("")}</div>`
         : `<p class="muted">${esc(t("blk_swiyu_none"))}</p>`);
@@ -235,7 +247,7 @@ export async function render(el, params, role) {
     } else if (b.deps) {
       const part = b.deps, list = dep[part] || [];
       desc = t(part === "cloud" ? "blk_desc_cloud" : "blk_desc_deps");
-      how = t(part === "cloud" ? "blk_how_cloud" : "blk_how_share", { v: val === null ? "–" : fmt(val), n: v.n || 0 });
+      how = !v.n ? "" : t(part === "cloud" ? "blk_how_cloud" : "blk_how_share", { v: val === null ? "–" : fmt(val), n: v.n || 0 });
       const cards = list.map((x) => {
         const via = (dep.via || []).find((y) => y.part === part && y.name === x[0]);
         const id = via ? via.provider : provId.get(x[0]);
@@ -251,9 +263,9 @@ export async function render(el, params, role) {
     }
     return `<div class="bd-head"><div><div class="kind">${esc(t("blk_kind"))} · ${esc((LAYERS[lid] || {}).name || lid)}</div><h2>${esc(BLOCKS[key] || key)}</h2>
         ${BLOCK_WHAT[key] ? `<p class="sub">${esc(BLOCK_WHAT[key])}</p>` : ""}</div>
-      <div class="bd-val">${val === null ? `<span class="muted">${esc(t(v.m === "none" ? "not_measured" : "no_data_yet"))}</span>` : `${dot(light(val, cfg))} <b>${fmt(val)}</b>${bb ? `<div class="muted small">${bestLabel(bb)} ${fmt(bestVal(bb))}</div>` : ""}`}</div>
+      <div class="bd-val">${val === null ? `<span class="muted">${esc(t(v.m === "none" ? (bu.length ? "use_only" : "not_measured") : v.m === "ch_share" ? "no_provider_found" : "no_data_yet"))}</span>` : `${dot(light(val, cfg))} <b>${fmt(val)}</b>${bb ? `<div class="muted small">${bestLabel(bb)} ${fmt(bestVal(bb))}</div>` : ""}`}</div>
       <button class="link" data-blkclose aria-label="${esc(t("blk_close"))}">✕</button></div>
-      ${desc ? sec(t("blk_sec_what"), `<p>${esc(desc)}</p>`) : ""}${how ? sec(t("blk_sec_how"), `<p>${esc(how)}</p>`) : ""}${parts}
+      ${desc ? sec(t("blk_sec_what"), `<p>${esc(desc)}</p>`) : ""}${how ? sec(t("blk_sec_how"), `<p>${esc(how)}</p>`) : ""}${useSec}${parts}
       <p class="bd-foot muted small"><a href="#/baustein/${encodeURIComponent(key)}">${esc(t("blk_block_page"))}</a>${src.aggregation ? ` · <a href="${esc(src.aggregation)}" rel="noopener">${esc(t("src_agg"))}</a>` : ""}</p>`;
   };
 

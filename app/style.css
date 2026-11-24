@@ -61,6 +61,8 @@ footer { max-width: 1180px; margin: 0 auto; padding: 24px; color: var(--muted); 
 .block.green { border-left-color: var(--good); } .block.yellow { border-left-color: var(--warn); } .block.red { border-left-color: var(--bad); }
 .block.none { border-left-color: var(--line); }
 .block.unmeasured { border-style: dashed; border-left-width: 1px; background: transparent; }
+.block.used { border-left-color: var(--accent); }
+.block.used .bs { margin-top: 4px; }
 .bn { font-weight: 600; font-size: 14px; }
 .bv { margin-top: 4px; font-size: 14px; }
 .bv b { font-size: 18px; }
