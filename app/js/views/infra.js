@@ -114,8 +114,16 @@ export function bindRegTabs(el) {
   }));
 }
 
+// a block whose services are one service and its other environments (swiyu with its sandbox), with
+// no alternatives and no register of its own: its page is the page of that service (#/dienst/<id>)
+export function blockService(b) {
+  const ids = [...new Set((b.implementations || []).map((i) => i.id))].sort((x, y) => x.length - y.length);
+  if (!ids.length || (b.alternatives || []).length || (b.register && b.register.kind !== "swiyu")) return null;
+  return ids.every((i) => i === ids[0] || i.startsWith(ids[0] + "-")) ? ids[0] : null;
+}
+
 // the legal bases concerning this block (governance.json)
-function legal(gov, key) {
+export function legal(gov, key) {
   const laws = (gov.laws || []).filter((l) => l.blocks.includes(key) && l.level !== "canton");
   const kt = [...new Set((gov.laws || []).filter((l) => l.blocks.includes(key) && l.level === "canton").map((l) => l.canton))].sort();
   if (!laws.length && !kt.length) return "";
@@ -136,6 +144,8 @@ export async function render(el, params) {
     return;
   }
   const b = (inf.blocks || {})[key] || { implementations: [], alternatives: [] };
+  const single = blockService(b);
+  if (single) { location.replace(`#/dienst/${encodeURIComponent(single)}`); return; }
   const cfg = meta.cfg;
   // the block lists its services; posture, use and map are on the page of each service
   const one = (i) => `<section class="imp" data-svc="${esc(i.id)}"><h3 class="imp-name"><a href="#/dienst/${encodeURIComponent(i.id)}">${esc(i.name)}</a></h3>${envBadge(i)}

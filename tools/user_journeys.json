@@ -218,9 +218,6 @@
      "click": "a[href='#/baustein/trust.swiyu']"
     },
     {
-     "click": "a[href^='#/dienst/']"
-    },
-    {
      "expect": "[data-service]"
     },
     {
@@ -252,9 +249,6 @@
    "steps": [
     {
      "go": "#/baustein/trust.swiyu"
-    },
-    {
-     "click": "a[href^='#/dienst/']"
     },
     {
      "expect": "[data-provider-posture]"
