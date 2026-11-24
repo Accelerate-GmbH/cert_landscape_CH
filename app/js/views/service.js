@@ -10,7 +10,7 @@ import * as data from "../data.js";
 import { LEVELS, LEVEL_MANY, BLOCKS, t, tx } from "../text.js";
 import { esc, fmt, light, dot, cc } from "../ui.js";
 import { FUNCS, fnInfo, fnDetail, hash, levelOf, pct, fname } from "./deps.js";
-import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids } from "./infra.js";
+import { envBadge, posture, use, sourceLine, linkSwiyu, swiyuRegister, useUids, bindRegTabs } from "./infra.js";
 import { usersMap, swiyuExtra } from "./usermap.js";
 
 // the implementations of a service across blocks: id equal, or recognised through the provider key
@@ -90,7 +90,7 @@ export async function render(el, params, kind) {
   const provMap = p && !svcs.length ? await usersMap(params.fn && (p.entities || {})[params.fn] ? p.entities[params.fn] : Object.values(p.entities || {}).flat(), ix) : null;
   // swiyu: the participants of the Trust Registry in the environment of this service
   const swy = svcs.flatMap((s) => s.blocks.map((b) => [s, (inf.blocks[b] || {}).register])).find(([, r]) => r && r.kind === "swiyu");
-  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], swy[0].environment) : "";
+  const reg = swy && swy[0].environment ? swiyuRegister(swy[1], null, { tabs: swy[0].environment, full: true }) : "";
   const cust = p ? customers(p, params, dir, meta, names, cfg, route, provMap) : null;
   const op = p && p.operator ? `<p class="sub">${esc(t("op_company"))}: <a href="${esc(p.operator.src)}" rel="noopener">${esc(p.operator.name)}</a> ${cc(p.operator.country)}
       · ${p.operator.parent ? `${esc(t("op_parent"))}: <a href="${esc(p.operator.parent.src)}" rel="noopener">${esc(p.operator.parent.name)}</a> ${cc(p.operator.parent.country)}`
@@ -106,6 +106,7 @@ export async function render(el, params, kind) {
       ${svcs.map((s) => `<div class="imp">${svcs.length > 1 ? `<h3 class="imp-name">${esc(s.name)}</h3>` : ""}${use(s)}</div>`).join("")}</section>` : ""}
     ${cust ? cust.html : ""}${reg}`;
   [svcMap, provMap].forEach((m) => m && m.bind(el));
+  bindRegTabs(el);
   const sel = el.querySelector("[data-f=kt]");
   if (sel) sel.addEventListener("change", () => { location.hash = hash(route, { level: cust.level, kt: sel.value, fn: params.fn }); });
 }

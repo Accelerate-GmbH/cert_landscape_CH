@@ -82,7 +82,8 @@ function register(r) {
 
 // participants and verifiers of the swiyu Trust Registry, per environment, as tables
 export const useUids = (set) => { UIDS = set; };
-export function swiyuRegister(r, only) {
+// opts.tabs: the environment shown first, the others behind a selector; opts.full: no folded tables
+export function swiyuRegister(r, only, opts = {}) {
   const didEnd = (d) => (d || "").split(":").pop().slice(0, 8);
   const envs = Object.entries(r.envs || {}).filter(([env]) => !only || env === only).map(([env, e]) => {
     const ps = r.providers.filter((p) => p.env === env);
@@ -95,12 +96,22 @@ export function swiyuRegister(r, only) {
       <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}</td>
       <td>${v.statements}</td><td><a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
     const vhead = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("col_purposes"))}</th><th>${esc(t("col_statements"))}</th><th>${esc(t("col_source"))}</th></tr></thead>`;
-    return `<h3>${esc(t("env_" + env))}</h3><p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
-      ${ps.length > 30 ? `<details><summary>${esc(t("reg_swiyu_show", { n: ps.length }))}</summary>${table}</details>` : table}
-      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><div class="tblwrap"><table class="cnt reg">${vhead}<tbody>${vs}</tbody></table></div>` : ""}`;
+    return `<div data-regenv="${esc(env)}"${opts.tabs && env !== opts.tabs ? " hidden" : ""}>${opts.tabs ? "" : `<h3>${esc(t("env_" + env))}</h3>`}<p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
+      ${ps.length > 30 && !opts.full ? `<details><summary>${esc(t("reg_swiyu_show", { n: ps.length }))}</summary>${table}</details>` : table}
+      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><div class="tblwrap"><table class="cnt reg">${vhead}<tbody>${vs}</tbody></table></div>` : ""}</div>`;
   }).join("");
-  return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${envs}
+  const tabs = opts.tabs ? `<div class="tabs">${Object.keys(r.envs || {}).map((env) => `<a class="tab${env === opts.tabs ? " on" : ""}" href="#" data-regtab="${esc(env)}">${esc(t("env_" + env))}</a>`).join("")}</div>` : "";
+  return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${tabs}${envs}
     <p class="muted small">${esc(t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}: <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a></p></section>`;
+}
+
+// the selector between the environments of the register
+export function bindRegTabs(el) {
+  el.querySelectorAll("[data-regtab]").forEach((a) => a.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    el.querySelectorAll("[data-regtab]").forEach((x) => x.classList.toggle("on", x === a));
+    el.querySelectorAll("[data-regenv]").forEach((d) => { d.hidden = d.dataset.regenv !== a.dataset.regtab; });
+  }));
 }
 
 // the legal bases concerning this block (governance.json)
