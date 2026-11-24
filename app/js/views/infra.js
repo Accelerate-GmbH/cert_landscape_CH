@@ -47,12 +47,14 @@ export function posture(i, cfg, full = false) {
     const rows = (i.rests_on || {})[c] || [];
     return rows.length ? `<tr><th>${esc(t("rest_" + c))}</th><td>${rows.map((r) => `${dot(STATUS[r.status] || "none")} ${esc(r.value || t("not_checked"))} <span class="muted small">${r.hosts} ${esc(t("hosts"))}</span>`).join("<br>")}</td></tr>` : "";
   }).join("");
-  return `<p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>
-      <p class="muted small">${i.host_roles && i.classified ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
+  const head = `<p>${i.hosts ? `${dot(light(i.overall, cfg))} <b>${fmt(i.overall)}</b> ${esc(t("mean_of_hosts", { n: i.hosts }))}` : `<span class="muted">${esc(t("no_hosts"))}</span>`}</p>`;
+  const body = `<p class="muted small">${i.host_roles && i.classified ? esc(t("host_roles", { s: i.host_roles.service, i: i.host_roles.info, t: i.host_roles.test, d: date(i.classified) })
           + (i.host_roles.other ? " " + t("host_other", { o: i.host_roles.other }) : ""))
         : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
       ${full && i.hosts ? postureDetail(i, cfg) : i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}`;
+  // on the service page the overall value first, the detail folded
+  return full && i.hosts ? `${head}<details class="pdetail"><summary>${esc(t("svc_detail"))}</summary>${body}</details>` : head + body;
 }
 
 function postureDetail(i, cfg) {
@@ -102,24 +104,63 @@ export const useUids = (set) => { UIDS = set; };
 // opts.tabs: the environment shown first, the others behind a selector; opts.full: no folded tables
 export function swiyuRegister(r, only, opts = {}) {
   const didEnd = (d) => (d || "").split(":").pop().slice(0, 8);
+  const pname = (x) => (x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope;
   const envs = Object.entries(r.envs || {}).filter(([env]) => !only || env === only).map(([env, e]) => {
+    // one row per registered party (DID), with its verification purposes; verifiers without an identity entry too
+    const vby = Object.fromEntries((e.verifiers || []).map((v) => [v.did, v]));
     const ps = r.providers.filter((p) => p.env === env);
-    const rows = ps.map((p) => `<tr><th>${uidName(p.uid, p.name, UIDS)}</th><td>${(p.roles || []).map((r) => esc(t("role_" + r))).join(", ")}${(p.issues || []).length ? `<div class="muted small">${esc(p.issues.join(", "))}</div>` : ""}</td><td>${p.uid ? uidRef(p.uid, UIDS) : "–"}</td>
-      <td>${p.state_actor ? esc(t("yes")) : ""}</td><td>${esc(date(p.services[0].since))}</td>
-      <td class="mono small" title="${esc(p.did)}">…${esc(didEnd(p.did))}</td><td><a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
-    const head = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("col_role"))}</th><th>${esc(t("reg_uid"))}</th><th>${esc(t("reg_swiyu_state"))}</th><th>${esc(t("col_since"))}</th><th>DID</th><th>${esc(t("col_source"))}</th></tr></thead>`;
-    const table = rows ? `<div class="tblwrap"><table class="cnt reg">${head}<tbody>${rows}</tbody></table></div>` : "";
-    const vs = (e.verifiers || []).map((v) => `<tr><th>${v.name ? esc(v.name) : `<span class="muted">${esc(t("reg_swiyu_unnamed"))}</span>`}</th>
-      <td>${v.purposes.map((x) => esc((x.name || {})[LANG] || (x.name || {}).de || (x.name || {}).en || x.scope)).join(", ")}</td>
-      <td>${v.statements}</td><td><a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a></td></tr>`).join("");
-    const vhead = `<thead><tr><th>${esc(t("col_name"))}</th><th>${esc(t("col_purposes"))}</th><th>${esc(t("col_statements"))}</th><th>${esc(t("col_source"))}</th></tr></thead>`;
-    return `<div data-regenv="${esc(env)}"${opts.tabs && env !== opts.tabs ? " hidden" : ""}>${opts.tabs ? "" : `<h3>${esc(t("env_" + env))}</h3>`}<p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
-      ${ps.length > 30 && !opts.full ? `<details><summary>${esc(t("reg_swiyu_show", { n: ps.length }))}</summary>${table}</details>` : table}
-      ${vs ? `<h4>${esc(t("reg_swiyu_verifiers"))}</h4><div class="tblwrap"><table class="cnt reg">${vhead}<tbody>${vs}</tbody></table></div>` : ""}</div>`;
+    const seen = new Set(ps.map((p) => p.did));
+    const rows = [...ps.map((p) => ({ p, v: vby[p.did] })), ...(e.verifiers || []).filter((v) => !seen.has(v.did)).map((v) => ({ p: null, v }))];
+    const cell = (k, html, cls = "") => `<td data-k="${esc(String(k ?? ""))}"${cls ? ` class="${cls}"` : ""}>${html}</td>`;
+    const body = rows.map(({ p, v }) => {
+      const name = p ? p.name : v.name || t("reg_swiyu_unnamed");
+      const roles = p ? (p.roles || []).map((x) => t("role_" + x)).join(", ") : t("role_verifier");
+      const purposes = v ? v.purposes.map(pname).join(", ") : "";
+      return `<tr>${cell(name.toLowerCase(), p ? uidName(p.uid, p.name, UIDS) : `<span class="muted">${esc(name)}</span>`)}
+        ${cell(roles, `${esc(roles)}${p && (p.issues || []).length ? `<div class="muted small">${esc(p.issues.join(", "))}</div>` : ""}`)}
+        ${cell(p && p.uid, p && p.uid ? uidRef(p.uid, UIDS) : "–")}
+        ${cell(p && p.state_actor ? 1 : 0, p && p.state_actor ? esc(t("yes")) : "")}
+        ${cell(p ? p.services[0].since : "", p ? esc(date(p.services[0].since)) : "–")}
+        ${cell(p ? p.did : v.did, `<span title="${esc(p ? p.did : v.did)}">…${esc(didEnd(p ? p.did : v.did))}</span>`, "mono small")}
+        ${cell(p ? 1 : 0, p ? `<a href="${esc(p.src)}" rel="noopener">${esc(t("reg_swiyu_statement"))}</a>` : "–")}
+        ${cell(purposes.toLowerCase(), esc(purposes))}
+        ${cell(v ? v.statements : 0, v ? `<a href="${esc(v.src)}" rel="noopener">${esc(t("reg_swiyu_n", { n: v.statements }))}</a>` : "")}</tr>`;
+    }).join("");
+    const cols = [t("col_name"), t("col_role"), t("reg_uid"), t("reg_swiyu_state"), t("col_since"), "DID", t("col_source"), t("col_purposes"), t("col_purpose_src")];
+    const head = `<thead><tr>${cols.map((c, n) => `<th><button class="link sort" data-sort="${n}">${esc(c)}</button></th>`).join("")}</tr></thead>`;
+    return `<div data-regenv="${esc(env)}"${opts.tabs && env !== opts.tabs ? " hidden" : ""}>${opts.tabs ? "" : `<h3>${esc(t("env_" + env))}</h3>`}
+      <p>${esc(t("reg_swiyu_counts", { n: e.participants, u: e.unnamed }))} · ${esc(t("reg_swiyu_vcount", { n: (e.verifiers || []).length }))} · <a href="${esc(e.api)}" rel="noopener">API</a></p>
+      <p><input type="search" class="regq" data-regq placeholder="${esc(t("reg_search"))}" aria-label="${esc(t("reg_search"))}"> <span class="muted small" data-regn>${rows.length}</span></p>
+      <div class="tblwrap"><table class="cnt reg" data-regtable>${head}<tbody>${body}</tbody></table></div></div>`;
   }).join("");
   const tabs = opts.tabs ? `<div class="tabs">${Object.keys(r.envs || {}).map((env) => `<a class="tab${env === opts.tabs ? " on" : ""}" href="#" data-regtab="${esc(env)}">${esc(t("env_" + env))}</a>`).join("")}</div>` : "";
   return `<section><h2>${esc(t("reg_title_swiyu"))}</h2><p>${esc(t("reg_intro_swiyu"))}</p>${tabs}${envs}
     <p class="muted small">${esc(t("reg_fetched", { c: date(r.checked) }))} · ${esc(t("sources"))}: <a href="${esc(r.source.url)}" rel="noopener">${esc(r.source.title)}</a></p></section>`;
+}
+
+// sorting by a column (click again: reverse) and searching in the register tables
+export function bindRegTables(el) {
+  el.querySelectorAll("[data-regtable]").forEach((tb) => {
+    const body = tb.tBodies[0];
+    tb.querySelectorAll("[data-sort]").forEach((b) => b.addEventListener("click", () => {
+      const n = +b.dataset.sort, dir = b.dataset.dir === "asc" ? -1 : 1;
+      tb.querySelectorAll("[data-sort]").forEach((x) => { delete x.dataset.dir; x.removeAttribute("aria-sort"); });
+      b.dataset.dir = dir === 1 ? "asc" : "desc";
+      b.setAttribute("aria-sort", dir === 1 ? "ascending" : "descending");
+      const key = (tr) => tr.children[n].dataset.k;
+      const num = [...body.rows].every((tr) => key(tr) === "" || !isNaN(+key(tr)));
+      [...body.rows].sort((a, c) => dir * (num ? (+key(a) || 0) - (+key(c) || 0) : key(a).localeCompare(key(c))))
+        .forEach((tr) => body.appendChild(tr));
+    }));
+    const box = tb.closest("[data-regenv]") || el;
+    const q = box.querySelector("[data-regq]"), cnt = box.querySelector("[data-regn]");
+    if (q) q.addEventListener("input", () => {
+      const s = q.value.trim().toLowerCase();
+      let n = 0;
+      [...body.rows].forEach((tr) => { const hit = !s || tr.textContent.toLowerCase().includes(s) || tr.children[5].dataset.k.toLowerCase().includes(s); tr.hidden = !hit; n += hit; });
+      if (cnt) cnt.textContent = n;
+    });
+  });
 }
 
 // the selector between the environments of the register

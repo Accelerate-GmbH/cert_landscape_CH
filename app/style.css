@@ -291,3 +291,7 @@ figure.levels figcaption { margin-top: 4px; }
 
 .imp-part { margin: 18px 0 4px; font-size: .95rem; }
 .ko-line { margin: 4px 0 8px; padding: 6px 8px; border-left: 3px solid var(--bad); background: var(--card); }
+.reg .sort { font: inherit; font-weight: 500; color: var(--text-2); padding: 0; }
+.reg .sort[data-dir="asc"]::after { content: " ▲"; } .reg .sort[data-dir="desc"]::after { content: " ▼"; }
+.regq { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--text); min-width: 260px; }
+.pdetail > summary { cursor: pointer; color: var(--accent); margin: 4px 0 8px; }
