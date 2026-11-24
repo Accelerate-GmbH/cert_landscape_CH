@@ -53,8 +53,9 @@ export function posture(i, cfg, full = false) {
         : i.hosts ? esc(t("unclassified")) : ""}</p>
       ${rest ? `<h3>${esc(t("rests_on"))}</h3><table class="deps"><tbody>${rest}</tbody></table>` : ""}
       ${full && i.hosts ? postureDetail(i, cfg) : i.examples && i.examples.length ? `<p class="muted small">${esc(t("measured_hosts"))}: ${i.examples.map(esc).join(", ")}${i.hosts > i.examples.length ? " …" : ""}</p>` : ""}`;
-  // on the service page the overall value first, the detail folded
-  return full && i.hosts ? `${head}<details class="pdetail"><summary>${esc(t("svc_detail"))}</summary>${body}</details>` : head + body;
+  // on the service page the whole section folds: its title and the overall value stay visible
+  return full ? `<details class="psec"><summary><h2>${esc(t("svc_posture"))}</h2> ${head.replace(/^<p>|<\/p>$/g, "")}</summary>
+      <p class="muted small">${esc(t("svc_posture_d"))}</p>${body}</details>` : head + body;
 }
 
 function postureDetail(i, cfg) {

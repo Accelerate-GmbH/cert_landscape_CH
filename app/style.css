@@ -303,3 +303,6 @@ table.reg[data-regtable] td:nth-child(8) { min-width: 180px; }
 .reg .sort[data-dir="asc"]::after { content: " ▲"; } .reg .sort[data-dir="desc"]::after { content: " ▼"; }
 .regq { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--text); min-width: 260px; }
 .pdetail > summary { cursor: pointer; color: var(--accent); margin: 4px 0 8px; }
+.psec > summary { cursor: pointer; list-style-position: outside; }
+.psec > summary h2 { display: inline; margin-right: 12px; }
+.psec[open] > summary { margin-bottom: 8px; }
