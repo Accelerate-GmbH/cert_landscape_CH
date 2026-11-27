@@ -95,6 +95,13 @@ again.
 | sec.tls13 | TLS 1.3 | every endpoint negotiates TLS 1.3 | some do | none | 1 |
 | sec.hsts | HSTS and no plain-text access (from 19 November 2026) | HSTS max-age of at least 180 days, and port 80 redirects to https:// or is closed | one of the two | neither | 1 |
 | sec.pqc | Post-quantum key exchange offered and preferred | every endpoint accepts X25519MLKEM768 and chooses it when the client offers X25519 first (preferred) | accepted when offered alone but not chosen over X25519 (offered), or not on all endpoints | not accepted | 1 |
+| sec.private_dns | No private address in public DNS (from 27 November 2026) | – | – | an A or AAAA record of the host points to private, shared, loopback or link-local space ([RFC 1918](https://www.rfc-editor.org/rfc/rfc1918#section-3), [RFC 4193](https://www.rfc-editor.org/rfc/rfc4193#section-3), [RFC 6598](https://www.rfc-editor.org/rfc/rfc6598#section-7), [RFC 3927](https://www.rfc-editor.org/rfc/rfc3927#section-2.1)) | 1 |
+
+`sec.private_dns` only counts a failure: a host whose public DNS answer
+contains only public addresses is left out of the check (not assessed), so
+that it does not raise the security value of every other host. A private
+address in public DNS reveals the internal network (e.g. the address of a VPN
+gateway behind the firewall); the host is usually unreachable from outside.
 
 Why "offered" only earns a partial: Chrome, Edge, Firefox, Safari and
 OpenSSL 3.5 put X25519MLKEM768 first, so a server that merely accepts it
