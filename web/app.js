@@ -344,7 +344,7 @@
 
   /* ---- explanations: every traffic light can be traced back ---------------- */
   const CAT_CHECKS = { ownership: ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "own.sectxt"],
-    sovereignty: ["sov.ca", "sov.dns", "sov.registrar", "sov.hosting", "sov.tld"], security: ["sec.tls13", "sec.pqc", "sec.hsts"], privacy: ["prv.ech"] };
+    sovereignty: ["sov.ca", "sov.dns", "sov.registrar", "sov.hosting", "sov.tld"], security: ["sec.tls13", "sec.pqc", "sec.hsts", "sec.private_dns"], privacy: ["prv.ech"] };
   const CAT_LABEL = { ownership: "tm_own", sovereignty: "tm_sov", security: "tm_sec", privacy: "tm_prv" };
   const PTS = { pass: 1, partial: 0.5, fail: 0 };
   function cfg() {
@@ -532,12 +532,12 @@
   }
 
   /* ---- sector matrix ------------------------------------------------------- */
-  const CHECK_IDS = ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "own.sectxt", "sov.ca", "sov.dns", "sov.registrar", "sov.hosting", "sov.tld", "sec.tls13", "sec.pqc", "sec.hsts", "prv.ech"];
+  const CHECK_IDS = ["own.identity", "own.revocation", "own.dnssec", "own.caa", "own.ct", "own.sectxt", "sov.ca", "sov.dns", "sov.registrar", "sov.hosting", "sov.tld", "sec.tls13", "sec.pqc", "sec.hsts", "prv.ech", "sec.private_dns"];
   // further reading per check, shown in the help and the host detail
 const MORE = { "prv.ech": "https://support.mozilla.org/en-US/kb/understand-encrypted-client-hello" };
 const CHECK_SHORT = { "own.identity": "OV/EV", "own.revocation": "OCSP/CRL", "own.dnssec": "DNSSEC", "own.caa": "CAA", "own.ct": "SCT",
     "own.sectxt": "sec.txt", "sov.ca": "CA", "sov.dns": "DNS", "sov.registrar": "Registrar", "sov.hosting": "Host", "sov.tld": "TLD",
-    "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "sec.hsts": "HSTS", "prv.ech": "Encrypted Client Hello" };
+    "sec.tls13": "TLS 1.3", "sec.pqc": "PQC", "sec.hsts": "HSTS", "prv.ech": "Encrypted Client Hello", "sec.private_dns": "Private DNS" };
   const CATS = [["ownership", "tm_own"], ["sovereignty", "tm_sov"], ["security", "tm_sec"], ["privacy", "tm_prv"]];
   function share(k) {
     if (!k) return null;

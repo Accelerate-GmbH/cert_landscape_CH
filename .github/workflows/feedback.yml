@@ -35,14 +35,16 @@ jobs:
               let v = rest.join("\n").trim().replace(/^```\w*\n?|\n?```$/g, "").trim();
               fields[label.trim()] = v === "_No response_" ? "" : v;
             }
-            const pick = (prefix) => fields[Object.keys(fields).find((k) => k.startsWith(prefix)) || ""] || "";
+            // field labels of the form; the German labels of the first version are still accepted
+            const pick = (...prefixes) => fields[Object.keys(fields).find((k) => prefixes.some((p) => k.startsWith(p))) || ""] || "";
             const id = crypto.randomBytes(6).toString("hex");
-            const ctx = Object.fromEntries(pick("Kontext").split("\n").map((l) => l.match(/^(\w+): (.*)$/)).filter(Boolean).map((m) => [m[1], m[2]]));
-            const checks = pick("Kontext").split("\n").filter((l) => l.startsWith("check: ")).map((l) => l.slice(7));
+            const context = pick("Context", "Kontext");
+            const ctx = Object.fromEntries(context.split("\n").map((l) => l.match(/^(\w+): (.*)$/)).filter(Boolean).map((m) => [m[1], m[2]]));
+            const checks = context.split("\n").filter((l) => l.startsWith("check: ")).map((l) => l.slice(7));
             const rec = {
               id, received: new Date().toISOString(), status: "received", channel: "github-issue",
               issue: issue.number, author: issue.user.login,
-              kind: pick("Art"), text: pick("Was stimmt"), source: pick("Quelle"),
+              kind: pick("Kind", "Art"), text: pick("What is wrong", "Was stimmt"), source: pick("Source", "Quelle"),
               page: ctx.page || "", lang: ctx.lang || "", role: ctx.role || "", data: ctx.data || "",
               settings: ctx.settings || "", evidence: ctx.evidence || "", checks,
             };
@@ -57,5 +59,5 @@ jobs:
             if (!res.ok) { core.setFailed(`storing failed: ${res.status} ${await res.text()}`); return; }
             const repo = { owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number };
             await github.rest.issues.update({ ...repo, title: `[Feedback] ${id}`,
-              body: `Übernommen ins private Repository als Beitrag \`${id}\`. Der Text wurde hier entfernt.`, state: "closed", state_reason: "completed" });
+              body: `Moved to the private repository as contribution \`${id}\`. The text has been removed here.`, state: "closed", state_reason: "completed" });
             await github.rest.issues.lock({ ...repo, lock_reason: "resolved" });

@@ -1,30 +1,30 @@
 name: Feedback
-description: Feedback, Vorschlag oder falsche Daten zum Trust & Sovereignty Posture Radar. Der Text wird nach dem Absenden ins private Repository übernommen und hier entfernt.
+description: Feedback, suggestion or wrong data on the Trust & Sovereignty Posture Radar. After submission the text is moved to the private repository and removed here.
 title: "[Feedback] "
 labels: ["feedback"]
 body:
   - type: markdown
     attributes:
-      value: Bitte keine Personendaten eingeben. Die Bearbeitungshistorie dieses Issues bleibt sichtbar.
+      value: Do not enter personal data. The edit history of this issue remains visible.
   - type: dropdown
     id: kind
     attributes:
-      label: Art
-      options: ["Falsche Daten", "Fehlende Daten", "Verbesserungsvorschlag", "Feedback zur Seite"]
+      label: Kind
+      options: ["Wrong data", "Missing data", "Suggestion", "Feedback on the page"]
     validations:
       required: true
   - type: textarea
     id: text
     attributes:
-      label: Was stimmt nicht oder was fehlt?
+      label: What is wrong or missing?
     validations:
       required: true
   - type: input
     id: source
     attributes:
-      label: Quelle (freiwillig)
+      label: Source (optional)
   - type: textarea
     id: context
     attributes:
-      label: Kontext (von der Seite mitgegeben)
+      label: Context (sent along by the page)
       render: text

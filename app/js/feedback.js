@@ -8,8 +8,8 @@ import { LANG, t } from "./text.js";
 
 const REPO = "https://github.com/Accelerate-GmbH/cert_landscape_CH";
 const KINDS = ["wrong", "missing", "idea", "feedback"];
-// options of the issue form (German), prefilled by their label
-const FORM_KIND = { wrong: "Falsche Daten", missing: "Fehlende Daten", idea: "Verbesserungsvorschlag", feedback: "Feedback zur Seite" };
+// options of the issue form, prefilled by their label
+const FORM_KIND = { wrong: "Wrong data", missing: "Missing data", idea: "Suggestion", feedback: "Feedback on the page" };
 let last = null;   // evidence opened last on this page: {kind, key, label}
 
 // the element a click opened, if it carries evidence

@@ -52,7 +52,7 @@ export const LEVELS = new Proxy([], {
   },
 });
 export const locale = () => cur().locale;
-// a text from the data in the chosen language: obj.i18n[lang][field], else the German obj[field]
+// a text from the data in the chosen language: obj.i18n[lang][field], else the source text obj[field] (English since 27.11.2026)
 export const tx = (obj, field) => ((obj && obj.i18n && obj.i18n[LANG]) || {})[field] || (obj ? obj[field] : "");
 
 export function t(key, vars = {}) {
