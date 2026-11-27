@@ -74,24 +74,24 @@ for (const j of journeys) {
   const keys = [...new Set((text.match(KEY) || []).filter((k) => !skip(k)))];
   const hints = [];
   if (failed && j.target && j.proposal) hints.push(`Vorschlag umsetzen: ${j.proposal}`);
-  if (failed && !j.target) hints.push(`Weg bricht ab bei Schritt ${failed.step}; Ansicht oder Selektor prüfen.`);
+  if (failed && !j.target) hints.push(`Journey breaks at step ${failed.step}; check the view or the selector.`);
   if (errors.length) hints.push(`Fehler im Browser beheben: ${errors[0]}`);
-  if (who.max_clicks && clicks > who.max_clicks) hints.push(`Weg verkürzen: ${clicks} Klicks, für diese Gruppe höchstens ${who.max_clicks}.`);
-  if (who.role === "lay" && codes.length) hints.push(`Kürzel in der Laiensicht durch Namen ersetzen: ${codes.slice(0, 4).join(", ")}.`);
-  if (keys.length) hints.push(`Unübersetzte Textschlüssel (${who.lang}): ${keys.slice(0, 4).join(", ")}.`);
-  if (loadMs > 3000) hints.push(`Ladezeit ${Math.round(loadMs / 100) / 10} s; Daten verkleinern oder später laden.`);
+  if (who.max_clicks && clicks > who.max_clicks) hints.push(`Shorten the journey: ${clicks} clicks, at most ${who.max_clicks} for this group.`);
+  if (who.role === "lay" && codes.length) hints.push(`Replace abbreviations in the lay view by names: ${codes.slice(0, 4).join(", ")}.`);
+  if (keys.length) hints.push(`Untranslated text keys (${who.lang}): ${keys.slice(0, 4).join(", ")}.`);
+  if (loadMs > 3000) hints.push(`Load time ${Math.round(loadMs / 100) / 10} s; reduce the data or load it later.`);
   results.push({ ...j, who, ok: !failed, failed, errors, clicks, loadMs, hints });
   await ctx.close();
 }
 await browser.close();
 if (server) server.close();
 
-const status = (r) => (r.ok ? (r.target ? "erfüllt (Ziel)" : "erfüllt") : r.target ? "Ziel offen" : "Lücke");
-const out = [`# Harness der Nutzergruppen`, ``, `Website: ${BASE} · Lauf: ${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC`, ``,
-  `| ID | Nutzergruppe (Rolle, Sprache) | Story | Stand | Klicks | Vorschläge |`, `|---|---|---|---|---|---|`,
+const status = (r) => (r.ok ? (r.target ? "met (target)" : "met") : r.target ? "target open" : "gap");
+const out = [`# User group harness`, ``, `Website: ${BASE} · run: ${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC`, ``,
+  `| ID | User group (role, language) | Story | Status | Clicks | Suggestions |`, `|---|---|---|---|---|---|`,
   ...results.map((r) => `| ${r.id} | ${r.who.name} (${r.who.role}, ${r.who.lang}) | ${r.story} | ${status(r)} | ${r.clicks} | ${r.hints.join(" ") || "–"} |`)];
 const sum = (f) => results.filter(f).length;
-out.push("", `Erfüllt ${sum((r) => r.ok && !r.target)} von ${sum((r) => !r.target)} Stories des heutigen Stands; Ziele des Vorschlags erfüllt ${sum((r) => r.ok && r.target)} von ${sum((r) => r.target)}; Vorschläge ${results.reduce((a, r) => a + r.hints.length, 0)}.`);
+out.push("", `Met ${sum((r) => r.ok && !r.target)} of ${sum((r) => !r.target)} stories of the current state; targets of the proposal met ${sum((r) => r.ok && r.target)} of ${sum((r) => r.target)}; suggestions ${results.reduce((a, r) => a + r.hints.length, 0)}.`);
 const md = out.join("\n");
 console.log(md);
 if (OUT) fs.writeFileSync(OUT, md + "\n");
