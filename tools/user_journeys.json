@@ -2,59 +2,59 @@
  "about": "User stories of docs/PRODUCT.md (private repository, section 7) as journeys through /v2, each played from the position of a user group: its role (lay or tech), language and home organisation. target = true: the journey needs the proposal (map of users, UID pages) and is expected to fail until it is built; proposal: what would close the gap. Steps: go (hash route), fill [selector, text], click (selector), expect (visible selector), text (text in main).",
  "personas": {
   "gemeinde": {
-   "name": "Gemeinde-Informatik",
+   "name": "Municipal IT",
    "role": "tech",
    "lang": "de",
    "home": "municipality:295",
    "max_clicks": 4
   },
   "kanton": {
-   "name": "Kantonsinformatik",
+   "name": "Cantonal IT",
    "role": "tech",
    "lang": "de",
    "home": "canton:1",
    "max_clicks": 4
   },
   "beschaffung": {
-   "name": "E-Procurement und E-Operations",
+   "name": "E-procurement and e-operations",
    "role": "tech",
    "lang": "de",
    "max_clicks": 4
   },
   "bund": {
-   "name": "Stakeholder in Bundesdepartementen",
+   "name": "Stakeholders in federal departments",
    "role": "lay",
    "lang": "de",
    "home": "federal:EFD",
    "max_clicks": 3
   },
   "privat": {
-   "name": "Private Organisationen",
+   "name": "Private organisations",
    "role": "lay",
    "lang": "de",
    "home": "organisation:che-105-956-490",
    "max_clicks": 3
   },
   "kritisch": {
-   "name": "Betreiber kritischer Dienste",
+   "name": "Operators of critical services",
    "role": "tech",
    "lang": "de",
    "max_clicks": 4
   },
   "fach": {
-   "name": "Fachleute",
+   "name": "Experts",
    "role": "tech",
    "lang": "fr",
    "max_clicks": 5
   },
   "medien": {
-   "name": "Medien und Politik",
+   "name": "Media and politics",
    "role": "lay",
    "lang": "it",
    "max_clicks": 2
   },
   "buerger": {
-   "name": "Bürgerinnen, Bürger und Konsumenten",
+   "name": "Citizens and consumers",
    "role": "lay",
    "lang": "fr",
    "max_clicks": 3
@@ -74,7 +74,7 @@
  "journeys": [
   {
    "id": "G1",
-   "story": "Ich will meine Gemeinde finden und sehen, wo sie rot ist.",
+   "story": "I want to find my municipality and see where it is red.",
    "steps": [
     {
      "go": "#/"
@@ -99,7 +99,7 @@
   },
   {
    "id": "G2",
-   "story": "Ich will sehen, auf welchen Anbietern Mail, Website und GEVER-Applikation ruhen.",
+   "story": "I want to see which providers mail, website and GEVER application rest on.",
    "steps": [
     {
      "go": "#/org/municipality:295"
@@ -115,7 +115,7 @@
   },
   {
    "id": "G3",
-   "story": "Ich will mich mit den Besten vergleichen und sehen, was sie anders machen.",
+   "story": "I want to compare myself with the best and see what they do differently.",
    "steps": [
     {
      "go": "#/org/municipality:295"
@@ -131,7 +131,7 @@
   },
   {
    "id": "G4",
-   "story": "Ich will die Entwicklung von Monat zu Monat sehen (Monatsbericht).",
+   "story": "I want to see the development from month to month (monthly report).",
    "steps": [
     {
      "go": "#/org/municipality:295"
@@ -147,7 +147,7 @@
   },
   {
    "id": "G5",
-   "story": "Ich will von einem Baustein bis zum Nachweis eines Hosts kommen.",
+   "story": "I want to get from a building block to the evidence of a host.",
    "steps": [
     {
      "go": "#/org/municipality:295"
@@ -169,7 +169,7 @@
   },
   {
    "id": "K1",
-   "story": "Ich will den Kanton mit allen Gemeinden auf einen Blick sehen.",
+   "story": "I want to see the canton with all its municipalities at a glance.",
    "steps": [
     {
      "go": "#/karte/canton:1"
@@ -182,7 +182,7 @@
   },
   {
    "id": "K2",
-   "story": "Ich will sehen, welche Anbieter viele Gemeinden gleichzeitig nutzen.",
+   "story": "I want to see which providers many municipalities use at the same time.",
    "steps": [
     {
      "go": "#/abhaengigkeiten?level=municipality"
@@ -195,7 +195,7 @@
   },
   {
    "id": "B1",
-   "story": "Ich will mein Departement mit allen Ämtern auf einen Blick sehen.",
+   "story": "I want to see my department with all its offices at a glance.",
    "steps": [
     {
      "go": "#/org/federal:EFD"
@@ -208,7 +208,7 @@
   },
   {
    "id": "B2",
-   "story": "Ich will verstehen, welche Bundesdienste Kantone, Gemeinden und Private nutzen.",
+   "story": "I want to understand which federal services cantons, municipalities and private organisations use.",
    "target": true,
    "steps": [
     {
@@ -225,11 +225,11 @@
     }
    ],
    "persona": "bund",
-   "proposal": "Karte der Nutzenden auf der Seite des Dienstes (Bund und Ämter als Liste, Kantone und Gemeinden als Fläche, Bildung und kritische Dienste als Punkte)."
+   "proposal": "Map of users on the page of the service (Confederation and offices as a list, cantons and municipalities as areas, education and critical services as points)."
   },
   {
    "id": "B3",
-   "story": "Ich will die Abhängigkeit von ausländischen Anbietern sehen (Zertifikate, Cloud).",
+   "story": "I want to see the dependency on foreign providers (certificates, cloud).",
    "steps": [
     {
      "go": "#/org/federal:EFD"
@@ -245,7 +245,7 @@
   },
   {
    "id": "P1",
-   "story": "Ich will sehen, wie vertrauenswürdig die öffentlichen Bausteine sind, auf denen ich aufbaue (swiyu).",
+   "story": "I want to see how trustworthy the public building blocks I build on are (swiyu).",
    "steps": [
     {
      "go": "#/baustein/trust.swiyu"
@@ -261,7 +261,7 @@
   },
   {
    "id": "P2",
-   "story": "Ich will meine Posture sehen und mit meiner Branche vergleichen.",
+   "story": "I want to see my posture and compare it with my sector.",
    "steps": [
     {
      "go": "#/org/organisation:che-105-956-490"
@@ -280,7 +280,7 @@
   },
   {
    "id": "P3",
-   "story": "Ich will die genutzten öffentlichen Dienste mit ihrem Betrieb sehen (Lieferkette).",
+   "story": "I want to see the public services used, with their operation (supply chain).",
    "steps": [
     {
      "go": "#/org/organisation:che-105-956-490"
@@ -293,7 +293,7 @@
   },
   {
    "id": "E1",
-   "story": "Ich will sehen, wie Anbieter bei anderen Kunden abschneiden.",
+   "story": "I want to see how providers perform for other customers.",
    "steps": [
     {
      "go": "#/anbieter/swisscom"
@@ -309,7 +309,7 @@
   },
   {
    "id": "E2",
-   "story": "Ich will wissen, welche Bausteine austauschbar sind.",
+   "story": "I want to know which building blocks are replaceable.",
    "steps": [
     {
      "go": "#/baustein/dpi.authentication"
@@ -325,7 +325,7 @@
   },
   {
    "id": "KD1",
-   "story": "Ich will erkennen, welche Anbieter viele kritische Dienste gleichzeitig tragen.",
+   "story": "I want to recognise which providers carry many critical services at the same time.",
    "steps": [
     {
      "go": "#/abhaengigkeiten?level=organisation"
@@ -338,7 +338,7 @@
   },
   {
    "id": "F1",
-   "story": "Ich will jeden Wert bis zur Quelle zurückverfolgen (Host, Prüfung, Zeitpunkt).",
+   "story": "I want to trace every value back to its source (host, check, time).",
    "steps": [
     {
      "go": "#/org/municipality:295"
@@ -354,7 +354,7 @@
   },
   {
    "id": "F2",
-   "story": "Ich will Methode und Gewichtung nachlesen.",
+   "story": "I want to read the method and the weighting.",
    "steps": [
     {
      "go": "#/grundlagen"
@@ -367,7 +367,7 @@
   },
   {
    "id": "M1",
-   "story": "Ich will in einer Minute verstehen, wo die Schweiz ihre Kontrollpunkte hält.",
+   "story": "I want to understand within one minute where Switzerland holds its control points.",
    "steps": [
     {
      "go": "#/"
@@ -380,7 +380,7 @@
   },
   {
    "id": "M2",
-   "story": "Ich will von einem Baustein im Überblick zur Karte der Nutzenden.",
+   "story": "I want to get from a building block in the overview to the map of users.",
    "target": true,
    "steps": [
     {
@@ -397,11 +397,11 @@
     }
    ],
    "persona": "medien",
-   "proposal": "Karte der Nutzenden auf der Seite des Dienstes (Bund und Ämter als Liste, Kantone und Gemeinden als Fläche, Bildung und kritische Dienste als Punkte)."
+   "proposal": "Map of users on the page of the service (Confederation and offices as a list, cantons and municipalities as areas, education and critical services as points)."
   },
   {
    "id": "C1",
-   "story": "Ich will in Laiensprache verstehen, ob die Schule meines Kindes sicher kommuniziert.",
+   "story": "I want to understand in plain language whether my child's school communicates securely.",
    "steps": [
     {
      "go": "#/"
@@ -423,7 +423,7 @@
   },
   {
    "id": "U1",
-   "story": "Wo eine UID steht, will ich zur eigenen Seite der Organisation mit allen Rollen.",
+   "story": "Where a UID is shown, I want to reach the organisation's own page with all its roles.",
    "target": true,
    "steps": [
     {
@@ -437,11 +437,11 @@
     }
    ],
    "persona": "privat",
-   "proposal": "Seite pro UID mit allen Rollen; überall Name mit Link auf diese Seite."
+   "proposal": "One page per UID with all roles; everywhere the name links to this page."
   },
   {
    "id": "U2",
-   "story": "Ein Anbieter mit UID hat eine eigene Seite, auch ohne gemessene Domain («nicht gemessen»).",
+   "story": "A provider with a UID has its own page, also without a measured domain («not measured»).",
    "target": true,
    "steps": [
     {
@@ -455,7 +455,7 @@
     }
    ],
    "persona": "privat",
-   "proposal": "Seite pro UID auch ohne gemessene Domain («nicht gemessen»); Hosts später suchen."
+   "proposal": "One page per UID also without a measured domain («not measured»); hosts to be searched later."
   }
  ]
 }
