@@ -326,7 +326,8 @@ results, CSV and Excel exports stay in the pipeline repository.
   `practice` (id in `config/practice.toml`) only for approved entries, else null.
   `services`: the matrix services × functions, `[{"service", "host",
   "hosts", "cells"}]`. `service` is `website`, `portal`, `login`, `gever`
-  (GEVER application) or `mail`, recognised by host name
+  (GEVER application), `remote` (remote access such as VPN, from 27.11.2026;
+  `operate` shows operator and country of its network) or `mail`, recognised by host name
   (`[apps]` in `config/stack.toml`) or, for mail, the mail domain; `host`
   the host (or mail domain) shown, `hosts` how many hosts of this kind were
   rated. `cells` per function `resolve` (check `sov.dns`), `registrar`

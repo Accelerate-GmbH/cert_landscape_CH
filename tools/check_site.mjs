@@ -85,7 +85,7 @@ if (fs.existsSync(entDir)) {
   }
   if (bad > 5) fail(`… ${bad - 5} more dependency problems`);
   // services × functions (docs/DATA_CONTRACT.md, «services»)
-  const SVC = new Set(["website", "portal", "login", "gever", "mail"]);
+  const SVC = new Set(["website", "portal", "login", "gever", "remote", "mail"]);
   const FN = new Set(["resolve", "registrar", "secure", "operate", "identity"]);
   let badS = 0;
   for (const f of fs.readdirSync(entDir).filter((x) => x.endsWith(".json"))) {
